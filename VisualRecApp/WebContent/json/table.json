@@ -1,0 +1,22 @@
+{
+	"maps": {
+		"labels": ["Watch","Helicopter","Mushroom","Plane", "Tree", "Flower"],
+		"cardinality": [100, 300, 500, 1500, 1000, 2000],
+		"classifiers": {
+			"vr_01": ["Watch", 100, "ready"],
+			"vr_02": ["Watch", 1000, "training"],
+			"vr_03": ["Helicopter", 300, "ready"],
+			"vr_04": ["Mushroom", 300, "ready"],
+			"vr_05": ["Watch", 100, "training"],
+			"vr_06": ["Plane", 500, "ready"],
+			"vr_07": ["Tree", 1500, "ready"],
+			"vr_08": ["Flower", 2000, "training"],
+			"vr_09": ["Flower", 2000, "training"]
+		},
+		"total": [14]
+	},
+	"training_dataset": {
+		"labels": ["Watch","Helicopter","Mushroom", "Horse", "Plane", "Tree", "Flower"],
+		"max_cardinality": [1000, 400, 1200, 500, 2500, 3000, 1000]
+	}
+}

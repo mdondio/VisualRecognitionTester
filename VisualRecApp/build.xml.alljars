@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project basedir="." default="build" name="Java Cloudant Web Starter">
+    <property environment="env"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.7"/>
+    <property name="source" value="1.7"/>
+	<condition property="ARCHIVE_DIR" value="${env.ARCHIVE_DIR}" else=".">
+	        <isset property="env.ARCHIVE_DIR" />
+	</condition>
+	<property name="warname" value="VisualRecApp.war"/>
+    <path id="classpathDir">
+        <pathelement location="bin"/>
+    	<pathelement location="WebContent/WEB-INF/lib/cloudant-client-2.7.0.jar"/> 
+    	<pathelement location="WebContent/WEB-INF/lib/cloudant-http-2.7.0.jar"/> 
+    	<pathelement location="WebContent/WEB-INF/lib/commons-codec-1.6.jar"/> 
+    	<pathelement location="WebContent/WEB-INF/lib/commons-io-2.4.jar"/> 
+    	<pathelement location="WebContent/WEB-INF/lib/gson-2.7.jar"/>
+       	<pathelement location="WebContent/WEB-INF/lib/json-simple-1.1.1.jar"/>
+    	
+       		<pathelement location="WebContent/WEB-INF/lib/activation-1.1.jar" />
+       		<pathelement location="WebContent/WEB-INF/lib/btf-1.2.jar" />
+       		<pathelement location="WebContent/WEB-INF/lib/commons-codec-1.6.jar" />
+       		<pathelement location="WebContent/WEB-INF/lib/commons-io-2.4.jar" />
+       		<pathelement location="WebContent/WEB-INF/lib/commons-logging-1.2.jar" />
+       		<pathelement location="WebContent/WEB-INF/lib/guava-17.0.jar" />
+       		<pathelement location="WebContent/WEB-INF/lib/httpclient-4.1.2.jar" />
+       		<pathelement location="WebContent/WEB-INF/lib/httpcore-4.1.2.jar" />
+       		<pathelement location="WebContent/WEB-INF/lib/jackson-annotations-2.7.0.jar" />
+       		<pathelement location="WebContent/WEB-INF/lib/jackson-core-2.7.3.jar" />
+       		<pathelement location="WebContent/WEB-INF/lib/jackson-coreutils-1.6.jar" />
+       		<pathelement location="WebContent/WEB-INF/lib/jackson-databind-2.7.3.jar" />
+       		<pathelement location="WebContent/WEB-INF/lib/jackson-dataformat-yaml-2.7.3.jar" />
+       		<pathelement location="WebContent/WEB-INF/lib/jackson-jaxrs-base-2.7.3.jar" />
+       		<pathelement location="WebContent/WEB-INF/lib/jackson-jaxrs-json-provider-2.7.3.jar" />
+       		<pathelement location="WebContent/WEB-INF/lib/jackson-module-jaxb-annotations-2.7.3.jar" />
+       		<pathelement location="WebContent/WEB-INF/lib/javassist-3.12.1.GA.jar" />
+       		<pathelement location="WebContent/WEB-INF/lib/jaxrs-api-2.3.7.Final.jar" />
+       		<pathelement location="WebContent/WEB-INF/lib/jcip-annotations-1.0.jar" />
+       		<pathelement location="WebContent/WEB-INF/lib/json-patch-1.9.jar" />
+       		<pathelement location="WebContent/WEB-INF/lib/jsr250-api-1.0.jar" />
+       		<pathelement location="WebContent/WEB-INF/lib/jsr305-2.0.0.jar" />
+       		<pathelement location="WebContent/WEB-INF/lib/msg-simple-1.1.jar" />
+       		<pathelement location="WebContent/WEB-INF/lib/openstack4j-3.0.3.jar" />
+       		<pathelement location="WebContent/WEB-INF/lib/openstack4j-core-3.0.3.jar" />
+       		<pathelement location="WebContent/WEB-INF/lib/openstack4j-resteasy-3.0.3.jar" />
+       		<pathelement location="WebContent/WEB-INF/lib/resteasy-jaxrs-2.3.7.Final.jar" />
+       		<pathelement location="WebContent/WEB-INF/lib/scannotation-1.0.3.jar" />
+       		<pathelement location="WebContent/WEB-INF/lib/slf4j-api-1.7.21.jar" />
+       		<pathelement location="WebContent/WEB-INF/lib/slf4j-simple-1.6.2.jar" />
+       		<pathelement location="WebContent/WEB-INF/lib/snakeyaml-1.15.jar" />
+
+    	
+    	<fileset dir="dep-jar"> 
+            	<include name="*.jar"/> 
+        	</fileset>
+    </path>
+    <target name="init">
+        <mkdir dir="bin"/>
+    </target>
+    <target name="clean">
+        <delete dir="bin"/>
+    	<delete file="${ARCHIVE_DIR}/${warname}" />
+    </target>
+    <target name="build" depends="build-project,build-war"/>
+    <target name="cleanall" depends="clean"/>
+    <target name="build-project" depends="clean,init">
+    	<copy todir="${ARCHIVE_DIR}">
+    		<fileset file="manifest.yml" />
+    	</copy>    	
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}"
+		includeantruntime="false">
+            <src path="src"/>
+            <classpath refid="classpathDir"/>
+        </javac>
+    </target>
+ 
+   <target name="build-war" depends="build-project">
+	  <war destfile="${ARCHIVE_DIR}/${warname}" webxml="WebContent/WEB-INF/web.xml">
+	  	<classes dir="bin"/>
+	  	<fileset dir="WebContent">
+	  		<include name="**/*"/>
+	  		<exclude name="**/*.class"/>
+	  	</fileset>
+	  </war>
+   </target>
+
+</project>

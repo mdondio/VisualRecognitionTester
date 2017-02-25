@@ -1,0 +1,20 @@
+{
+"maps": {
+	"classifiers": [
+		{"ID": "xxxxxxxxx", "label": "Watch", "trainingSize": 100, "status": "ready"},
+		{"ID": "yyyyyyyyy", "label": "Watch", "trainingSize": 1000, "status": "training"},
+		{"ID": "xxxxxxxxx", "label": "Helicopter", "trainingSize": 300, "status": "ready"},
+		{"ID": "xxxxxxxxx", "label": "Mushroom", "trainingSize": 300, "status": "ready"},
+		{"ID": "xxxxxxxxx", "label": "Watch", "trainingSize": 100, "status": "training"},
+		{"ID": "xxxxxxxxx", "label": "Plane", "trainingSize": 500, "status": "ready"},
+		{"ID": "xxxxxxxxx", "label": "Tree", "trainingSize": 1500, "status": "ready"},
+		{"ID": "xxxxxxxxx", "label": "Flower", "trainingSize": 2000, "status": "training"},
+		{"ID": "xxxxxxxxx", "label": "Flower", "trainingSize": 2000, "status": "training"}
+	],
+	"total": [14]
+},
+"training_dataset": {
+	"labels": ["Watch","Helicopter","Mushroom", "Horse", "Plane", "Tree", "Flower"],
+	"max_cardinality": [1000, 400, 1200, 500, 2500, 3000, 1000]
+}
+}
