@@ -2,7 +2,7 @@ package config;
 
 public class Configs {
 
-	// marco DB
+	// marco DB.. 
 	public static final String CLOUDANT_USER = "12aa609a-c692-42aa-b848-c46ea9dfe117-bluemix";
 			public static final String CLOUDANT_PASS = "b3cb397d32d9e4860f9d14406d221c02c707127e97f858b2191693b75e290350"; 
 			
