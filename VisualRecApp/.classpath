@@ -10,5 +10,11 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="dep-jar/com.ibm.ws.javaee.jaxrs.1.1_1.0.1.jar"/>
 	<classpathentry kind="lib" path="dep-jar/javax.servlet_3.0.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/cloudant-client-2.7.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/cloudant-http-2.7.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-codec-1.6.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-io-2.4.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/gson-2.7.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/json-simple-1.1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
