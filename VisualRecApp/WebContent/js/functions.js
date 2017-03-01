@@ -17,28 +17,19 @@ function clearData(){
 	});
 }
 
-// CREATE GRAPH show
+
+/**
+ * @param filename nome del file json dove raccogliere le info per disegnare la ROC curves e la AUC
+ * @returns disegna i grafici dentro gli elementi html con ID graph1 e graph2
+ * @help al momento utilizzata solamente nella pagine show.html
+ * @TODO integrare la lettura dei dati dei vari test da disegnare direttamente da DB (potrebbe essere conveniente salvarsi ogni volta i risultati dei test nel DB)
+ */
 function Draw(nomefile){
 
-	$.ajax({														// load json file
+	$.ajax({
 		dataType: "json",
 		url: nomefile,
-		success: function(result){							// return file content
-
-
-
-			var data2 = [											// data2 contains data for graph2; data2[0] is the line AUC = 1
-			{
-				"x": [0.0, 3500],
-				"y": [1.0, 1.0],
-				"mode": "lines",
-				"name": "AUC = 1",
-				"line": {
-					"dash": "dot",
-					"color": "rgb(168, 168, 168)"
-				}
-			}
-		];
+		success: function(result){
 
 		var colorpalette = [
 			[0, 166, 160], //verde acqua
@@ -53,8 +44,8 @@ function Draw(nomefile){
 			[217, 145, 196] //rosa
 		];
 
-		//DISEGNO DELLE ROC CURVES
-		var ROCcurves = [];
+		//CREAZIONE DELL'INPUT PER GRAFICO ROC -------------------------------------
+		var ROCcurves = []; //INPUT PER PLOT
 		var count = 0;
 		for(var i in result.tests){
 			var obj = result.tests[i];
@@ -88,9 +79,8 @@ function Draw(nomefile){
 			}
 		});
 
-
-		var AUCcurves = [];
-
+		//CREAZIONE DELL'INPUT PER GRAFICO AUC -------------------------------------
+		var AUCcurves = []; //INPUT PER PLOT
 		var listAUC = [];
 		for(var i in result.tests) {
 			var obj = result.tests[i];
@@ -99,11 +89,12 @@ function Draw(nomefile){
 			singleObj['y'] = obj.AUC;
 			listAUC.push(singleObj);
 		};
-
-		listAUC.sort(function(a, b) {						// sort to better interpolate AUC curve
+		
+		//sort to better interpolate AUC curve
+		listAUC.sort(function(a, b) {						
 			return ((a.x < b.x) ? -1 : ((a.x == b.x) ? 0 : 1));
 		});
-
+		
 		var xAUC = [];
 		var yAUC = [];
 		for(var i in listAUC)
@@ -111,6 +102,18 @@ function Draw(nomefile){
 			xAUC.push(listAUC[i].x);
 			yAUC.push(listAUC[i].y);
 		}
+		//ADD HORIZONTAL AXIS AT 1
+		AUCcurves.push({
+			"x": [0.0, 3500],
+			"y": [1.0, 1.0],
+			"mode": "lines",
+			"name": "AUC = 1",
+			"line": {
+				"dash": "dot",
+				"color": "rgb(168, 168, 168)"
+			}
+		});
+		//ADD POINTS OF THE AUC CURVE
 		AUCcurves.push({
 			"x": xAUC,
 			"y": yAUC,
@@ -122,8 +125,7 @@ function Draw(nomefile){
 			}
 		});
 
-
-		// graphic layout and print
+		//LAYOUT GRAFICO ROC
 		var layout1 = {
 			legend: {
 				y: 0.5,
@@ -144,6 +146,7 @@ function Draw(nomefile){
 			}
 		};
 
+		//LAYOUT GRAFICO AUC
 		var layout2 = {
 			legend: {
 				y: 0.5,
@@ -164,6 +167,7 @@ function Draw(nomefile){
 			}
 		};
 
+		//PLOT GRAFICO ROC E AUC
 		Plotly.newPlot('graph1', ROCcurves, layout1);
 		Plotly.newPlot('graph2', AUCcurves, layout2);
 	}
@@ -171,8 +175,14 @@ function Draw(nomefile){
 }
 
 //append images from json files
+/**
+ * @param filename nome del file json dove raccogliere le info per le immagini da caricare (falsipositivi e falsinegativi)
+ * @returns permette di visionare nella pagina show.html i falsi positivi e i falsi negativi con anche una modalità preview
+ * @help al momento utilizzata solamente nella pagina show.html. 
+ * @TODO integrare la lettura delle immagini direttamente da object storage con query da DB
+ */
 function addimages(filename){
-	$.ajax({														// load json file
+	$.ajax({													
 		dataType: "json",
 		url: filename,
 		success: function(result){
@@ -244,13 +254,11 @@ function addimages(filename){
 				$('#modalcontent').append("<div class='column-captions'><img class='demo cursor' src="+obj+" onclick='currentSlide("+ slidenumber +")'></div>");
 				slidenumber++;
 			}
-
-
 		}
 	});
-}//end of function
+}
 
-// GALLERY LIGHTBOX show (sistemare z-index)
+// Le seguenti funzioni sono a supporto della funzione addimages() ----------------
 function openModal() {
 	document.getElementById('myModal').style.display = "block";
 }
@@ -288,7 +296,7 @@ function showSlides(n) {
 	captionText.innerHTML = dots[slideIndex-1].alt;
 }
 
-
+//--------------------------------------------------------------------------
 
 
 	// READ SIMULATION CONFIGURATION simulation
@@ -327,7 +335,7 @@ function showSlides(n) {
 
 }
 
-// GET DATA TO SHOW
+// GET DATA TO SHOW: questa dovrebbe essere la funzione che lega la richiesta dei test da mostrare in show.html???
 function getDataShow(dataArray){
 
 	//alert(dataArray);
@@ -426,13 +434,11 @@ function getDataShow(dataArray){
 	}//end of addTable function
 
 
-	// Gets from the server all the information needed (VRinstances, Classifiers and TrainindDatasets) and prints the homepage
-	// Servlet used:
-	// 	GetVRinstance
-	// 	GetClassifier
-	// 	GetDataset
-	// html objects printed:
-	// 	free / ready / training / dvTable / dvList
+	
+	/**
+	 * @returns unica funzione che permette la costruzione della pagina home.html grazie a tre chiamate ajax
+	 * @help servlet interrogate: GetInstance, GetClassifier, GetDataset
+	 */
 	function generateHome(){
 
 		//**************************************************************************
@@ -550,135 +556,4 @@ function getDataShow(dataArray){
 			}
 		});
 
-	}//end of generatHome ********************************************************
-
-
-
-
-
-
-//OLD FUNCTION, GENERATEHOME IS THE NEW FUNCTION WHICH COLLECT ALL THE BELOW FUNCTIONS
-
-	// generate table of classifier available (home)
-	function generateTable(filename) {
-		$.ajax(
-			{
-				//	url: "/RetrieveClassifiers",  //path al servizio di Marco
-				//type: 'POST',
-				url: filename,
-				//data:{classificator: img_class, false_pos: img_positive, false_neg: img_negative},
-				dataType: 'json',
-				success: function(result)
-				{
-					var label = [];
-					var n_img = [];
-					for(var i in result.classifiers)
-					{
-						var obj = result.classifiers[i];
-						if(label.indexOf(obj.label) == -1) label.push(obj.label);
-						if(n_img.indexOf(obj.trainingSize) == -1) n_img.push(obj.trainingSize);
-					}
-					n_img.sort(function(a, b){return a - b;});
-					//Inizializzazione matrice dei classificatori
-					var matrix = new Array(n_img.length);
-					for (var i = 0; i < n_img.length; i++) {
-						matrix[i] = new Array(label.length);
-						for(var j = 0; j < label.length; j++){
-							matrix[i][j] = "";
-						}
-					}
-					//Inizializzazione matrice da stampare (classificatori + label + cardinality)
-					var print_table = new Array(n_img.length+1);
-					for (var i = 0; i < (n_img.length+1); i++) {
-						print_table[i] = new Array(label.length+1);
-					}
-					//Riempimento della matrice più interna
-					for(var i in result.classifiers)
-					{
-						var obj = result.classifiers[i];
-						var n = label.indexOf(obj.label);
-						var m = n_img.indexOf(obj.trainingSize);
-						if(obj.status == "training")
-						{
-							if(matrix[n][m] !=  "")
-							matrix[n][m] = matrix[n][m].concat("<div class='block'><a href><mark>"+ obj.label + "-" + obj.trainingSize +"</mark></a></div>");
-							else matrix[n][m] = "<div class='block'><a href><mark>"+ obj.label + "-" + obj.trainingSize +"</mark></a></div>";
-						}
-						else {
-							if(matrix[n][m] !=  "")
-							matrix[n][m] = matrix[n][m].concat("<div class='block'><a href>"+ obj.label + "-" + obj.trainingSize + "</a></div>");
-							else matrix[n][m] = "<div class='block'><a href>" + obj.label + "-" + obj.trainingSize + "</a></div>";
-						}
-					}
-					//inizializza header delle label
-					print_table[0][0] = "<b>Cardinality</b>";
-					for(var j = 0; j < label.length; j++)	print_table[j+1][0] = label[j];
-					for(var i = 0; i < n_img.length; i++) print_table[0][i+1] = n_img[i];
-					//imposta la matrice dei contenuti da stampare
-					for(var i = 0; i < n_img.length; i++)
-					for(var j = 0; j < label.length; j++)
-					print_table[i+1][j+1] = matrix[i][j];
-					//add a table (idelement and table to print)
-					addTable("dvTable",print_table);
-				} //end of function
-			}); //end of ajax call
-		} //end of generateTable
-
-
-		// generate list of training datasets (home)
-		function generateList(filename) {
-			$.ajax(
-				{
-					//url: '',  //path al servizio di Marco
-					//type: 'POST',
-					url: filename,
-					//data:{classificator: img_class, false_pos: img_positive, false_neg: img_negative},
-					dataType: 'json',
-					success: function(result)
-					{
-						//Build matrix for training datasets
-						var training_sets = new Array();
-						training_sets.push(["Label", "Max number of images available"]);
-						for(var i in result.trainingDatasets){
-							var obj = result.trainingDatasets[i];
-							training_sets.push([obj.label,obj.size]);
-						}
-						addTable("dvList",training_sets);
-
-
-					}
-
-				}
-			);
-		}
-
-		// (home)
-		function generateNumbers(filename){
-			$.ajax({														// load json file
-				dataType: "json",
-				url: filename,
-				async: false,
-				success: function(result){							// return file content
-					var ready = 0;
-					var training = 0;
-					var free = 0;
-
-					for(var i in result.classifiers)
-					{
-						var obj = result.classifiers[i];
-						if(obj.status == "ready") ready++;
-						else training++
-					}
-					$('.ready').html(ready);
-					$('.training').html(training);
-
-					for(var i in result.VRinstances)
-					{
-						var obj = result.VRinstances[i].customclassifier;
-						if(obj.length == 0) free++;
-					}
-
-					$('.free').html(free);
-				}
-			});
-		}
+	}
