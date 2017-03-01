@@ -29,7 +29,7 @@ function createHead(){
 function createHeader(){
 	var logo_mobile = ["<div id='logo' class='menuUp'><h1><a href='/'><img src='' height=''></a> &ensp;</h1><div id='navToggle'><a href='#'><span></span></a></div></div>"]; // mobile logo
 	var logo_desktop = ["<div id='logoDesk'><a href='/'><img src='' class='logo' width=''>Watson VR ROC Tester</a></div>"]; // desktop logo
-	var menu = ["<nav class='navlarger'><ul><li><a href='home.html'>Dashboard</li><li><a href='simulate.html'>Simulate</li><li><a href='#'>Train</li><li><a href='#'>Docs</li><li><a href='#'>About us</li><li><a href='#'><a href='logoutservlet'><img src='ico/power_32.png'  width='20px' style='filter:invert(100%);'></a></li><li><a href='#'><img src='ico/manage_32.png' width='20px' style='filter:invert(100%);'></li></ul></nav>"]; // menu elements
+	var menu = ["<nav class='navlarger'><ul><li><a href='home.html'>Dashboard</li><li><a href='simulate.html'>Simulate</li><li><a href='train.html'>Train</li><li><a href='doc.html'>Docs</li><li><a href='aboutus.html'>About us</li><li><a href='#'><a href='logoutservlet'><img src='ico/power_32.png'  width='20px' style='filter:invert(100%);'></a></li><li><a href='#'><img src='ico/manage_32.png' width='20px' style='filter:invert(100%);'></li></ul></nav>"]; // menu elements
 	var search = ["&ensp;&ensp;<input name='search' placeholder='' onfocus='this.placeholder = 'Cerca'' onblur='this.placeholder = '' class='searchlarger'>"]; // search button
 
 	var headerfull = logo_mobile.concat(logo_desktop, menu, search);
