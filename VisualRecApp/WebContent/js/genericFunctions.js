@@ -1,4 +1,15 @@
-// GENERATE HEAD
+/*
+ * Funzioni dedicate alla personalizzazione degli header delle pagine html
+ * 
+ * */
+
+
+var path = ""; // website location relative to root folder....cosa ti serve questo? TODO
+
+
+/**
+ * @returns definisce header delle pagine html....fa anche qualcos'altro?? tipo set dei css? TODO
+ */
 function createHead(){
 	var utilities = ["<meta charset='utf-8'><meta http-equiv='X-UA-Compatible' content='IE=edge'><meta name='viewport' content='width=device-width, initial-scale=1.0'>"];
 	var css1 = ["<link rel='stylesheet' type='text/css' href='css/default.css'/>"];
@@ -12,9 +23,9 @@ function createHead(){
 	$('head').append(headfull);
 }
 
-
-// GENERATE MENU
-var path = ""; // website location relative to root folder
+/**
+ * @returns definisce i pannelli del menù presente nelle varie pagine html
+ */
 function createHeader(){
 	var logo_mobile = ["<div id='logo' class='menuUp'><h1><a href='/'><img src='' height=''></a> &ensp;</h1><div id='navToggle'><a href='#'><span></span></a></div></div>"]; // mobile logo
 	var logo_desktop = ["<div id='logoDesk'><a href='/'><img src='' class='logo' width=''>Watson VR ROC Tester</a></div>"]; // desktop logo
@@ -26,7 +37,6 @@ function createHeader(){
 }
 
 
-// REFRESH PAGE
 function refreshPage(){
     window.location.reload(); // refresh entire page onclick
 }

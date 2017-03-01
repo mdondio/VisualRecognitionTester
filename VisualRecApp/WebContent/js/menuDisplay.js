@@ -1,3 +1,6 @@
+//TODO cosa fanno queste funzioni?
+
+
 $(document).ready(function() {
     $("#navToggle a").click(function(e){
         e.preventDefault();

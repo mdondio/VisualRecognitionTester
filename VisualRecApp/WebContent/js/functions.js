@@ -1,9 +1,11 @@
+//TODO commentare
 // READ FILENAME FROM BROWSE FILE show (will be deprecated)
 function retrieveData(){
 	var nomefile = "json/"+$("#dataset").val(); 	// retrieve filename
 	Draw(nomefile);											// call Draw function
 }
 
+//TODO commentare
 // RESET BROWSE FILE show (will be deprecated)
 function clearData(){
 	var control = $("#dataset"),
@@ -298,7 +300,7 @@ function showSlides(n) {
 
 //--------------------------------------------------------------------------
 
-
+//TODO commentare
 	// READ SIMULATION CONFIGURATION simulation
 	function retrieveSimConfig(){
 
@@ -335,6 +337,7 @@ function showSlides(n) {
 
 }
 
+	//TODO commentare
 // GET DATA TO SHOW: questa dovrebbe essere la funzione che lega la richiesta dei test da mostrare in show.html???
 function getDataShow(dataArray){
 
@@ -359,7 +362,7 @@ function getDataShow(dataArray){
 
 	}
 
-
+//TODO commentare
 	// POPULATE SIMULATION DROP DOWN MENUS
 	function populateSelectSim(filename){
 
@@ -409,12 +412,11 @@ function getDataShow(dataArray){
 		});
 	}
 
-
-
-
-
-
-	// Add a table to a div element giving the IDelement. Table must be an array of array [row][col]
+	/**
+	 * @param IDelement: id dell'elemento html dove esporre la tabella
+	 * @param table: array[row][col] che verrà esposta in formato tabella
+	 * @returns aggiunge una tabella ad un elemento div basandosi sull'input di un array di array
+	 */
 	function addTable(IDelement,table){
 		//Create a HTML Table element.
 		var tableElement = document.createElement("TABLE");
@@ -431,9 +433,7 @@ function getDataShow(dataArray){
 		var dvTable = document.getElementById(IDelement);
 		dvTable.innerHTML = "";
 		dvTable.appendChild(tableElement);
-	}//end of addTable function
-
-
+	}
 	
 	/**
 	 * @returns unica funzione che permette la costruzione della pagina home.html grazie a tre chiamate ajax

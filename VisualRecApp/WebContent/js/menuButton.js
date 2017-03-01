@@ -1,3 +1,6 @@
+//TODO cosa fanno queste funzioni??
+
+
 var theToggle = document.getElementById('navToggle');
 
 // hasClass
