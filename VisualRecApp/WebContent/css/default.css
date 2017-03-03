@@ -48,7 +48,7 @@ h5 { font-family: "museo-sans",sans-serif; font-style: normal; font-weight: 500;
 /*-------------------------------------------------------------*/
 /* GESTIONE CONTENUTI E COLONNE */
 .content {
-  position: relative; top: 30px; bottom: 60px;
+  position: relative; top: 80px; bottom: 60px;
   margin: 0 auto;	max-width: 95rem; width: 100%;
   font-family: "museo-sans",sans-serif; font-style: normal; font-weight: 100; font-size: 18px; text-transform: none;
   color: #000000;
@@ -188,7 +188,7 @@ h5 { font-family: "museo-sans",sans-serif; font-style: normal; font-weight: 500;
   /*-------------------------------------------------------------*/
   /* GESTIONE CONTENUTI E COLONNE */
   .content {
-    position: relative; top: 30px; bottom: 60px;
+    position: relative; top: 80px; bottom: 60px;
     margin: 0 auto;	max-width: 95rem; width: 85%/*73.5%*/;
     font-family: "museo-sans",sans-serif; font-style: normal; font-weight: 100;	font-size: 18px; text-transform: none;
     color: #000000;
