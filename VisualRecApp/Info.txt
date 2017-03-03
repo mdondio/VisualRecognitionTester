@@ -1,0 +1,9 @@
+///////////////////////////////////////////////////////////////////
+VARIE
+///////////////////////////////////////////////////////////////////
+
+// http://www.programcreek.com/java-api-examples/index.php?api=com.cloudant.client.api.Database
+// https://github.com/ganeshkumarc/java-cloudant-1
+
+// soluzione
+//http://stackoverflow.com/questions/2864370/how-do-i-use-googles-gson-api-to-deserialize-json-properly
