@@ -48,7 +48,7 @@ function createHeader(){
 	var l3 = ["<li><a href='train.html'>train</a></li>"];
 	$('#begin').append(l3);
 
-	var l4 = ["<li><a href='docs.html'>docs</a></li>"];
+	var l4 = ["<li><a href='doc.html'>docs</a></li>"];
 	$('#begin').append(l4);
 
 	var l5 = ["<li><a href='aboutus.html'>about us</a></li>"];
