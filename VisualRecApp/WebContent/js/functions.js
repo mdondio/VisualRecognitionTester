@@ -473,6 +473,7 @@ function getDataShow(dataArray){
 				//COMPUTE NUMBER FOR READY AND TRAINING
 				var ready = 0;
 				var training = 0;
+				
 				for(var i in result)
 				{
 					var obj = result[i];
@@ -492,45 +493,51 @@ function getDataShow(dataArray){
 					if(n_img.indexOf(obj.trainingsize) == -1) n_img.push(obj.trainingsize);
 				}
 				n_img.sort(function(a, b){return a - b;});
+				
 				//Inizializzazione matrice dei classificatori
-				var matrix = new Array(n_img.length);
-				for (var i = 0; i < n_img.length; i++) {
-					matrix[i] = new Array(label.length);
-					for(var j = 0; j < label.length; j++){
+				var sizeRow=label.length;
+				var sizeCol=n_img.length;
+				var matrix = new Array(sizeRow);
+				for (var i = 0; i < sizeRow; i++) {
+					matrix[i] = new Array(sizeCol);
+					for(var j = 0; j < sizeCol; j++){
 						matrix[i][j] = "";
 					}
 				}
+				
 				//Inizializzazione matrice da stampare (classificatori + label + cardinality)
-				var print_table = new Array(n_img.length+1);
-				for (var i = 0; i < (n_img.length+1); i++) {
-					print_table[i] = new Array(label.length+1);
+				var print_table = new Array(sizeRow+1);
+				for (var i = 0; i < (sizeRow+1); i++) {
+					print_table[i] = new Array(sizeCol+1);
 				}
 				//Riempimento della matrice più interna
 				for(var i in result)
 				{
 					var obj = result[i];
-					var n = label.indexOf(obj.label);
-					var m = n_img.indexOf(obj.trainingsize);
+					var n = label.indexOf(obj.label); //row
+					var m = n_img.indexOf(obj.trainingsize); //col
+
 					if(obj.status == "training")
 					{
 						if(matrix[n][m] !=  "")
-						matrix[n][m] = matrix[n][m].concat("<div class='block'><a href><mark>"+ obj.label + "-" + obj.trainingsize +"</mark></a></div>");
-						else matrix[n][m] = "<div class='block'><a href><mark>"+ obj.label + "-" + obj.trainingsize +"</mark></a></div>";
+						matrix[n][m] = matrix[n][m].concat("<div class='blocktrain'><p>"+ obj.label + "-" + obj.trainingsize +"</p></div>");
+						else matrix[n][m] = "<div class='blocktrain'><p>"+ obj.label + "-" + obj.trainingsize +"</p></div>";
 					}
 					else {
 						if(matrix[n][m] !=  "")
-						matrix[n][m] = matrix[n][m].concat("<div class='block'><a href>"+ obj.label + "-" + obj.trainingsize + "</a></div>");
-						else matrix[n][m] = "<div class='block'><a href>" + obj.label + "-" + obj.trainingsize + "</a></div>";
+						matrix[n][m] = matrix[n][m].concat("<div class='block'><p>"+ obj.label + "-" + obj.trainingsize + "</p></div>");
+						else matrix[n][m] = "<div class='block'><p>" + obj.label + "-" + obj.trainingsize + "</p></div>";
 					}
 				}
 				//inizializza header delle label
 				print_table[0][0] = "<b>Cardinality</b>";
-				for(var j = 0; j < label.length; j++)	print_table[j+1][0] = label[j];
-				for(var i = 0; i < n_img.length; i++) print_table[0][i+1] = n_img[i];
+				for(var j = 0; j < sizeRow; j++)	print_table[j+1][0] = label[j];
+				for(var i = 0; i < sizeCol; i++) print_table[0][i+1] = n_img[i];
 				//imposta la matrice dei contenuti da stampare
-				for(var i = 0; i < n_img.length; i++)
-				for(var j = 0; j < label.length; j++)
+				for(var i = 0; i < sizeRow; i++)
+				for(var j = 0; j < sizeCol; j++)
 				print_table[i+1][j+1] = matrix[i][j];
+								
 				//add a table (idelement and table to print)
 				addTable("dvTable",print_table);
 			}
