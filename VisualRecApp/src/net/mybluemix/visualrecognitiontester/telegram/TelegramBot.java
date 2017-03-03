@@ -1,4 +1,4 @@
-package net.mybluemix.visualrecognitiontester.servlet;
+package net.mybluemix.visualrecognitiontester.telegram;
 
 import java.io.BufferedReader;
 import java.io.IOException;

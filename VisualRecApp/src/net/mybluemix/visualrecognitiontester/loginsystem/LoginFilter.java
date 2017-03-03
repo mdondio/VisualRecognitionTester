@@ -39,7 +39,7 @@ public class LoginFilter implements Filter {
 		String uri = request.getRequestURI();
 
 		// Allow different files without filtering and login / logout component
-		if (uri.matches(".*(/css|jpg|png|gif|js)") || 
+		if (uri.matches(".*(css|ttf|otf|jpg|png|gif|js)") || 
 				uri.matches(".*AAHV8svrX81twiW48d2N6bpmQuv6BnnKKQU") ||
 				uri.contains("login.html") ||
 				uri.contains("loginservlet")||

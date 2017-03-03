@@ -1,4 +1,4 @@
-package net.mybluemix.visualrecognitiontester.servlet;
+package net.mybluemix.visualrecognitiontester.loginsystem;
 
 import java.io.IOException;
 
