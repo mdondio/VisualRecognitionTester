@@ -39,22 +39,22 @@ function createHeader(){
 	var begin = ["<ul id='begin'>"];
 	$('#cssmenu').append(begin);
 	
-	var l1 = ["<li><a href='/home.html'>dashboard</a></li>"];
+	var l1 = ["<li><a href='home.html'>dashboard</a></li>"];
 	$('#begin').append(l1);
 	
-	var l2 = ["<li><a href='/simulate.html'>simulate</a></li>"];
+	var l2 = ["<li><a href='simulate.html'>simulate</a></li>"];
 	$('#begin').append(l2);
 	
-	var l3 = ["<li><a href='/train.html'>train</a></li>"];
+	var l3 = ["<li><a href='train.html'>train</a></li>"];
 	$('#begin').append(l3);
 
-	var l4 = ["<li><a href='/docs.html'>docs</a></li>"];
+	var l4 = ["<li><a href='docs.html'>docs</a></li>"];
 	$('#begin').append(l4);
 
-	var l5 = ["<li><a href='/aboutus.html'>about us</a></li>"];
+	var l5 = ["<li><a href='aboutus.html'>about us</a></li>"];
 	$('#begin').append(l5);	
 	
-	var l6 = ["<li><a href='/logout.html'><img src='ico/power_32.png'></a></li>"];
+	var l6 = ["<li><a href='logout.html'><img src='ico/power_32.png'></a></li>"];
 	$('#begin').append(l6);
 	
 }
