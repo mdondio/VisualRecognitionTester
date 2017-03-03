@@ -54,7 +54,7 @@ function createHeader(){
 	var l5 = ["<li><a href='aboutus.html'>about us</a></li>"];
 	$('#begin').append(l5);	
 	
-	var l6 = ["<li><a href='/logoutservlet'><img src='ico/power_32.png'></a></li>"];
+	var l6 = ["<li><a href='logoutservlet'><img src='ico/power_32.png'></a></li>"];
 	$('#begin').append(l6);
 	
 }
