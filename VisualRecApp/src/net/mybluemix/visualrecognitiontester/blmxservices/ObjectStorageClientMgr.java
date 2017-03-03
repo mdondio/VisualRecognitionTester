@@ -2,30 +2,36 @@ package net.mybluemix.visualrecognitiontester.blmxservices;
 
 import java.io.IOException;
 
-public class ObjectStorageClient {
+/**
+ * This class is needed to manage the ObjectStorage service instance. This class
+ * guarantees we will instantiate only one instance of the service.
+ * 
+ * @author Marco Dondio
+ *
+ */
+// TODO: implementare VCAP_SERVICES quando eseguita dentro Bluemix
+public class ObjectStorageClientMgr {
 
 	private static ObjectStorage oo = null;
 
+	
+	// This method guarantees we will have only one instance of this object
 	public static ObjectStorage getObjectStorage() throws IOException {
-
 
 		if (oo == null) {
 			System.out.println("[getObjectStorage()] ObjectStorage is null: need to initialize");
 			initClient();
-		}
-		else{
+		} else {
 			System.out.println("[getObjectStorage()] ObjectStorage already instantiated: retrieving");
-			
+
 		}
 
 		return oo;
 
 	}
-
-	// Metodo per creare objectstorage
 	private static void initClient() throws IOException {
 
-		synchronized (ObjectStorageClient.class) {
+		synchronized (ObjectStorageClientMgr.class) {
 			if (oo != null)
 				return;
 
@@ -36,19 +42,19 @@ public class ObjectStorageClient {
 
 	private static ObjectStorage createObjectStorage() throws IOException {
 
-		//		{
-//			  "auth_url": "https://lon-identity.open.softlayer.com",
-//			  "project": "object_storage_e0ebd231_88cf_4cfd_b548_ad95cb9a89e3",
-//			  "projectId": "b8240e4d9c1449a6ac7ae6159b116282",
-//			  "region": "london",
-//			  "userId": "08dab7133ac24cbcaf94520a7954a2f7",
-//			  "username": "admin_f1e5d9bfec2240f9889a3d86a157151cb57df47c",
-//			  "password": "PQz3*8F7VL3D{owB",
-//			  "domainId": "d7b14e49480942beaade5d2cce531404",
-//			  "domainName": "1187923",
-//			  "role": "admin"
-//			}
-		
+		// {
+		// "auth_url": "https://lon-identity.open.softlayer.com",
+		// "project": "object_storage_e0ebd231_88cf_4cfd_b548_ad95cb9a89e3",
+		// "projectId": "b8240e4d9c1449a6ac7ae6159b116282",
+		// "region": "london",
+		// "userId": "08dab7133ac24cbcaf94520a7954a2f7",
+		// "username": "admin_f1e5d9bfec2240f9889a3d86a157151cb57df47c",
+		// "password": "PQz3*8F7VL3D{owB",
+		// "domainId": "d7b14e49480942beaade5d2cce531404",
+		// "domainName": "1187923",
+		// "role": "admin"
+		// }
+
 		String userId = null;
 		String username = null;
 		String password = null;
@@ -86,9 +92,9 @@ public class ObjectStorageClient {
 			//
 			// user = obj.get("username").getAsString();
 			// password = obj.get("password").getAsString();
-			
-			// TODO DA FARE
-			System.out.println("[createObjectStorage()] !!!!! TODO, using local info !!!!");
+
+			// TODO to be implemented, for the moment reading data from local
+			System.out.println("[createObjectStorage()] !!!!! NOT IMPLEMENTED VCAP_SERVICES, using local info !!!!");
 
 			userId = Configs.oo_userId;
 			username = Configs.oo_username;
@@ -98,7 +104,6 @@ public class ObjectStorageClient {
 			project = Configs.oo_project;
 			projectId = Configs.oo_projectId;
 			region = Configs.oo_region;
-
 
 		} else {
 			// If VCAP_SERVICES env var doesn't exist: running locally.
@@ -116,10 +121,9 @@ public class ObjectStorageClient {
 			region = Configs.oo_region;
 		}
 
-		// TODO try-catch evntuale, prova ad autenticarti
 		return new ObjectStorage(userId, username, password, domain, projectId, project, region, auth_url);
 	}
-	
-	private ObjectStorageClient(){
+
+	private ObjectStorageClientMgr() {
 	}
 }

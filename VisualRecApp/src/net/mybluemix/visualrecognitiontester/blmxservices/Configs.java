@@ -2,6 +2,9 @@ package net.mybluemix.visualrecognitiontester.blmxservices;
 
 /**
  * This class contains configuration information regarding BlueMix Services.
+ * These parameters are valid and will be used only when running in local
+ * Liberty server. If application is run inside Bluemix, VCAP_SERVICES variable
+ * is used instead
  * 
  * @author Marco Dondio
  *

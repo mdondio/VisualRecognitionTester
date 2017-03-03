@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * This class will filter all incoming requests.
+ * This class will filter all incoming requests, with some exceptions (jpg, css, etc).
  * @author Marco Dondio
  *
  */

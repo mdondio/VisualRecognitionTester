@@ -9,24 +9,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
 import com.cloudant.client.api.Database;
 import com.cloudant.client.api.model.FindByIndexOptions;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 import net.mybluemix.visualrecognitiontester.blmxservices.CloudantClientMgr;
-import net.mybluemix.visualrecognitiontester.datamodel.Classifier;
-import net.mybluemix.visualrecognitiontester.datamodel.Dataset;
 import net.mybluemix.visualrecognitiontester.datamodel.Instance;
 
 
 /**
- * Servlet implementation class RetrieveClassifiers
+ * This endpoint retrieves Instances. 
+ * @author Marco Dondio
  */
 @WebServlet("/GetInstance")
 public class GetInstance extends HttpServlet {
@@ -48,7 +41,7 @@ public class GetInstance extends HttpServlet {
 		
 
 		// Ricevi get con parametro sub_type
-		Database db = CloudantClientMgr.getDB();
+		Database db = CloudantClientMgr.getCloudantDB();
 
 		// Condizione
 		String selector = "{\"selector\": {\"type\":\"instance\"}}";
@@ -79,49 +72,4 @@ public class GetInstance extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
-
-	
-	 private  JSONObject readJSONfromString(String json) {
-		 
-		 
-	        JSONParser parser = new JSONParser();
-
-      JSONObject jsonObject = null;
-
-	            Object obj;
-				try {
-					obj = parser.parse(json);
-		             jsonObject =  (JSONObject) obj;
-
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-
-	             /*
-	            String name = (String) jsonObject.get("name");
-	            System.out.println(name);
-
-	            String city = (String) jsonObject.get("city");
-	            System.out.println(city);
-
-	            String job = (String) jsonObject.get("job");
-	            System.out.println(job);
-
-	            // loop array
-	            JSONArray cars = (JSONArray) jsonObject.get("cars");
-	            Iterator<String> iterator = cars.iterator();
-	            while (iterator.hasNext()) 
-	             System.out.println(iterator.next());
-	             */
-	      
-	        
-	    
-	 
-	 return jsonObject;
-	 }
-	 
-	 
-
 }

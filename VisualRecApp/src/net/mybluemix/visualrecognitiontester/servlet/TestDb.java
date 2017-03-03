@@ -14,8 +14,10 @@ import com.cloudant.client.api.Database;
 
 import net.mybluemix.visualrecognitiontester.blmxservices.CloudantClientMgr;
 
+
 /**
- * Servlet implementation class TestDb
+ * Old endpoint to test cloudant DB.
+ * @author Marco Dondio
  */
 @WebServlet("/TestDb")
 public class TestDb extends HttpServlet {
@@ -45,7 +47,7 @@ public class TestDb extends HttpServlet {
 
 		 int readBufferSize = 8192;
 		// TODO remove me
-		Database db = CloudantClientMgr.getDB();
+		Database db = CloudantClientMgr.getCloudantDB();
 
 		
 		// Get an ExampleDocument out of the database and deserialize the JSON into a Java type

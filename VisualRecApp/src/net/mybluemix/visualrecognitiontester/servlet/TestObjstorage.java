@@ -7,14 +7,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.JsonObject;
-
 import net.mybluemix.visualrecognitiontester.blmxservices.ObjectStorage;
-import net.mybluemix.visualrecognitiontester.blmxservices.ObjectStorageClient;
+import net.mybluemix.visualrecognitiontester.blmxservices.ObjectStorageClientMgr;
 
 /**
- * Servlet implementation class TestObjstorage
+ * Endpoint to test object storage
+ * @author Marco Dondio
  */
+
 @WebServlet("/TestObjstorage")
 public class TestObjstorage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -33,7 +33,7 @@ public class TestObjstorage extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		// Retrieve our objectstorage
-		ObjectStorage oo = ObjectStorageClient.getObjectStorage();
+		ObjectStorage oo = ObjectStorageClientMgr.getObjectStorage();
 		
 //		oo.createContainer("/nuovo2");
 

@@ -1,7 +1,6 @@
 package net.mybluemix.visualrecognitiontester.servlet;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,14 +12,15 @@ import com.cloudant.client.api.Database;
 import com.cloudant.client.api.model.FindByIndexOptions;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import net.mybluemix.visualrecognitiontester.blmxservices.CloudantClientMgr;
 import net.mybluemix.visualrecognitiontester.datamodel.Dataset;
 
+
 /**
- * Servlet implementation class GetDataset
+ * This endpoint retrieves Datasets. 
+ * @author Marco Dondio
  */
 @WebServlet("/GetDataset")
 public class GetDataset extends HttpServlet {
@@ -31,7 +31,6 @@ public class GetDataset extends HttpServlet {
 	 */
 	public GetDataset() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -47,7 +46,7 @@ public class GetDataset extends HttpServlet {
 		String datasetType = request.getParameter("sub_type");
 
 		// Ricevi get con parametro sub_type
-		Database db = CloudantClientMgr.getDB();
+		Database db = CloudantClientMgr.getCloudantDB();
 
 		
 		// Condizione

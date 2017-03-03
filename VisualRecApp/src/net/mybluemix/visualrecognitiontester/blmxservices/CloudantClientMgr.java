@@ -12,6 +12,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+/**
+ * This class is needed to manage the Cloudant DB service instance. This class
+ * guarantees we will instantiate only one instance of the service.
+ * @author Marco Dondio
+ *
+ */
 public class CloudantClientMgr {
 
 	private static CloudantClient cloudant = null;
@@ -22,6 +28,24 @@ public class CloudantClientMgr {
 	private static String user = null;
 	private static String password = null;
 
+	
+	// This method guarantees we will have only one instance of this object
+	public static Database getCloudantDB() {
+		if (cloudant == null) {
+			initClient();
+		}
+
+		if (db == null) {
+			try {
+				db = cloudant.database(databaseName, true);
+			} catch (Exception e) {
+				throw new RuntimeException("DB Not found", e);
+			}
+		}
+		return db;
+	}
+
+	
 	private static void initClient() {
 		if (cloudant == null) {
 			synchronized (CloudantClientMgr.class) {
@@ -85,20 +109,6 @@ public class CloudantClientMgr {
 		}
 	}
 
-	public static Database getDB() {
-		if (cloudant == null) {
-			initClient();
-		}
-
-		if (db == null) {
-			try {
-				db = cloudant.database(databaseName, true);
-			} catch (Exception e) {
-				throw new RuntimeException("DB Not found", e);
-			}
-		}
-		return db;
-	}
 
 	private CloudantClientMgr() {
 	}
