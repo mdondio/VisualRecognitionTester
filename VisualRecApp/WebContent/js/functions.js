@@ -520,13 +520,13 @@ function getDataShow(dataArray){
 					if(obj.status == "training")
 					{
 						if(matrix[n][m] !=  "")
-						matrix[n][m] = matrix[n][m].concat("<div class='block'><a href><mark>"+ obj.label + "-" + obj.trainingsize +"</mark></a></div>");
-						else matrix[n][m] = "<div class='block'><a href><mark>"+ obj.label + "-" + obj.trainingsize +"</mark></a></div>";
+						matrix[n][m] = matrix[n][m].concat("<div class='blocktrain'><p>"+ obj.label + "-" + obj.trainingsize +"</p></div>");
+						else matrix[n][m] = "<div class='blocktrain'><p>"+ obj.label + "-" + obj.trainingsize +"</p></div>";
 					}
 					else {
 						if(matrix[n][m] !=  "")
-						matrix[n][m] = matrix[n][m].concat("<div class='block'><a href>"+ obj.label + "-" + obj.trainingsize + "</a></div>");
-						else matrix[n][m] = "<div class='block'><a href>" + obj.label + "-" + obj.trainingsize + "</a></div>";
+						matrix[n][m] = matrix[n][m].concat("<div class='block'><p>"+ obj.label + "-" + obj.trainingsize + "</p></div>");
+						else matrix[n][m] = "<div class='block'><p>" + obj.label + "-" + obj.trainingsize + "</p></div>";
 					}
 				}
 				//inizializza header delle label
