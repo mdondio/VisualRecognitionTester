@@ -41,6 +41,7 @@ public class LoginFilter implements Filter {
 		// Allow different files without filtering and login / logout component
 		if (uri.matches(".*(css|ttf|otf|jpg|png|gif|js)") || 
 				uri.matches(".*AAHV8svrX81twiW48d2N6bpmQuv6BnnKKQU") ||
+				uri.matches(".*GitHubEventHandler") ||				
 				uri.contains("login.html") ||
 				uri.contains("loginservlet")||
 				uri.contains("logoutservlet")) {

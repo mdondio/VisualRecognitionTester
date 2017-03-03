@@ -124,7 +124,7 @@ public class TelegramBot extends HttpServlet {
 
 	}
 
-	private String sendMessage(String chat_id, String text) throws IOException {
+	public static String sendMessage(String chat_id, String text) throws IOException {
 
 		// https://api.telegram.org/bot000000000:AAAAa0aAA_aaA-Aaaa0A0Aa_a0aa0A0AAAA/sendmessage?text=Happy%20Little%20Clouds&chat_id=1111111111
 
