@@ -20,15 +20,20 @@ public class AsyncJobDaemon implements Runnable {
 
 		System.out.println("[AsyncJobDaemon] Constructor");
 		this.ctx = ctx;
-		this.queue = (JobQueue) ctx.getAttribute("jobQueue");
 
 	}
 
+	public void initialize(){
+		queue = (JobQueue) ctx.getAttribute("jobQueue");
+		ctx.setAttribute("jobCounter", jobCounter);
+		
+	}
+	
 	public void run() {
 
 		System.out.println("[AsyncJobDaemon] Run in execution (thread: " + Thread.currentThread().getName() + ")...");
-		ctx.setAttribute("jobCounter", jobCounter);
-
+		initialize();
+		
 		while (true) {
 
 			// wait for a new job

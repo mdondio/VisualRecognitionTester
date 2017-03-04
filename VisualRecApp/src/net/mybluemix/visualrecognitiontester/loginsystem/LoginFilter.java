@@ -52,18 +52,18 @@ public class LoginFilter implements Filter {
 		// check for logged status...
 		if (session == null || session.getAttribute("user") == null) {
 
-			System.out.println("[LoginFilter] Not logged in! Session needed to access: " + uri);
+		//	System.out.println("[LoginFilter] Not logged in! Session needed to access: " + uri);
 
 			// Check if api method
 			if (uri.matches(".*/api/.*")){
-				System.out.println("[LoginFilter] Returning API error");
+			//	System.out.println("[LoginFilter] Returning API error");
 				response.setContentType("application/json");
 				response.getOutputStream().println("{error: \"unauthorized\"}");
 				return;
 			} else // not logged and not api: redirect to login
 				response.sendRedirect(request.getContextPath() + "/login.html");
 		} else {
-			System.out.println("[LoginFilter] OK: " + uri);
+		//	System.out.println("[LoginFilter] OK: " + uri);
 			chain.doFilter(req, res);
 		}
 	}

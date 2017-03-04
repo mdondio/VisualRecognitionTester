@@ -20,8 +20,10 @@
        	<pathelement location="WebContent/WEB-INF/lib/java-sdk-3.5.3-jar-with-dependencies.jar"/>
            	<pathelement location="WebContent/WEB-INF/lib/javax.servlet_3.0.0.jar"/>    	
        	<pathelement location="WebContent/WEB-INF/lib/com.ibm.ws.javaee.jaxrs.1.1_1.0.1.jar"/>
+       	<pathelement location="WebContent/WEB-INF/lib/org.eclipse.paho.client.mqttv3-1.1.0.jar"/>
     	
-
+    	
+    	
     </path>
     <target name="init">
         <mkdir dir="bin"/>
