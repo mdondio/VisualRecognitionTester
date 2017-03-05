@@ -419,20 +419,44 @@ function getDataShow(dataArray){
 	 */
 	function addTable(IDelement,table){
 		//Create a HTML Table element.
-		var tableElement = document.createElement("TABLE");
+		var tableElement = document.createElement('table');
 		var columnCount = table[0].length;
 		var rowCount = table.length;
+		
 		//Add the data rows.
 		for (var i = 0; i < rowCount; i++) {
-			row = tableElement.insertRow(-1);
+			//row = tableElement.insertRow(-1);
+			var row = document.createElement('tr');
 			for (var j = 0; j < columnCount; j++) {
-				var cell = row.insertCell(-1);
-				cell.innerHTML = table[i][j];
+
+				if(i==0 || j==0){
+					var txt = document.createTextNode(table[i][j]);
+					var th = document.createElement('th');
+					th.appendChild(txt);
+					row.appendChild(th);
+				}
+				else{
+					var td = document.createElement('td');
+					var block = document.createElement('div');
+					if(table[i][j]!=""){
+					block.className = 'block';
+					block.appendChild(document.createTextNode(table[i][j]));
+					}else block.appendChild(document.createTextNode(table[i][j]));
+					td.appendChild(block);
+					row.appendChild(td);
+					}
+
+				
+				/*if(i==0 || j==0){
+					row.insertCell(-1).outerHTML = "<th>"+table[i][j]+"</th>";
+				}
+				else{
+					row.insertCell(-1).outerHTML = "<td>"+table[i][j]+"</td>";
+					}*/
 			}
+			tableElement.appendChild(row);
 		}
-		var dvTable = document.getElementById(IDelement);
-		dvTable.innerHTML = "";
-		dvTable.appendChild(tableElement);
+document.getElementById(IDelement).appendChild(tableElement);
 	}
 	
 	/**
@@ -516,9 +540,14 @@ function getDataShow(dataArray){
 					var obj = result[i];
 					var n = label.indexOf(obj.label); //row
 					var m = n_img.indexOf(obj.trainingsize); //col
-
+					
+					if(matrix[n][m]=="") matrix[n][m]=obj.label+obj.trainingsize;
+					//else matrix[n][m].push(obj.label+obj.trainingsize);
+					
+					/*
 					if(obj.status == "training")
 					{
+
 						if(matrix[n][m] !=  "")
 						matrix[n][m] = matrix[n][m].concat("<div class='blocktrain'><p>"+ obj.label + "-" + obj.trainingsize +"</p></div>");
 						else matrix[n][m] = "<div class='blocktrain'><p>"+ obj.label + "-" + obj.trainingsize +"</p></div>";
@@ -527,10 +556,10 @@ function getDataShow(dataArray){
 						if(matrix[n][m] !=  "")
 						matrix[n][m] = matrix[n][m].concat("<div class='block'><p>"+ obj.label + "-" + obj.trainingsize + "</p></div>");
 						else matrix[n][m] = "<div class='block'><p>" + obj.label + "-" + obj.trainingsize + "</p></div>";
-					}
+					}*/
 				}
 				//inizializza header delle label
-				print_table[0][0] = "<b>Cardinality</b>";
+				print_table[0][0] = "Cardinality";
 				for(var j = 0; j < sizeRow; j++)	print_table[j+1][0] = label[j];
 				for(var i = 0; i < sizeCol; i++) print_table[0][i+1] = n_img[i];
 				//imposta la matrice dei contenuti da stampare
