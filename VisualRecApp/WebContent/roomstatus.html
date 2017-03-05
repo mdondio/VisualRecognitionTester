@@ -1,21 +1,98 @@
 <!DOCTYPE html>
 <html>
-<head></head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script type="text/javascript" src="js/menuButton.js"></script><!-- Mostra bottone menu -->
-<script type="text/javascript" src="js/menuDisplay.js"></script><!-- Mostra menu -->
+<head>
+<style type="text/css">
+
+dl {
+}
+
+dl dt {
+  float: left;
+/*  width: 200px; */
+/*  text-align: right;*/  
+  
+   font-weight: bold;
+
+}
+
+dl dd {
+  margin-left: 130px; 
+   font-style: italic;
+}
+
+/*! Light */
+#light {
+	background-color: #000;
+	box-shadow: 0 0 5px rgba(0, 0, 0, .8);
+	overflow: hidden;
+	padding: 0 0 4px;
+	width: 40px;
+}
+
+#light span {
+	border-radius: 50px;
+	display: block;
+	height: 30px;
+	margin: 4px auto 0;
+	opacity: .5;
+	width: 30px;
+}
+
+/*! Light colours */
+#red {
+	background-color: red;
+}
+
+#orange {
+	background-color: orange;
+}
+
+#green {
+	background-color: green;
+}
+
+/*! Active states */
+#light span.active {
+	opacity: 1;
+}
+
+#light #red.active {
+	box-shadow: 0 0 10px red;
+}
+
+#light #orange.active {
+	box-shadow: 0 0 10px orange;
+}
+
+#light #green.active {
+	box-shadow: 0 0 10px green;
+}
+</style>
+</head>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="js/menuButton.js"></script>
+<!-- Mostra bottone menu -->
+<script type="text/javascript" src="js/menuDisplay.js"></script>
+<!-- Mostra menu -->
 <script src="js/genericFunctions.js"></script>
 <script src="js/functions.js"></script>
 <script>createHead();</script>
 
 <body>
-<header></header><script>createHeader();</script>
+	<header></header>
+	<script>createHeader();</script>
 
-<div class="content" id ="prova">
+	<div class="content">
 
+		<div id="light">
+			<span id="red"></span> 
+			<span id="green"></span>
+		</div>
+		<br>
+		<div id="status">Retrieving room status...</div>
 
-</div>
-
+	</div>
 </body>
 
 <script>
@@ -35,18 +112,46 @@ setInterval(refreshRoomStatus, 1000);
 			async: false,
 			success: function(result){
 
-	console.log(result);
+
+// Update traffic light
+// http://fiddle.jshell.net/chrisupjohn/u9yD4/
+var roomIsFree = result.roomIsFree;
+console.log(roomIsFree);
+
+   var green = $('#green');
+   var red = $('#red');
+
+if(roomIsFree){
+	green.addClass('active');
+	red.removeClass('active');	
+}
+else
+{
+	red.addClass('active');
+	green.removeClass('active');	
+}
+
+
+// and update status
+//	$("#status").html(JSON.stringify(result));
+//	$("#status").html("<b>RoomID</b> " + result.roomID + "<br><b>last update</b> " + result.roomLastScan + "<br><b>room free</b> " + roomIsFree);
 	
-	var div = document.getElementById("prova");
-	div.innerHTML = JSON.stringify(result);
+	$("#status").html("<dl><dt>RoomID: </dt><dd>"+result.roomID+"</dd><dt>Last update: </dt><dd>"+ result.roomLastScan + "</dd><dt>Room is free: </dt><dd>"+roomIsFree+"</dd></dl>");
+	
+	
 	
 //	{"roomID":"marco_room","roomLastScan":"2017-03-04 20:51:03","roomIsFree":false}
 
+
+//--------------------------------------
 			}
 		});
 		
 		}
 
+
+
+ 
 
 			
 		

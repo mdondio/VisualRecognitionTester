@@ -29,6 +29,8 @@ import com.google.gson.JsonParser;
 @WebServlet("/AAHV8svrX81twiW48d2N6bpmQuv6BnnKKQU")
 public class TelegramBot extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	public String lastUpdateId = "";	// skip duplicates
 
 	// Hardcoded: Marco BOT
 	private static final String apikey = "bot229904529:AAHV8svrX81twiW48d2N6bpmQuv6BnnKKQU";
@@ -74,7 +76,18 @@ public class TelegramBot extends HttpServlet {
 
 		System.out.println(update.toString());
 
-		// TODO send answer!
+		String updateId = update.get("update_id").getAsString();
+
+		// Skip duplicate requests
+		// XXX capire cosa fare se continua ad arrivare.. get update?
+		if(lastUpdateId.matches(updateId)){
+			System.out.println("[TelegramBot] Duplicate request... skip!");
+			return;
+		}
+		
+		// Update
+		lastUpdateId = updateId;
+		
 
 		String out = handleUpdate(update);
 		System.out.println("Response: " + out);
