@@ -3,83 +3,106 @@
 
 <!-- Head della pagina, generata dinamicamente (tranne alcune righe per cui è necessario non passare da js) -->
 <head>
-	<meta charset='utf-8'>
-	<meta name='description' class='put-head-desc-here' content=''><!-- inserisce la descrizione -->
-	<meta name='keywords' class='put-head-keys-here' content=''><!-- inserisce le keywoed della pagina -->
+<meta charset='utf-8'>
+<meta name='description' class='put-head-desc-here' content=''>
+<!-- inserisce la descrizione -->
+<meta name='keywords' class='put-head-keys-here' content=''>
+<!-- inserisce le keywoed della pagina -->
 </head>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="js/genericFunctions.js"></script>
 <script src="js/functions.js"></script>
-<script>createHead();</script>
+<script>
+	createHead();
+</script>
 
 
 <body>
-<header></header><script>createHeader();</script>
+	<header></header>
+	<script>
+		createHeader();
+	</script>
 
 
-  <div class="content">
-<div class="row clearfix">
-      <div class="column third">
-      
-        <div class="post-preview">
-        
-        <div class="column fourth">
-          <div class="card">
-            <p class="ready"></p>
-          </div>
-        </div>
-                <div class="column three-fourths">
-                 <div class="card">
-                <p class="home">ready classifiers</p>
-                </div>
-                </div>
-        
-        </div>
-        
-      </div>
-      <div class="column third">
-              <div class="post-preview">
-          <div class="card">
-            <p class="free"></p>
-            <p>free classifiers</p>
-          </div>
-        </div>
-      </div>
-      <div class="column third">
-              <div class="post-preview">
-          <div class="card">
-            <p class="training"></p>
-            <p>classifiers in training</p>
-          </div>
-        </div>
-      </div>
-</div>
-    <div class="row clearfix">
+	<div class="content">
 
-      <div class="column fourth">
+		<div class="row clearfix">
 
-      <div class="post-preview"><h4>Datasets</h4>
-              <center><div id="dvList"></div></center>
-        </div>
-        
-      </div>
+			<div class="column third">
+				<div class="post-preview">
+					<div class="column fourth">
+						<div class="card">
+							<p class="ready"></p>
+						</div>
+					</div>
+					<div class="column three-fourths">
+						<div>
+							<p class="home">ready classifiers</p>
+						</div>
+					</div>
+				</div>
+			</div>
 
-      <div class="column three-fourths">
-        <div class="post-preview"><h4>Classifiers</h4>
-			<center><div id="dvTable" style="overflow-x:scroll;" ></div></center>
-        </div>
-</div>
-    </div>
+			<div class="column third">
+				<div class="post-preview">
+					<div class="column fourth">
+						<div class="card">
+							<p class="free"></p>
+						</div>
+					</div>
+					<div class="column three-fourths">
+						<div>
+							<p class="home">free classifiers</p>
+						</div>
+					</div>
+				</div>
+			</div>
 
+			<div class="column third">
+				<div class="post-preview">
+					<div class="column fourth">
+						<div class="card">
+							<p class="training"></p>
+						</div>
+					</div>
+					<div class="column three-fourths">
+						<div>
+							<p class="home">classifiers in training</p>
+						</div>
+					</div>
+				</div>
+			</div>
 
-  </div>
+		</div>
+<br>
+		<div class="row clearfix">
 
+			<div class="column fourth">
 
+				<div class="post-preview">
+					<center>
+						<div id="dvList"></div>
+					</center>
+				</div>
+			</div>
+
+			<div class="column three-fourths">
+				<div class="post-preview">
+					<center>
+						<div id="dvTable" style="overflow-x: scroll;"></div>
+					</center>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
 </body>
 
 <script>
-generateHome();
+	generateHome();
 </script>
 
 </html>

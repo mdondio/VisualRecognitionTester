@@ -387,19 +387,19 @@ img{
   .card .ready { 
   	text-align: center; 
   	font-size: 50px; 
-  	font-color: #ffffff;
+  	color: #ffffff;
   	background-color: #343b43;
   	}
   .card .training { 
   	text-align: center; 
   	font-size: 50px; 
-  	font-color: #ffffff;
+color: #ffffff;
   	background-color: #343b43;
   	}
   .card .free { 
   	text-align: center; 
   	font-size: 50px; 
-  	font-color: #ffffff;
+color: #ffffff;
   	background-color: #343b43;
   	}
   .card .result { 
@@ -408,9 +408,9 @@ img{
   	margin-bottom: -20px; 
   	}
 
-.card .home {
+ .home {
 	font-size: 24px; 
-  	font-color: #808080;
+  	color: #808080;
 	font-family: IBM;
 }
 	.card .plot { display: none; }
@@ -529,7 +529,7 @@ img{
   	
   table { 
   	border-collapse: collapse; 
-  	width: 99%; 
+  	width: 90%; 
   	}
   	
 td { 
