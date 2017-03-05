@@ -1,0 +1,12 @@
+[
+		{"ID": "yyxxxxxxx", "label": "Watch", "trainingsize": 100, "status": "ready"},
+		{"ID": "yyxxxxxxx", "label": "Watch", "trainingsize": 1000, "status": "ready"},
+		{"ID": "yyxxxxxxx", "label": "Watch", "trainingsize": 300, "status": "ready"},
+		{"ID": "xxxxxxxxx", "label": "Helicopter", "trainingsize": 200, "status": "ready"},
+		{"ID": "xxxxxxxxx", "label": "Helicopter", "trainingsize": 200, "status": "training"},
+		{"ID": "xxxxxxxxx", "label": "Mushroom", "trainingsize": 200, "status": "ready"},
+		{"ID": "xxxxxxxxx", "label": "Tree", "trainingsize": 400, "status": "training"},
+		{"ID": "xxxxxxxxx", "label": "Plane", "trainingsize": 500, "status": "ready"},
+		{"ID": "xxxxxxxxx", "label": "Mushroom", "trainingsize": 200, "status": "training"},
+		{"ID": "xxxxxxxxx", "label": "Mushroom", "trainingsize": 3000, "status": "ready"}
+]

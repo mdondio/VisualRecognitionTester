@@ -1,0 +1,6 @@
+[
+		{"ID": "yyxxxxxxx", "label": "Watch", "trainingSize": 1000},
+		{"ID": "yyxxxxxxx", "label": "Helicopter", "trainingSize": 2000},
+		{"ID": "yyxxxxxxx", "label": "Mushroom", "trainingSize": 300},
+		{"ID": "yyxxxxxxx", "label": "Plane", "trainingSize": 4000}
+]
