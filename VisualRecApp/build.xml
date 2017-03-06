@@ -11,19 +11,16 @@
 	<property name="warname" value="VisualRecApp.war"/>
     <path id="classpathDir">
         <pathelement location="bin"/>
-    	<pathelement location="WebContent/WEB-INF/lib/cloudant-client-2.7.0.jar"/> 
-    	<pathelement location="WebContent/WEB-INF/lib/cloudant-http-2.7.0.jar"/> 
-    	<pathelement location="WebContent/WEB-INF/lib/commons-codec-1.6.jar"/> 
-    	<pathelement location="WebContent/WEB-INF/lib/commons-io-2.4.jar"/> 
+    	<pathelement location="WebContent/WEB-INF/lib/cloudant-client-2.7.0.jar"/>
+    	<pathelement location="WebContent/WEB-INF/lib/cloudant-http-2.7.0.jar"/>
+    	<pathelement location="WebContent/WEB-INF/lib/commons-codec-1.6.jar"/>
+    	<pathelement location="WebContent/WEB-INF/lib/commons-io-2.4.jar"/>
     	<pathelement location="WebContent/WEB-INF/lib/gson-2.7.jar"/>
-       	<pathelement location="WebContent/WEB-INF/lib/json-simple-1.1.1.jar"/>
-       	<pathelement location="WebContent/WEB-INF/lib/java-sdk-3.5.3-jar-with-dependencies.jar"/>
-           	<pathelement location="WebContent/WEB-INF/lib/javax.servlet_3.0.0.jar"/>    	
-       	<pathelement location="WebContent/WEB-INF/lib/com.ibm.ws.javaee.jaxrs.1.1_1.0.1.jar"/>
-       	<pathelement location="WebContent/WEB-INF/lib/org.eclipse.paho.client.mqttv3-1.1.0.jar"/>
-    	
-    	
-    	
+    	  <pathelement location="WebContent/WEB-INF/lib/json-simple-1.1.1.jar"/>
+    	  <pathelement location="WebContent/WEB-INF/lib/java-sdk-3.5.3-jar-with-dependencies.jar"/>
+    	      <pathelement location="WebContent/WEB-INF/lib/javax.servlet_3.0.0.jar"/>
+    	  <pathelement location="WebContent/WEB-INF/lib/com.ibm.ws.javaee.jaxrs.1.1_1.0.1.jar"/>
+    	  <pathelement location="WebContent/WEB-INF/lib/org.eclipse.paho.client.mqttv3-1.1.0.jar"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>
