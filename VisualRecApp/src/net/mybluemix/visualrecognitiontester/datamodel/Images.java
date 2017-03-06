@@ -7,8 +7,17 @@ import java.util.List;
  * @author Marco Dondio
  *
  */
-@SuppressWarnings("unused")
+// XXX attenzione: se libreria cloundant non li gestisce correttamente mettili a String
 public class Images {
-	private List<String> negative;
-	private List<String> positive;
+	private List<Long> negative;
+	private List<Long> positive;
+	
+
+	public List<Long> getPositives(){
+		return positive;
+	}
+
+	public List<Long> getNegatives(){
+		return negative;
+	}
 }

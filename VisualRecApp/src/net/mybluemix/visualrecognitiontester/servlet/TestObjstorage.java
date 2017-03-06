@@ -1,6 +1,10 @@
 package net.mybluemix.visualrecognitiontester.servlet;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,56 +16,87 @@ import net.mybluemix.visualrecognitiontester.blmxservices.ObjectStorageClientMgr
 
 /**
  * Endpoint to test object storage
+ * 
  * @author Marco Dondio
  */
 
 @WebServlet("/TestObjstorage")
 public class TestObjstorage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public TestObjstorage() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		// Retrieve our objectstorage
-		ObjectStorage oo = ObjectStorageClientMgr.getObjectStorage();
-		
-//		oo.createContainer("/nuovo2");
-
-//		10118487447671458277
-		
-		// https://console.ng.bluemix.net/docs/services/ObjectStorage/os_authenticate.html
-		// TODO capire errore 406
-		System.out.println("-------------------");
-//		oo.doGet("/", "");
-//		System.out.println("-------------------");
-//		oo.doGet("/prova", "");
-//		System.out.println("-------------------");
-//		oo.doGet("/prova", "/11865847224606702708.jpg");
-//		
-		
-//		String json = oo.doGet("/", "");
-	//	String json = oo.doGet(request.getParameter("containerName"), request.getParameter("objectName"));
-		String json = oo.doGet(request.getParameter("containerName"), null);
-//		response.getWriter().append("Served at: ").append(request.getContextPath());
-//		response.getWriter().append(json).append(request.getContextPath());
-		response.getWriter().append(json);
+	public TestObjstorage() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		// Retrieve our objectstorage
+		ObjectStorage oo = ObjectStorageClientMgr.getObjectStorage();
+
+		// oo.createContainer("/nuovo2");
+
+		// 10118487447671458277
+
+		// https://console.ng.bluemix.net/docs/services/ObjectStorage/os_authenticate.html
+		// TODO capire errore 406
+		System.out.println("-------------------");
+		// oo.doGet("/", "");
+		// System.out.println("-------------------");
+		// oo.doGet("/prova", "");
+		// System.out.println("-------------------");
+		// oo.doGet("/prova", "/11865847224606702708.jpg");
+		//
+
+		// String json = oo.doGet("/", "");
+		// String json = oo.doGet(request.getParameter("containerName"),
+		// request.getParameter("objectName"));
+		// response.getWriter().append("Served at:
+		// ").append(request.getContextPath());
+		// response.getWriter().append(json).append(request.getContextPath());
+		response.getWriter().append(getJson(oo.doGet(request.getParameter("containerName"), null)));
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doGet(request, response);
+	}
+
+	private String getJson(HttpURLConnection con) throws IOException {
+
+		// XXX
+		// Se ho un 404, la riga sotto da eccezione filenotfound
+		int responseCode = con.getResponseCode();
+		System.out.println("Response Code : " + responseCode);
+		//
+
+		System.out.println("Content-Length: " + con.getHeaderField("Content-Length"));
+		System.out.println("Content-Type: " + con.getHeaderField("Content-Type"));
+
+		// Se ho un 404, la riga sotto da eccezione filenotfound
+
+		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+		String inputLine;
+		StringBuffer response = new StringBuffer();
+
+		while ((inputLine = in.readLine()) != null) {
+			response.append(inputLine);
+		}
+		in.close();
+
+		return response.toString();
 	}
 
 }

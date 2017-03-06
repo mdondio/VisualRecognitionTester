@@ -7,6 +7,7 @@ import org.json.simple.JSONObject;
  * @author Marco Dondio
  *
  */
+
 @SuppressWarnings("unused")
 public class Dataset {
 	//{
@@ -34,4 +35,9 @@ public class Dataset {
 	private String extra;
 
 	private Images images;
+	
+	
+	public Images getImages(){
+		return images;
+	}
 }
