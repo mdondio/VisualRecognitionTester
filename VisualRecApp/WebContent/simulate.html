@@ -21,13 +21,55 @@ $(document).ready(function(){
     if(i < max){
       var $div = $('div[id^="moltiplicandum"]:last'); // seleziono l'ultimo moltiplicandum
       var num = parseInt( $div.prop("id").match(/\d+/g), 10 ) +1; // estraggo il numero identificativo e lo incremento
-      $("#moltiplicandum1").clone().prop('id', 'moltiplicandum'+num ).appendTo("#sim_list"); // clono, rinomino e appendo
+      $("#moltiplicandum1").clone().prop('id', 'moltiplicandum'+num )
+      .find('input:text').val("")
+      .attr('name','test'+num).end()
+      .appendTo("#sim_list"); // clono, rinomino e appendo
     } else {
       alert("Max number of entries reached.");
     }
     i++;
   });
-});
+
+
+
+
+	/*$('#play').click(
+					function() {
+
+						selectArray = Array.prototype.map.call(
+								$(".moltiplicandum input"), (function(el) {
+									return el.value;
+								}));
+						var sizeinput = selectArray.length;
+console.log("********************");
+console.log(sizeinput);
+						for (var i = 0; i < sizeinput; i++) {
+							var num = i + 1;
+							var pass = $('input[name=test' + num + ']').val();
+							console.log("********PASSWORD************");
+console.log(pass);
+							for (var j = 0; j < sizeinput; j++) {
+								if (j != i) {
+									var repass = $(
+											'input[name=test' + num + ']')
+											.val();
+
+									if (pass != repass) {
+										$('#password').addClass('has-error');
+										$('#repassword').addClass('has-error');
+									} else {
+										$('#password').removeClass().addClass(
+												'has-success');
+										$('#repassword').removeClass()
+												.addClass('has-success');
+									}
+								}
+							}
+						}
+					});*/
+				
+					});
 </script>
 
 
@@ -73,21 +115,20 @@ $(document).ready(function(){
         <div id="sim_list">
 
           <div class="row clearfix">
+           <div class="column third"><h4>Test name</h4></div>
             <div class="column third"><h4>Test set</h4></div>
-            <div class="column third"><h4>Cathegory</h4></div>
             <div class="column third"><h4>Classifier</h4></div>
           </div>
-
+          
           <div class="row clearfix moltiplicandum" id="moltiplicandum1">
 
+			<div class="column third">
+              <input class="test_set" name="test1" type="text" placeholder="insert test name" style="width:100%">
+              </input>
+            </div>
+            
             <div class="column third">
               <select class="test_set" type="text" style="width:100%">
-                <option selected disabled value="">Select...</option>
-              </select>
-            </div>
-
-            <div class="column third">
-              <select class="avail_cat" type="text" style="width:100%">
                 <option selected disabled value="">Select...</option>
               </select>
             </div>
@@ -122,7 +163,7 @@ $(document).ready(function(){
         <center id="sim-buttons">
           <div id="addmore" class="more" title="Add test"><img src="ico/add-new_32.png" style="filter: invert(100%);" width="20px;"></div>
           <div class="more" onclick="refreshPage()" title="Cancel"><img src="ico/revert_32.png" style="filter: invert(100%);" width="20px;"></div>
-          <div class="more" onclick="retrieveSimConfig()" title="Start simulation"><img src="ico/play_32.png" style="filter: invert(100%);" width="20px;"></div>
+          <div class="more" id="play" onclick="retrieveSimConfig()" title="Start simulation"><img src="ico/play_32.png" style="filter: invert(100%);" width="20px;"></div>
         </center>
 
         <center><div id="start"></div></center>
@@ -164,6 +205,9 @@ function handleDragOver(evt) {
 var dropZone = document.getElementById('drop_zone');
 dropZone.addEventListener('dragover', handleDragOver, false);
 dropZone.addEventListener('drop', handleFileSelect, false);
+
+
+
 
 </script>
 

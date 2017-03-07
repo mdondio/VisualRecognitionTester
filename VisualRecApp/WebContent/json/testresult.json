@@ -1,0 +1,7 @@
+[
+		{"ID":"test1","accuracy": 0.87,"fpr":[0, 0.2, 0.4, 1],"tpr":[0, 0.4, 0.7, 1],"AUC":0.67,"trainingSize": 50, "threshold":0.2,"falsepositive":["img/img_nature_wide.jpg","img/img_fjords_wide.jpg"],"falsenegative":["img/img_mountains_wide.jpg","img/img_lights_wide.jpg"]},
+		{"ID":"test2","accuracy": 0.57,"fpr":[0, 0.3, 0.5, 1],"tpr":[0, 0.4, 0.7, 1],"AUC":0.57, "trainingSize": 150,"threshold":0.4,"falsepositive":["img/408757582443373.jpg","img/6471154175007223.jpg","img/img_nature_wide.jpg","img/img_fjords_wide.jpg"],"falsenegative":["img/7169059395095464.jpg","img/8119543326477369.jpg","img/8433457349861016.jpg","img/img_nature_wide.jpg","img/img_fjords_wide.jpg"]},
+		{"ID":"test3","accuracy": 0.67,"fpr":[0, 0.1, 0.8, 1],"tpr":[0, 0.4, 0.7, 1],"AUC":0.77, "trainingSize": 250,"threshold":0.5,"falsepositive":["img/img_nature_wide.jpg","img/img_fjords_wide.jpg"],"falsenegative":["img/img_mountains_wide.jpg","img/img_lights_wide.jpg"]},
+		{"ID":"test4","accuracy": 0.89,"fpr":[0, 0.4, 0.6, 1],"tpr":[0, 0.4, 0.7, 1],"AUC":0.97, "trainingSize": 350, "threshold":0.54,"falsepositive":["img/img_nature_wide.jpg","img/img_fjords_wide.jpg"],"falsenegative":["img/img_mountains_wide.jpg","img/img_lights_wide.jpg"]},
+		{"ID":"test5","accuracy": 0.99,"fpr":[0, 0.6, 0.8, 1],"tpr":[0, 0.4, 0.7, 1],"AUC":0.999, "trainingSize": 550, "threshold":0.99,"falsepositive":["img/img_nature_wide.jpg","img/img_fjords_wide.jpg"],"falsenegative":["img/img_mountains_wide.jpg","img/img_lights_wide.jpg","img/408757582443373.jpg","img/6471154175007223.jpg"]}
+]

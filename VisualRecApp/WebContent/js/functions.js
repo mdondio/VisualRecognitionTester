@@ -30,7 +30,8 @@ function Draw(nomefile){
 
 	$.ajax({
 		dataType: "json",
-		url: nomefile,
+		url: "json/testresult.json",
+		//url: 'GetTestResult',
 		success: function(result){
 
 			var colorpalette = [
@@ -302,39 +303,27 @@ function showSlides(n) {
 
 //TODO commentare
 // READ SIMULATION CONFIGURATION simulation
-function retrieveSimConfig(){
 
-	selectArray = Array.prototype.map.call($(".moltiplicandum select"),(function(el){
+/**
+ * @returns Raccoglie le info dai menu a tendina della pagina simulate.html e li trasferisce nella pagina show.html nella variabile "arr"
+ */
+function retrieveSimConfig(){
+	
+	if(checkTestName())
+		{
+	// Sfrutta classe jquery per raccogliere tutte le info dai menu a tendina in una volta sola
+	selectArray = Array.prototype.map.call($(".moltiplicandum input"),(function(el){
 		return el.value;
 	}));
+	
+	// Sfrutta classe jquery per raccogliere tutte le info dai menu a tendina in una volta sola
+	selectArray = selectArray.concat( Array.prototype.map.call($(".moltiplicandum select"),(function(el){
+		return el.value;
+	})));
 
 	JSON.stringify(selectArray);
-	console.log("***  restrieveSimConfig  ********");
-	console.log(selectArray);
 	window.location = "show.html?arr="+selectArray;
-
-	//document.getElementById("sim-buttons").style.display = "none"; // after clicking, hide buttons
-	//document.getElementById("start").style.display = "block"; // after clicking, display watson logo
-
-	/*
-		//console.log(selectArray);
-		document.getElementById("sim-buttons").style.display = "none"; // after clicking, hide buttons
-		document.getElementById("start").style.display = "block"; // after clicking, display watson logo
-		$('#start').html("<img src='ico/loading-indicator.gif' id='loading'>");
-	 */
-	// Send a http request with AJAX to retrieve contents from backend
-	/*$.ajax(
-		{
-		url: '',
-		type: 'POST',
-		data:{ array: selectArray },
-		dataType: 'json',
-		success: function(result)
-		{
-		// faccio cose, vedo gente, schiaccio cinque
-	}
-});*/
-
+		}
 }
 
 //TODO commentare
@@ -354,8 +343,8 @@ function getDataShow(dataArray){
 				dataType: 'json',
 				success: function(result)
 				{
-					console.log("SUCCESSOOOOOOOOOOO...MINGHIE!")
-					Draw("json/frontend.json");
+					document.getElementById("start").style.display = "none";
+					Draw("json/test.json");
 					//	Draw(result);
 				}
 			});
@@ -364,41 +353,60 @@ function getDataShow(dataArray){
 
 //TODO commentare
 // POPULATE SIMULATION DROP DOWN MENUS
-function populateSelectSim(filename){
+function populateSelectSim(){
 
-	$.ajax({														// load json file
+	// chiamata per popolare il menu a tendina dei classificatori ready nella pagina simulate.html
+	$.ajax({												
+		contentType: "application/json",
 		dataType: "json",
-		url: filename,
+		url: "json/classifier.json",
+		//url: 'GetClassifier',
 		async: false,
 		success: function(result)
 		{
-
-			// fill test set and cathegory drop down menu (only if status: ready)
-			for(var i in result.testSets){
-				var obj = result.testSets[i];
+			// fill classifier drop down menu (only if status: ready)
+			for(var j in result){
+				var obj = result[j];
 				if(obj.status == "ready"){
+					$('.avail_class').append($('<option>', {
+						value: obj.ID,
+						text: obj.label+" "+obj.trainingsize
+					}));
+				}
+			}
+		}
+	});
+	
+	// chiamata per popolare il menu a tendina dei testset nella pagina simulate.html
+	$.ajax({													
+		dataType: "json",
+		url: "json/testset.json",
+		//url: 'GetDataset',
+		//data: 'sub_type=test_set',
+		async: false,
+		success: function(result)
+		{
+			// fill test set and cathegory drop down menu (only if status: ready)
+			for(var i in result){
+				var obj = result[i];
+	
 					$('.test_set').append($('<option>', {
 						value: obj.ID,
 						text: obj.label+" "+obj.size
 					}));
-					$('.avail_cat').append($('<option>', {
-						value: obj.label,
-						text: obj.label
-					}));
-				}
 			}
 
-			// fill classifier drop down menu (only if status: ready)
-			for(var j in result.classifiers){
-				var obj = result.classifiers[j];
-				if(obj.status == "ready"){
-					$('.avail_class').append($('<option>', {
-						value: obj.ID,
-						text: obj.label+" "+obj.trainingSize
-					}));
-				}
-			}
-
+		}
+	});
+	
+	// chiamata per popolare il menu a tendina dei test eseguiti nella pagina show.html
+	$.ajax({													
+		dataType: "json",
+		url: "json/testresult.json",
+		//url: 'GetTestResult',
+		async: false,
+		success: function(result)
+		{
 			//update show page test set
 			for(var j in result.tests){
 				var obj = result.tests[j];
@@ -407,7 +415,6 @@ function populateSelectSim(filename){
 					text: obj.ID
 				}));
 			}
-
 		}
 	});
 }
@@ -603,4 +610,37 @@ function generateHome(){
 		}
 	});
 
+}
+
+
+
+function checkTestName() {
+
+	selectArray = Array.prototype.map.call($(".moltiplicandum input"),
+			(function(el) {
+				return el.value;
+			}));
+	
+	var sizeinput = selectArray.length;
+	console.log("********************");
+	console.log(sizeinput);
+	
+	for (var i = 0; i < sizeinput; i++) {
+		check = 1;
+		var num = i + 1;
+		var pass = $('input[name=test' + num + ']').val();
+		console.log("********PASSWORD************");
+		console.log(pass);
+		for (var j = 0; j < sizeinput; j++) {
+			if (j != i) {
+				var repass = $('input[name=test' + num + ']').val();
+				if (pass == repass) {
+					$('#password').addClass('has-error');
+					$('#repassword').addClass('has-error');
+					check = 0;
+				} 
+			}
+		}
+	}
+	return check;
 }
