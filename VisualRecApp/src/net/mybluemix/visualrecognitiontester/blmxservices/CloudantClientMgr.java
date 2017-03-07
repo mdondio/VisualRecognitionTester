@@ -23,8 +23,6 @@ public class CloudantClientMgr {
 	private static CloudantClient cloudant = null;
 	private static Database db = null;
 
-	private static String databaseName = "visualrec_db";
-
 	private static String user = null;
 	private static String password = null;
 
@@ -37,7 +35,7 @@ public class CloudantClientMgr {
 
 		if (db == null) {
 			try {
-				db = cloudant.database(databaseName, true);
+				db = cloudant.database(Configs.DATABASENAME, true);
 			} catch (Exception e) {
 				throw new RuntimeException("DB Not found", e);
 			}

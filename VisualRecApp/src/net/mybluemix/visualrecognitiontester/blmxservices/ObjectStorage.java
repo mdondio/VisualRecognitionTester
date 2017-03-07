@@ -243,7 +243,6 @@ public class ObjectStorage {
 	}
 
 	public HttpURLConnection doGet(String containerName, String objectName) throws IOException {
-		System.out.println("[ObjectStorage doGet()] called");
 //  per fare richiesta usa		
 //		Use the value of the X-Subject-Token field from the response header as the X-Auth-Token field when you make requests to the Object Storage service.
 
@@ -277,8 +276,7 @@ public class ObjectStorage {
 		// TODO change me: dynamic
 	//	String storage_url = "https://dal.objectstorage.open.softlayer.com/v1/AUTH_" + projectId  + containerName + objectName;
 
-		System.out.println("[ObjectStorage doGet()] Connecting to: ");
-		System.out.println(storageUrl + containerName + objectName);
+		System.out.println("[ObjectStorage doGet()] Retrieving: "+ storageUrl + containerName + objectName);
 		
 
 		URL u = new URL(storageUrl + containerName + objectName);

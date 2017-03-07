@@ -1,0 +1,56 @@
+
+// Account
+{
+  "_id": "account_Marco_Dondio",
+  "type": "account",
+  "owner_name": "Marco",
+  "owner_surname": "Dondio",
+  "instances": [
+"64d19574fb8f93071a94a461e479ff6c6885d78b",
+"72e26974a8ec8957b6d5de9a89f82279bcdc8d58"
+  ]
+}
+
+// Istanza visual rec
+{
+  "_id": "vr_instance_64d19574fb8f93071a94a461e479ff6c6885d78b",
+  "type": "visual recognition instance",
+  "account": "account_Marco_Dondio",
+  "region" : "US South",
+  "api_key": "64d19574fb8f93071a94a461e479ff6c6885d78b",
+  "classifiers": [
+    "watch_classifier_1559642317"
+  ]
+}
+
+// Classifier
+{
+  "_id": "watch_classifier_1559642317",
+  "type": "classifier",
+  "instance": "64d19574fb8f93071a94a461e479ff6c6885d78b",
+  "label": "watch",
+  "training_size": 1000,
+  "status": "ready",
+  "training_set": "watch_training01"
+}
+
+// Test Set
+{
+  "_id": "watch_test01",
+  "type": "dataset",
+  "sub_type": "test_set",
+  "label": "watch",
+  "images": {
+    "negative": [
+      "10069764009836769403",
+      "100827915412799498",
+      "105188093000619161"
+    ],
+    "positive": [
+      "10237395627313238237",
+      "10483037364213956249",
+      "1018748257410294665"
+    ]
+  }
+}
+

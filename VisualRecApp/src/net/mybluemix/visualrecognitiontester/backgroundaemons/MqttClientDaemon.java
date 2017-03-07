@@ -13,6 +13,7 @@ import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 /**
  * This daemon will run in background, reading periodically data from a MQTT
@@ -30,8 +31,9 @@ public class MqttClientDaemon implements Runnable, MqttCallback {
 	private MqttConnectOptions conOpt;
 	private MqttClient mqttclient;
 	private final String clientID = "donde_server";
-//	private final String mqttServerURL = "tcp://broker.hivemq.com:1883";
-//	private final String topic = "donde_arduino/digital/D7";
+
+	// private final String mqttServerURL = "tcp://broker.hivemq.com:1883";
+	// private final String topic = "donde_arduino/digital/D7";
 	private final String mqttServerURL = "tcp://m2m.eclipse.org:1883";
 	private final String topic = "donde_arduino/digital/D7";
 
@@ -51,7 +53,7 @@ public class MqttClientDaemon implements Runnable, MqttCallback {
 
 	// initialize code is executed by run method, this means
 	// it will be executed by the thread running this class
-	public void initialize() throws MqttException {
+	private void initialize() throws MqttException {
 		// initialize room info
 		ctx.setAttribute("roomLastScan", "no scan yet");
 		ctx.setAttribute("roomIsFree", false);
@@ -62,6 +64,11 @@ public class MqttClientDaemon implements Runnable, MqttCallback {
 		df.setTimeZone(TimeZone.getTimeZone("Europe/Madrid"));
 
 		// Initialize mqtt client
+		initMqtt();
+
+	}
+
+	private void initMqtt() throws MqttException {
 
 		// Construct the connection options object that contains connection
 		// parameters
@@ -73,10 +80,10 @@ public class MqttClientDaemon implements Runnable, MqttCallback {
 		conOpt.setAutomaticReconnect(true);
 
 		// Construct an MQTT blocking mode client
-		// MemoryPersistence persistence = new MemoryPersistence();
+		MemoryPersistence persistence = new MemoryPersistence();
 		// MqttClient client = new MqttClient(mqttServerURL, clientID,
 		// persistence);
-		mqttclient = new MqttClient(mqttServerURL, clientID);
+		mqttclient = new MqttClient(mqttServerURL, clientID, persistence);
 
 		// Set this wrapper as the callback handler
 		mqttclient.setCallback(this);
@@ -95,15 +102,19 @@ public class MqttClientDaemon implements Runnable, MqttCallback {
 		try {
 			initialize();
 		} catch (MqttException e) {
-			
-//			[err] Connection lost (32109) - java.io.EOFException
-//			[err] 	at org.eclipse.paho.client.mqttv3.internal.CommsReceiver.run(CommsReceiver.java:146)
-//			[err] 	at java.lang.Thread.run(Thread.java:745)
-//			[err] Caused by: java.io.EOFException
-//			[err] 	at java.io.DataInputStream.readByte(DataInputStream.java:267)
-//			[err] 	at org.eclipse.paho.client.mqttv3.internal.wire.MqttInputStream.readMqttWireMessage(MqttInputStream.java:65)
-//			[err] 	at org.eclipse.paho.client.mqttv3.internal.CommsReceiver.run(CommsReceiver.java:107)
-//			[err] 	... 1 more
+
+			// [err] Connection lost (32109) - java.io.EOFException
+			// [err] at
+			// org.eclipse.paho.client.mqttv3.internal.CommsReceiver.run(CommsReceiver.java:146)
+			// [err] at java.lang.Thread.run(Thread.java:745)
+			// [err] Caused by: java.io.EOFException
+			// [err] at
+			// java.io.DataInputStream.readByte(DataInputStream.java:267)
+			// [err] at
+			// org.eclipse.paho.client.mqttv3.internal.wire.MqttInputStream.readMqttWireMessage(MqttInputStream.java:65)
+			// [err] at
+			// org.eclipse.paho.client.mqttv3.internal.CommsReceiver.run(CommsReceiver.java:107)
+			// [err] ... 1 more
 			e.printStackTrace();
 		}
 
@@ -127,24 +138,64 @@ public class MqttClientDaemon implements Runnable, MqttCallback {
 		// TODO
 		// vedere
 		// http://stackoverflow.com/questions/33735090/java-eclipse-paho-implementation-auto-reconnect
+		System.out.println("[MqttClientDaemon] Connection to mqtt broker lost.");
 
-		while (!mqttclient.isConnected()) {
-			System.out.println("[MqttClientDaemon] Connection to mqtt broker lost:");
-			System.out.println("[MqttClientDaemon] " + cause);
-
-			System.out.println("[MqttClientDaemon] Trying to reconnect...");
+		System.out.println(
+					"[MqttClientDaemon] Trying to reconnect in 20 seconds...");
 
 			try {
-				mqttclient.reconnect();
-			} catch (MqttException e1) {
-				System.out.println("[MqttClientDaemon] Failed to reconnect to mqtt broker!");
-				e1.printStackTrace();
-			}
-			try {
-				Thread.sleep(1000);
+				Thread.sleep(20000);
 			} catch (InterruptedException e) {
 
 				e.printStackTrace();
+			}
+
+			try {
+				initMqtt();
+			} catch (MqttException e1) {
+				System.out.println("[MqttClientDaemon] Failed to reconnect to mqtt broker!");
+				System.out.println(e1.getMessage());
+//				e1.printStackTrace();
+			}
+
+		System.out.println("[MqttClientDaemon] Succesfully reconnected to mqtt broker!");
+
+	}
+	
+	/*
+	@Override
+	public void connectionLost(Throwable cause) {
+		// Called when the connection to the server has been lost.
+		// An application may choose to implement reconnection
+		// logic at this point. This sample simply exits.
+		// log("Connection to " + brokerUrl + " lost!" + cause);
+
+		// logger.warn("Connection to mqtt broker lost");
+
+		// TODO
+		// vedere
+		// http://stackoverflow.com/questions/33735090/java-eclipse-paho-implementation-auto-reconnect
+		System.out.println("[MqttClientDaemon] Connection to mqtt broker lost:");
+		System.out.println("[MqttClientDaemon] " + cause.get);
+
+		while (!mqttclient.isConnected()) {
+
+			System.out.println(
+					"[MqttClientDaemon] Trying to reconnect in 20 seconds...");
+
+			try {
+				Thread.sleep(20000);
+			} catch (InterruptedException e) {
+
+				e.printStackTrace();
+			}
+
+			try {
+				initMqtt();
+			} catch (MqttException e1) {
+				System.out.println("[MqttClientDaemon] Failed to reconnect to mqtt broker!");
+				System.out.println(e1);
+//				e1.printStackTrace();
 			}
 
 		}
@@ -152,6 +203,7 @@ public class MqttClientDaemon implements Runnable, MqttCallback {
 		System.out.println("[MqttClientDaemon] Succesfully reconnected to mqtt broker!");
 
 	}
+*/
 
 	@Override
 	public void deliveryComplete(IMqttDeliveryToken arg0) {
@@ -179,11 +231,12 @@ public class MqttClientDaemon implements Runnable, MqttCallback {
 		// Called when a message arrives from the server that matches any
 		// subscription made by the client
 
-//		System.out.println("[MqttClientDaemon] messageArrived: ");
+		// System.out.println("[MqttClientDaemon] messageArrived: ");
 
 		Date d = new Date();
-//		System.out.println("Time:\t" + df.format(d) + "  Topic:\t" + topic + "  Message:\t"
-//				+ new String(message.getPayload()) + "  QoS:\t" + message.getQos());
+		// System.out.println("Time:\t" + df.format(d) + " Topic:\t" + topic + "
+		// Message:\t"
+		// + new String(message.getPayload()) + " QoS:\t" + message.getQos());
 
 		handleMessage(d, message);
 
@@ -193,13 +246,14 @@ public class MqttClientDaemon implements Runnable, MqttCallback {
 	// it will update context;
 	private void handleMessage(Date d, MqttMessage message) {
 
-	//	System.out.println("[MqttClientDaemon] handle Message: ");
+		// System.out.println("[MqttClientDaemon] handle Message: ");
 
 		// 1 means something, 0 means nothing (or standing still)
 		String msg_payload = new String(message.getPayload());
 		Boolean presenceFound = msg_payload.contains("1");
 
-//		System.out.println("[MqttClientDaemon] presenceFound: " + presenceFound);
+		// System.out.println("[MqttClientDaemon] presenceFound: " +
+		// presenceFound);
 
 		// Set last scan date
 		ctx.setAttribute("roomLastScan", df.format(d));
@@ -208,7 +262,8 @@ public class MqttClientDaemon implements Runnable, MqttCallback {
 		if (!presenceFound) { // sensor does not find movement
 			roomEmptyCounter++;
 
-			System.out.println("[MqttClientDaemon] no presence found in the room, roomEmptyCounter =  " + roomEmptyCounter);
+			System.out.println(
+					"[MqttClientDaemon] no presence found in the room, roomEmptyCounter =  " + roomEmptyCounter);
 
 			if (roomEmptyCounter > EMPTY_THRESHOLD) // if no movement for at
 													// least 15 times, consider
@@ -220,7 +275,8 @@ public class MqttClientDaemon implements Runnable, MqttCallback {
 
 		} else { // movement found, reset and set room to occupied status
 			roomEmptyCounter = 0;
-			System.out.println("[MqttClientDaemon] Presence found in the room, roomEmptyCounter =  " + roomEmptyCounter);
+			System.out
+					.println("[MqttClientDaemon] Presence found in the room, roomEmptyCounter =  " + roomEmptyCounter);
 			ctx.setAttribute("roomIsFree", false);
 			System.out.println("[MqttClientDaemon] roomIsFree set to false");
 

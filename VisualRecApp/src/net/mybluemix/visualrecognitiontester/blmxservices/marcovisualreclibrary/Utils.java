@@ -1,4 +1,4 @@
-package net.mybluemix.visualrecognitiontester.marcovisualreclibrary;
+package net.mybluemix.visualrecognitiontester.blmxservices.marcovisualreclibrary;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -18,8 +18,6 @@ import net.mybluemix.visualrecognitiontester.blmxservices.ObjectStorage;
  */
 public class Utils {
 
-	public static final int STOP_TRAINING = 950; // num of pos or neg elems
-	public static final int STOP_TEST = 50; // num of pos or neg elems
 	public static final int CLASSIFYMAXIMAGES = 20; // max number of images per
 													// call
 
@@ -49,12 +47,12 @@ public class Utils {
 				con = oo.doGet("/"+containerName+"", "/"+Long.toUnsignedString(id)+".jpg");
 			} catch (IOException e) {
 
-			System.out.println("buildCompressedStream: error while retrieving " +Long.toUnsignedString(id) + ".jpg. Skip image." );
+				System.out.println("buildCompressedStream: error while retrieving " +Long.toUnsignedString(id) + ".jpg. Skip image." );
 			continue;
 			}
 			
 			// skip non images
-			if(!con.getHeaderFields().equals("image/jpeg"))
+			if(!con.getHeaderField("Content-Type").equals("image/jpeg"))
 				continue;
 			
 // We have a valid image: add as zip entry
@@ -85,7 +83,7 @@ public class Utils {
 
 		// Number of blocks we split our sets
 		int numBlocks = (int) Math.ceil((double) ids.size() / CLASSIFYMAXIMAGES);
-
+		
 		// For every block...
 		for (int i = 0; i < numBlocks; i++) {
 

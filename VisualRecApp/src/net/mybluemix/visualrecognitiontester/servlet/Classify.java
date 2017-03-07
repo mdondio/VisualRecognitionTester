@@ -1,7 +1,6 @@
 package net.mybluemix.visualrecognitiontester.servlet;
 
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.cloudant.client.api.Database;
 import com.cloudant.client.api.model.FindByIndexOptions;
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassification;
@@ -22,12 +20,13 @@ import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassifi
 import net.mybluemix.visualrecognitiontester.blmxservices.CloudantClientMgr;
 import net.mybluemix.visualrecognitiontester.blmxservices.ObjectStorage;
 import net.mybluemix.visualrecognitiontester.blmxservices.ObjectStorageClientMgr;
+import net.mybluemix.visualrecognitiontester.blmxservices.marcovisualreclibrary.Utils;
+import net.mybluemix.visualrecognitiontester.blmxservices.marcovisualreclibrary.WatsonBinaryClassificationResult;
+import net.mybluemix.visualrecognitiontester.blmxservices.marcovisualreclibrary.WatsonBinaryClassifier;
+import net.mybluemix.visualrecognitiontester.blmxservices.marcovisualreclibrary.WatsonBinaryClassificationResult.METRIC;
 import net.mybluemix.visualrecognitiontester.datamodel.Classifier;
 import net.mybluemix.visualrecognitiontester.datamodel.Dataset;
-import net.mybluemix.visualrecognitiontester.marcovisualreclibrary.Utils;
-import net.mybluemix.visualrecognitiontester.marcovisualreclibrary.WatsonBinaryClassificationResult;
-import net.mybluemix.visualrecognitiontester.marcovisualreclibrary.WatsonBinaryClassificationResult.METRIC;
-import net.mybluemix.visualrecognitiontester.marcovisualreclibrary.WatsonBinaryClassifier;
+import net.mybluemix.visualrecognitiontester.datamodel.DatasetLong;
 
 /**
  * This servlet will launch a classification on Watson Visual Recognition Service
@@ -49,25 +48,12 @@ public class Classify extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		
-		
-		// TODO DA QUI: ho preso una cantonata.. mi servono i ground truth nei dataset di test!!!!!
-		// TODO DA QUI: ho preso una cantonata.. mi servono i ground truth nei dataset di test!!!!!
-		// TODO DA QUI: ho preso una cantonata.. mi servono i ground truth nei dataset di test!!!!!
-		// TODO DA QUI: ho preso una cantonata.. mi servono i ground truth nei dataset di test!!!!!
-		// TODO DA QUI: ho preso una cantonata.. mi servono i ground truth nei dataset di test!!!!!
-		// TODO DA QUI: ho preso una cantonata.. mi servono i ground truth nei dataset di test!!!!!
-		// TODO DA QUI: ho preso una cantonata.. mi servono i ground truth nei dataset di test!!!!!
-		// TODO DA QUI: ho preso una cantonata.. mi servono i ground truth nei dataset di test!!!!!
-		
-		
-		
 		System.out.println("[Classify doGet()] Function called");
 
 		// test purpose XXX
-		// qui id del dataset - api key / altro per usare uno specifico classificatore
+		// qui id del dataset - classifier ID / altro per usare uno specifico classificatore
 		HashMap<String, String> pairs = new HashMap<String, String>();
-		pairs.put("helicopter_test01", "helicopter_a40fce6329c185129d0d6ac72f4a4b22d23ffba1");
+		pairs.put("watch_test01", "watch_classifier_1559642317");
 		
 		// Create result object
 		JsonObject o = new JsonObject();
@@ -76,28 +62,32 @@ public class Classify extends HttpServlet {
 		// For each pair..
 		for(String testSetId : pairs.keySet()){
 			
-			String classifierID = pairs.get(testSetId);
+			// retrieve dataset and classifier object
+			DatasetLong testSet = retrieveTestSet(testSetId);
 			
-			Dataset d = retrieveTestSet(testSetId);
+			//-----------------------
+			// debug
+//			System.out.println("------------------------");
+//			System.out.println(testSet.getId());
+//
+//			for(Long img : testSet.getImages().getPositives())
+//			System.out.println("positive: " + Long.toUnsignedString(img));
+//			for(Long img : testSet.getImages().getNegatives())
+//			System.out.println("negative: " + Long.toUnsignedString(img));
+//			System.out.println("------------------------");
+
+			//-----------------------
+
+			Classifier classifier = retrieveClassifier(pairs.get(testSetId));
 			
-			if(d == null)
+			if(testSet == null || classifier == null)
 				continue;
 			
 			// Generate the zip files (20 images per file max)
-			List<byte[]> zipFiles = generateZipTestSet(d);
+			List<byte[]> zipFiles = generateZipTestSet(testSet);
 			
 			// We can run a classification
-			// TODO: apiKey fortemente legato a classifierID
-			// mie
-			 String apiKey = "64d19574fb8f93071a94a461e479ff6c6885d78b";
-			 String label = "helicopter";
-			 
-			// Luca credenziali
-//			public static final String api_key = "a40fce6329c185129d0d6ac72f4a4b22d23ffba1";
-			// Andrea credenziali
-//			public static final String api_key = "db57c99c1cb2fd47e15e4625c4c0b726cc38f40e";
-
-			JsonObject classificationResult = runClassification(apiKey, classifierID, label, zipFiles);
+			JsonObject classificationResult = runClassification(classifier, testSet, zipFiles);
 			
 			// Add result to array
 			results.add(classificationResult);
@@ -106,9 +96,11 @@ public class Classify extends HttpServlet {
 		o.add("results", results);
 		
 		// return json
+		System.out.println(o);
 		response.getWriter().append(o.toString());
 
 	}
+
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -118,33 +110,60 @@ public class Classify extends HttpServlet {
 	}
 	
 	// XXX ottimizza e recupera tutti i testSet indicati con una sola query
-	private Dataset retrieveTestSet(String id){
+	private DatasetLong retrieveTestSet(String id){
 
 		// Ricevi get con parametro sub_type
 		Database db = CloudantClientMgr.getCloudantDB();
 
 		// Condizione
-		String selector = "{\"selector\": {\"_id\" : \""+id+"\", \"type\":\"dataset\", \"subtype\":\"test_set\"}}";
+		String selector = "{\"selector\": {\"_id\" : \""+id+"\"}}";
 
-		Gson gson = new Gson();
+		
         // Limita i campi
         FindByIndexOptions opt = new FindByIndexOptions()
         	 .fields("_id").fields("images");
         
         // execute query
-        List<Dataset> classifiers = db.findByIndex(selector, Dataset.class, opt);
+        List<Dataset> datasets = db.findByIndex(selector, Dataset.class, opt);
+        
+        
+        // TODO convert Dataset to DatasetLong
+        List<DatasetLong> datasetsLong = DatasetLong.convertFromDatasets(datasets);
+         
+        
+        return datasetsLong == null? null : datasetsLong.get(0);
+	}
+
+	// Recupera il classificatore
+	private Classifier retrieveClassifier(String id) {
+		// Ricevi get con parametro sub_type
+		Database db = CloudantClientMgr.getCloudantDB();
+
+		// Condizione
+		String selector = "{\"selector\": {\"_id\" : \""+id+"\"}}";
+
+        // Limita i campi
+        FindByIndexOptions opt = new FindByIndexOptions()
+        	 .fields("_id").fields("instance").fields("label").fields("training_size").fields("training_set");
+        
+        // execute query
+        List<Classifier> classifiers = db.findByIndex(selector, Classifier.class, opt);
         
         return classifiers == null? null : classifiers.get(0);
 	}
 
+	
+	
+	
 	// Generate zip files from a dataset
-	private List<byte[]> generateZipTestSet(Dataset d) throws IOException{
+	private List<byte[]> generateZipTestSet(DatasetLong d) throws IOException{
 
 		// Get instance
 		ObjectStorage oo = ObjectStorageClientMgr.getObjectStorage();
 
 		// Get all images
-		List<Long> images = d.getImages().getPositives();
+		List<Long> images = new ArrayList<Long>();
+		images.addAll(d.getImages().getPositives());
 		images.addAll(d.getImages().getNegatives());
 		
 		// return list of zips: each zip contains 20 images (max per call)
@@ -154,32 +173,30 @@ public class Classify extends HttpServlet {
 	
 	
 	// This method runs a classification on watson
-	private JsonObject runClassification(String apiKey, String classifierID, String label, HashMap<Long, Boolean> testSet, List<byte[]> zipFiles) throws IOException {
+	private JsonObject runClassification(Classifier classifierJson, DatasetLong testSet, List<byte[]> zipFiles) throws IOException {
 
 		// Istantiate service on BlueMix
-		WatsonBinaryClassifier classifier = new WatsonBinaryClassifier(apiKey);
-		classifier.setClassifierId(classifierID);
-		classifier.setLabel(label);
+		WatsonBinaryClassifier classifier = new WatsonBinaryClassifier(classifierJson.getApiKey());
+		classifier.setClassifierId(classifierJson.getID());
+		classifier.setLabel(classifierJson.getLabel());
 		
-		// Now 
-
-		// Classify all zips
+		// Classify all zips against Watson instance
 		List<VisualClassification> watsonres = classifier.classify(zipFiles, Utils.WATSONMINSCORE);
-
 
 		// Compute results and metrics
 		double minThreshold = 0.05;
 		double maxThreshold = 0.6;
 		double step = 0.05;
 
-		DecimalFormat df = new DecimalFormat("#.###");
+//		DecimalFormat df = new DecimalFormat("#.###");
 
 		List<Double> tprs = new ArrayList<Double>();
 		List<Double> fprs = new ArrayList<Double>();
 
 		for (double threshold = minThreshold; threshold <= maxThreshold; threshold += step) {
 
-			WatsonBinaryClassificationResult result = new WatsonBinaryClassificationResult(label, testSet, watsonres,
+			
+			WatsonBinaryClassificationResult result = new WatsonBinaryClassificationResult(testSet, watsonres,
 					threshold);
 
 			double curTpr = result.computeMetric(METRIC.tpr);
@@ -187,22 +204,26 @@ public class Classify extends HttpServlet {
 			tprs.add(curTpr);
 			fprs.add(curFpr);
 
-			System.out.println("-------------------------------");
-			System.out.println("threshold: " + df.format(threshold));
-			System.out.println("tpr: " + df.format(curTpr));
-			System.out.println("fpr: " + df.format(curFpr));
-			System.out.println("-------------------------------");
+//			System.out.println("-------------------------------");
+//			System.out.println("threshold: " + df.format(threshold));
+//			System.out.println("tpr: " + df.format(curTpr));
+//			System.out.println("fpr: " + df.format(curFpr));
+//			System.out.println("-------------------------------");
 
 		}
 		
 		
-		return buildJSON(tprs, fprs, label,trainingSetSize, testSetSize);
+		return buildJSON(tprs, fprs, classifierJson, testSet);
 	}
 
 	
-	// TODO da sistemare...
-	private JsonObject buildJSON(List<Double> tprs, List<Double> fprs, String label, int trainingSetSize, int testSetSize) throws IOException {
+	// XXX refactor needed.
+	private JsonObject buildJSON(List<Double> tprs, List<Double> fprs, Classifier classifier, DatasetLong testSet) throws IOException {
 
+		String label = classifier.getLabel();
+		int trainingSetSize = classifier.getTrainingSize();
+		int testSetSize = testSet.getSize();
+		
 		JsonObject obj = new JsonObject();
 
 		JsonObject test = new JsonObject();
@@ -210,7 +231,7 @@ public class Classify extends HttpServlet {
 		JsonObject plot = new JsonObject();
 		
 		plot.addProperty("mode", "lines");
-		plot.addProperty("name", label + "_training-" + 2 * trainingSetSize + "_test-" + 2 * testSetSize);
+		plot.addProperty("name", label + "_training-" +  trainingSetSize + "_test-" +  testSetSize);
 
 		JsonObject line = new JsonObject();
 		line.addProperty("shape", "spline");
@@ -238,7 +259,7 @@ public class Classify extends HttpServlet {
 		test.add("threshold", buildThreshold());
 		test.add("AUC", buildAUC());
 
-		obj.add(label + "_training-" + 2 * trainingSetSize + "_test-" + 2 * testSetSize, test);
+		obj.add(label + "_training-" + trainingSetSize + "_test-" +  testSetSize, test);
 
 		return obj;
 

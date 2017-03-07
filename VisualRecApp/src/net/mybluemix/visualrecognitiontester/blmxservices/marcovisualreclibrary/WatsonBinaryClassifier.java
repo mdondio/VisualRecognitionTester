@@ -1,4 +1,4 @@
-package net.mybluemix.visualrecognitiontester.marcovisualreclibrary;
+package net.mybluemix.visualrecognitiontester.blmxservices.marcovisualreclibrary;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -150,7 +150,7 @@ public class WatsonBinaryClassifier {
 	}
 
 	/**
-	 * Classifies using the current model
+	 * Classifies an image set using the current model
 	 * 
 	 * @param images
 	 *            - the zip of images to be classified
@@ -164,7 +164,7 @@ public class WatsonBinaryClassifier {
 
 		VisualClassification result = service.classify(options).execute();
 
-		System.out.println(result);
+//		System.out.println(result);
 		return result;
 	}
 
@@ -176,7 +176,7 @@ public class WatsonBinaryClassifier {
 	 */
 	public List<VisualClassification> classify(List<byte[]> imageSets, double minThreshold) {
 
-		System.out.println("[WatsonBinaryClassifier] Classify set of images using classifier with id: " + classifierId);
+	//	System.out.println("[WatsonBinaryClassifier] Classify set of images using classifier with id: " + classifierId);
 
 		List<VisualClassification> results = new LinkedList<VisualClassification>();
 
