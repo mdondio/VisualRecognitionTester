@@ -26,12 +26,7 @@ function clearData(){
  * @help al momento utilizzata solamente nella pagine show.html
  * @TODO integrare la lettura dei dati dei vari test da disegnare direttamente da DB (potrebbe essere conveniente salvarsi ogni volta i risultati dei test nel DB)
  */
-function Draw(nomefile){
-
-	$.ajax({
-		dataType: "json",
-		url: nomefile,
-		success: function(result){
+function Draw(result){
 
 			var colorpalette = [
 				[0, 166, 160], //verde acqua
@@ -49,12 +44,13 @@ function Draw(nomefile){
 			//CREAZIONE DELL'INPUT PER GRAFICO ROC -------------------------------------
 			var ROCcurves = []; //INPUT PER PLOT
 			var count = 0;
-			for(var i in result.tests){
-				var obj = result.tests[i];
+			for(var i in result){
+				var obj = result[i];
 				var x = [];
 				var y = [];
 				for(var j in obj.fpr) x.push(obj.fpr[j]);
 				for(var j in obj.tpr) y.push(obj.tpr[j]);
+				
 				ROCcurves.push(
 						{
 							"x": x,
@@ -63,7 +59,8 @@ function Draw(nomefile){
 							"name": obj.ID,
 							"line": {
 								"shape": "spline",
-								"color": "rgb("+colorpalette[count][0]+","+colorpalette[count][1]+","+colorpalette[count][2]+")"
+								"color": "rgb(168,168,168)"
+								//"color": "rgb("+colorpalette[count][0]+","+colorpalette[count][1]+","+colorpalette[count][2]+")"
 							}
 						}
 				);
@@ -84,8 +81,8 @@ function Draw(nomefile){
 			//CREAZIONE DELL'INPUT PER GRAFICO AUC -------------------------------------
 			var AUCcurves = []; //INPUT PER PLOT
 			var listAUC = [];
-			for(var i in result.tests) {
-				var obj = result.tests[i];
+			for(var i in result) {
+				var obj = result[i];
 				var singleObj = {}
 				singleObj['x'] = obj.trainingSize;
 				singleObj['y'] = obj.AUC;
@@ -123,7 +120,7 @@ function Draw(nomefile){
 				"name": "AUC curve",
 				"line": {
 					"dash": "dot",
-					"color": "rgb("+colorpalette[count][4]+","+colorpalette[count][4]+","+colorpalette[count][4]+")"
+					//"color": "rgb("+colorpalette[count][4]+","+colorpalette[count][4]+","+colorpalette[count][4]+")"
 				}
 			});
 
@@ -172,8 +169,6 @@ function Draw(nomefile){
 			//PLOT GRAFICO ROC E AUC
 			Plotly.newPlot('graph1', ROCcurves, layout1);
 			Plotly.newPlot('graph2', AUCcurves, layout2);
-		}
-	});
 }
 
 //append images from json files
@@ -302,39 +297,27 @@ function showSlides(n) {
 
 //TODO commentare
 // READ SIMULATION CONFIGURATION simulation
+
+/**
+ * @returns Raccoglie le info dai menu a tendina della pagina simulate.html e li trasferisce nella pagina show.html nella variabile "arr"
+ */
 function retrieveSimConfig(){
 
-	selectArray = Array.prototype.map.call($(".moltiplicandum select"),(function(el){
+	if(checkTestName() & checkSelectedInput())
+		{
+	// Sfrutta classe jquery per raccogliere tutte le info dai menu a tendina in una volta sola
+	selectArray = Array.prototype.map.call($(".moltiplicandum input"),(function(el){
 		return el.value;
 	}));
+	
+	// Sfrutta classe jquery per raccogliere tutte le info dai menu a tendina in una volta sola
+	selectArray = selectArray.concat( Array.prototype.map.call($(".moltiplicandum select"),(function(el){
+		return el.value;
+	})));
 
 	JSON.stringify(selectArray);
-	console.log("***  restrieveSimConfig  ********");
-	console.log(selectArray);
 	window.location = "show.html?arr="+selectArray;
-
-	//document.getElementById("sim-buttons").style.display = "none"; // after clicking, hide buttons
-	//document.getElementById("start").style.display = "block"; // after clicking, display watson logo
-
-	/*
-		//console.log(selectArray);
-		document.getElementById("sim-buttons").style.display = "none"; // after clicking, hide buttons
-		document.getElementById("start").style.display = "block"; // after clicking, display watson logo
-		$('#start').html("<img src='ico/loading-indicator.gif' id='loading'>");
-	 */
-	// Send a http request with AJAX to retrieve contents from backend
-	/*$.ajax(
-		{
-		url: '',
-		type: 'POST',
-		data:{ array: selectArray },
-		dataType: 'json',
-		success: function(result)
-		{
-		// faccio cose, vedo gente, schiaccio cinque
-	}
-});*/
-
+		}
 }
 
 //TODO commentare
@@ -348,57 +331,80 @@ function getDataShow(dataArray){
 
 	$.ajax(
 			{
-				url: 'https://visualrecognitiontester.eu-gb.mybluemix.net/RetrieveClassifiers',
+				url: "json/testresult.json",
+				//url: 'GetTestResult',
 				type: 'GET',
 				data:{ array: dataArray },
 				dataType: 'json',
 				success: function(result)
 				{
-					console.log("SUCCESSOOOOOOOOOOO...MINGHIE!")
-					Draw("json/frontend.json");
-					//	Draw(result);
+					document.getElementById("start").style.display = "none";
+					//Draw("json/testresult.json");
+					Draw(result);
+					
 				}
 			});
 
+	addimages("json/frontend.json");
+	populateSelectSim("json/frontend.json");
 }
 
 //TODO commentare
 // POPULATE SIMULATION DROP DOWN MENUS
-function populateSelectSim(filename){
+function populateSelectSim(){
 
-	$.ajax({														// load json file
+	// chiamata per popolare il menu a tendina dei classificatori ready nella pagina simulate.html
+	$.ajax({												
+		contentType: "application/json",
 		dataType: "json",
-		url: filename,
+		url: "json/classifier.json",
+		//url: 'GetClassifier',
 		async: false,
 		success: function(result)
 		{
-
-			// fill test set and cathegory drop down menu (only if status: ready)
-			for(var i in result.testSets){
-				var obj = result.testSets[i];
+			// fill classifier drop down menu (only if status: ready)
+			for(var j in result){
+				var obj = result[j];
 				if(obj.status == "ready"){
+					$('.avail_class').append($('<option>', {
+						value: obj.ID,
+						text: obj.label+" "+obj.trainingsize
+					}));
+				}
+			}
+		}
+	});
+	
+	// chiamata per popolare il menu a tendina dei testset nella pagina simulate.html
+	$.ajax({													
+		dataType: "json",
+		url: "json/testset.json",
+		//url: 'GetDataset',
+		//data: 'sub_type=test_set',
+		async: false,
+		success: function(result)
+		{
+			// fill test set and cathegory drop down menu (only if status: ready)
+			for(var i in result){
+				var obj = result[i];
+	
 					$('.test_set').append($('<option>', {
 						value: obj.ID,
 						text: obj.label+" "+obj.size
 					}));
-					$('.avail_cat').append($('<option>', {
-						value: obj.label,
-						text: obj.label
-					}));
-				}
 			}
 
-			// fill classifier drop down menu (only if status: ready)
-			for(var j in result.classifiers){
-				var obj = result.classifiers[j];
-				if(obj.status == "ready"){
-					$('.avail_class').append($('<option>', {
-						value: obj.ID,
-						text: obj.label+" "+obj.trainingSize
-					}));
-				}
-			}
-
+		}
+	});
+	
+	// chiamata per popolare il menu a tendina dei test eseguiti nella pagina show.html
+	$.ajax({													
+		dataType: "json",
+		url: "json/testresult.json",
+		//url: 'GetTestResult',
+		async: false,
+		success: function(result)
+		{
 			//update show page test set
 			for(var j in result.tests){
 				var obj = result.tests[j];
@@ -407,7 +413,6 @@ function populateSelectSim(filename){
 					text: obj.ID
 				}));
 			}
-
 		}
 	});
 }
@@ -603,4 +608,55 @@ function generateHome(){
 		}
 	});
 
+}
+
+
+
+function checkTestName() {
+	selectArray = Array.prototype.map.call($(".moltiplicandum input"),(function(el) {return el.value;}));
+	var sizeinput = selectArray.length;
+	var check = 1;
+	var num = 0;
+	for (var i = 0; i < sizeinput & check==1; i++) {
+		var num1 = i + 1;
+		var pass = $('input[name=test' + num1 + ']').val();
+		if(pass=="")
+			{
+			alert("Test name cannot be empty!");
+			check = 0;
+			}
+		for (var j = 0; j < sizeinput & check==1; j++) {
+			if (j != i) {
+				var num2 = j+1;
+				var repass = $('input[name=test' + num2 + ']').val();
+				if (pass == repass) {
+					console.log("*************")
+					console.log(pass)
+					console.log(repass)
+				console.log("*************")
+					alert("Different tests cannot have the same name!");
+					check = 0;
+				} 
+			}
+		}
+	}
+	return check;
+}
+
+function checkSelectedInput() {
+
+	selectArray = Array.prototype.map.call($(".moltiplicandum select"),
+			(function(el) {
+				return el.value;
+			}));
+	var check = 1;
+	var sizeinput = selectArray.length;
+
+	for (var i = 0; i < sizeinput & check==1; i++) {
+		if (selectArray[i] == "") {
+			alert("Test Set and Classifier must be selected for each test!");
+			check = 0;
+		}
+	}
+	return check;
 }

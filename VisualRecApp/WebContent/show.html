@@ -18,16 +18,12 @@
 
 	<script>
 	$.urlParam = function(name){
-		console.log("*************");
-				console.log(name);
 		var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
 		console.log(results[1]);
 		console.log(results);
 		return results[1] || 0;
 	}
 	var array = $.urlParam('arr');
-	console.log("*******   SHOW ******");
-			console.log(array);
 	</script>
 
 	<div class="content">
@@ -118,10 +114,10 @@
 	</body>
 
 	<script>
-	//getDataShow(array);
-	Draw("json/frontend.json");
-	addimages("json/frontend.json");
-	populateSelectSim("json/frontend.json");
+	getDataShow(array);
+	//Draw("json/frontend.json");
+	//addimages("json/frontend.json");
+	//populateSelectSim("json/frontend.json");
 	</script>
 
 	<script>
