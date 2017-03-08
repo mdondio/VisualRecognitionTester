@@ -1,6 +1,7 @@
 package net.mybluemix.visualrecognitiontester.servlet;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,8 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.cloudant.client.api.Database;
 import com.cloudant.client.api.model.FindByIndexOptions;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 import net.mybluemix.visualrecognitiontester.blmxservices.CloudantClientMgr;
 import net.mybluemix.visualrecognitiontester.datamodel.Dataset;
@@ -40,6 +39,8 @@ public class GetDataset extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		System.out.println("[GetDataset doGet()] Function called");
+
 		// Valori possibile:
 		// training_set
 		// test_set
@@ -62,29 +63,8 @@ public class GetDataset extends HttpServlet {
         	 .fields("_id").fields("label").fields("images");
         
         // execute query
-        //List<Dataset> datasets = db.findByIndex(selector, Dataset.class, o);
-
-		//----------------------------------------------------------
-		// Se non mi va bene il default e lo devo modificare:
-        JsonArray arr = gson.toJsonTree(db.findByIndex(selector, Dataset.class, o)).getAsJsonArray();
-//
-        for(int i = 0; i < arr.size(); i++)
-        {
-        	JsonObject obj = arr.get(i).getAsJsonObject();
-        	JsonObject images = obj.getAsJsonObject("images");
-//        	System.out.println(images.toString());
-                	
-        	// TODO qui dobbiamo fare una query decente.. cosi è una cosa veloce
-        	int size = images.getAsJsonArray("positive").size() + images.getAsJsonArray("negative").size();
-        	
-        	obj.remove("images");        	
-        	obj.addProperty("trainingSize", size);
-
-        }
-		response.getWriter().append(arr.toString());
-		//----------------------------------------------------------
-
-//		response.getWriter().append(gson.toJson(datasets));
+        List<Dataset> datasets = db.findByIndex(selector, Dataset.class, o);
+        		response.getWriter().append(gson.toJson(datasets));
 	}
 
 	/**

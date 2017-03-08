@@ -331,8 +331,8 @@ function getDataShow(dataArray){
 
 	$.ajax(
 			{
-				url: "json/testresult.json",
-				//url: 'GetTestResult',
+				//url: "json/testresult.json",
+				url: 'GetTestResult',
 				type: 'GET',
 				data:{ array: dataArray },
 				dataType: 'json',
@@ -357,8 +357,8 @@ function populateSelectSim(){
 	$.ajax({												
 		contentType: "application/json",
 		dataType: "json",
-		url: "json/classifier.json",
-		//url: 'GetClassifier',
+		//url: "json/classifier.json",
+		url: 'GetClassifier',
 		async: false,
 		success: function(result)
 		{
@@ -367,8 +367,8 @@ function populateSelectSim(){
 				var obj = result[j];
 				if(obj.status == "ready"){
 					$('.avail_class').append($('<option>', {
-						value: obj.ID,
-						text: obj.label+" "+obj.trainingsize
+						value: obj._id,
+						text: obj.label+" "+obj.training_size
 					}));
 				}
 			}
@@ -378,9 +378,9 @@ function populateSelectSim(){
 	// chiamata per popolare il menu a tendina dei testset nella pagina simulate.html
 	$.ajax({													
 		dataType: "json",
-		url: "json/testset.json",
-		//url: 'GetDataset',
-		//data: 'sub_type=test_set',
+		//url: "json/testset.json",
+		url: 'GetDataset',
+		data: 'sub_type=test_set',
 		async: false,
 		success: function(result)
 		{
@@ -389,19 +389,22 @@ function populateSelectSim(){
 				var obj = result[i];
 	
 					$('.test_set').append($('<option>', {
-						value: obj.ID,
-						text: obj.label+" "+obj.size
+						value: obj._id,
+						text: obj.label+" "+ (obj.images.positive.length + obj.images.negative.length)
 					}));
 			}
 
 		}
 	});
 	
+	// TODO: attenzione che questo blocco sotto non può stare qui, altrimenti si invoca
+	// la GetTestResult
 	// chiamata per popolare il menu a tendina dei test eseguiti nella pagina show.html
+	/*
 	$.ajax({													
 		dataType: "json",
-		url: "json/testresult.json",
-		//url: 'GetTestResult',
+		//url: "json/testresult.json",
+		url: 'GetTestResult',
 		async: false,
 		success: function(result)
 		{
@@ -415,6 +418,7 @@ function populateSelectSim(){
 			}
 		}
 	});
+	*/
 }
 
 /**

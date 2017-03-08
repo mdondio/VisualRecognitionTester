@@ -57,7 +57,7 @@ public class GetClassifier extends HttpServlet {
 
         // Limita i campi
         FindByIndexOptions opt = new FindByIndexOptions()
-        	 .fields("_id").fields("label").fields("trainingsize").fields("status");
+        	 .fields("_id").fields("label").fields("training_size").fields("status");
         
         // execute query
         List<Classifier> classifiers = db.findByIndex(selector, Classifier.class, opt);

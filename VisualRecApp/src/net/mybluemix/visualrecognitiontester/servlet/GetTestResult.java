@@ -1,5 +1,8 @@
 package net.mybluemix.visualrecognitiontester.servlet;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +17,11 @@ import javax.servlet.http.HttpServletResponse;
 import com.cloudant.client.api.Database;
 import com.cloudant.client.api.model.FindByIndexOptions;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassification;
 
 import net.mybluemix.visualrecognitiontester.blmxservices.CloudantClientMgr;
@@ -31,14 +38,14 @@ import net.mybluemix.visualrecognitiontester.datamodel.DatasetLong;
 /**
  * This servlet will launch a classification on Watson Visual Recognition Service
  */
-@WebServlet("/Classify")
-public class Classify extends HttpServlet {
+@WebServlet("/GetTestResult")
+public class GetTestResult extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Classify() {
+    public GetTestResult() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -48,15 +55,13 @@ public class Classify extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		System.out.println("[Classify doGet()] Function called");
+		System.out.println("[GetTestResult doGet()] Function called");
 
-		// test purpose XXX
-		// qui id del dataset - classifier ID / altro per usare uno specifico classificatore
-		HashMap<String, String> pairs = new HashMap<String, String>();
-		pairs.put("watch_test01", "watch_classifier_1559642317");
+		// parse request: a list of testSet - classifier
+		HashMap<String, String> pairs = parseRequest(request);
 		
 		// Create result object
-		JsonObject o = new JsonObject();
+	//	JsonObject o = new JsonObject();
 		JsonArray results = new JsonArray();
 		
 		// For each pair..
@@ -92,13 +97,14 @@ public class Classify extends HttpServlet {
 			// Add result to array
 			results.add(classificationResult);
 	}
-		// Add all results
-		o.add("results", results);
 		
-		// return json
-		System.out.println(o);
-		response.getWriter().append(o.toString());
 
+		// CORRETTO DA USARE
+		//response.getWriter().println(results);
+
+		
+		// XXX togliere
+		response.getWriter().append(testResult());
 	}
 
 
@@ -108,6 +114,29 @@ public class Classify extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
+	
+	
+	// This function translates request into an useful data structure
+	private HashMap<String, String> parseRequest(HttpServletRequest request){
+		
+		System.out.println(request.getQueryString());
+
+		
+		////////////////////////////////////////////////////////
+		// test purpose XXX
+		// qui id del dataset - classifier ID / altro per usare uno specifico classificatore
+		HashMap<String, String> pairs = new HashMap<String, String>();
+		pairs.put("watch_test01", "watch_classifier_1559642317");
+		
+//		http://localhost:9080/VisualRecognitionTester/show.html?
+		//arr=a,b,yyxxxxxxx,yyxxxxxxx,yyxxxxxxx,xxxxxxxxx
+		
+		// diviso 3 = numero di triplette
+		
+		////////////////////////////////////////////////////////
+return pairs;
+		
+	} 
 	
 	// XXX ottimizza e recupera tutti i testSet indicati con una sola query
 	private DatasetLong retrieveTestSet(String id){
@@ -212,10 +241,24 @@ public class Classify extends HttpServlet {
 
 		}
 		
+		return buildJsonResult(tprs, fprs, classifierJson, testSet);
+//		return buildJSON(tprs, fprs, classifierJson, testSet);
 		
-		return buildJSON(tprs, fprs, classifierJson, testSet);
+	//	return testResult();
 	}
 
+	
+	private JsonObject buildJsonResult(List<Double> tprs, List<Double> fprs, Classifier classifier, DatasetLong testSet){
+		
+		JsonObject result = new JsonObject();
+		
+		// TODO capire bene
+//			{"ID":"test2","accuracy": 0.57,"fpr":[0, 0.3, 0.5, 1],"tpr":[0, 0.4, 0.7, 1],"AUC":0.57, "trainingSize": 150,"threshold":0.4,"falsepositive":["img/408757582443373.jpg","img/6471154175007223.jpg","img/img_nature_wide.jpg","img/img_fjords_wide.jpg"],"falsenegative":["img/7169059395095464.jpg","img/8119543326477369.jpg","img/8433457349861016.jpg","img/img_nature_wide.jpg","img/img_fjords_wide.jpg"]}
+
+		
+		return result;
+	}
+	
 	
 	// XXX refactor needed.
 	private JsonObject buildJSON(List<Double> tprs, List<Double> fprs, Classifier classifier, DatasetLong testSet) throws IOException {
@@ -311,4 +354,24 @@ public class Classify extends HttpServlet {
 
 		return auc;
 	}
+
+	// to quickly test integration
+	// XXX to be removed
+	private String testResult() throws JsonIOException, JsonSyntaxException, FileNotFoundException{
+		
+		
+		String s = "[{\"ID\":\"test1\",\"accuracy\": 0.87,\"fpr\":[0, 0.2, 0.4, 1],\"tpr\":[0, 0.4, 0.7, 1],\"AUC\":0.67,\"trainingSize\": 50, \"threshold\":0.2,\"falsepositive\":[\"img/img_nature_wide.jpg\",\"img/img_fjords_wide.jpg\"],\"falsenegative\":[\"img/img_mountains_wide.jpg\",\"img/img_lights_wide.jpg\"]},{\"ID\":\"test2\",\"accuracy\": 0.57,\"fpr\":[0, 0.3, 0.5, 1],\"tpr\":[0, 0.4, 0.7, 1],\"AUC\":0.57, \"trainingSize\": 150,\"threshold\":0.4,\"falsepositive\":[\"img/408757582443373.jpg\",\"img/6471154175007223.jpg\",\"img/img_nature_wide.jpg\",\"img/img_fjords_wide.jpg\"],\"falsenegative\":[\"img/7169059395095464.jpg\",\"img/8119543326477369.jpg\",\"img/8433457349861016.jpg\",\"img/img_nature_wide.jpg\",\"img/img_fjords_wide.jpg\"]},{\"ID\":\"test3\",\"accuracy\": 0.67,\"fpr\":[0, 0.1, 0.8, 1],\"tpr\":[0, 0.4, 0.7, 1],\"AUC\":0.77, \"trainingSize\": 250,\"threshold\":0.5,\"falsepositive\":[\"img/img_nature_wide.jpg\",\"img/img_fjords_wide.jpg\"],\"falsenegative\":[\"img/img_mountains_wide.jpg\",\"img/img_lights_wide.jpg\"]},{\"ID\":\"test4\",\"accuracy\": 0.89,\"fpr\":[0, 0.4, 0.6, 1],\"tpr\":[0, 0.4, 0.7, 1],\"AUC\":0.97, \"trainingSize\": 350, \"threshold\":0.54,\"falsepositive\":[\"img/img_nature_wide.jpg\",\"img/img_fjords_wide.jpg\"],\"falsenegative\":[\"img/img_mountains_wide.jpg\",\"img/img_lights_wide.jpg\"]},{\"ID\":\"test5\",\"accuracy\": 0.99,\"fpr\":[0, 0.6, 0.8, 1],\"tpr\":[0, 0.4, 0.7, 1],\"AUC\":0.999, \"trainingSize\": 550, \"threshold\":0.99,\"falsepositive\":[\"img/img_nature_wide.jpg\",\"img/img_fjords_wide.jpg\"],\"falsenegative\":[\"img/img_mountains_wide.jpg\",\"img/img_lights_wide.jpg\",\"img/408757582443373.jpg\",\"img/6471154175007223.jpg\"]}]";
+		
+		 	
+//		String path =  getServletContext().getContextPath();
+//		String path =  getServletContext().getRealPath("/");
+//		System.out.println(path);
+//		JsonElement jelement = new JsonParser().parse(new FileReader(new File(path + "/json/testresult.json")));
+//		JsonObject o = jelement.getAsJsonObject();
+		
+//		return o;	
+		
+		return s;
+	}
+	
 }

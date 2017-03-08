@@ -77,7 +77,7 @@ public class MqttClientDaemon implements Runnable, MqttCallback {
 		// conOpt.setUserName(this.userName);
 		// conOpt.setPassword(this.password.toCharArray());
 		conOpt.setCleanSession(true);
-		conOpt.setAutomaticReconnect(true);
+//		conOpt.setAutomaticReconnect(true);	// boh
 
 		// Construct an MQTT blocking mode client
 		MemoryPersistence persistence = new MemoryPersistence();
