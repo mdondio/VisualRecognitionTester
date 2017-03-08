@@ -26,13 +26,7 @@ function clearData(){
  * @help al momento utilizzata solamente nella pagine show.html
  * @TODO integrare la lettura dei dati dei vari test da disegnare direttamente da DB (potrebbe essere conveniente salvarsi ogni volta i risultati dei test nel DB)
  */
-function Draw(nomefile){
-
-	$.ajax({
-		dataType: "json",
-		url: "json/testresult.json",
-		//url: 'GetTestResult',
-		success: function(result){
+function Draw(result){
 
 			var colorpalette = [
 				[0, 166, 160], //verde acqua
@@ -50,12 +44,13 @@ function Draw(nomefile){
 			//CREAZIONE DELL'INPUT PER GRAFICO ROC -------------------------------------
 			var ROCcurves = []; //INPUT PER PLOT
 			var count = 0;
-			for(var i in result.tests){
-				var obj = result.tests[i];
+			for(var i in result){
+				var obj = result[i];
 				var x = [];
 				var y = [];
 				for(var j in obj.fpr) x.push(obj.fpr[j]);
 				for(var j in obj.tpr) y.push(obj.tpr[j]);
+				
 				ROCcurves.push(
 						{
 							"x": x,
@@ -64,7 +59,8 @@ function Draw(nomefile){
 							"name": obj.ID,
 							"line": {
 								"shape": "spline",
-								"color": "rgb("+colorpalette[count][0]+","+colorpalette[count][1]+","+colorpalette[count][2]+")"
+								"color": "rgb(168,168,168)"
+								//"color": "rgb("+colorpalette[count][0]+","+colorpalette[count][1]+","+colorpalette[count][2]+")"
 							}
 						}
 				);
@@ -85,8 +81,8 @@ function Draw(nomefile){
 			//CREAZIONE DELL'INPUT PER GRAFICO AUC -------------------------------------
 			var AUCcurves = []; //INPUT PER PLOT
 			var listAUC = [];
-			for(var i in result.tests) {
-				var obj = result.tests[i];
+			for(var i in result) {
+				var obj = result[i];
 				var singleObj = {}
 				singleObj['x'] = obj.trainingSize;
 				singleObj['y'] = obj.AUC;
@@ -124,7 +120,7 @@ function Draw(nomefile){
 				"name": "AUC curve",
 				"line": {
 					"dash": "dot",
-					"color": "rgb("+colorpalette[count][4]+","+colorpalette[count][4]+","+colorpalette[count][4]+")"
+					//"color": "rgb("+colorpalette[count][4]+","+colorpalette[count][4]+","+colorpalette[count][4]+")"
 				}
 			});
 
@@ -173,8 +169,6 @@ function Draw(nomefile){
 			//PLOT GRAFICO ROC E AUC
 			Plotly.newPlot('graph1', ROCcurves, layout1);
 			Plotly.newPlot('graph2', AUCcurves, layout2);
-		}
-	});
 }
 
 //append images from json files
@@ -337,18 +331,22 @@ function getDataShow(dataArray){
 
 	$.ajax(
 			{
-				url: 'https://visualrecognitiontester.eu-gb.mybluemix.net/RetrieveClassifiers',
+				url: "json/testresult.json",
+				//url: 'GetTestResult',
 				type: 'GET',
 				data:{ array: dataArray },
 				dataType: 'json',
 				success: function(result)
 				{
 					document.getElementById("start").style.display = "none";
-					Draw("json/test.json");
-					//	Draw(result);
+					//Draw("json/testresult.json");
+					Draw(result);
+					
 				}
 			});
 
+	addimages("json/frontend.json");
+	populateSelectSim("json/frontend.json");
 }
 
 //TODO commentare
