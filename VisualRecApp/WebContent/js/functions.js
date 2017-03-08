@@ -308,8 +308,8 @@ function showSlides(n) {
  * @returns Raccoglie le info dai menu a tendina della pagina simulate.html e li trasferisce nella pagina show.html nella variabile "arr"
  */
 function retrieveSimConfig(){
-	
-	if(checkTestName())
+
+	if(checkTestName() & checkSelectedInput())
 		{
 	// Sfrutta classe jquery per raccogliere tutte le info dai menu a tendina in una volta sola
 	selectArray = Array.prototype.map.call($(".moltiplicandum input"),(function(el){
@@ -615,31 +615,49 @@ function generateHome(){
 
 
 function checkTestName() {
-
-	selectArray = Array.prototype.map.call($(".moltiplicandum input"),
-			(function(el) {
-				return el.value;
-			}));
-	
+	selectArray = Array.prototype.map.call($(".moltiplicandum input"),(function(el) {return el.value;}));
 	var sizeinput = selectArray.length;
-	console.log("********************");
-	console.log(sizeinput);
-	
-	for (var i = 0; i < sizeinput; i++) {
-		check = 1;
-		var num = i + 1;
-		var pass = $('input[name=test' + num + ']').val();
-		console.log("********PASSWORD************");
-		console.log(pass);
-		for (var j = 0; j < sizeinput; j++) {
+	var check = 1;
+	var num = 0;
+	for (var i = 0; i < sizeinput & check==1; i++) {
+		var num1 = i + 1;
+		var pass = $('input[name=test' + num1 + ']').val();
+		if(pass=="")
+			{
+			alert("Test name cannot be empty!");
+			check = 0;
+			}
+		for (var j = 0; j < sizeinput & check==1; j++) {
 			if (j != i) {
-				var repass = $('input[name=test' + num + ']').val();
+				var num2 = j+1;
+				var repass = $('input[name=test' + num2 + ']').val();
 				if (pass == repass) {
-					$('#password').addClass('has-error');
-					$('#repassword').addClass('has-error');
+					console.log("*************")
+					console.log(pass)
+					console.log(repass)
+				console.log("*************")
+					alert("Different tests cannot have the same name!");
 					check = 0;
 				} 
 			}
+		}
+	}
+	return check;
+}
+
+function checkSelectedInput() {
+
+	selectArray = Array.prototype.map.call($(".moltiplicandum select"),
+			(function(el) {
+				return el.value;
+			}));
+	var check = 1;
+	var sizeinput = selectArray.length;
+
+	for (var i = 0; i < sizeinput & check==1; i++) {
+		if (selectArray[i] == "") {
+			alert("Test Set and Classifier must be selected for each test!");
+			check = 0;
 		}
 	}
 	return check;

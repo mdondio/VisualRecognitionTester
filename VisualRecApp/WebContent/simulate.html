@@ -23,6 +23,7 @@ $(document).ready(function(){
       var num = parseInt( $div.prop("id").match(/\d+/g), 10 ) +1; // estraggo il numero identificativo e lo incremento
       $("#moltiplicandum1").clone().prop('id', 'moltiplicandum'+num )
       .find('input:text').val("")
+      .removeAttr('class')
       .attr('name','test'+num).end()
       .appendTo("#sim_list"); // clono, rinomino e appendo
     } else {
@@ -30,48 +31,13 @@ $(document).ready(function(){
     }
     i++;
   });
-
-
-
-
-	/*$('#play').click(
-					function() {
-
-						selectArray = Array.prototype.map.call(
-								$(".moltiplicandum input"), (function(el) {
-									return el.value;
-								}));
-						var sizeinput = selectArray.length;
-console.log("********************");
-console.log(sizeinput);
-						for (var i = 0; i < sizeinput; i++) {
-							var num = i + 1;
-							var pass = $('input[name=test' + num + ']').val();
-							console.log("********PASSWORD************");
-console.log(pass);
-							for (var j = 0; j < sizeinput; j++) {
-								if (j != i) {
-									var repass = $(
-											'input[name=test' + num + ']')
-											.val();
-
-									if (pass != repass) {
-										$('#password').addClass('has-error');
-										$('#repassword').addClass('has-error');
-									} else {
-										$('#password').removeClass().addClass(
-												'has-success');
-										$('#repassword').removeClass()
-												.addClass('has-success');
-									}
-								}
-							}
-						}
-					});*/
+  
 				
 					});
 </script>
 
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script> 
 
 <body>
   <header></header>
@@ -119,12 +85,13 @@ console.log(pass);
             <div class="column third"><h4>Test set</h4></div>
             <div class="column third"><h4>Classifier</h4></div>
           </div>
-          
+			<form id="myForm">          
           <div class="row clearfix moltiplicandum" id="moltiplicandum1">
 
 			<div class="column third">
-              <input class="test_set" name="test1" type="text" placeholder="insert test name" style="width:100%">
-              </input>
+
+              <input class="test_set" data-validation="required" data-validation-error-msg="You did not enter a name for this test" name="test1" type="text" placeholder="insert test name" style="width:100%">
+              
             </div>
             
             <div class="column third">
@@ -140,22 +107,7 @@ console.log(pass);
             </div>
 
           </div>
-
-        </div>
-
-
-        <div class="row clearfix">
-
-          <div class="column third">
-            <div id="addmore_zone">add clicking on <img src="ico/add-new_32.png" width="15px;"></div>
-          </div>
-          <div class="column third">
-            <div id="addmore_zone">add clicking on <img src="ico/add-new_32.png" width="15px;"></div>
-          </div>
-          <div class="column third">
-            <div id="addmore_zone">add clicking on <img src="ico/add-new_32.png" width="15px;"></div>
-          </div>
-
+</form>
         </div>
 
         <br>
@@ -174,6 +126,11 @@ console.log(pass);
 
 
 </body>
+
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script>
+<script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/additional-methods.min.js"></script>
+
 
 <script>
 
