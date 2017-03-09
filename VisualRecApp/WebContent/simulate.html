@@ -31,9 +31,8 @@ $(document).ready(function(){
     }
     i++;
   });
-  
-				
-					});
+  				
+});
 </script>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -46,7 +45,6 @@ $(document).ready(function(){
 
   <div class="content">
     <br><br><br>
-    <!--<h2><span class="title">Watson Visual Recognition ROC Test</span></h2>-->
     <br>
     <div class="row clearfix">
 
@@ -90,7 +88,7 @@ $(document).ready(function(){
 
 			<div class="column third">
 
-              <input class="test_set" data-validation="required" data-validation-error-msg="You did not enter a name for this test" name="test1" type="text" placeholder="insert test name" style="width:100%">
+              <input class="test_set" data-validation="required" data-validation-error-msg="You did not enter a name for this test" name="test1" type="text" placeholder="Insert test name here..." style="width:100%">
               
             </div>
             
@@ -115,8 +113,12 @@ $(document).ready(function(){
         <center id="sim-buttons">
           <div id="addmore" class="more" title="Add test"><img src="ico/add-new_32.png" style="filter: invert(100%);" width="20px;"></div>
           <div class="more" onclick="refreshPage()" title="Cancel"><img src="ico/revert_32.png" style="filter: invert(100%);" width="20px;"></div>
-          <div class="more" id="play" onclick="retrieveSimConfig()" title="Start simulation"><img src="ico/play_32.png" style="filter: invert(100%);" width="20px;"></div>
+<!--      <div class="more" id="play" onclick="retrieveSimConfig()" title="Start simulation"><img src="ico/play_32.png" style="filter: invert(100%);" width="20px;"></div> -->
+          <div class="more" id="play" onclick="window.location = 'show.html?arr='+retrieveSimConfig();" title="Start simulation"><img src="ico/play_32.png" style="filter: invert(100%);" width="20px;"></div>
         </center>
+
+
+
 
         <center><div id="start"></div></center>
 

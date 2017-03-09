@@ -304,20 +304,32 @@ function showSlides(n) {
 function retrieveSimConfig(){
 
 	if(checkTestName() & checkSelectedInput())
-		{
-	// Sfrutta classe jquery per raccogliere tutte le info dai menu a tendina in una volta sola
-	selectArray = Array.prototype.map.call($(".moltiplicandum input"),(function(el){
-		return el.value;
-	}));
+	{
+		// Sfrutta classe jquery per raccogliere tutte le info dai menu a tendina in una volta sola
+		selectArray = Array.prototype.map.call($(".moltiplicandum input"),(function(el){
+			return el.value;
+		}));
+		
+		// Sfrutta classe jquery per raccogliere tutte le info dai menu a tendina in una volta sola
+		selectArray = selectArray.concat(Array.prototype.map.call($(".moltiplicandum select"),(function(el){
+			return el.value;
+		})));
 	
-	// Sfrutta classe jquery per raccogliere tutte le info dai menu a tendina in una volta sola
-	selectArray = selectArray.concat( Array.prototype.map.call($(".moltiplicandum select"),(function(el){
-		return el.value;
-	})));
-
-	JSON.stringify(selectArray);
-	window.location = "show.html?arr="+selectArray;
-		}
+		JSON.stringify(selectArray);
+		return(selectArray);
+//		window.location = "show.html?arr="+selectArray;
+		
+//		test_names = Array.prototype.map.call($(".moltiplicandum input"),(function(el){ return el.value; }));
+//		tests_and_class = Array.prototype.map.call($(".moltiplicandum select"),(function(el){ return el.value; }));
+//		
+//		$.post("show.html",
+//			{
+//		    	value1: test_names,
+//		    	value2: tests_and_class
+//		    }
+//		);
+		
+	}
 }
 
 //TODO commentare
@@ -328,6 +340,8 @@ function getDataShow(dataArray){
 	document.getElementById("start").style.display = "block";
 	$('#start').html("<img src='ico/load.svg' id='loading'>");
 	console.log("chiamata ajax GET")
+	
+//TODO qui devo trasformare dataArray in un json fatto bene per poi passarlo al backend
 
 	$.ajax(
 			{
