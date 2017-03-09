@@ -1,2 +1,2 @@
 /VisualRecApp.war
-/bin/
+/bin/**/*.class
