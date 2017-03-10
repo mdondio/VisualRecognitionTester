@@ -26,7 +26,7 @@ import net.mybluemix.visualrecognitiontester.datamodel.ImagesLong;
 public class WatsonBinaryClassificationResult {
 
 	public static enum METRIC {
-		TP, TN, FP, FN, POS, NEG, tp, tn, fp, fn, pp, pn, tpr, fpr, AUC, precision, recall, accuracy, fallout, f1, jaccard
+		TP, TN, FP, FN, POS, NEG, tp, tn, fp, fn, pp, pn, tpr, fpr, precision, recall, accuracy, fallout, f1, jaccard
 	};
 
 	private Classifier classifierJson;
@@ -221,8 +221,6 @@ public class WatsonBinaryClassificationResult {
 			return (double) computeMetric(METRIC.tp) / (computeMetric(METRIC.tp) + computeMetric(METRIC.fn));
 		case fpr: // false positive ratio
 			return (double) computeMetric(METRIC.fp) / (computeMetric(METRIC.tp) + computeMetric(METRIC.fn));
-		case AUC: // area under curve
-			return computeAUC();	
 		case precision:
 			return (double) measures.get(METRIC.TP) / (measures.get(METRIC.TP) + measures.get(METRIC.FP));
 		case recall:
@@ -234,13 +232,7 @@ public class WatsonBinaryClassificationResult {
 		}
 	}
 
-	private double computeAUC() {
-		
-		// TODO
 
-		
-		return 1;
-	}
 
 	public double getThreshold(){
 		return threshold;

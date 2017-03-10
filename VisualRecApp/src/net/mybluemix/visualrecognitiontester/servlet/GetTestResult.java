@@ -98,10 +98,8 @@ public class GetTestResult extends HttpServlet {
 			results.add(classificationResult);
 		}
 
-		
 		System.out.println(results);
 
-		
 		// CORRETTO DA USARE
 		response.getWriter().append(results.toString());
 
@@ -256,11 +254,11 @@ public class GetTestResult extends HttpServlet {
 				+ " result with threshold =  " + optResult.getThreshold());
 
 		// Build JSON with optimal result
-		return buildJsonResult(optResult, tprTrace, fprTrace);
+		return buildJsonResult(optResult, tprTrace, fprTrace, computeAUC(tprTrace, fprTrace));
 	}
 
 	private JsonObject buildJsonResult(WatsonBinaryClassificationResult optResult, List<Double> tprTrace,
-			List<Double> fprTrace) {
+			List<Double> fprTrace, double auc) {
 		JsonObject result = new JsonObject();
 
 		// {"ID":"test2","accuracyOpt": 0.57,"fpr":[0, 0.3, 0.5, 1],"tpr":[0,
@@ -275,7 +273,7 @@ public class GetTestResult extends HttpServlet {
 		result.add("fprTrace", buildArrayFromList(fprTrace));
 
 		// TODO DA FARE!
-		result.addProperty("AUC", optResult.computeMetric(METRIC.AUC));
+		result.addProperty("AUC", auc);
 
 		result.addProperty("trainingSize", optResult.getClassifierTrainingSize());
 
@@ -322,9 +320,20 @@ public class GetTestResult extends HttpServlet {
 	// return s;
 	// }
 
+
 	// Method to build array from list
 	private <T> JsonArray buildArrayFromList(List<T> list) {
 		return new Gson().toJsonTree(list).getAsJsonArray();
 	}
 
+	// Computes AUC from a given tprTrace and fprTrace
+	private double computeAUC(List<Double> tprTrace, List<Double> fprTrace) {
+
+		double auc = 0.0;
+
+		for (int i = 0; i < (tprTrace.size() - 1); i++)
+			auc += ((fprTrace.get(i + 1) - fprTrace.get(i)) * (tprTrace.get(i + 1) + tprTrace.get(i)) / 2);
+
+		return auc;
+	}
 }

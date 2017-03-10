@@ -30,9 +30,7 @@ public class BackgroundDaemonManager implements ServletContextListener {
 	private ExecutorService executor;
 
 	public BackgroundDaemonManager() {
-
 		System.out.println("[BackgroundDaemonManager] Constructor");
-
 	}
 
 	/*
