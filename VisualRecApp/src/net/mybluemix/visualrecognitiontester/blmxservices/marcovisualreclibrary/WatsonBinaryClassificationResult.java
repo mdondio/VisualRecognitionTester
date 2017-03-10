@@ -1,5 +1,6 @@
 package net.mybluemix.visualrecognitiontester.blmxservices.marcovisualreclibrary;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -10,6 +11,7 @@ import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassifi
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassifier;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassifier.VisualClass;
 
+import net.mybluemix.visualrecognitiontester.datamodel.Classifier;
 import net.mybluemix.visualrecognitiontester.datamodel.DatasetLong;
 
 /**
@@ -19,44 +21,40 @@ import net.mybluemix.visualrecognitiontester.datamodel.DatasetLong;
  * @author Marco Dondio
  *
  */
+// TODO refactor
 public class WatsonBinaryClassificationResult {
 
 	public static enum METRIC {
-		TP, TN, FP, FN, tp, tn, fp, fn, pp, pn, tpr, fpr, accuracy, recall, fallout, precision, f1, jaccard
+		TP, TN, FP, FN, POS, NEG, tp, tn, fp, fn, pp, pn, tpr, fpr, AUC, precision, recall, accuracy, fallout, f1, jaccard
 	};
 
-	private String label;
+	private Classifier classifierJson;
+	private DatasetLong testSet;
+
 	private double threshold;
 	private HashMap<Long, Boolean> realValues;
 	private HashMap<Long, Boolean> predictedValues;
 
-	int n; // size of vectors
+	int datasetSize; // size of vectors
 
 	// Vector of basic measures: TP, TN, FP, FN
 	EnumMap<METRIC, Integer> measures = new EnumMap<METRIC, Integer>(METRIC.class);
 
-	// public WatsonBinaryClassificationResult(String label, HashMap<Long,
-	// Boolean> realValues,
-	// List<VisualClassification> watsonResults, double threshold) {
-	//
-	// this.n = realValues.size();
-	// this.label = label;
-	// this.threshold = threshold;
-	// this.realValues = new LinkedHashMap<Long, Boolean>(realValues);
-	// this.predictedValues = buildPredictedValues(watsonResults);
-	//
-	// // build contingency matrix
-	// computeStats();
-	// }
+	// Vector of FP and FN
+	private List<Long> falsePositives;
+	private List<Long> falseNegatives;
 
-	public WatsonBinaryClassificationResult(DatasetLong testSet, List<VisualClassification> watsonResults,
+
+	public WatsonBinaryClassificationResult(Classifier classifier, DatasetLong testSet, List<VisualClassification> watsonResults,
 			double threshold) {
 
-		this.label = testSet.getLabel();
+		this.classifierJson = classifier;
+		this.testSet = testSet;
+		this.datasetSize = testSet.getSize();
 		this.threshold = threshold;
 
-		this.realValues = extractRealValues(testSet);
-		this.n = realValues.size();
+	//	this.realValues = extractRealValues();
+		//this.n = realValues.size();
 
 		this.predictedValues = buildPredictedValues(watsonResults);
 
@@ -64,19 +62,6 @@ public class WatsonBinaryClassificationResult {
 		computeStats();
 	}
 
-	private HashMap<Long, Boolean> extractRealValues(DatasetLong testSet) {
-
-		HashMap<Long, Boolean> realValues = new LinkedHashMap<Long, Boolean>();
-
-		// Load positive samples
-		for (Long imageID : testSet.getImages().getPositives())
-			realValues.put(imageID, true);
-
-		for (Long imageID : testSet.getImages().getNegatives())
-			realValues.put(imageID, false);
-
-		return realValues;
-	}
 
 	// TODO fare più robusto: devo controllare nome classificatore e nome classe
 	// per essere sicuri, ora assumo ce ne sia solo uno...
@@ -111,7 +96,7 @@ public class WatsonBinaryClassificationResult {
 				// XXX assume we have only one classifier
 				VisualClassifier classifier = img.getClassifiers().get(0);
 
-				String classifierName = label + "_classifier";
+				String classifierName = classifierJson.getLabel() + "_classifier";
 				if (!classifierName.equals(classifier.getName())) {
 					values.put(imageID, false); // classifier not found!
 					continue;
@@ -127,7 +112,7 @@ public class WatsonBinaryClassificationResult {
 				// XXX assume we have only one class
 				VisualClass myClass = classifier.getClasses().get(0);
 
-				if (!label.equals(myClass.getName())) {
+				if (!classifierJson.getLabel().equals(myClass.getName())) {
 					values.put(imageID, false); // class not found!
 					continue;
 				}
@@ -164,16 +149,19 @@ public class WatsonBinaryClassificationResult {
 	}
 
 	// generates all needed basic metrics
+	// TODO refactor... molte cose inutili
 	private void computeStats() {
-
-		// Compute size of set
-		n = realValues.size();
 
 		// TODO fill absMetrics (TP, TN, FP, FN)
 		measures.put(METRIC.TP, 1);
 
 		// Gather basic measures...
 		int TP = 0, TN = 0, FP = 0, FN = 0;
+		
+		// Initialize FP and FN
+		// TODO probabilmente inutili li posso recuperare dal dataset!!!!
+		falsePositives = new ArrayList<Long>();
+		falseNegatives = new ArrayList<Long>();
 
 		// For each image...
 		for (Long imageID : realValues.keySet()) {
@@ -187,14 +175,17 @@ public class WatsonBinaryClassificationResult {
 
 			if (realClass && predictedClass)
 				TP++;
-			else if (realClass && !predictedClass)
+			else if (realClass && !predictedClass){
+				falseNegatives.add(imageID);
 				FN++;
-			else if (!realClass && predictedClass)
+			}
+			else if (!realClass && predictedClass){
+				falsePositives.add(imageID);
 				FP++;
+			}
 			else // !realClass && !predictedClass
 				TN++;
 		}
-
 		measures.put(METRIC.TP, TP);
 		measures.put(METRIC.TN, TN);
 		measures.put(METRIC.FP, FP);
@@ -202,31 +193,63 @@ public class WatsonBinaryClassificationResult {
 
 		// for (METRIC m : measures.keySet())
 		// System.out.println(m + " -> " + measures.get(m));
-
 	}
 
 	public double computeMetric(METRIC m) {
 
 		switch (m) {
-		case tp:
-			return (double) measures.get(METRIC.TP) / n;
-		case tn:
-			return (double) measures.get(METRIC.TN) / n;
-		case fp:
-			return (double) measures.get(METRIC.FP) / n;
-		case fn:
-			return (double) measures.get(METRIC.FN) / n;
-		case tpr:
+		case POS:	// positive values in dataset
+			return testSet.getImages().getPositives().size();
+		case NEG: // negative values in dataset
+			return testSet.getImages().getNegatives().size();
+		case tp: // true positive %
+			return (double) measures.get(METRIC.TP) / datasetSize;
+		case tn: // true negative %
+			return (double) measures.get(METRIC.TN) / datasetSize;
+		case fp: // false positive %
+			return (double) measures.get(METRIC.FP) / datasetSize;
+		case fn: // false negative %
+			return (double) measures.get(METRIC.FN) / datasetSize;
+		case tpr: // true positive ratio
 			return (double) computeMetric(METRIC.tp) / (computeMetric(METRIC.tp) + computeMetric(METRIC.fn));
-		case fpr:
+		case fpr: // false positive ratio
 			return (double) computeMetric(METRIC.fp) / (computeMetric(METRIC.tp) + computeMetric(METRIC.fn));
+		case AUC: // area under curve
+			return computeAUC();	
+		case precision:
+			return (double) measures.get(METRIC.TP) / (measures.get(METRIC.TP) + measures.get(METRIC.FP));
+		case recall:
+			return (double) measures.get(METRIC.TP) / (measures.get(METRIC.TP) + measures.get(METRIC.FN));
+		case accuracy:
+			return (double) (measures.get(METRIC.TP)+measures.get(METRIC.TN) ) / (measures.get(METRIC.POS) + measures.get(METRIC.NEG));
 		default:
 			return 0;
 		}
 	}
 
-	// TODO
-	// parametri base: TP, TN, FP, FN
-	// public int getMeasure()
+	private double computeAUC() {
+		
+		// TODO
+
+		
+		return 1;
+	}
+
+	public double getThreshold(){
+		return threshold;
+	}
+	
+	public double getClassifierTrainingSize(){
+		return classifierJson.getTrainingSize();
+	}
+
+	public List<Long> getfalsePositives() {
+
+		return falsePositives;
+	
+	}
+	public List<Long> getfalseNegatives() {
+		return falseNegatives;
+	}
 
 }
