@@ -98,6 +98,10 @@ public class GetTestResult extends HttpServlet {
 			results.add(classificationResult);
 		}
 
+		
+		System.out.println(results);
+
+		
 		// CORRETTO DA USARE
 		response.getWriter().append(results.toString());
 
@@ -270,12 +274,14 @@ public class GetTestResult extends HttpServlet {
 		result.add("tprTrace", buildArrayFromList(tprTrace));
 		result.add("fprTrace", buildArrayFromList(fprTrace));
 
+		// TODO DA FARE!
 		result.addProperty("AUC", optResult.computeMetric(METRIC.AUC));
 
 		result.addProperty("trainingSize", optResult.getClassifierTrainingSize());
 
 		result.addProperty("thresholdOpt", optResult.getThreshold());
 
+		// TODO attenzione devono essere unsigned.. conviene farsi le stringhe?
 		result.add("falsePositiveOpt", buildArrayFromList(optResult.getfalsePositives()));
 
 		result.add("falseNegativeOpt", buildArrayFromList(optResult.getfalseNegatives()));

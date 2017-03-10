@@ -13,6 +13,7 @@ import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassifi
 
 import net.mybluemix.visualrecognitiontester.datamodel.Classifier;
 import net.mybluemix.visualrecognitiontester.datamodel.DatasetLong;
+import net.mybluemix.visualrecognitiontester.datamodel.ImagesLong;
 
 /**
  * This class contains information regarding a test performed by Watson visual
@@ -32,7 +33,7 @@ public class WatsonBinaryClassificationResult {
 	private DatasetLong testSet;
 
 	private double threshold;
-	private HashMap<Long, Boolean> realValues;
+//	private HashMap<Long, Boolean> realValues;
 	private HashMap<Long, Boolean> predictedValues;
 
 	int datasetSize; // size of vectors
@@ -163,11 +164,17 @@ public class WatsonBinaryClassificationResult {
 		falsePositives = new ArrayList<Long>();
 		falseNegatives = new ArrayList<Long>();
 
+		///------------------------------------------------------------------
+		// TODO sistemare qui sotto
 		// For each image...
-		for (Long imageID : realValues.keySet()) {
-
-			boolean realClass = realValues.get(imageID);
+	//	for (Long imageID : realValues.keySet()) {
+		ImagesLong images = testSet.getImages();
+			for (Long imageID : predictedValues.keySet()) {	// for all ID
+			
+			boolean realClass = images.getPositives().contains(imageID) ? true : false;
 			boolean predictedClass = predictedValues.get(imageID);
+
+			///------------------------------------------------------------------
 
 			// System.out.println(
 			// Long.toUnsignedString(imageID) + " - real: " + realClass + " vs
@@ -221,7 +228,7 @@ public class WatsonBinaryClassificationResult {
 		case recall:
 			return (double) measures.get(METRIC.TP) / (measures.get(METRIC.TP) + measures.get(METRIC.FN));
 		case accuracy:
-			return (double) (measures.get(METRIC.TP)+measures.get(METRIC.TN) ) / (measures.get(METRIC.POS) + measures.get(METRIC.NEG));
+			return (double) (measures.get(METRIC.TP)+measures.get(METRIC.TN) ) / (computeMetric(METRIC.POS) + computeMetric(METRIC.NEG));
 		default:
 			return 0;
 		}

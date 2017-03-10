@@ -53,11 +53,13 @@ public class BackgroundDaemonManager implements ServletContextListener {
 		// Prepare all daemons for execution
 		List<Runnable> daemons = new ArrayList<Runnable>();
 		daemons.add(new AsyncJobDaemon(ctx));
-		try {
-			daemons.add(new MqttClientDaemon(ctx));
-		} catch (MqttException e) {
-			e.printStackTrace();
-		}
+		
+		System.out.println("[BackgroundDaemonManager] mqtt disabled");
+//		try {
+//			daemons.add(new MqttClientDaemon(ctx));
+//		} catch (MqttException e) {
+//			e.printStackTrace();
+//		}
 		// ...
 
 		////////////////////////////////////////////
