@@ -81,7 +81,7 @@ body.modal { overflow: hidden; }
 .caption-container { text-align: center; background-color: rgba(0, 0, 0, 0.99); padding: 2px 16px; color: white; }
 .demo { opacity: 0.6; height: 50px; }
 .active, .demo:hover { opacity: 1; height: 50px; }
-img { margin-bottom: -4px; }
+/*img { margin-bottom: -4px; }*/
 img.hover-shadow { transition: 0.3s; }
 .hover-shadow:hover { box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); }
 

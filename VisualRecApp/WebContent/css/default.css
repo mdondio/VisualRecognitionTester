@@ -138,11 +138,11 @@ h5 { font-family: "museo-sans",sans-serif; font-style: normal; font-weight: 500;
 /* ================ DESKTOP =====================*/
 
 @media all and (min-width: 1200px) {
-
+/*
 img{
 	height: auto;
 	width: 100%;
-	}
+	}*/
 
   body { 
   	min-width: 1024px; 
@@ -419,7 +419,11 @@ color: #ffffff;
 
 .more {
   background: #174286; color: #FFFFFF;
-  padding: 10px 10px 13px; min-width: 160px; position: relative; top: 25px; margin-bottom: 35px;
+  padding: 10px 10px 13px;
+  min-width: 160px; 
+  position: relative; 
+  top: 25px; 
+  margin-bottom: 35px;
   border-radius: 3px;
   overflow: hidden; display: inline-block;
   font-family: "museo-sans",sans-serif; font-style: normal; font-weight: 100; font-size: 18px; text-transform: none; text-align: center; text-decoration: none;
@@ -430,19 +434,6 @@ color: #ffffff;
   padding: 10px 40px 10px 40px;
 }
 
-.more:hover {
-  background: #1D71B8;
-  transition: ease;
-  webkit-transition: ease-in-out;
-  -moz-transition: ease-in-out;
-  transition-duration: 300ms;
-  webkit-transition-duration: 300ms;
-  -moz-transition-duration: 300ms;
-  webkit-box-shadow: 		2px 8px 7px rgba(0,0,0,0.15);
-  -moz-box-shadow: 		2px 8px 7px rgba(0,0,0,0.15);
-  box-shadow: 				2px 8px 7px rgba(0,0,0,0.15);
-    padding: 10px 40px 10px 40px;
-}
 
 .more-mob {
   background: #174286; color: #FFFFFF;
@@ -469,7 +460,7 @@ color: #ffffff;
   box-shadow: 				2px 8px 7px rgba(0,0,0,0.15);
   padding: 10px 40px 10px 40px;
 }
-
+/*
   .more {
     background: #343B43; color: #FFFFFF;
     min-width: 100px; 
@@ -489,7 +480,7 @@ color: #ffffff;
     box-shadow: 2px 3px 7px rgba(0,0,0,0.12);
     cursor: pointer;
     padding: 10px 40px 10px 40px;
-  }
+  }*/
   
   .more.del { 
   	background: #343B43; 
@@ -502,6 +493,7 @@ color: #ffffff;
   
   .more:hover {
     background: #00A6A0;
+    color: #ffffff;
     transition: ease;
     webkit-transition: ease-in-out;
     -moz-transition: ease-in-out;
@@ -511,7 +503,7 @@ color: #ffffff;
     webkit-box-shadow: 2px 8px 7px rgba(0,0,0,0.15);
     -moz-box-shadow: 2px 8px 7px rgba(0,0,0,0.15);
     box-shadow: 2px 8px 7px rgba(0,0,0,0.15);
-    padding: 10px 40px 10px 40px;
+    /*padding: 10px 40px 10px 40px;*/
   }
 
 /*----------------------------------------*/

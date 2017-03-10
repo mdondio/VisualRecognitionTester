@@ -9,53 +9,29 @@
 <script>createHead();</script>
 
 <body>
-
-	<div class = "content">
-		<h2><span class="title">IBM Visual Recognition</span></h2><br>
-		
-		<div class="row clearfix">
-		
-			<div class="column half"><h4>How good are you?</h4>
-				<div class = "post-preview">
-					<div class = "card">
-						<p>
-							This is a test framework based on ROC analysis. 
-							<br><br>
-							The aim of this work is to test IBM Watson Visual Recogntion API against different test sets.
-							<br><br>
-							Enjoy it!
-						</p>
-					</div>
-				</div>
-			</div>
-			
-			
-			<div class="column half"><h4>Login</h4>
-				<div class="post-preview">
-					<div class = "card">
-						<p>
-							<center><img src="img/user.png" width="100px" /><br><br>
+	<header></header>
+<script>
+		createHeader();
+	</script>
+<div class="column third">
+</div>
+<div class="column third">
+	<div class=content>
+							<img src="img/user.png" width="200px" padding=10px"">
+							<br>
 								<form action ="loginservlet" name="login_form" id="login_form" method="post"> 
-									<b>Username:</b></br>
-									<input type="text" name="username" size="50"></br>
-									<b>Password:</b></br>
-									<input type="password" name="password" size="50"></br>
+									<input type="text" name="username" placeholder="Username" size="50">
+									<br>
+									<input type="password" name="password" placeholder="Password" size="50">
+									<br>
 									<input type="submit" value="login" class="more">
-									<input type="reset" value="Cancel" class="more">
+									<input type="reset" value="cancel" class="more">
 								</form>
-							</center><br>
-						</p>	
-					</div>
-				</div>
-			</div>
-		
-		</div>
-	
-<center><br><br><br><font size="2">powered by </font><img src="img/bluemix.png" width="150px" align="middle" /></center>
-
-
-
-
-
+								<br>
+							<font size="2">powered by </font><img src="img/bluemix.png" width="150px" align="middle">
+</div>
+</div>
+<div class="column third">
+</div>
 </body>
 </html>
