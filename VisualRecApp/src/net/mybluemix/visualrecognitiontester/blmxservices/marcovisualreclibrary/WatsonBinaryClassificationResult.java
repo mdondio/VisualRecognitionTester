@@ -154,7 +154,6 @@ public class WatsonBinaryClassificationResult {
 	private void computeStats() {
 
 		// TODO fill absMetrics (TP, TN, FP, FN)
-		measures.put(METRIC.TP, 1);
 
 		// Gather basic measures...
 		int TP = 0, TN = 0, FP = 0, FN = 0;
@@ -198,8 +197,18 @@ public class WatsonBinaryClassificationResult {
 		measures.put(METRIC.FP, FP);
 		measures.put(METRIC.FN, FN);
 
-		// for (METRIC m : measures.keySet())
-		// System.out.println(m + " -> " + measures.get(m));
+		 for (METRIC m : measures.keySet())
+		 System.out.println(m + " -> " + measures.get(m));
+
+		 System.out.println("tp -> " + computeMetric(METRIC.tp));
+		 System.out.println("tn -> " + computeMetric(METRIC.tn));
+		 System.out.println("fp -> " + computeMetric(METRIC.fp));
+		 System.out.println("fn -> " + computeMetric(METRIC.fn));
+
+		 System.out.println("tpr -> " + computeMetric(METRIC.tpr));
+		 System.out.println("tpr -> " + computeMetric(METRIC.fpr));
+
+		 
 	}
 
 	public double computeMetric(METRIC m) {
@@ -210,29 +219,27 @@ public class WatsonBinaryClassificationResult {
 		case NEG: // negative values in dataset
 			return testSet.getImages().getNegatives().size();
 		case tp: // true positive %
-			return (double) measures.get(METRIC.TP) / datasetSize;
+			return (double) measures.get(METRIC.TP) / (double)datasetSize;
 		case tn: // true negative %
-			return (double) measures.get(METRIC.TN) / datasetSize;
+			return (double) measures.get(METRIC.TN) / (double)datasetSize;
 		case fp: // false positive %
-			return (double) measures.get(METRIC.FP) / datasetSize;
+			return (double) measures.get(METRIC.FP) / (double)datasetSize;
 		case fn: // false negative %
-			return (double) measures.get(METRIC.FN) / datasetSize;
+			return (double) measures.get(METRIC.FN) / (double)datasetSize;
 		case tpr: // true positive ratio
-			return (double) computeMetric(METRIC.tp) / (computeMetric(METRIC.tp) + computeMetric(METRIC.fn));
+			return (double) computeMetric(METRIC.tp) / (double) (computeMetric(METRIC.tp) + computeMetric(METRIC.fn));
 		case fpr: // false positive ratio
-			return (double) computeMetric(METRIC.fp) / (computeMetric(METRIC.tp) + computeMetric(METRIC.fn));
+			return (double) computeMetric(METRIC.fp) / (double) (computeMetric(METRIC.tp) + computeMetric(METRIC.fn));
 		case precision:
-			return (double) measures.get(METRIC.TP) / (measures.get(METRIC.TP) + measures.get(METRIC.FP));
+			return (double) measures.get(METRIC.TP) / (double)(measures.get(METRIC.TP) + measures.get(METRIC.FP));
 		case recall:
-			return (double) measures.get(METRIC.TP) / (measures.get(METRIC.TP) + measures.get(METRIC.FN));
+			return (double) measures.get(METRIC.TP) / (double)(measures.get(METRIC.TP) + measures.get(METRIC.FN));
 		case accuracy:
-			return (double) (measures.get(METRIC.TP)+measures.get(METRIC.TN) ) / (computeMetric(METRIC.POS) + computeMetric(METRIC.NEG));
+			return (double) (measures.get(METRIC.TP)+measures.get(METRIC.TN) ) / (double)(computeMetric(METRIC.POS) + computeMetric(METRIC.NEG));
 		default:
 			return 0;
 		}
 	}
-
-
 
 	public double getThreshold(){
 		return threshold;

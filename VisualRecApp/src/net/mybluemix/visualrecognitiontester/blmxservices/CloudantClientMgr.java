@@ -96,10 +96,22 @@ public class CloudantClientMgr {
 		}
 
 		try {
+			// TODO
+			// per serializzare / deserializzare correttamente i long:
+			// mi serve un gsonbuilder custom!
+			// http://static.javadoc.io/com.cloudant/cloudant-client/2.2.0/overview-summary.html
+
+			 //				 .registerTypeAdapter(Long.class, new JsonSerializer<Long>(){
+//			public JsonElement serialize(Long id, Type typeofid, JsonSerializationContext context) {
+//			return new JsonElement(Long.toUnsignedString(id));
+//			}}).create();
+
+			
 			System.out.println("Connecting to Cloudant : " + user);
 			CloudantClient client = ClientBuilder.account(user)
 					.username(user)
 					.password(password)
+//					.gsonBuilder(gsonBuilder custom) TODO
 					.build();
 			return client;
 		} catch (CouchDbException e) {

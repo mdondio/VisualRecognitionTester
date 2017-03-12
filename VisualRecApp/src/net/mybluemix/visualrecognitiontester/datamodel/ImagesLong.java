@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * Class to represent a Images Object
- * 
+ *TODO: will be removed, custom gsonbuilder instead
  * @author Marco Dondio
  *
  */

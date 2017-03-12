@@ -2,6 +2,8 @@ package net.mybluemix.visualrecognitiontester.servlet;
 
 //import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,9 +17,13 @@ import javax.servlet.http.HttpServletResponse;
 import com.cloudant.client.api.Database;
 import com.cloudant.client.api.model.FindByIndexOptions;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 //import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 //import com.google.gson.JsonSyntaxException;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassification;
 
@@ -45,7 +51,6 @@ public class GetTestResult extends HttpServlet {
 	 */
 	public GetTestResult() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -209,7 +214,7 @@ public class GetTestResult extends HttpServlet {
 		double maxThreshold = 0.6;
 		double step = 0.05;
 
-		// DecimalFormat df = new DecimalFormat("#.###");
+		DecimalFormat df = new DecimalFormat("#.###");
 		/////////////////////////////////////////////////////////////////////////////
 
 		// Compute optimal threshold = pair (fprs, tprs)
@@ -239,8 +244,8 @@ public class GetTestResult extends HttpServlet {
 			// XXX checkme
 			double distance = Math.sqrt(Math.pow(1 - tpr, 2) + Math.pow(1 - fpr, 2));
 
-			System.out.println("[GetTestResult runClassification()] threshold = " + threshold + " tpr = " + tpr
-					+ " fpr = " + fpr + " distance = " + distance);
+			System.out.println("[GetTestResult runClassification()] threshold = " + df.format(threshold) + " tpr = "
+					+ df.format(tpr) + " fpr = " + df.format(fpr) + " distance = " + df.format(distance));
 
 			// Update best result
 			if (optResult == null || distance < optDistance) {
@@ -250,8 +255,8 @@ public class GetTestResult extends HttpServlet {
 		}
 
 		// debug
-		System.out.println("[GetTestResult runClassification()] selected optDistance = " + optDistance
-				+ " result with threshold =  " + optResult.getThreshold());
+		System.out.println("[GetTestResult runClassification()] selected optDistance = " + df.format(optDistance)
+				+ " result with threshold =  " + df.format(optResult.getThreshold()));
 
 		// Build JSON with optimal result
 		return buildJsonResult(optResult, tprTrace, fprTrace, computeAUC(tprTrace, fprTrace));
@@ -261,10 +266,6 @@ public class GetTestResult extends HttpServlet {
 			List<Double> fprTrace, double auc) {
 		JsonObject result = new JsonObject();
 
-		// {"ID":"test2","accuracyOpt": 0.57,"fpr":[0, 0.3, 0.5, 1],"tpr":[0,
-		// 0.4, 0.7, 1],"AUC":0.57, "trainingSize":
-		// 150,"thresholdOpt":0.4,"falsepositiveOpt":["img/408757582443373.jpg","img/6471154175007223.jpg","img/img_nature_wide.jpg","img/img_fjords_wide.jpg"],"falsenegativeOpt":["img/7169059395095464.jpg","img/8119543326477369.jpg","img/8433457349861016.jpg","img/img_nature_wide.jpg","img/img_fjords_wide.jpg"]}
-
 		result.addProperty("ID", "TO REMOVE?");
 
 		result.addProperty("accuracyOpt", optResult.computeMetric(METRIC.accuracy));
@@ -272,14 +273,12 @@ public class GetTestResult extends HttpServlet {
 		result.add("tprTrace", buildArrayFromList(tprTrace));
 		result.add("fprTrace", buildArrayFromList(fprTrace));
 
-		// TODO DA FARE!
 		result.addProperty("AUC", auc);
 
 		result.addProperty("trainingSize", optResult.getClassifierTrainingSize());
 
 		result.addProperty("thresholdOpt", optResult.getThreshold());
 
-		// TODO attenzione devono essere unsigned.. conviene farsi le stringhe?
 		result.add("falsePositiveOpt", buildArrayFromList(optResult.getfalsePositives()));
 
 		result.add("falseNegativeOpt", buildArrayFromList(optResult.getfalseNegatives()));
@@ -320,10 +319,17 @@ public class GetTestResult extends HttpServlet {
 	// return s;
 	// }
 
-
 	// Method to build array from list
+	// Nota: per gestire correttamente unsigned long devo
+	// registrare un adapter custom
 	private <T> JsonArray buildArrayFromList(List<T> list) {
-		return new Gson().toJsonTree(list).getAsJsonArray();
+		Gson gson = new GsonBuilder().registerTypeAdapter(Long.class, new JsonSerializer<Long>() {
+			public JsonElement serialize(Long id, Type typeofid, JsonSerializationContext context) {
+				return new Gson().toJsonTree(Long.toUnsignedString(id) + ".jpg");
+			}
+		}).create();
+
+		return gson.toJsonTree(list).getAsJsonArray();
 	}
 
 	// Computes AUC from a given tprTrace and fprTrace

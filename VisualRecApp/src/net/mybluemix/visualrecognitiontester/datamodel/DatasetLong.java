@@ -7,6 +7,7 @@ import org.json.simple.JSONObject;
 
 /**
  * Class needed to implement Dataset with Long values. Needed to handle uncorrect parsing.
+ *TODO: will be removed, custom gsonbuilder instead
  * @author Marco Dondio
  *
  */
