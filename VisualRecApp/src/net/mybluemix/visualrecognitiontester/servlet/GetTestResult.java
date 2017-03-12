@@ -2,7 +2,6 @@ package net.mybluemix.visualrecognitiontester.servlet;
 
 //import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,11 +18,8 @@ import com.cloudant.client.api.model.FindByIndexOptions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 //import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
 //import com.google.gson.JsonSyntaxException;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassification;
 
@@ -37,6 +33,7 @@ import net.mybluemix.visualrecognitiontester.blmxservices.marcovisualreclibrary.
 import net.mybluemix.visualrecognitiontester.datamodel.Classifier;
 import net.mybluemix.visualrecognitiontester.datamodel.Dataset;
 import net.mybluemix.visualrecognitiontester.datamodel.DatasetLong;
+import net.mybluemix.visualrecognitiontester.datamodel.LongToJpgStringAdapter;
 
 /**
  * This servlet will launch a classification on Watson Visual Recognition
@@ -323,12 +320,8 @@ public class GetTestResult extends HttpServlet {
 	// Nota: per gestire correttamente unsigned long devo
 	// registrare un adapter custom
 	private <T> JsonArray buildArrayFromList(List<T> list) {
-		Gson gson = new GsonBuilder().registerTypeAdapter(Long.class, new JsonSerializer<Long>() {
-			public JsonElement serialize(Long id, Type typeofid, JsonSerializationContext context) {
-				return new Gson().toJsonTree(Long.toUnsignedString(id) + ".jpg");
-			}
-		}).create();
-
+		Gson gson = new GsonBuilder().registerTypeAdapter(Long.class, new LongToJpgStringAdapter()).create();
+		
 		return gson.toJsonTree(list).getAsJsonArray();
 	}
 
