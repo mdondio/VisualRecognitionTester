@@ -123,14 +123,27 @@ public class GetTestResult extends HttpServlet {
 	// This function translates request into an useful data structure
 	private HashMap<String, String> parseRequest(HttpServletRequest request) {
 
-		System.out.println(request.getQueryString());
+		String arrayArg = request.getQueryString();
+		System.out.println(arrayArg);
 
+		int i = arrayArg.indexOf("%2C")+3;
+		
+		arrayArg= arrayArg.substring(i, arrayArg.length());
+		
+		String testSetID = arrayArg.split("%2C")[0];
+		String classifierID = arrayArg.split("%2C")[1];
+		
+		System.out.println(testSetID + " - " + classifierID);
+		
+		
+		
 		////////////////////////////////////////////////////////
 		// test purpose XXX
 		// qui id del dataset - classifier ID / altro per usare uno specifico
 		//////////////////////////////////////////////////////// classificatore
 		HashMap<String, String> pairs = new HashMap<String, String>();
-		pairs.put("watch_test01", "watch_classifier_1559642317");
+//		pairs.put("watch_test01", "watch_classifier_1559642317");
+		pairs.put(testSetID, classifierID);
 
 		// http://localhost:9080/VisualRecognitionTester/show.html?
 		// arr=a,b,yyxxxxxxx,yyxxxxxxx,yyxxxxxxx,xxxxxxxxx
