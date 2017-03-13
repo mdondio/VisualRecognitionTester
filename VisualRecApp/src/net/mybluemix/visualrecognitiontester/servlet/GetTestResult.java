@@ -2,6 +2,7 @@ package net.mybluemix.visualrecognitiontester.servlet;
 
 //import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,8 +19,11 @@ import com.cloudant.client.api.model.FindByIndexOptions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 //import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 //import com.google.gson.JsonSyntaxException;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassification;
 
@@ -32,8 +36,6 @@ import net.mybluemix.visualrecognitiontester.blmxservices.marcovisualreclibrary.
 import net.mybluemix.visualrecognitiontester.blmxservices.marcovisualreclibrary.WatsonBinaryClassificationResult.METRIC;
 import net.mybluemix.visualrecognitiontester.datamodel.Classifier;
 import net.mybluemix.visualrecognitiontester.datamodel.Dataset;
-import net.mybluemix.visualrecognitiontester.datamodel.DatasetLong;
-import net.mybluemix.visualrecognitiontester.datamodel.LongToJpgStringAdapter;
 
 /**
  * This servlet will launch a classification on Watson Visual Recognition
@@ -70,7 +72,7 @@ public class GetTestResult extends HttpServlet {
 		for (String testSetId : pairs.keySet()) {
 
 			// retrieve dataset and classifier object
-			DatasetLong testSet = retrieveTestSet(testSetId);
+			Dataset testSet = retrieveTestSet(testSetId);
 
 			// -----------------------
 			// debug
@@ -141,7 +143,7 @@ public class GetTestResult extends HttpServlet {
 	}
 
 	// XXX ottimizza e recupera tutti i testSet indicati con una sola query
-	private DatasetLong retrieveTestSet(String id) {
+	private Dataset retrieveTestSet(String id) {
 
 		// Ricevi get con parametro sub_type
 		Database db = CloudantClientMgr.getCloudantDB();
@@ -155,10 +157,7 @@ public class GetTestResult extends HttpServlet {
 		// execute query
 		List<Dataset> datasets = db.findByIndex(selector, Dataset.class, opt);
 
-		// TODO convert Dataset to DatasetLong
-		List<DatasetLong> datasetsLong = DatasetLong.convertFromDatasets(datasets);
-
-		return datasetsLong == null ? null : datasetsLong.get(0);
+		return datasets == null ? null : datasets.get(0);
 	}
 
 	// Recupera il classificatore
@@ -180,7 +179,7 @@ public class GetTestResult extends HttpServlet {
 	}
 
 	// Generate zip files from a dataset
-	private List<byte[]> generateZipTestSet(DatasetLong d) throws IOException {
+	private List<byte[]> generateZipTestSet(Dataset d) throws IOException {
 
 		// Get instance
 		ObjectStorage oo = ObjectStorageClientMgr.getObjectStorage();
@@ -195,7 +194,7 @@ public class GetTestResult extends HttpServlet {
 	}
 
 	// This method runs a classification on watson
-	private JsonObject runClassification(Classifier classifierJson, DatasetLong testSet, List<byte[]> zipFiles)
+	private JsonObject runClassification(Classifier classifierJson, Dataset testSet, List<byte[]> zipFiles)
 			throws IOException {
 
 		// Istantiate service on BlueMix
@@ -320,7 +319,12 @@ public class GetTestResult extends HttpServlet {
 	// Nota: per gestire correttamente unsigned long devo
 	// registrare un adapter custom
 	private <T> JsonArray buildArrayFromList(List<T> list) {
-		Gson gson = new GsonBuilder().registerTypeAdapter(Long.class, new LongToJpgStringAdapter()).create();
+		
+		// If list is double, treat as unsigned string
+		Gson gson = new GsonBuilder().registerTypeAdapter(Long.class, new JsonSerializer<Long>(){
+		public JsonElement serialize(Long l, Type t, JsonSerializationContext arg2) {
+			return new Gson().toJsonTree(Long.toUnsignedString(l));
+		}}).create();
 		
 		return gson.toJsonTree(list).getAsJsonArray();
 	}

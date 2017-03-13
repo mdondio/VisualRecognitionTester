@@ -12,8 +12,8 @@ import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassifi
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassifier.VisualClass;
 
 import net.mybluemix.visualrecognitiontester.datamodel.Classifier;
-import net.mybluemix.visualrecognitiontester.datamodel.DatasetLong;
-import net.mybluemix.visualrecognitiontester.datamodel.ImagesLong;
+import net.mybluemix.visualrecognitiontester.datamodel.Dataset;
+import net.mybluemix.visualrecognitiontester.datamodel.Images;
 
 /**
  * This class contains information regarding a test performed by Watson visual
@@ -30,7 +30,7 @@ public class WatsonBinaryClassificationResult {
 	};
 
 	private Classifier classifierJson;
-	private DatasetLong testSet;
+	private Dataset testSet;
 
 	private double threshold;
 //	private HashMap<Long, Boolean> realValues;
@@ -46,7 +46,7 @@ public class WatsonBinaryClassificationResult {
 	private List<Long> falseNegatives;
 
 
-	public WatsonBinaryClassificationResult(Classifier classifier, DatasetLong testSet, List<VisualClassification> watsonResults,
+	public WatsonBinaryClassificationResult(Classifier classifier, Dataset testSet, List<VisualClassification> watsonResults,
 			double threshold) {
 
 		this.classifierJson = classifier;
@@ -167,7 +167,7 @@ public class WatsonBinaryClassificationResult {
 		// TODO sistemare qui sotto
 		// For each image...
 	//	for (Long imageID : realValues.keySet()) {
-		ImagesLong images = testSet.getImages();
+		Images images = testSet.getImages();
 			for (Long imageID : predictedValues.keySet()) {	// for all ID
 			
 			boolean realClass = images.getPositives().contains(imageID) ? true : false;

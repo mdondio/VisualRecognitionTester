@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.cloudant.client.api.Database;
 import com.cloudant.client.api.model.FindByIndexOptions;
-import com.google.gson.Gson;
 
 import net.mybluemix.visualrecognitiontester.blmxservices.CloudantClientMgr;
 import net.mybluemix.visualrecognitiontester.datamodel.Dataset;
@@ -56,7 +55,6 @@ public class GetDataset extends HttpServlet {
 		// debug, query
 //		System.out.println("Query:  -> " + selector);
   
-		Gson gson = new Gson();
 
         // Limita i campi
         FindByIndexOptions o = new FindByIndexOptions()
@@ -64,7 +62,10 @@ public class GetDataset extends HttpServlet {
         
         // execute query
         List<Dataset> datasets = db.findByIndex(selector, Dataset.class, o);
-        		response.getWriter().append(gson.toJson(datasets));
+        
+        
+        
+        response.getWriter().append(CloudantClientMgr.getGsonBuilder().create().toJson(datasets));
 	}
 
 	/**

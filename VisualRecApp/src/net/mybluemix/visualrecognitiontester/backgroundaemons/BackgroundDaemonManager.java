@@ -10,7 +10,6 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
-import org.eclipse.paho.client.mqttv3.MqttException;
 
 /**
  * This class is responsible to manage all background daemons that will be

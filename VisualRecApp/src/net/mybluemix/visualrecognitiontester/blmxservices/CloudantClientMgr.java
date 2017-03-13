@@ -25,6 +25,8 @@ import net.mybluemix.visualrecognitiontester.datamodel.ImagesAdapter;
 public class CloudantClientMgr {
 
 	private static CloudantClient cloudant = null;
+	private static  GsonBuilder customGsonBuilder;
+
 	private static Database db = null;
 
 	private static String user = null;
@@ -45,6 +47,11 @@ public class CloudantClientMgr {
 			}
 		}
 		return db;
+	}
+
+	public static GsonBuilder getGsonBuilder() {
+		return customGsonBuilder;
+
 	}
 
 	
@@ -103,12 +110,12 @@ public class CloudantClientMgr {
 			System.out.println("Connecting to Cloudant : " + user);
 			
 			// TODO: necessario per gestire Images internamente come Long
-			GsonBuilder customGsonBuilder = new GsonBuilder().registerTypeAdapter(Images.class, new ImagesAdapter());
+			 customGsonBuilder = new GsonBuilder().registerTypeAdapter(Images.class, new ImagesAdapter());
 			
 			CloudantClient client = ClientBuilder.account(user)
 					.username(user)
 					.password(password)
-//					.gsonBuilder(customGsonBuilder) 
+					.gsonBuilder(customGsonBuilder) 
 					.build();
 			return client;
 		} catch (CouchDbException e) {
