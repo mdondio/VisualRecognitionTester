@@ -30,6 +30,7 @@ import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassifi
 import net.mybluemix.visualrecognitiontester.blmxservices.CloudantClientMgr;
 import net.mybluemix.visualrecognitiontester.blmxservices.ObjectStorage;
 import net.mybluemix.visualrecognitiontester.blmxservices.ObjectStorageClientMgr;
+import net.mybluemix.visualrecognitiontester.blmxservices.marcovisualreclibrary.exceptions.VisualClassifierException;
 import net.mybluemix.visualrecognitiontester.blmxservices.marcovisualreclibrary.Utils;
 import net.mybluemix.visualrecognitiontester.blmxservices.marcovisualreclibrary.WatsonBinaryClassificationResult;
 import net.mybluemix.visualrecognitiontester.blmxservices.marcovisualreclibrary.WatsonBinaryClassifier;
@@ -216,8 +217,15 @@ public class GetTestResult extends HttpServlet {
 		classifier.setLabel(classifierJson.getLabel());
 
 		// Classify all zips against Watson instance
-		List<VisualClassification> watsonres = classifier.classify(zipFiles, Utils.WATSONMINSCORE);
+		// TODO gestire correttamente
+			List<VisualClassification> watsonres;
+				try {
+					watsonres = classifier.classify(zipFiles, Utils.WATSONMINSCORE);
+				} catch (VisualClassifierException e) {
 
+				System.out.println("[GetTestResult runClassification()] VisualClassifierException: " + e.getMessage());	
+				return new JsonObject();
+				}
 		// Compute results and metrics
 		// TODO passarli come parametri aggiuntivi alla simulazione?
 		double minThreshold = 0.05;
@@ -365,7 +373,7 @@ public class GetTestResult extends HttpServlet {
 		for (int i = 0; i < (tprTrace.size() - 1); i++)
 			auc += ((fprTrace.get(i + 1) - fprTrace.get(i)) * (tprTrace.get(i + 1) + tprTrace.get(i)) / 2);
 
-		// System.out.println("[GetTestResult computeAUC()] auc = " + auc);
+		// System.out.println("[GetTestResult computeAUCAndrea()] auc = " + auc);
 
 		return auc;
 	}
@@ -385,7 +393,7 @@ public class GetTestResult extends HttpServlet {
 			auc += (tprTrace.get(k) + tprTrace.get(k + 1)) / 2;
 		auc *= (b - a) / n;
 
-		System.out.println("[GetTestResult computeAUCTrapezio()] auc = " + auc);
+		System.out.println("[GetTestResult computeAUCMarco()] auc = " + auc);
 
 		// TODO
 

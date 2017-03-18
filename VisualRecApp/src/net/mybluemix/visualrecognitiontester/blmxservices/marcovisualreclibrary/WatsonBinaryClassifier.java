@@ -13,6 +13,8 @@ import com.ibm.watson.developer_cloud.visual_recognition.v3.model.ClassifyImages
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassification;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassifier;
 
+import net.mybluemix.visualrecognitiontester.blmxservices.marcovisualreclibrary.exceptions.VisualClassifierException;
+
 /**
  * This class represents a Watson based classifier
  * 
@@ -154,8 +156,9 @@ public class WatsonBinaryClassifier {
 	 * 
 	 * @param images
 	 *            - the zip of images to be classified
+	 * @throws VisualClassifierException 
 	 */
-	public VisualClassification classify(byte[] images, double minThreshold) {
+	public VisualClassification classify(byte[] images, double minThreshold) throws VisualClassifierException {
 
 		System.out.println("[WatsonBinaryClassifier] Classify images using classifier with id: " + classifierId);
 
@@ -164,7 +167,13 @@ public class WatsonBinaryClassifier {
 
 		VisualClassification result = service.classify(options).execute();
 
-//		System.out.println(result);
+
+		// Sembra che se supero qualche limite da capire
+		// mi ritorna un JSON {}
+		// imagesProcessed c' sempre se la risposta è valida, è un buon controllo
+		if(result.getImagesProcessed() == null)
+			throw new VisualClassifierException("VisualClassification result returned empty JSON: API call limits exceeed?");
+		
 		return result;
 	}
 
@@ -173,8 +182,9 @@ public class WatsonBinaryClassifier {
 	 * 
 	 * @param images
 	 *            - the zip of images to be classified
+	 * @throws VisualClassifierException 
 	 */
-	public List<VisualClassification> classify(List<byte[]> imageSets, double minThreshold) {
+	public List<VisualClassification> classify(List<byte[]> imageSets, double minThreshold) throws VisualClassifierException {
 
 	//	System.out.println("[WatsonBinaryClassifier] Classify set of images using classifier with id: " + classifierId);
 
