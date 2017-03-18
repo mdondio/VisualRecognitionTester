@@ -32,6 +32,10 @@ public class ImagesAdapter implements JsonSerializer<Images>, JsonDeserializer<I
 
 	@Override
 	public Images deserialize(JsonElement el, Type t, JsonDeserializationContext ctx) throws JsonParseException {
+		
+		
+	//	System.out.println("[ImagesAdapter deserialize()]");
+		
 		Images img = new Images();
 		
 		
@@ -57,6 +61,8 @@ public class ImagesAdapter implements JsonSerializer<Images>, JsonDeserializer<I
 
 	@Override
 	public JsonElement serialize(Images images, Type t, JsonSerializationContext ctx) {
+//		System.out.println("[ImagesAdapter serialize()]");
+
 		JsonObject o = new JsonObject();
 		
 		// we use custom serializer to transform
@@ -66,7 +72,7 @@ public class ImagesAdapter implements JsonSerializer<Images>, JsonDeserializer<I
 		o.add("positive", positive);
 		o.add("negative", negative);
 		
-		System.out.println("serialized: \n" + o);
+		//System.out.println("serialized: \n" + o);
 
 		
 		return o;

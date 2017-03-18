@@ -48,8 +48,8 @@ function Draw(result){
 				var obj = result[i];
 				var x = [];
 				var y = [];
-				for(var j in obj.fpr) x.push(obj.fpr[j]);
-				for(var j in obj.tpr) y.push(obj.tpr[j]);
+				for(var j in obj.fprTrace) x.push(obj.fprTrace[j]);
+				for(var j in obj.tprTrace) y.push(obj.tprTrace[j]);
 				
 				ROCcurves.push(
 						{

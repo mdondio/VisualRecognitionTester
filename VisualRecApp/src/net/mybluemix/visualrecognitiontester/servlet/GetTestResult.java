@@ -126,23 +126,21 @@ public class GetTestResult extends HttpServlet {
 		String arrayArg = request.getQueryString();
 		System.out.println(arrayArg);
 
-		int i = arrayArg.indexOf("%2C")+3;
-		
-		arrayArg= arrayArg.substring(i, arrayArg.length());
-		
+		int i = arrayArg.indexOf("%2C") + 3;
+
+		arrayArg = arrayArg.substring(i, arrayArg.length());
+
 		String testSetID = arrayArg.split("%2C")[0];
 		String classifierID = arrayArg.split("%2C")[1];
-		
+
 		System.out.println(testSetID + " - " + classifierID);
-		
-		
-		
+
 		////////////////////////////////////////////////////////
 		// test purpose XXX
 		// qui id del dataset - classifier ID / altro per usare uno specifico
 		//////////////////////////////////////////////////////// classificatore
 		HashMap<String, String> pairs = new HashMap<String, String>();
-//		pairs.put("watch_test01", "watch_classifier_1559642317");
+		// pairs.put("watch_test01", "watch_classifier_1559642317");
 		pairs.put(testSetID, classifierID);
 
 		// http://localhost:9080/VisualRecognitionTester/show.html?
@@ -165,10 +163,12 @@ public class GetTestResult extends HttpServlet {
 		String selector = "{\"selector\": {\"_id\" : \"" + id + "\"}}";
 
 		// Limita i campi
-		FindByIndexOptions opt = new FindByIndexOptions().fields("_id").fields("images");
+		FindByIndexOptions opt = new FindByIndexOptions().fields("_id").fields("label").fields("images");
 
 		// execute query
 		List<Dataset> datasets = db.findByIndex(selector, Dataset.class, opt);
+		
+		System.out.println("-------------------------------------------");
 
 		return datasets == null ? null : datasets.get(0);
 	}
@@ -219,9 +219,10 @@ public class GetTestResult extends HttpServlet {
 		List<VisualClassification> watsonres = classifier.classify(zipFiles, Utils.WATSONMINSCORE);
 
 		// Compute results and metrics
+		// TODO passarli come parametri aggiuntivi alla simulazione?
 		double minThreshold = 0.05;
 		double maxThreshold = 0.6;
-		double step = 0.05;
+		double step = 0.05; // era 0.05
 
 		DecimalFormat df = new DecimalFormat("#.###");
 		/////////////////////////////////////////////////////////////////////////////
@@ -237,7 +238,9 @@ public class GetTestResult extends HttpServlet {
 		List<Double> tprTrace = new ArrayList<Double>();
 		List<Double> fprTrace = new ArrayList<Double>();
 
-		for (double threshold = minThreshold; threshold <= maxThreshold; threshold += step) {
+		// for (double threshold = minThreshold; threshold <= maxThreshold;
+		// threshold += step) {
+		for (double threshold = maxThreshold; threshold >= minThreshold; threshold -= step) {
 
 			WatsonBinaryClassificationResult result = new WatsonBinaryClassificationResult(classifierJson, testSet,
 					watsonres, threshold);
@@ -249,9 +252,11 @@ public class GetTestResult extends HttpServlet {
 			tprTrace.add(tpr);
 			fprTrace.add(fpr);
 
-			// Compute distance
+			// Compute distance.. perfect classificator -> tpr = 1, fpr = 0
 			// XXX checkme
-			double distance = Math.sqrt(Math.pow(1 - tpr, 2) + Math.pow(1 - fpr, 2));
+			// double distance = Math.sqrt(Math.pow(1 - tpr, 2) + Math.pow(1 -
+			// fpr, 2));
+			double distance = Math.sqrt(Math.pow(fpr, 2) + Math.pow(1 - tpr, 2));
 
 			System.out.println("[GetTestResult runClassification()] threshold = " + df.format(threshold) + " tpr = "
 					+ df.format(tpr) + " fpr = " + df.format(fpr) + " distance = " + df.format(distance));
@@ -264,18 +269,27 @@ public class GetTestResult extends HttpServlet {
 		}
 
 		// debug
-		System.out.println("[GetTestResult runClassification()] selected optDistance = " + df.format(optDistance)
-				+ " result with threshold =  " + df.format(optResult.getThreshold()));
+		System.out.println("[GetTestResult runClassification()] selected threshold = "
+				+ df.format(optResult.getThreshold()) + " and optDistance = " + df.format(optDistance));
 
 		// Build JSON with optimal result
-		return buildJsonResult(optResult, tprTrace, fprTrace, computeAUC(tprTrace, fprTrace));
+		// JsonObject result = buildJsonResult(optResult, tprTrace, fprTrace,
+		// computeAUC(tprTrace, fprTrace));
+
+		String id = testSet.getLabel() + " " + testSet.getSize() + " - " + classifierJson.getLabel() + " "
+				+ classifierJson.getTrainingSize();
+
+		
+		JsonObject result = buildJsonResult(id, optResult, tprTrace, fprTrace, computeAUCMarco(tprTrace, fprTrace));
+
+		return result;
 	}
 
-	private JsonObject buildJsonResult(WatsonBinaryClassificationResult optResult, List<Double> tprTrace,
+	private JsonObject buildJsonResult(String id, WatsonBinaryClassificationResult optResult, List<Double> tprTrace,
 			List<Double> fprTrace, double auc) {
 		JsonObject result = new JsonObject();
 
-		result.addProperty("ID", "TO REMOVE?");
+		result.addProperty("ID", id);
 
 		result.addProperty("accuracyOpt", optResult.computeMetric(METRIC.accuracy));
 
@@ -332,24 +346,50 @@ public class GetTestResult extends HttpServlet {
 	// Nota: per gestire correttamente unsigned long devo
 	// registrare un adapter custom
 	private <T> JsonArray buildArrayFromList(List<T> list) {
-		
+
 		// If list is double, treat as unsigned string
-		Gson gson = new GsonBuilder().registerTypeAdapter(Long.class, new JsonSerializer<Long>(){
-		public JsonElement serialize(Long l, Type t, JsonSerializationContext arg2) {
-			return new Gson().toJsonTree(Long.toUnsignedString(l));
-		}}).create();
-		
+		Gson gson = new GsonBuilder().registerTypeAdapter(Long.class, new JsonSerializer<Long>() {
+			public JsonElement serialize(Long l, Type t, JsonSerializationContext arg2) {
+				return new Gson().toJsonTree(Long.toUnsignedString(l));
+			}
+		}).create();
+
 		return gson.toJsonTree(list).getAsJsonArray();
 	}
 
 	// Computes AUC from a given tprTrace and fprTrace
-	private double computeAUC(List<Double> tprTrace, List<Double> fprTrace) {
+	private double computeAndrea(List<Double> tprTrace, List<Double> fprTrace) {
 
 		double auc = 0.0;
 
 		for (int i = 0; i < (tprTrace.size() - 1); i++)
 			auc += ((fprTrace.get(i + 1) - fprTrace.get(i)) * (tprTrace.get(i + 1) + tprTrace.get(i)) / 2);
 
+		// System.out.println("[GetTestResult computeAUC()] auc = " + auc);
+
 		return auc;
 	}
+
+	// https://it.wikipedia.org/wiki/Regola_del_trapezio
+	private double computeAUCMarco(List<Double> tprTrace, List<Double> fprTrace) {
+
+		// System.out.println("[GetTestResult computeAUCTrapezio()]");
+
+		double auc = 0.0;
+
+		int n = fprTrace.size();
+		double b = fprTrace.get(n - 1);
+		double a = fprTrace.get(0);
+
+		for (int k = 0; k < n - 1; k++)
+			auc += (tprTrace.get(k) + tprTrace.get(k + 1)) / 2;
+		auc *= (b - a) / n;
+
+		System.out.println("[GetTestResult computeAUCTrapezio()] auc = " + auc);
+
+		// TODO
+
+		return auc;
+	}
+
 }

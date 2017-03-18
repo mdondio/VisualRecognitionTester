@@ -72,6 +72,8 @@ public class WatsonBinaryClassificationResult {
 
 		// -------------------
 
+		// TODO aggiungere un controllo: se supero il limite di classificazioni
+		// watRes può non essere corretto (capire, ad es no images).. da gestire correttamente
 		// For each block of results...
 		for (VisualClassification watRes : watsonResults) {
 
@@ -197,16 +199,16 @@ public class WatsonBinaryClassificationResult {
 		measures.put(METRIC.FP, FP);
 		measures.put(METRIC.FN, FN);
 
-		 for (METRIC m : measures.keySet())
-		 System.out.println(m + " -> " + measures.get(m));
-
-		 System.out.println("tp -> " + computeMetric(METRIC.tp));
-		 System.out.println("tn -> " + computeMetric(METRIC.tn));
-		 System.out.println("fp -> " + computeMetric(METRIC.fp));
-		 System.out.println("fn -> " + computeMetric(METRIC.fn));
-
-		 System.out.println("tpr -> " + computeMetric(METRIC.tpr));
-		 System.out.println("tpr -> " + computeMetric(METRIC.fpr));
+//		 for (METRIC m : measures.keySet())
+//		 System.out.println("[WatsonBinaryClassificationResult computeStats()]" + m + " -> " + measures.get(m));
+//
+//		 System.out.println("[WatsonBinaryClassificationResult computeStats()] tp -> " + computeMetric(METRIC.tp));
+//		 System.out.println("[WatsonBinaryClassificationResult computeStats()] tn -> " + computeMetric(METRIC.tn));
+//		 System.out.println("[WatsonBinaryClassificationResult computeStats()] fp -> " + computeMetric(METRIC.fp));
+//		 System.out.println("[WatsonBinaryClassificationResult computeStats()] fn -> " + computeMetric(METRIC.fn));
+//
+//		 System.out.println("[WatsonBinaryClassificationResult computeStats()] tpr -> " + computeMetric(METRIC.tpr));
+//		 System.out.println("[WatsonBinaryClassificationResult computeStats()] tpr -> " + computeMetric(METRIC.fpr));
 
 		 
 	}
