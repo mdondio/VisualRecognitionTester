@@ -317,17 +317,6 @@ function retrieveSimConfig(){
 	
 		JSON.stringify(selectArray);
 		return(selectArray);
-//		window.location = "show.html?arr="+selectArray;
-		
-//		test_names = Array.prototype.map.call($(".moltiplicandum input"),(function(el){ return el.value; }));
-//		tests_and_class = Array.prototype.map.call($(".moltiplicandum select"),(function(el){ return el.value; }));
-//		
-//		$.post("show.html",
-//			{
-//		    	value1: test_names,
-//		    	value2: tests_and_class
-//		    }
-//		);
 		
 	}
 }
@@ -341,14 +330,32 @@ function getDataShow(dataArray){
 	$('#start').html("<img src='ico/load.svg' id='loading'>");
 	console.log("chiamata ajax GET")
 	
-//TODO qui devo trasformare dataArray in un json fatto bene per poi passarlo al backend
+	// Formatting dataArray to a well structured json to pass to the backend via ajax
+	var length = dataArray.length;
+	var names = length / 3;
+	var i = 0; var k = names; var print; var jsonTest = {}; var json2 = "";
 
+	// looping dataArray through names
+	while( names != 0 ){
+		print = {
+	      //"Name": dataArray[i],
+	      "Test": dataArray[k],
+	      "Classifier": dataArray[k+1]
+	    }
+		if( names == 1 ){ json2 = json2 + JSON.stringify(print); }		// if last, do not insert comma
+	    	else { 		  json2 = json2 + JSON.stringify(print) + ','; } 	// if not last, put insert comma
+	    i++; names--; k = k + 2; // iteration
+	}
+
+	jsonTest = '{ "showme":[ ' + json2 + ' ]} '; // input to ajax call formatted in json
+	
+	// ajax call to backend
 	$.ajax(
 			{
 				//url: "json/testresult.json",
 				url: 'GetTestResult',
 				type: 'GET',
-				data:{ array: dataArray },
+				data:{ array: jsonTest },
 				dataType: 'json',
 				success: function(result)
 				{
