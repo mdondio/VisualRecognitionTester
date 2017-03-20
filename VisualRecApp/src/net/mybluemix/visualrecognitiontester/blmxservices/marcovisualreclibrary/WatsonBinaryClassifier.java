@@ -166,7 +166,10 @@ public class WatsonBinaryClassifier {
 				.classifierIds(classifierId).threshold(minThreshold).build();
 
 		VisualClassification result = service.classify(options).execute();
-
+		
+		System.out.println("[WatsonBinaryClassifier] classify():");
+//		System.out.println(result.);
+		System.out.println(result);
 
 		// Sembra che se supero qualche limite da capire
 		// mi ritorna un JSON {}

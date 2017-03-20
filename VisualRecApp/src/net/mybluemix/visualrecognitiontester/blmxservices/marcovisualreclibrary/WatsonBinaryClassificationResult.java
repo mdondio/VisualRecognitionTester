@@ -77,8 +77,12 @@ public class WatsonBinaryClassificationResult {
 		// For each block of results...
 		for (VisualClassification watRes : watsonResults) {
 
+//			System.out.println("--------------------------------------");
+//			System.out.println(watRes);
+//			System.out.println("--------------------------------------");
+
 //			System.out.println("Processed: " + watRes.getImagesProcessed() + " images.");
-//			System.out.println("images Size: " + watRes.getImages().size() + " images.");
+	//		System.out.println("images Size: " + watRes.getImages().size() + " images.");
 
 			// for each image
 			for (ImageClassification img : watRes.getImages()) {

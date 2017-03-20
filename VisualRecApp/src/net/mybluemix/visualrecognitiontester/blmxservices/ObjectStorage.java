@@ -18,6 +18,9 @@ import org.json.simple.JSONObject;
 
 // http://developer.openstack.org/api-ref/object-storage
 
+// Interessante: ma a noi conviene far passare tutto dal server, cosi c'è filtro login
+// https://www.ibm.com/blogs/bluemix/2016/07/great-mobile-apps-with-object-storage-service/
+
 public class ObjectStorage {
 
 	private static final String AUTH_VERSION_1 = "/v1.0";
