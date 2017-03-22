@@ -1,10 +1,3 @@
-@font-face {
-  font-family: IBM;
-  src: url('fonts/HelveticaNeue.ttf');
-  font-style: bold;
-}
-
-
 /* MOBILE SCREENS (DEFAULT) */
 
 * {
@@ -25,30 +18,30 @@ body{
 }
 
 .stage {
-	display: none; 
+	display: none;
 	}
-	
-.banner-home-mob { 
-	display: block; 
-	position: relative; 
-	top: 16px; 
+
+.banner-home-mob {
+	display: block;
+	position: relative;
+	top: 16px;
 	margin: 10px;
   	webkit-box-shadow: 2px 3px 7px rgba(0,0,0,0.12);
   	-moz-box-shadow: 2px 3px 7px rgba(0,0,0,0.12);
   	box-shadow:	2px 3px 7px rgba(0,0,0,0.12);
 }
 
-.banner-home-mob > p { 
-	padding: 10px; 
+.banner-home-mob > p {
+	padding: 10px;
 	text-align: center;
 	}
-	
-.banner-home-mob > h3 { 
-	padding: 10px; 
+
+.banner-home-mob > h3 {
+	padding: 10px;
 	}
-	
-.title-mob { 
-	display: block; 
+
+.title-mob {
+	display: block;
 	}
 
 /*.categoria { color:#174286; text-align: center; font-size: 15px; margin: auto; padding: auto; font-weight: 500; }*/
@@ -67,16 +60,16 @@ h5 { font-family: "museo-sans",sans-serif; font-style: normal; font-weight: 500;
 /*-------------------------------------------------------------*/
 /* GESTIONE CONTENUTI E COLONNE */
 .content {
-  position: relative; 
-  top: 80px; 
+  position: relative;
+  top: 80px;
   bottom: 60px;
-  margin: 0 auto;	
-  max-width: 95rem; 
+  margin: 0 auto;
+  max-width: 95rem;
   width: 100%;
-  font-family: "museo-sans",sans-serif; 
-  font-style: normal; 
-  font-weight: 100; 
-  font-size: 18px; 
+  font-family: "museo-sans",sans-serif;
+  font-style: normal;
+  font-weight: 100;
+  font-size: 18px;
   text-transform: none;
   color: #000000;
 }
@@ -138,288 +131,255 @@ h5 { font-family: "museo-sans",sans-serif; font-style: normal; font-weight: 500;
 /* ================ DESKTOP =====================*/
 
 @media all and (min-width: 1200px) {
-
+/*
 img{
 	height: auto;
 	width: 100%;
-	}
+	}*/
 
-  body { 
-  	min-width: 1024px; 
-  	}
-  	
-  .stage { 
-  	display: block; 
-  	}
-  	
-  .banner-home-mob { 
-  	display: none; 
-  	}
-  
-  .title-mob { 
-  	display: none; 
-  	}
-  	
-  .buttons-home { 
-  	display: none; 
+  body {
+  	min-width: 1024px;
   	}
 
-  .sidebar { 
-  	display: block; 
+  .stage {
+  	display: block;
   	}
-  	
-  .top-btn.large { 
-  	display: block; 
+
+  .banner-home-mob {
+  	display: none;
   	}
-  	
-  .top-logo.menu { 
-  	display: none; 
+
+  .title-mob {
+  	display: none;
   	}
-  	
-  .top-logo.logo { 
-  	display: block; 
+
+  .buttons-home {
+  	display: none;
+  	}
+
+  .sidebar {
+  	display: block;
+  	}
+
+  .top-btn.large {
+  	display: block;
+  	}
+
+  .top-logo.menu {
+  	display: none;
+  	}
+
+  .top-logo.logo {
+  	display: block;
   	}
 
   /*=============== GESTIONE TITOLI ================*/
 
-  h1 { 
-  	font-family: "museo-sans",sans-serif; 
-  	font-style: normal; 
-  	font-weight: 500; 
-  	font-size: 50px; 
-  	color: #FFFFFF; 
-  	position: fixed; 
-  	top: 0; 
-  	left: 19%; 
-  	}
-  	
-  h2 { 
-  	font-family: "museo-sans",sans-serif; 
-  	font-style: normal; 
-  	font-weight: 500; 
-  	font-size: 35px; 
-  	text-transform: none; 
-  	color: #00A6A0; 
-  	text-align: center; 
-  	position: relative; 
-  	top: 0; 
-  	margin-bottom: 30px; 
-  	}
-  	
-  h3 { 
-  	font-family: "museo-sans",sans-serif; 
-  	font-style: normal; 
-  	font-weight: 500; 
-  	font-size: 35px; 
-  	text-transform: none; 
-  	color: #000000; 
-  	text-align: center; 
-  	margin-top: 0; 
-  	margin-bottom: 30px; 
-  	}
-  	
-  h4 { 
+  h1 {
+    left: 19%;
+    }
+
+  h2 {
+    font-size: 35px;
+    top: 0;
+    margin-bottom: 30px;
+    }
+
+  h3 {
+      font-size: 35px;
+      text-transform: none;
+      margin-top: 0;
+      margin-bottom: 30px;
+      }
+
+  h4 {
   	font-family: "IBM";
-  	font-style: normal; 
-  	font-weight: 500; 
-  	font-size: 35px; 
-  	text-transform: none; 
-  	color: #00A6A0; 
-  	text-align: center; 
-  	margin-top: 0; 
-  	margin-bottom: 30px; 
-  	}
-  	
-  h5 { 
-  	font-family: "museo-sans",sans-serif; 
-  	font-style: normal; 
-  	font-weight: 500; 
-  	font-size: 50px; 
-  	text-transform: uppercase; 
-  	color: #00A6A0; 
-  	text-align: center; 
-  	margin-top: 20px; 
-  	margin-bottom: 30px; 
-  	}
-  	
-  h6 { 
-  	font-family: "museo-sans",sans-serif; 
-  	font-style: normal; 
-  	font-weight: 500; 
-  	font-size: 25px; 
-  	text-transform: uppercase; 
-  	color: #000000; 
-  	text-align: center; 
-  	margin-top: 20px; 
-  	margin-bottom: 20px; 
+  	font-style: normal;
+  	font-weight: 500;
+  	font-size: 35px;
+  	text-transform: none;
+  	color: #00A6A0;
+  	text-align: center;
+  	margin-top: 0;
+  	margin-bottom: 30px;
+  	 }
+
+  h5 {
+      font-size: 50px;
+      color: #00A6A0;
+      text-align: center;
+      }
+
+  h6 {
+  	font-family: "museo-sans",sans-serif;
+  	font-style: normal;
+  	font-weight: 500;
+  	font-size: 25px;
+  	text-transform: uppercase;
+  	color: #000000;
+  	text-align: center;
+  	margin-top: 20px;
+  	margin-bottom: 20px;
   	}
 
   /*================ GESTIONE CONTENUTI E COLONNE ================*/
   .content {
-    position: relative; 
-    top: 80px; 
-    bottom: 60px;
-    margin: 0 auto;	
-    max-width: 95rem; 
     width: 85%/*73.5%*/;
-    font-family: "museo-sans",sans-serif; 
-    font-style: normal; 
-    font-weight: 100;	
-    font-size: 18px; 
-    text-transform: none;
-    color: #000000;
   }
 
-  .column { 
-  	float: left; 
-  	padding-left: 1rem; 
-  	padding-right: 1rem; 
-  	}
-  	
-  .column > a { 
-  	color: #494949; 
-  	text-decoration: none; 
-  	font-weight: bold; 
-  	}
-  	
-  .column > img {	
-  	float: left; 
-  	width: auto; 
-  	overflow: hidden; 
-  	position: absolute; 
-  	height: 200px; 
-  	top: -30px; 
-  	}
-  	
-  .column > right { 
-  	text-align: right; 
-  	font-family: "museo-sans",sans-serif; 
-  	font-style: normal; 
-  	font-weight: 500; 
-  	font-size: 25px; 
-  	text-transform: none; 
-  	color: #343B43; 
-  	vertical-align: middle; 
-  	}
-  	
-  .column.full {
-  	width: 100%; 	
-  	text-align: left; 
-  	font-weight: 100; 
-  	font-size: 15px; 
-  	text-transform: none; 
-  	}
-  	
-  .column.two-thirds { 		
-  	width: 66.7%; 
-  	text-align: left; 
-  	}
-  	
-  .column.half {
-  	width: 50%;
-  	text-align: left; 
-  	}
-  	
-  .column.third {
-  	width: 33.3%; 
-  	text-align: left; 
-  	}
-  	
-  .column.fourth {
-  	width: 25%; 	
-  	text-align: left; 
-  	display: block; 
-  	}
-  	
-  .column.three-fourths { 
-  	width: 75%;
-  	text-align: left; 
-  	}
-  	
-  .column.flow-opposite { 
-  	float: right; 
-  	text-align: left; 
-  	}
-  	
-  	  .column.halfthird { 
-  	width: 16.6%;
-  	text-align: left; 
+/* NOT NEEDED
+  .column {
+  	float: left;
+  	padding-left: 1rem;
+  	padding-right: 1rem;
   	}
 
-  .post-preview { 
-  	width: 100%; 
-  	padding-bottom: 30px; 
-  	background-color: transparent; 
+  .column > a {
+  	color: #494949;
+  	text-decoration: none;
+  	font-weight: bold;
   	}
-  	
-  .post-preview > a { 
-  	color: #000000; 
+*/
+  .column > img {
+    float: left;
+    height: 200px;
+    top: -30px;
+    }
+
+  .column > right {
+  	text-align: right;
+  	font-family: "museo-sans",sans-serif;
+  	font-style: normal;
+  	font-weight: 500;
+  	font-size: 25px;
+  	text-transform: none;
+  	color: #343B43;
+  	vertical-align: middle;
+  	}
+/*
+  .column.full {
+  	width: 100%;
+  	text-align: left;
+  	font-weight: 100;
+  	font-size: 15px;
+  	text-transform: none;
+  	}
+*/
+  .column.two-thirds {
+    width: 66.7%;
+  }
+
+  .column.half {
+    width: 50%;
+    }
+
+  .column.third {
+    width: 33.3%;
+    }
+
+  .column.fourth {
+    width: 25%;
+    display: block;
+    }
+
+  .column.three-fourths {
+    width: 75%;
+    }
+/*
+  .column.flow-opposite {
+  	float: right;
+  	text-align: left;
+  	}
+*/
+  .column.halfthird {
+  	 width: 16.6%;
+  	 text-align: left;
+  	}
+
+  .post-preview {
+  	 width: 100%;
+  	 padding-bottom: 30px;
+  	 background-color: transparent;
+  	}
+
+  .post-preview > a {
+  	 color: #000000;
   	}
 
   .card {
-    width: 95%; 
-    height: auto; 
+    width: 95%;
+    height: auto;
     margin: auto;
     background-color: #FFFFFF;
-    font-family: "museo-sans",sans-serif; 
-    font-style: normal; 
-    font-weight: 100;	
-    font-size: 15px; 
+    font-family: "museo-sans",sans-serif;
+    font-style: normal;
+    font-weight: 100;
+    font-size: 15px;
     text-transform: none;
     webkit-box-shadow: 	2px 3px 7px rgba(0,0,0,0.12);
     -moz-box-shadow: 2px 3px 7px rgba(0,0,0,0.12);
     box-shadow: 2px 3px 7px rgba(0,0,0,0.12);
   }
-  
-  .card > img { 
-  	width: 100%; 
-  	margin: auto; 
-  	padding: 0; 
+
+  .card > img {
+  	width: 100%;
+  	margin: auto;
+  	padding: 0;
   	}
-  	
-  .card > p { 
-  	padding: 10px; 
-  	text-align: center; 
+
+  .card > p {
+  	padding: 10px;
+  	text-align: center;
   	}
-  
+
   .card > p > img { width: 70%; height: auto; margin: auto; padding: 0; }
-  
-  .card .ready { 
-  	text-align: center; 
-  	font-size: 50px; 
+
+  .card .ready {
+  	text-align: center;
+  	font-size: 50px;
   	color: #ffffff;
   	background-color: #343b43;
   	}
-  .card .training { 
-  	text-align: center; 
-  	font-size: 50px; 
-color: #ffffff;
+
+  .card .training {
+  	text-align: center;
+  	font-size: 50px;
+    color: #ffffff;
   	background-color: #343b43;
-  	}
-  .card .free { 
-  	text-align: center; 
-  	font-size: 50px; 
-color: #ffffff;
-  	background-color: #343b43;
-  	}
-  .card .result { 
-  	text-align: center; 
-  	font-size: 50px; 
-  	margin-bottom: -20px; 
   	}
 
- .home {
-	font-size: 24px; 
+  .card .free {
+  	text-align: center;
+  	font-size: 50px;
+    color: #ffffff;
+  	background-color: #343b43;
+  	}
+
+  .card .result {
+  	text-align: center;
+  	font-size: 50px;
+  	margin-bottom: -20px;
+  	}
+
+  .home {
+	  font-size: 24px;
   	color: #808080;
-	font-family: IBM;
-}
-	.card .plot { display: none; }
+	  font-family: IBM;
+    }
+
+	.card .plot {
+    display: none;
+   }
 
 /*====== PULSANTI AZIONE =============*/
 
 .more {
   background: #174286; color: #FFFFFF;
-  padding: 10px 10px 13px; min-width: 160px; position: relative; top: 25px; margin-bottom: 35px;
+  padding: 10px 10px 13px;
+  min-width: 160px;
+  position: relative;
+  top: 25px;
+  margin-bottom: 35px;
   border-radius: 3px;
   overflow: hidden; display: inline-block;
   font-family: "museo-sans",sans-serif; font-style: normal; font-weight: 100; font-size: 18px; text-transform: none; text-align: center; text-decoration: none;
@@ -430,19 +390,6 @@ color: #ffffff;
   padding: 10px 40px 10px 40px;
 }
 
-.more:hover {
-  background: #1D71B8;
-  transition: ease;
-  webkit-transition: ease-in-out;
-  -moz-transition: ease-in-out;
-  transition-duration: 300ms;
-  webkit-transition-duration: 300ms;
-  -moz-transition-duration: 300ms;
-  webkit-box-shadow: 		2px 8px 7px rgba(0,0,0,0.15);
-  -moz-box-shadow: 		2px 8px 7px rgba(0,0,0,0.15);
-  box-shadow: 				2px 8px 7px rgba(0,0,0,0.15);
-    padding: 10px 40px 10px 40px;
-}
 
 .more-mob {
   background: #174286; color: #FFFFFF;
@@ -469,39 +416,40 @@ color: #ffffff;
   box-shadow: 				2px 8px 7px rgba(0,0,0,0.15);
   padding: 10px 40px 10px 40px;
 }
-
+/*
   .more {
     background: #343B43; color: #FFFFFF;
-    min-width: 100px; 
-    position: relative; 
+    min-width: 100px;
+    position: relative;
     top: 15px;
     border-radius: 3px;
     overflow: hidden; display: inline-block;
-    font-family: "museo-sans",sans-serif; 
-    font-style: normal; 
-    font-weight: 100; 
-    font-size: 18px; 
-    text-transform: none; 
-    text-align: center; 
+    font-family: "museo-sans",sans-serif;
+    font-style: normal;
+    font-weight: 100;
+    font-size: 18px;
+    text-transform: none;
+    text-align: center;
     text-decoration: none;
     webkit-shadow: 2px 3px 7px rgba(0,0,0,0.12);
     -moz-shadow: 2px 3px 7px rgba(0,0,0,0.12);
     box-shadow: 2px 3px 7px rgba(0,0,0,0.12);
     cursor: pointer;
     padding: 10px 40px 10px 40px;
-  }
-  
-  .more.del { 
-  	background: #343B43; 
-  	color: #FFFFFF; 
+  }*/
+
+  .more.del {
+  	background: #343B43;
+  	color: #FFFFFF;
   	}
-  
-  .more-mob { 
-  display: none; 
+
+  .more-mob {
+  display: none;
   }
-  
+
   .more:hover {
     background: #00A6A0;
+    color: #ffffff;
     transition: ease;
     webkit-transition: ease-in-out;
     -moz-transition: ease-in-out;
@@ -511,7 +459,7 @@ color: #ffffff;
     webkit-box-shadow: 2px 8px 7px rgba(0,0,0,0.15);
     -moz-box-shadow: 2px 8px 7px rgba(0,0,0,0.15);
     box-shadow: 2px 8px 7px rgba(0,0,0,0.15);
-    padding: 10px 40px 10px 40px;
+    /*padding: 10px 40px 10px 40px;*/
   }
 
 /*----------------------------------------*/
@@ -521,54 +469,54 @@ color: #ffffff;
   .clearfix {	*zoom: 1; }
 
   /* Table and cell elements (block) */
-  table, td, th { 
-  	border: 1px solid #ddd; 
-  	text-align: center; 
+  table, td, th {
+  	border: 1px solid #ddd;
+  	text-align: center;
   	font-family: IBM;
   	}
-  	
-  table { 
-  	border-collapse: collapse; 
-  	width: 90%; 
+
+  table {
+  	border-collapse: collapse;
+  	width: 90%;
   	}
-  	
-td { 
-  	padding: 10px; 
+
+  td {
+  	padding: 10px;
   	background-color:#ffffff;
   	}
-  	
-th {
+
+  th {
     background-color: #343b43;
     color: white;
     padding: 10px;
     font-weight: bold;
     text-align: center;
-}
+    }
 
   	/*tr:hover {background-color: #f5f5f5}*/
-  	
+
   	/*======= BLOCCHI CLASSIFIERS ============*/
-  .block { 
-  			width: 100%; 
-  			height: 50px;  
-  			margin-top: 10px; 
-  			margin-bottom: 10px; 
-  			padding: 10px; 
-  			background: #dedddc; 
-  			font-family: IBM; 
-  			text-align: center; 
-  			font-size: 14pt; 
-  			box-shadow: 0px 3px 3px #c0c0c0;
-  			}		
-  				
-  .block > a { 
-  			box-shadow: 0px 5px 5px #ff8040; 
-  }
+  .block {
+  	width: 100%;
+  	height: 50px;
+  	margin-top: 10px;
+  	margin-bottom: 10px;
+  	padding: 10px;
+  	background: #dedddc;
+  	font-family: IBM;
+  	text-align: center;
+  	font-size: 14pt;
+  	box-shadow: 0px 3px 3px #c0c0c0;
+    }
+
+    .block > a {
+  			box-shadow: 0px 5px 5px #ff8040;
+    }
 
 
 
 /*======== DRAG AND DROP UTILITIES =========*/
-  
+
 .textbox {align: center; }
   #drop_zone { /* zone in which you can drop files to upload */
     border: dashed 2px #ddd;

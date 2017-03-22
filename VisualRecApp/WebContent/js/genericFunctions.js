@@ -12,13 +12,14 @@
  */
 function createHead(){
 	var utilities = ["<meta http-equiv='X-UA-Compatible' content='IE=edge'><meta name='viewport' content='width=device-width, initial-scale=1.0'><meta name='ROBOTS' content='INDEX,FOLLOW'><meta name='GOOGLEBOT' content='ARCHIVE'><link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'>"];
+	var cssfonts = ["<link rel='stylesheet' type='text/css' href='css/fonts.css'/>"]; //css fonts
 	var css0 = ["<link rel='stylesheet' type='text/css' href='css/Reset.css'/>"]; //css reset
 	var css1 = ["<link rel='stylesheet' type='text/css' href='css/default.css'/>"]; //css per le pagine
 	var css2 = ["<link rel='stylesheet' type='text/css' href='css/navbar.css'/>"]; //css per il menu
 	var css3 = ["<link rel='stylesheet' type='text/css' href='css/utilities.css'/>"]; //css per parti comuni della pagina
 	var title = ["<title>Watson VR Test</title>"];
 
-	var headfull = utilities.concat(css0, css1, css2, css3, title);
+	var headfull = utilities.concat(cssfonts, css0, css1, css2, css3, title);
 	$('head').append(headfull);
 }
 
