@@ -1,4 +1,3 @@
----
 applications:
 - path: VisualRecApp.war
   memory: 512M
@@ -8,8 +7,5 @@ applications:
   host: visualrecognitiontester
   disk_quota: 1024M
   services:
-  - Object Storage-xu
   - visualrecognitiontester-cloudantNoSQLDB
   - availability-monitoring-auto
-  env:
-    JVM: openjdk

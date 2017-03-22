@@ -61,7 +61,6 @@ public class BackgroundDaemonManager implements ServletContextListener {
 //		} catch (MqttException e) {
 //			e.printStackTrace();
 //		}
-		// ...
 		////////////////////////////////////////////
 
 		// Initialize executor: one thread per daemon
