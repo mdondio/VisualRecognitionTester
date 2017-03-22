@@ -195,8 +195,9 @@ function addimages(result){
 			var testname = $(".show_test").val();
 
 			//aggiungo tutte le immagini
-			var img_path = "https://visualrecognitiontester.eu-gb.mybluemix.net/GetImage?image_id="
-
+			//var img_path = "/GetImage?image_id=";
+			var img_path = "/img/";
+			//	https://visualrecognitiontester.eu-gb.mybluemix.net/GetImage?image_id=10000463652437887083
 			for(var j in result)
 			{
 //				if(result[j].ID == testname)
@@ -208,14 +209,14 @@ function addimages(result){
 					$("#accuracy").append("<p class='result'>"+ result[j].accuracyOpt + "</p><p>accuracy</p>");
 					$("#threshold").append("<p class='result'>"+ result[j].thresholdOpt + "</p><p>threshold</p>");
 //					console.log(result[j].falsePositiveOpt[0]);
-//					console.log(result);
+					console.log(result);
 
 					var slidenumber = 1
 					for(var i in result[j].falsePositiveOpt)
 					{
 						var x = document.createElement("IMG");
-//						var obj = result[j].falsePositiveOpt[i];
-						var obj = "10000463652437887083";
+						var obj = result[j].falsePositiveOpt[i];
+//						var obj = "10000463652437887083";
 //				console.log(obj);
 						x.setAttribute("src", img_path+obj);
 						x.setAttribute("onclick","openModal();currentSlide("+ slidenumber +")");
@@ -381,8 +382,8 @@ function getDataShow(dataArray){
 							text: obj.ID
 						}));
 					}
-					
-					addimages(result);
+					addimages("json/testresult2.json");
+					//addimages(result);
 					
 				}
 			});

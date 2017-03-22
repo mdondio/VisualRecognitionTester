@@ -1,0 +1,3 @@
+[
+		{"ID":"watch 20 - watch 1900","accuracyOpt": 0.9,"fprTrace":[0, 0.2, 0.4, 1],"tprTrace":[0, 0.4, 0.7, 1],"AUC":0.6199999999999999,"trainingSize": 50, "threshold":0.2,"falsePositiveOpt":["5644123962192446084"],"falseNegativeOpt":["5690864915108403908"]}
+]
