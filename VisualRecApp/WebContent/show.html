@@ -17,13 +17,13 @@
 	<header></header><script>createHeader();</script>
 
 	<script>
-	$.urlParam = function(name){
-		var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-		console.log(results[1]);
-		console.log(results);
-		return results[1] || 0;
-	}
-	var array = $.urlParam('arr');
+		$.urlParam = function(name){
+			var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+// 			console.log(results[1]);
+// 			console.log(results);
+			return results[1] || 0;
+		}
+		var array = $.urlParam('arr');
 	</script>
 
 	<div class="content">
@@ -122,7 +122,7 @@
 	</script>
 
 	<script>
-	$(".show_test").change(function(){addimages("json/frontend.json");});
+// 	$(".show_test").change(function(){addimages("json/frontend.json");});
 	</script>
 
 </html>

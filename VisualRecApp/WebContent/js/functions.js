@@ -178,11 +178,11 @@ function Draw(result){
  * @help al momento utilizzata solamente nella pagina show.html. 
  * @TODO integrare la lettura delle immagini direttamente da object storage con query da DB
  */
-function addimages(filename){
-	$.ajax({													
-		dataType: "json",
-		url: filename,
-		success: function(result){
+function addimages(result){
+//	$.ajax({													
+//		dataType: "json",
+//		url: filename,
+//		success: function(result){
 
 			$("#modalcontent").empty();
 			$("#falsepositive").empty();
@@ -193,45 +193,46 @@ function addimages(filename){
 			$("#captionFN").empty();
 
 			var testname = $(".show_test").val();
-			//aggiungo tutte le immagini
 
-			for(var j in result.tests)
+			//aggiungo tutte le immagini
+			var img_path = "https://visualrecognitiontester.eu-gb.mybluemix.net/GetImage?image_id="
+
+			for(var j in result)
 			{
-				if(result.tests[j].ID == testname)
+				if(result[j].ID == testname)
 				{
 					$("#captionFP").html("<p class='right'>False<br>positives</p>");
 					$("#captionFN").html("<p class='right'>False<br>negatives</p>");
 
-					var objtest = result.tests[j];
-					$("#accuracy").append("<p class='result'>"+ objtest.accuracy + "</p><p>accuracy</p>");
-					$("#threshold").append("<p class='result'>"+ objtest.threshold + "</p><p>threshold</p>");
+					$("#accuracy").append("<p class='result'>"+ result[j].accuracyOpt + "</p><p>accuracy</p>");
+					$("#threshold").append("<p class='result'>"+ result[j].thresholdOpt + "</p><p>threshold</p>");
 
 					var slidenumber = 1
-					for(var i in objtest.falsepositive)
+					for(var i in result[j].falsePositiveOpt)
 					{
 						var x = document.createElement("IMG");
-						var obj = objtest.falsepositive[i];
-						x.setAttribute("src", obj);
+						var obj = result[j].falsePositiveOpt[i];
+						x.setAttribute("src", img_path+obj);
 						x.setAttribute("onclick","openModal();currentSlide("+ slidenumber +")");
 						x.setAttribute("class","hover-shadow cursor");
 						document.getElementById("falsepositive").appendChild(x);
-						$('#modalcontent').append("<div class='mySlides'><div class='numbertext'>"+ slidenumber +" / 4</div><img src="+obj+" style='width:100%'></div>");
+						$('#modalcontent').append("<div class='mySlides'><div class='numbertext'>"+ slidenumber +" / 4</div><img src="+img_path+obj+" style='width:100%'></div>");
 						slidenumber++;
 					}
-					for(var i in objtest.falsenegative)
+					for(var i in result[j].falseNegativeOpt)
 					{
 						var x = document.createElement("IMG");
-						var obj = objtest.falsenegative[i];
-						x.setAttribute("src", obj);
+						var obj = result[j].falseNegativeOpt[i];
+						x.setAttribute("src", img_path+obj);
 						x.setAttribute("onclick","openModal();currentSlide("+ slidenumber +")");
 						x.setAttribute("class","hover-shadow cursor");
 						document.getElementById("falsenegative").appendChild(x);
-						$('#modalcontent').append("<div class='mySlides'><div class='numbertext'>"+ slidenumber +" / 4</div><img src="+obj+" style='width:100%'></div>");
+						$('#modalcontent').append("<div class='mySlides'><div class='numbertext'>"+ slidenumber +" / 4</div><img src="+img_path+obj+" style='width:100%'></div>");
 						slidenumber++;
 					}
 				}
 
-			}
+			
 
 			$('#modalcontent').append("<a class='prev' onclick='plusSlides(-1)'>&#10094;</a>");
 			$('#modalcontent').append("<a class='next' onclick='plusSlides(1)'>&#10095;</a>");
@@ -239,20 +240,22 @@ function addimages(filename){
 
 			//aggiungo tutte le caption
 			slidenumber=1;
-			for(var i in objtest.falsepositive)
+			for(var i in result[j].falsePositiveOpt)
 			{
-				var obj = objtest.falsepositive[i];
-				$('#modalcontent').append("<div class='column-captions'><img class='demo cursor' src="+obj+" onclick='currentSlide("+ slidenumber +")'></div>");
+				var obj = result[j].falsePositiveOpt[i];
+				$('#modalcontent').append("<div class='column-captions'><img class='demo cursor' src="+img_path+obj+" onclick='currentSlide("+ slidenumber +")'></div>");
 				slidenumber++;
 			}
-			for(var i in objtest.falsenegative)
+			for(var i in result[j].falseNegativeOpt)
 			{
-				var obj = objtest.falsenegative[i];
-				$('#modalcontent').append("<div class='column-captions'><img class='demo cursor' src="+obj+" onclick='currentSlide("+ slidenumber +")'></div>");
+				var obj = result[j].falseNegativeOpt[i];
+				$('#modalcontent').append("<div class='column-captions'><img class='demo cursor' src="+img_path+obj+" onclick='currentSlide("+ slidenumber +")'></div>");
 				slidenumber++;
 			}
-		}
-	});
+			
+			}
+//		}
+//	});
 }
 
 //Le seguenti funzioni sono a supporto della funzione addimages() ----------------
@@ -328,26 +331,26 @@ function getDataShow(dataArray){
 	//alert(dataArray);
 	document.getElementById("start").style.display = "block";
 	$('#start').html("<img src='ico/load.svg' id='loading'>");
-	console.log("chiamata ajax GET")
+//	console.log("chiamata ajax GET");
 	
-	// Formatting dataArray to a well structured json to pass to the backend via ajax
-	var length = dataArray.length;
-	var names = length / 3;
-	var i = 0; var k = names; var print; var jsonTest = {}; var json2 = "";
-
-	// looping dataArray through names
-	while( names != 0 ){
-		print = {
-	      //"Name": dataArray[i],
-	      "Test": dataArray[k],
-	      "Classifier": dataArray[k+1]
-	    }
-		if( names == 1 ){ json2 = json2 + JSON.stringify(print); }		// if last, do not insert comma
-	    	else { 		  json2 = json2 + JSON.stringify(print) + ','; } 	// if not last, put insert comma
-	    i++; names--; k = k + 2; // iteration
-	}
-
-	jsonTest = '{ "showme":[ ' + json2 + ' ]} '; // input to ajax call formatted in json
+//	// Formatting dataArray to a well structured json to pass to the backend via ajax
+//	var length = dataArray.length;
+//	var names = length / 3;
+//	var i = 0; var k = names; var print; var jsonTest = {}; var json2 = "";
+//
+//	// looping dataArray through names
+//	while( names != 0 ){
+//		print = {
+//	      //"Name": dataArray[i],
+//	      "Test": dataArray[k],
+//	      "Classifier": dataArray[k+1]
+//	    }
+//		if( names == 1 ){ json2 = json2 + JSON.stringify(print); }		// if last, do not insert comma
+//	    	else { 		  json2 = json2 + JSON.stringify(print) + ','; } 	// if not last, put insert comma
+//	    i++; names--; k = k + 2; // iteration
+//	}
+//
+//	jsonTest = '{ "showme":[ ' + json2 + ' ]} '; // input to ajax call formatted in json
 	
 	// ajax call to backend
 	$.ajax(
@@ -355,7 +358,9 @@ function getDataShow(dataArray){
 				//url: "json/testresult.json",
 				url: 'GetTestResult',
 				type: 'GET',
-				data:{ array: jsonTest },
+//				data:{ array: jsonTest },
+				data:{ array: dataArray },
+
 				dataType: 'json',
 				success: function(result)
 				{
@@ -363,11 +368,21 @@ function getDataShow(dataArray){
 					//Draw("json/testresult.json");
 					Draw(result);
 					
+					addimages(result);
+					
+					for(var j in result){
+						var obj = result[j];
+						console.log(obj.ID);
+						$('.show_test').append($('<option>', {
+							value: obj.ID,
+							text: obj.ID
+						}));
+					}
 				}
 			});
 
-	addimages("json/frontend.json");
-	populateSelectSim("json/frontend.json");
+//	addimages("json/frontend.json");
+//	populateSelectSim("json/frontend.json");
 }
 
 //TODO commentare
@@ -421,25 +436,27 @@ function populateSelectSim(){
 	// TODO: attenzione che questo blocco sotto non può stare qui, altrimenti si invoca
 	// la GetTestResult
 	// chiamata per popolare il menu a tendina dei test eseguiti nella pagina show.html
-	/*
-	$.ajax({													
-		dataType: "json",
-		//url: "json/testresult.json",
-		url: 'GetTestResult',
-		async: false,
-		success: function(result)
-		{
-			//update show page test set
-			for(var j in result.tests){
-				var obj = result.tests[j];
-				$('.show_test').append($('<option>', {
-					value: obj.ID,
-					text: obj.ID
-				}));
-			}
-		}
-	});
-	*/
+	// LENTISSIMO, CREARE FUNZIONE A PARTE O METTERE PARAMETRO
+	
+//	$.ajax({													
+//		dataType: "json",
+//		//url: "json/testresult.json",
+//		url: 'GetTestResult',
+//		async: false,
+//		success: function(result)
+//		{
+//			//update show page test set
+//			for(var j in result){
+//				var obj = result[j];
+////				console.log(obj.ID);
+//				$('.show_test').append($('<option>', {
+//					value: obj.ID,
+//					text: obj.ID
+//				}));
+//			}
+//		}
+//	});
+	
 }
 
 /**
