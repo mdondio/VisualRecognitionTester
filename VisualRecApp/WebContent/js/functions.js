@@ -199,19 +199,24 @@ function addimages(result){
 
 			for(var j in result)
 			{
-				if(result[j].ID == testname)
+//				if(result[j].ID == testname)
+				if (true)
 				{
 					$("#captionFP").html("<p class='right'>False<br>positives</p>");
 					$("#captionFN").html("<p class='right'>False<br>negatives</p>");
 
 					$("#accuracy").append("<p class='result'>"+ result[j].accuracyOpt + "</p><p>accuracy</p>");
 					$("#threshold").append("<p class='result'>"+ result[j].thresholdOpt + "</p><p>threshold</p>");
+//					console.log(result[j].falsePositiveOpt[0]);
+//					console.log(result);
 
 					var slidenumber = 1
 					for(var i in result[j].falsePositiveOpt)
 					{
 						var x = document.createElement("IMG");
-						var obj = result[j].falsePositiveOpt[i];
+//						var obj = result[j].falsePositiveOpt[i];
+						var obj = "10000463652437887083";
+//				console.log(obj);
 						x.setAttribute("src", img_path+obj);
 						x.setAttribute("onclick","openModal();currentSlide("+ slidenumber +")");
 						x.setAttribute("class","hover-shadow cursor");
@@ -368,16 +373,17 @@ function getDataShow(dataArray){
 					//Draw("json/testresult.json");
 					Draw(result);
 					
-					addimages(result);
-					
 					for(var j in result){
 						var obj = result[j];
-						console.log(obj.ID);
+//						console.log(obj.ID);
 						$('.show_test').append($('<option>', {
 							value: obj.ID,
 							text: obj.ID
 						}));
 					}
+					
+					addimages(result);
+					
 				}
 			});
 
