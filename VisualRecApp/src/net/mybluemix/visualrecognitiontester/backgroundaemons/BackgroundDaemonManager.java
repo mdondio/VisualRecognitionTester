@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebListener;
 
 import org.eclipse.paho.client.mqttv3.MqttException;
 
+
 /**
  * This class is responsible to manage all background daemons that will be
  * executed.
@@ -30,9 +31,7 @@ public class BackgroundDaemonManager implements ServletContextListener {
 	private ExecutorService executor;
 
 	public BackgroundDaemonManager() {
-
 		System.out.println("[BackgroundDaemonManager] Constructor");
-
 	}
 
 	/*
@@ -43,7 +42,8 @@ public class BackgroundDaemonManager implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent event) {
 
 		System.out.println("[BackgroundDaemonManager] contextInitialized");
-
+		System.out.println("[BackgroundDaemonManager] java vm name: " + System.getProperty("java.vm.name"));
+		
 		////////////////////////////////////////////
 		// Setup context info: add all info
 		ctx = event.getServletContext();
@@ -53,14 +53,17 @@ public class BackgroundDaemonManager implements ServletContextListener {
 		// Prepare all daemons for execution
 		List<Runnable> daemons = new ArrayList<Runnable>();
 		daemons.add(new AsyncJobDaemon(ctx));
-		try {
-			daemons.add(new MqttClientDaemon(ctx));
-		} catch (MqttException e) {
-			e.printStackTrace();
-		}
-		// ...
-
+		
 		////////////////////////////////////////////
+//		System.out.println("[BackgroundDaemonManager] mqtt disabled");
+//		try {
+//			daemons.add(new MqttClientDaemon(ctx));
+//		} catch (MqttException e) {
+//			e.printStackTrace();
+//		}
+		// ...
+		////////////////////////////////////////////
+
 		// Initialize executor: one thread per daemon
 		// XXX check se ci sono anche gli scheduled executor
 		executor = Executors.newFixedThreadPool(daemons.size());

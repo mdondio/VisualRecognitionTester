@@ -7,10 +7,14 @@ import com.cloudant.client.api.ClientBuilder;
 import com.cloudant.client.api.CloudantClient;
 import com.cloudant.client.api.Database;
 import com.cloudant.client.org.lightcouch.CouchDbException;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
+import net.mybluemix.visualrecognitiontester.datamodel.Images;
+import net.mybluemix.visualrecognitiontester.datamodel.ImagesAdapter;
 
 /**
  * This class is needed to manage the Cloudant DB service instance. This class
@@ -21,6 +25,8 @@ import com.google.gson.JsonParser;
 public class CloudantClientMgr {
 
 	private static CloudantClient cloudant = null;
+	private static  GsonBuilder customGsonBuilder;
+
 	private static Database db = null;
 
 	private static String user = null;
@@ -41,6 +47,11 @@ public class CloudantClientMgr {
 			}
 		}
 		return db;
+	}
+
+	public static GsonBuilder getGsonBuilder() {
+		return customGsonBuilder;
+
 	}
 
 	
@@ -97,9 +108,14 @@ public class CloudantClientMgr {
 
 		try {
 			System.out.println("Connecting to Cloudant : " + user);
+			
+			// TODO: necessario per gestire Images internamente come Long
+			 customGsonBuilder = new GsonBuilder().registerTypeAdapter(Images.class, new ImagesAdapter());
+			
 			CloudantClient client = ClientBuilder.account(user)
 					.username(user)
 					.password(password)
+					.gsonBuilder(customGsonBuilder) 
 					.build();
 			return client;
 		} catch (CouchDbException e) {
