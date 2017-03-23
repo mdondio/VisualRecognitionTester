@@ -554,8 +554,8 @@ function generateHome(){
 	$.ajax({
 		contentType: "application/json",
 		dataType: "json",
-		url: "json/classifier.json",
-		//url: 'GetClassifier',
+		//url: "json/classifier.json",
+		url: 'GetClassifier',
 		async: false,
 		success: function(result){
 
@@ -631,9 +631,9 @@ function generateHome(){
 	$.ajax({
 		contentType: "application/json",
 		dataType: "json",
-		url: "json/dataset.json",
-		//url: 'GetDataset',
-		//data: 'sub_type=training_set',
+		//url: "json/dataset.json",
+		url: 'GetDataset',
+		data: 'sub_type=training_set',
 		async: false,
 		success: function(result){
 			var training_sets = new Array(["Label","# of images"]);
