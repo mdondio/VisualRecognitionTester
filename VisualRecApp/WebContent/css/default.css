@@ -1,14 +1,5 @@
 /* ================ MOBILE (DEFAULT) =====================*/
 
-* {
-  margin: 0; padding: 0px; outline: none;
-  -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
-  text-decoration: none;
-}
-
-
-body{ background: #F6F6F6; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; }
-
 .post-preview { width: 100%; padding-bottom: 30px; background-color: transparent; }
 
 .top { /* Compare con scroll a y = 600 (scripts.php) */
@@ -73,9 +64,6 @@ body{ background: #F6F6F6; text-rendering: optimizeLegibility; -webkit-font-smoo
 /* ================ DESKTOP =====================*/
 
 @media all and (min-width: 1200px) {
-
-
-body { min-width: 1024px; }
 
 .post-preview { width: 100%; padding-bottom: 30px; background-color: transparent; }
 .post-preview > a { color: #000000; }
@@ -186,5 +174,12 @@ th {
   z-index: 10000;
   webkit-box-shadow: 2px 3px 7px rgba(0,0,0,0.12); -moz-box-shadow: 2px 3px 7px rgba(0,0,0,0.12); box-shadow: 2px 3px 7px rgba(0,0,0,0.12);
 }
+
+
+.ico_add {
+	width: 50px;
+		
+}
+
   
 }
