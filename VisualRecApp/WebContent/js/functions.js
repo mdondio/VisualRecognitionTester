@@ -179,10 +179,6 @@ function Draw(result){
  * @TODO integrare la lettura delle immagini direttamente da object storage con query da DB
  */
 function addimages(result){
-//	$.ajax({													
-//		dataType: "json",
-//		url: filename,
-//		success: function(result){
 
 			$("#modalcontent").empty();
 			$("#falsepositive").empty();
@@ -195,8 +191,8 @@ function addimages(result){
 			var testname = $(".show_test").val();
 
 			//aggiungo tutte le immagini
-			//var img_path = "/GetImage?image_id=";
-			var img_path = "/img/";
+			var img_path = "GetImage?image_id=";
+			//var img_path = "/img/";
 			//	https://visualrecognitiontester.eu-gb.mybluemix.net/GetImage?image_id=10000463652437887083
 			for(var j in result)
 			{
@@ -382,8 +378,8 @@ function getDataShow(dataArray){
 							text: obj.ID
 						}));
 					}
-					addimages("json/testresult2.json");
-					//addimages(result);
+					//addimages("json/testresult2.json");
+					addimages(result);
 					
 				}
 			});

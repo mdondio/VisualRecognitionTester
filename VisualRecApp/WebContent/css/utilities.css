@@ -22,7 +22,7 @@ body { font: 10px sans-serif; }
 .modal {
   display: none;
   position: fixed;
-  z-index: 40000;
+  z-index: 40000000;
   padding-top: 100px;
   left: 0;
   top: 0;
