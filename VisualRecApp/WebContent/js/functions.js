@@ -1,9 +1,5 @@
-//TODO commentare
-//READ FILENAME FROM BROWSE FILE show (will be deprecated)
-function retrieveData(){
-	var nomefile = "json/"+$("#dataset").val(); 	// retrieve filename
-	Draw(nomefile);											// call Draw function
-}
+var cacheTestResult;
+
 
 //TODO commentare
 //RESET BROWSE FILE show (will be deprecated)
@@ -185,9 +181,7 @@ function addimages(result){
 			$("#falsenegative").empty();
 			$("#accuracy").empty();
 			$("#threshold").empty();
-			$("#captionFP").empty();
-			$("#captionFN").empty();
-
+			
 			var testname = $(".show_test").val();
 
 			//aggiungo tutte le immagini
@@ -196,15 +190,12 @@ function addimages(result){
 			//	https://visualrecognitiontester.eu-gb.mybluemix.net/GetImage?image_id=10000463652437887083
 			for(var j in result)
 			{
-//				if(result[j].ID == testname)
-				if (true)
+			if(result[j].ID == testname)
 				{
-					$("#captionFP").html("<p class='right'>False<br>positives</p>");
-					$("#captionFN").html("<p class='right'>False<br>negatives</p>");
 
-					$("#accuracy").append("<p class='result'>"+ result[j].accuracyOpt + "</p><p>accuracy</p>");
-					$("#threshold").append("<p class='result'>"+ result[j].thresholdOpt + "</p><p>threshold</p>");
-//					console.log(result[j].falsePositiveOpt[0]);
+					$("#accuracy").html(Math.round( ( (result[j].accuracyOpt) *100)/100));
+					$("#threshold").html(Math.round( ( (result[j].thresholdOpt) *100)/100));
+
 					console.log(result);
 
 					var slidenumber = 1
@@ -212,8 +203,7 @@ function addimages(result){
 					{
 						var x = document.createElement("IMG");
 						var obj = result[j].falsePositiveOpt[i];
-//						var obj = "10000463652437887083";
-//				console.log(obj);
+
 						x.setAttribute("src", img_path+obj);
 						x.setAttribute("onclick","openModal();currentSlide("+ slidenumber +")");
 						x.setAttribute("class","hover-shadow cursor");
@@ -330,7 +320,8 @@ function retrieveSimConfig(){
 //GET DATA TO SHOW: questa dovrebbe essere la funzione che lega la richiesta dei test da mostrare in show.html???
 function getDataShow(dataArray){
 
-	//alert(dataArray);
+	document.getElementById("firstrow").style.display = "none";
+	document.getElementById("secondrow").style.display = "none";
 	document.getElementById("start").style.display = "block";
 	$('#start').html("<img src='ico/load.svg' id='loading'>");
 //	console.log("chiamata ajax GET");
@@ -367,9 +358,10 @@ function getDataShow(dataArray){
 				success: function(result)
 				{
 					document.getElementById("start").style.display = "none";
-					//Draw("json/testresult.json");
+					document.getElementById("firstrow").style.display = "block";
+					document.getElementById("secondrow").style.display = "block";
+					cacheTestResult = result;
 					Draw(result);
-					
 					for(var j in result){
 						var obj = result[j];
 //						console.log(obj.ID);
