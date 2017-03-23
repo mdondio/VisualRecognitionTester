@@ -9,30 +9,6 @@
 <script>createHead();</script>
 
 
-<script>
-// MULTIPLY SELECTORS
-var i = 1;
-var max = 10; // max number of allowed selectors: 10
-
-$(document).ready(function(){
-  $("#addmore").click(function(){
-    if(i < max){
-      var $div = $('div[id^="moltiplicandum"]:last'); // seleziono l'ultimo moltiplicandum
-      var num = parseInt( $div.prop("id").match(/\d+/g), 10 ) +1; // estraggo il numero identificativo e lo incremento
-      $("#moltiplicandum1").clone().prop('id', 'moltiplicandum'+num )
-      .find('input:text').val("")
-      .removeAttr('class')
-      .attr('name','test'+num).end()
-      .appendTo("#sim_list"); // clono, rinomino e appendo
-    } else {
-      alert("Max number of entries reached.");
-    }
-    i++;
-  });
-  				
-});
-</script>
-
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script> 
 
@@ -42,7 +18,40 @@ $(document).ready(function(){
 
 
   <div class="content">
-
+<div class="row clearfix">
+      <div class="column third">
+						<div class="post-preview" style="width:100%; height:auto">
+						<img class="center" src="ico/addDARK.png" style="width:50px;height:auto;">
+							<h2>ADD ONE MORE TEST</h2>
+							<div class="card trasp">
+							<p>You can run 10 test at the same time</p>
+							</div>
+						</div>
+						</div>
+						
+            <div class="column third">
+						<div class="post-preview" style="width:100%; height:auto">
+						<img class="center" src="ico/uploadDARK.png" style="width:50px;height:auto;">
+							<h2>UPLOAD A NEW TEST DATA SET</h2>
+							<div class="card trasp">
+							<p>Upload two .zip files with positive and negative images to set-up a new test data set</p>
+							</div>
+						</div>
+						</div>
+						
+                  <div class="column third">
+						<div class="post-preview" style="width:100%; height:auto">
+						<img class="center" src="ico/play-buttonDARK.png" style="width:50px;height:auto;">
+						<h2>RUN YOUR SIMULATION</h2>
+						<div class="card trasp">
+							<p>When you are ready start your simulation</p>
+						</div>
+						
+						</div>
+						</div>
+</div>
+ <hr align="center" width="50%" class="middle_division">
+ 
     <div class="row clearfix">
 
 
@@ -50,10 +59,11 @@ $(document).ready(function(){
       
       
       <div id="sim-buttons">
-          <div id="addmore" class="more" title="Add test"><img src="ico/add-new_32.png" style="filter: invert(100%);" width="20px;"></div>
-          
-          <div class="ico_add"></div>
-          
+<!--           <div id="addmore" title="Add test"><img src="ico/add-new_32.png" style="filter: invert(100%);" width="20px;"></div> -->
+ <img id=addicon class="inline" src="ico/addDARK.png" style="width:60px;height:auto;">
+       <img id=uploadicon class="inline" src="ico/uploadDARK.png" style="width:60px;height:auto;">  
+       <img id=playicon class="inline" src="ico/play-buttonDARK.png" style="width:60px;height:auto;">
+        
 <!--           <div class="more" onclick="refreshPage()" title="Cancel"><img src="ico/revert_32.png" style="filter: invert(100%);" width="20px;"></div> -->
 <!--           <div class="more" id="play" onclick="window.location = 'show.html?arr='+retrieveSimConfig();" title="Start simulation"><img src="ico/play_32.png" style="filter: invert(100%);" width="20px;"></div> -->
 	  </div>
@@ -63,7 +73,7 @@ $(document).ready(function(){
         <div id="sim_list">
 
 			<form id="myForm">          
-	        	<div class="row clearfix moltiplicandum" id="moltiplicandum1">
+	        	<div class="row clearfix moltiplicandum" id="moltiplicandum1" style="margin-bottom:20px">
 	
 					<div class="column fourth">
 		
@@ -84,9 +94,8 @@ $(document).ready(function(){
 		            </div>
 	
 		            <div class="column fourth">
-		              <select class="avail_class" type="text" style="width:100%">
-		                <option selected disabled value=""></option>
-		              </select>
+		              <img class="inline" src="ico/addDARK.png" style="width:30px;height:auto;">
+       					<img class="inline" src="ico/uploadDARK.png" style="width:30px;height:auto;">  
 		            </div>
 	
 	        	</div>
@@ -116,6 +125,50 @@ $(document).ready(function(){
 
 
 <script>
+
+
+$('#addicon').mouseover(function(){
+$(this).attr('src','ico/addicon.png');
+});
+$('#addicon').mouseleave(function(){
+$(this).attr('src',"ico/addDARK.png" );
+});
+
+var i = 1;
+var max = 10; // max number of allowed selectors: 10
+$('#addicon').click(function(){
+if(i < max){
+      var $div = $('div[id^="moltiplicandum"]:last'); // seleziono l'ultimo moltiplicandum
+      var num = parseInt( $div.prop("id").match(/\d+/g), 10 ) +1; // estraggo il numero identificativo e lo incremento
+      $("#moltiplicandum1").clone().prop('id', 'moltiplicandum'+num )
+      .find('input:text').val("")
+      .removeAttr('class')
+      .attr('name','test'+num).end()
+      .appendTo("#sim_list"); // clono, rinomino e appendo
+    } else {
+      alert("Max number of entries reached.");
+    }
+    i++;
+});
+
+$('#uploadicon').mouseover(function(){
+$(this).attr('src','ico/upload.png');
+});
+$('#uploadicon').mouseleave(function(){
+$(this).attr('src',"ico/uploadDARK.png" );
+});
+
+$('#playicon').mouseover(function(){
+$(this).attr('src','ico/play-button.png');
+});
+$('#playicon').mouseleave(function(){
+$(this).attr('src',"ico/play-buttonDARK.png" );
+});
+$('#playicon').click(function(){
+
+	window.location = 'show.html?arr='+retrieveSimConfig();
+
+});
 
 // DROP ZONE (after the drop_zone and output divs, outside functions.js)
 function handleFileSelect(evt) {

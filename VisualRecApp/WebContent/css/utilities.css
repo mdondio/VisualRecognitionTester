@@ -136,11 +136,12 @@ select {
   background: transparent;
   border-bottom: 1px solid black;
   padding: 12px 4px;
-  -webkit-appearance: none; -moz-appearance: none; appearance: none; /*non mostro freccina*/
+  -webkit-appearance: none; -moz-appearance: none; appearance: none;
+  background: url(../ico/down-arrow.png) no-repeat right;
   color: #000000; font-family: "IBM"; font-size: 15px;
 }
 
-input[type=text]:focus { background-color: #FFFFFF; }
+input[type=text]:focus { background-color: transparent; }
 input[type=url]:focus { background-color: #FFFFFF; }
 input[type=datetime-local]:focus { background-color: #FFFFFF; }
 input[type=time]:focus { background-color: #FFFFFF; }
@@ -174,7 +175,7 @@ textarea:focus { background-color: #FFFFFF; }
 /*   background: url(../ico/menu-overflow_32.png) no-repeat right; */
 /* } */
 
-select:focus { background-color: #FFFFFF; }
+select:focus { background-color: transparent; }
 /*
 input[type=email] {
 background-color: #F6F6F6;
