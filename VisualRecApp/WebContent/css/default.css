@@ -34,8 +34,8 @@
   transition-duration: 300ms; webkit-transition-duration: 300ms; -moz-transition-duration: 300ms;
   webkit-box-shadow: 2px 8px 7px rgba(0,0,0,0.15); -moz-box-shadow: 2px 8px 7px rgba(0,0,0,0.15); box-shadow: 2px 8px 7px rgba(0,0,0,0.15);
 }
+.sim-buttons { text-align: center; }
 
-#sim-buttons { position: relative; text-align: center; }
 .middle_division { margin: auto; margin-top: 20px; margin-bottom: 20px; display: block;
     height: 1px;
     border: 0;
@@ -193,9 +193,11 @@ img.inline{
 	display: inline;
 	margin: 0 auto;
 	margin-bottom: 8px;
-		margin-top: 8px;
-		margin-left: 18px;
-				margin-right: 18px;
+	margin-top: 8px;
+	margin-left: 18px;
+	margin-right: 18px;
 }
+
+
  
 }
