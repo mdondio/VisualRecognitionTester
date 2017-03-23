@@ -4,8 +4,6 @@
 <head></head>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script type="text/javascript" src="js/menuButton.js"></script><!-- Mostra bottone menu -->
-<script type="text/javascript" src="js/menuDisplay.js"></script><!-- Mostra menu -->
 <script src="js/genericFunctions.js"></script>
 <script src="js/functions.js"></script>
 <script>createHead();</script>
@@ -47,74 +45,55 @@ $(document).ready(function(){
 
     <div class="row clearfix">
 
-      <div class="column fourth">
 
-        <div class="post-preview"><h2>Simulate</h2>
-          <div class="card">
-            <p>
-              Here you can select up to 10 scenarios to perform a ROC analysis on available classifiers. Just select the test set, the cathegory you want to explore and the VR classifier. <br>Or, you may upload your own classifier to use to perform the ROC test.<br><br>When ready, just click on Start simulation.
-            </p>
-          </div>
-        </div>
-
-        <div class="post-preview">
-          <div>
-            <p>
-              <center>
-                <div id="drop_zone">Drop files here</div>
-                <output id="list"></output>
-                <div class="more" title="Upload"><img src="ico/upload_32.png" style="filter: invert(100%);" width="20px;"></div>
-                <div class="more" title="Browse"><img src="ico/search_32.png" style="filter: invert(100%);" width="20px;"></div>
-              </center>
-            </p>
-          </div>
-        </div>
-
-      </div>
-
-
-      <div class="column three-fourths">
+      <div class="column full">
+      
+      
+      <div id="sim-buttons">
+          <div id="addmore" class="more" title="Add test"><img src="ico/add-new_32.png" style="filter: invert(100%);" width="20px;"></div>
+          <div class="more" onclick="refreshPage()" title="Cancel"><img src="ico/revert_32.png" style="filter: invert(100%);" width="20px;"></div>
+          <div class="more" id="play" onclick="window.location = 'show.html?arr='+retrieveSimConfig();" title="Start simulation"><img src="ico/play_32.png" style="filter: invert(100%);" width="20px;"></div>
+	  </div>
+      
+      <hr align="center" width="50%" class="middle_division">
 
         <div id="sim_list">
 
-          <div class="row clearfix">
-           <div class="column third"><h4>Test name</h4></div>
-            <div class="column third"><h4>Test set</h4></div>
-            <div class="column third"><h4>Classifier</h4></div>
-          </div>
-<form id="myForm">          
-          <div class="row clearfix moltiplicandum" id="moltiplicandum1">
+			<form id="myForm">          
+	        	<div class="row clearfix moltiplicandum" id="moltiplicandum1">
+	
+					<div class="column fourth">
+		
+		              <input class="test_set" data-validation="required" data-validation-error-msg="You did not enter a name for this test" name="test1" type="text" placeholder="Insert test name" style="width:100%">
+		              
+		            </div>
+		            
+		            <div class="column fourth">
+		              <select placeholder="Select test dataset" class="test_set" type="text" style="width:100%">
+		                <option selected disabled value="">Select test dataset</option>
+		              </select>
+		            </div>
+		
+		            <div class="column fourth">
+		              <select class="avail_class" type="text" style="width:100%">
+		                <option selected disabled value="">Select classifier</option>
+		              </select>
+		            </div>
+	
+		            <div class="column fourth">
+		              <select class="avail_class" type="text" style="width:100%">
+		                <option selected disabled value=""></option>
+		              </select>
+		            </div>
+	
+	        	</div>
+			</form>
 
-			<div class="column third">
-
-              <input class="test_set" data-validation="required" data-validation-error-msg="You did not enter a name for this test" name="test1" type="text" placeholder="Insert test name here..." style="width:100%">
-              
-            </div>
-            
-            <div class="column third">
-              <select class="test_set" type="text" style="width:100%">
-                <option selected disabled value="">Select...</option>
-              </select>
-            </div>
-
-            <div class="column third">
-              <select class="avail_class" type="text" style="width:100%">
-                <option selected disabled value="">Select...</option>
-              </select>
-            </div>
-
-          </div>
-</form>
         </div>
 
         <br>
 
-        <center id="sim-buttons">
-          <div id="addmore" class="more" title="Add test"><img src="ico/add-new_32.png" style="filter: invert(100%);" width="20px;"></div>
-          <div class="more" onclick="refreshPage()" title="Cancel"><img src="ico/revert_32.png" style="filter: invert(100%);" width="20px;"></div>
-<!--      <div class="more" id="play" onclick="retrieveSimConfig()" title="Start simulation"><img src="ico/play_32.png" style="filter: invert(100%);" width="20px;"></div> -->
-          <div class="more" id="play" onclick="window.location = 'show.html?arr='+retrieveSimConfig();" title="Start simulation"><img src="ico/play_32.png" style="filter: invert(100%);" width="20px;"></div>
-        </center>
+
 
 
 

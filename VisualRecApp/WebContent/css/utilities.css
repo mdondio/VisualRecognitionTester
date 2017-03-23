@@ -1,3 +1,5 @@
+/* ================ DEFAULT =====================*/
+
 /* ---------------------------- DESIGN SCROLLBAR for webkit browsers ---------------------------- */
 ::-webkit-scrollbar { width: 8px; }
 /* Track */
@@ -88,6 +90,7 @@ img.hover-shadow { transition: 0.3s; }
 /* ---------------------------- END CSS GALLERY ---------------------------- */
 
 
+/* ---------------------------- MATERIAL ICONS ---------------------------- */
 .material-icons {
   font-family: 'Material Icons';
   font-weight: normal;
@@ -107,15 +110,34 @@ img.hover-shadow { transition: 0.3s; }
   font-feature-settings: 'liga';
 }
 fieldset { border: 0px; }
+/* ---------------------------- END MATERIAL ICONS ---------------------------- */
 
 
 /* ---------------------------- FORMS ---------------------------- */
 input[type=text], input[type=url], input[type=datetime-local], input[type=time], input[type=password] {
-  background-color: #CCCCCC;
-  color: #000000;
-  border: none;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  border-bottom: 1px solid black;
+  padding: 13px 4px;
+  font-family: "IBM"; font-size: 15px; color: #000000;
+}
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+ color: #000000; font-family: "IBM"; font-size: 15px;
+}
+::-moz-placeholder { /* Firefox 19+ */
+ color: #000000; font-family: "IBM"; font-size: 15px;
+}
+
+select {
+  border: 0;
+  outline: 0;
+  background: transparent;
+  border-bottom: 1px solid black;
   padding: 12px 4px;
-  border-radius: 1px;
+  -webkit-appearance: none; -moz-appearance: none; appearance: none; /*non mostro freccina*/
+  color: #000000; font-family: "IBM"; font-size: 15px;
 }
 
 input[type=text]:focus { background-color: #FFFFFF; }
@@ -146,15 +168,12 @@ textarea {
 }
 textarea:focus { background-color: #FFFFFF; }
 
-select {
-  background-color: #CCCCCC;
-  border: none;
-  color: #000000;
-  border-radius: 1px;
-  padding: 12px 16px;
-  text-decoration: none;
-  margin: 4px 2px;
-}
+
+/* select.test_set { */
+/*   -webkit-appearance: none; -moz-appearance: none; appearance: none; */
+/*   background: url(../ico/menu-overflow_32.png) no-repeat right; */
+/* } */
+
 select:focus { background-color: #FFFFFF; }
 /*
 input[type=email] {
@@ -173,116 +192,3 @@ font-size: 15px;
 input[type=email]:focus { background-color: #F6F6F6; }
 */
 /* ---------------------------- END FORMS ---------------------------- */
-
-
-
-
-/* COOKIE BANNER */
-#cookieChoiceInfo {           /* Imposto le proprietà del banner/dialog box e caratteri del messaggio */
-  background-color: #000;     /* Lo fondo è di colore nero (#000) */
-  font-size: 15px;            /* i caratteri devono essere grandi 16 pixel */
-  color: #DDD;                /* il colore dei caratteri è grigio chiaro (#DDD) */
-  padding: 8px;              /* lo spazio intorno al messaggio (sopra, sotto e di lato) quindi il bordo dista 10 pixel */
-  opacity: .8;                /* questa proprietà modifica la trasparenza del banner/dialogbox */
-  z-index: 8000;
-  position: fixed;
-  bottom: 0%;
-  width: 100%;
-  text-align: center;
-  font-family: "museo-sans",sans-serif; font-style: normal; font-weight: 100;	font-size: 15px; text-transform: none; text-align: center;
-}
-#cookieInfoLink {
-  color: #E00;                /* il testo del link che aprire la pagina della cookie policy è rosso (#E00)  */
-  text-decoration: underline; /* questa proprietà indica che il testo del link è sottolineato  */
-}
-#cookieInfoLink:hover {       /* la parola hover, vicino al selettore, indica che le proprietà seguenti verranno applicate... */
-  /* ... al link che conduce alla cookie policy solo quando il mouse ci passa sopra  */
-  color: #F44;                /* il testo del link in questo caso diventa di un rosso più chiaro al passaggio del mouse...  */
-  test-decoration:none;       /*   .... e allo stesso tempo il testo non sarà più sottolineato            */
-}
-#cookieChoiceDismiss {        /* Impostiamo per il link "accetto/ok/chiudi" le proprietà per renderlo... */
-/* ...visivamente come un pulsante */
-background-color: #0A0;     /* lo sfondo è verde (#0A0) */
-color: #FFF;                /* Il colore del testo è bianco (#FFF) */
-text-decoration: none;      /* Il testo non è sottolineato         */
-font-weight: 600;           /* Il testo è in grassetto             */
-font-size: 16px;
-padding: 3px 10px;          /* Imposto lo spazio tra i caratteri e il bordo del pulsante 2pixel sopra e sotto e 10px ai lati */
-border-radius:  3px;        /* Lo sfondo del pulsante ha i bordi arrotondati con un raggio di 3 pixel */
-}
-#cookieChoiceDismiss:hover {  /* Passando il mouse sopra il pulsante, questo cambia colore in verde chiaro. */
-  background-color: #0F0;
-}
-
-#cookieOK > a { color: #FFF; }
-#cookieChoiceInfo > a { color: #FFF; }
-
-
-/*
-.topbar {
-  position: fixed;
-  width: 100%;
-  height: 55px;
-  top: 0;
-  background-color: #CCCCCC;
-  z-index: 150;
-  -webkit-box-shadow: 	0px 1px 8px 0.5px rgba(50, 50, 50, 0.6);
-  -moz-box-shadow:    		0px 1px 8px 0.5px rgba(50, 50, 50, 0.6);
-  box-shadow:         		0px 1px 8px 0.5px rgba(50, 50, 50, 0.6);
-}
-.top-btn {
-  position: relative;
-  background-color: #343B43;
-  height: auto;
-  text-align: center;
-  width: 55px;
-  height: 55px;
-  vertical-align: middle;
-  padding: 17px 17px;
-  float: right;
-}
-
-.top-btn > a > img { display: inline-block; width: 20px; margin: auto; }
-.top-btn:hover { background-color: #00A6A0; transition: ease 0.3s; }
-.top-btn.active { background-color: #00A6A0; }
-.top-btn.large { width: 250px; color: #FFFFFF;  font-family: "museo-sans",sans-serif; font-style: normal; font-weight: 100; font-size: 15px; text-transform: none; text-align: center; display: none; }
-
-.top-logo { color: transparent;  font-family: "museo-sans",sans-serif; font-style: normal; font-weight: 100; font-size: 15px; text-transform: none; text-align: left; float: left; }
-.top-logo > a > img { display: inline-block; height: 25px; margin: 15px 15px; }
-.top-logo.menu { display: block; }
-.top-logo.logo { display: none; }
-
-.sidebar {
-  display: none;
-  position: fixed;
-  height: 100%;
-  width: 65px;
-  left: 0;
-  top: 55px;
-  background-color: #343B43;
-  color: #FFFFFF;
-  z-index: 100;
-  webkit-box-shadow: 	2px 3px 7px rgba(0,0,0,0.12);
-  -moz-box-shadow: 		2px 3px 7px rgba(0,0,0,0.12);
-  box-shadow: 				2px 3px 7px rgba(0,0,0,0.12);
-}
-.sidebar.nothidden {
-  display: block;
-  webkit-transition: all 0.3s;
-  -moz-transition: all 0.3s;
-  transition: all 0.3s;
-}
-.side-btn {
-  position: relative;
-  background-color: #343B43;
-  height: auto;
-  text-align: center;
-  width: 65px;
-  height: 65px;
-  vertical-align: middle;
-  padding: 18px 14px;
-}
-.side-btn:hover { background-color: #00A6A0; transition: ease 0.3s; }
-.side-btn > a > img { display: inline-block; width: 27px; margin: auto; }
-.side-btn.active { background-color: #00A6A0; }
-*/
