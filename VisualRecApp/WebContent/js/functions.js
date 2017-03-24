@@ -1,9 +1,5 @@
-//TODO commentare
-//READ FILENAME FROM BROWSE FILE show (will be deprecated)
-function retrieveData(){
-	var nomefile = "json/"+$("#dataset").val(); 	// retrieve filename
-	Draw(nomefile);											// call Draw function
-}
+var cacheTestResult;
+
 
 //TODO commentare
 //RESET BROWSE FILE show (will be deprecated)
@@ -179,44 +175,35 @@ function Draw(result){
  * @TODO integrare la lettura delle immagini direttamente da object storage con query da DB
  */
 function addimages(result){
-//	$.ajax({													
-//		dataType: "json",
-//		url: filename,
-//		success: function(result){
 
 			$("#modalcontent").empty();
 			$("#falsepositive").empty();
 			$("#falsenegative").empty();
 			$("#accuracy").empty();
 			$("#threshold").empty();
-			$("#captionFP").empty();
-			$("#captionFN").empty();
-
+			
 			var testname = $(".show_test").val();
 
 			//aggiungo tutte le immagini
-			var img_path = "https://visualrecognitiontester.eu-gb.mybluemix.net/GetImage?image_id="
-
+			var img_path = "GetImage?image_id=";
+			//var img_path = "/img/";
+			//	https://visualrecognitiontester.eu-gb.mybluemix.net/GetImage?image_id=10000463652437887083
 			for(var j in result)
 			{
-//				if(result[j].ID == testname)
-				if (true)
+			if(result[j].ID == testname)
 				{
-					$("#captionFP").html("<p class='right'>False<br>positives</p>");
-					$("#captionFN").html("<p class='right'>False<br>negatives</p>");
 
-					$("#accuracy").append("<p class='result'>"+ result[j].accuracyOpt + "</p><p>accuracy</p>");
-					$("#threshold").append("<p class='result'>"+ result[j].thresholdOpt + "</p><p>threshold</p>");
-//					console.log(result[j].falsePositiveOpt[0]);
-//					console.log(result);
+					$("#accuracy").html(Math.round( ( (result[j].accuracyOpt) *100)/100));
+					$("#threshold").html(Math.round( ( (result[j].thresholdOpt) *100)/100));
+
+					console.log(result);
 
 					var slidenumber = 1
 					for(var i in result[j].falsePositiveOpt)
 					{
 						var x = document.createElement("IMG");
-//						var obj = result[j].falsePositiveOpt[i];
-						var obj = "10000463652437887083";
-//				console.log(obj);
+						var obj = result[j].falsePositiveOpt[i];
+
 						x.setAttribute("src", img_path+obj);
 						x.setAttribute("onclick","openModal();currentSlide("+ slidenumber +")");
 						x.setAttribute("class","hover-shadow cursor");
@@ -304,75 +291,50 @@ function showSlides(n) {
 //--------------------------------------------------------------------------
 
 //TODO commentare
-// READ SIMULATION CONFIGURATION simulation
-
-/**
- * @returns Raccoglie le info dai menu a tendina della pagina simulate.html e li trasferisce nella pagina show.html nella variabile "arr"
- */
-function retrieveSimConfig(){
-
-	if(checkTestName() & checkSelectedInput())
-	{
-		// Sfrutta classe jquery per raccogliere tutte le info dai menu a tendina in una volta sola
-		selectArray = Array.prototype.map.call($(".moltiplicandum input"),(function(el){
-			return el.value;
-		}));
-		
-		// Sfrutta classe jquery per raccogliere tutte le info dai menu a tendina in una volta sola
-		selectArray = selectArray.concat(Array.prototype.map.call($(".moltiplicandum select"),(function(el){
-			return el.value;
-		})));
-	
-		JSON.stringify(selectArray);
-		return(selectArray);
-		
-	}
-}
-
-//TODO commentare
 //GET DATA TO SHOW: questa dovrebbe essere la funzione che lega la richiesta dei test da mostrare in show.html???
-function getDataShow(dataArray){
+function getDataShow(testname,testsetID,classifierID){
 
-	//alert(dataArray);
+	document.getElementById("firstrow").style.display = "none";
+	document.getElementById("secondrow").style.display = "none";
 	document.getElementById("start").style.display = "block";
 	$('#start').html("<img src='ico/load.svg' id='loading'>");
-//	console.log("chiamata ajax GET");
-	
+
 //	// Formatting dataArray to a well structured json to pass to the backend via ajax
-//	var length = dataArray.length;
-//	var names = length / 3;
-//	var i = 0; var k = names; var print; var jsonTest = {}; var json2 = "";
-//
-//	// looping dataArray through names
-//	while( names != 0 ){
-//		print = {
-//	      //"Name": dataArray[i],
-//	      "Test": dataArray[k],
-//	      "Classifier": dataArray[k+1]
-//	    }
-//		if( names == 1 ){ json2 = json2 + JSON.stringify(print); }		// if last, do not insert comma
-//	    	else { 		  json2 = json2 + JSON.stringify(print) + ','; } 	// if not last, put insert comma
-//	    i++; names--; k = k + 2; // iteration
-//	}
-//
-//	jsonTest = '{ "showme":[ ' + json2 + ' ]} '; // input to ajax call formatted in json
+	var names = testname.length;
+	var i = 0; 
+	jsonObj = [];
 	
+//	// looping dataArray through names
+	while( names != 0 ){
+		var test = testsetID[i];
+	    var classifier = classifierID[i];
+	    item = {}
+	    item ["test"] = test;
+	    item ["classifier"] = classifier;
+	    jsonObj.push(item);
+	    i++;
+	    names--;
+	}
+
+	finalJSON = JSON.stringify(jsonObj);
+
 	// ajax call to backend
 	$.ajax(
 			{
-				//url: "json/testresult.json",
+//				url: "json/testresult2.json",
 				url: 'GetTestResult',
 				type: 'GET',
-//				data:{ array: jsonTest },
-				data:{ array: dataArray },
+				data:{ array: finalJSON },
+//				data:{ array: dataArray }
 
 				dataType: 'json',
 				success: function(result)
 				{
 					document.getElementById("start").style.display = "none";
-					//Draw("json/testresult.json");
+					document.getElementById("firstrow").style.display = "block";
+					document.getElementById("secondrow").style.display = "block";
+					cacheTestResult = result;
 					Draw(result);
-					
 					for(var j in result){
 						var obj = result[j];
 //						console.log(obj.ID);
@@ -381,14 +343,12 @@ function getDataShow(dataArray){
 							text: obj.ID
 						}));
 					}
-					
+					//addimages("json/testresult2.json");
 					addimages(result);
 					
 				}
 			});
 
-//	addimages("json/frontend.json");
-//	populateSelectSim("json/frontend.json");
 }
 
 //TODO commentare
@@ -532,8 +492,81 @@ function addMatrixTable(IDelement,table){
 	}
 	document.getElementById(IDelement).appendChild(tableElement);
 	}
-	
-	
+
+// variante tabella con solo la prima colonna evidenziata
+function addTableColumn(IDelement,table,trainingsize){
+	//Create a HTML Table element.
+	var tableElement = document.createElement('table');
+	var columnCount = table[0].length;
+	var rowCount = table.length;
+	//Add the data rows.
+	for (var i = 0; i < rowCount; i++) {
+		//row = tableElement.insertRow(-1);
+		var row = document.createElement('tr');
+		for (var j = 0; j < columnCount; j++) {
+
+			if(j==0){
+				var txt = document.createTextNode(table[i][j][0]);
+				var th = document.createElement('th');
+				th.style.width = "30px";
+				if(i==0) th.style.borderTopWidth = "3px";
+				var block = document.createElement('div');
+				block.className = 'blockfirstcolumn';
+				block.appendChild(txt);
+				th.appendChild(block);
+				row.appendChild(th);
+			}
+			else{
+				var td = document.createElement('td');
+				td.style.width = "30px";
+				if(i==0) td.style.borderTopWidth = "3px";
+				for(var k=0;k<3 & table[i][j][k]!="";k++)
+				{
+					var block = document.createElement('div');
+					
+					if(table[i][j][k]=="ready") block.className = 'blockready'; 
+					else block.className = 'blocktraining';
+					
+					block.appendChild(document.createTextNode(trainingsize[j-1]+"_"+"v"+k));
+					td.appendChild(block);
+				}
+				if(table[i][j][0]=="") td.appendChild(document.createTextNode(""));
+				row.appendChild(td);
+			}
+		}
+		tableElement.appendChild(row);
+	}
+	document.getElementById(IDelement).appendChild(tableElement);
+}
+
+
+function addMatrixTable(IDelement,table){
+	var tableElement = document.createElement('table');
+	var columnCount = table[0].length;
+	var rowCount = table.length;
+	for (var i = 0; i < rowCount; i++) {
+		var row = document.createElement('tr');
+		for (var j = 0; j < columnCount; j++) {
+			if(i==0){
+				var txt = document.createTextNode(table[i][j]);
+				var th = document.createElement('th');
+				th.appendChild(txt);
+				row.appendChild(th);
+			}
+			else{
+				var td = document.createElement('td');
+				var block = document.createElement('div');
+				//block.className = 'block';
+				block.appendChild(document.createTextNode(table[i][j]));
+				td.appendChild(block);
+				row.appendChild(td);
+			}
+		}
+		tableElement.appendChild(row);
+	}
+	document.getElementById(IDelement).appendChild(tableElement);
+	}
+
 /**
  * @returns unica funzione che permette la costruzione della pagina home.html grazie a tre chiamate ajax
  * @help servlet interrogate: GetInstance, GetClassifier, GetDataset
@@ -550,6 +583,7 @@ function generateHome(){
 		async: false,
 		success: function(result){
 			var free = 0;
+			console.log(result);
 			for(var i in result)
 			{
 				var obj = result[i].classifiers;
@@ -569,7 +603,7 @@ function generateHome(){
 		//url: 'GetClassifier',
 		async: false,
 		success: function(result){
-
+console.log(result);
 			//COMPUTE NUMBER FOR READY AND TRAINING
 			var ready = 0;
 			var training = 0;
@@ -590,10 +624,10 @@ function generateHome(){
 			{
 				var obj = result[i];
 				if(label.indexOf(obj.label) == -1) label.push(obj.label);
-				if(n_img.indexOf(obj.trainingsize) == -1) n_img.push(obj.trainingsize);
+				if(n_img.indexOf(obj.training_size) == -1) n_img.push(obj.training_size);
 			}
 			n_img.sort(function(a, b){return a - b;});
-
+			
 			//Inizializzazione matrice dei classificatori
 			var sizeRow=label.length;
 			var sizeCol=n_img.length;
@@ -607,8 +641,8 @@ function generateHome(){
 			}
 
 			//Inizializzazione matrice da stampare (classificatori + label + cardinality)
-			var print_table = new Array(sizeRow+1);
-			for (var i = 0; i < (sizeRow+1); i++) {
+			var print_table = new Array(sizeRow);
+			for (var i = 0; i < sizeRow; i++) {
 				print_table[i] = new Array(sizeCol+1);
 				for(var j=0;j<(sizeCol+1);j++) print_table[i][j] = new Array(3);
 			}
@@ -617,22 +651,22 @@ function generateHome(){
 			{
 				var obj = result[i];
 				var n = label.indexOf(obj.label); //row
-				var m = n_img.indexOf(obj.trainingsize); //col
+				var m = n_img.indexOf(obj.training_size); //col
 				var k = matrix[n][m].indexOf("");
 				matrix[n][m][k]=obj.status;
 			}
 			//inizializza header delle label
-			print_table[0][0][0] = "Cardinality";
-			for(var j = 0; j < sizeRow; j++)	print_table[j+1][0][0] = label[j];
-			for(var i = 0; i < sizeCol; i++) print_table[0][i+1][0] = n_img[i];
+			//print_table[0][0][0] = "Cardinality";
+			for(var i = 0; i < sizeRow; i++)	print_table[i][0][0] = label[i];
+			//for(var i = 0; i < sizeCol; i++) print_table[0][i+1][0] = n_img[i];
 			//imposta la matrice dei contenuti da stampare
 			for(var i = 0; i < sizeRow; i++)
 				for(var j = 0; j < sizeCol; j++)
-					for(var k = 0; k < sizeCol; k++)
-						print_table[i+1][j+1][k] = matrix[i][j][k];
+					for(var k = 0; k < 3; k++)
+						print_table[i][j+1][k] = matrix[i][j][k];
 
 			//add a table (idelement and table to print)
-			addTable("dvTable",print_table);
+			addTableColumn("dvTable",print_table,n_img);
 		}
 	});
 
@@ -642,9 +676,9 @@ function generateHome(){
 	$.ajax({
 		contentType: "application/json",
 		dataType: "json",
-		url: "json/dataset.json",
-		//url: 'GetDataset',
-		//data: 'sub_type=training_set',
+		//url: "json/dataset.json",
+		url: 'GetDataset',
+		data: 'sub_type=training_set',
 		async: false,
 		success: function(result){
 			var training_sets = new Array(["Label","# of images"]);

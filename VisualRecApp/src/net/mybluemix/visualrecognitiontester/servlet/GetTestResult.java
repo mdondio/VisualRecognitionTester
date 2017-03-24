@@ -22,6 +22,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 //import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 //import com.google.gson.JsonSyntaxException;
@@ -45,7 +46,7 @@ import net.mybluemix.visualrecognitiontester.datamodel.Dataset;
 @WebServlet("/GetTestResult")
 public class GetTestResult extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -62,15 +63,40 @@ public class GetTestResult extends HttpServlet {
 
 		System.out.println("[GetTestResult doGet()] Function called");
 
-		// parse request: a list of testSet - classifier
-		HashMap<String, String> pairs = parseRequest(request);
+		
 
+		System.out.println(request.getParameter("array"));
+		
+		JsonParser parser = new JsonParser();
+//		JsonArray tests = parser.parse(request.getParameter("array")).getAsJsonObject().getAsJsonArray();
+		JsonArray tests = parser.parse(request.getParameter("array")).getAsJsonArray();
+		
+//		[{"test":"watch_test02","classifier":"watch_classifier_392224981"}]
+		
+		
+		System.out.println(tests);
+
+		
+		///////////////////////
+		// parse request: a list of testSet - classifier
+//		HashMap<String, String> pairs = parseRequest(request);
+////////////////////////////
 		// Create result object
 		// JsonObject o = new JsonObject();
 		JsonArray results = new JsonArray();
 
-		// For each pair..
-		for (String testSetId : pairs.keySet()) {
+		// For each test
+		for (int i = 0; i < tests.size(); i++ ) {
+						    
+			JsonObject test = tests.get(i).getAsJsonObject();
+			
+			String testSetId = test.get("test").getAsString();
+			String classifierId = test.get("classifier").getAsString();
+
+
+			
+			
+//			for (String testSetId : pairs.keySet()) {
 
 			// retrieve dataset and classifier object
 			Dataset testSet = retrieveTestSet(testSetId);
@@ -88,7 +114,7 @@ public class GetTestResult extends HttpServlet {
 
 			// -----------------------
 
-			Classifier classifier = retrieveClassifier(pairs.get(testSetId));
+			Classifier classifier = retrieveClassifier(classifierId);
 
 			if (testSet == null || classifier == null)
 				continue;
@@ -124,6 +150,23 @@ public class GetTestResult extends HttpServlet {
 	// This function translates request into an useful data structure
 	private HashMap<String, String> parseRequest(HttpServletRequest request) {
 
+
+		System.out.println(request.getParameter("array"));
+		
+		JsonParser parser = new JsonParser();
+		JsonObject tests = parser.parse(request.getParameter("array")).getAsJsonObject();
+		
+
+		
+		
+		// 2 itera su ogni elemento
+		// 3 ogni elemento ha dentro test e classifier
+		
+		
+		
+		//-------------------------------------------------
+		
+		
 		String arrayArg = request.getQueryString();
 		System.out.println(arrayArg);
 
@@ -153,6 +196,42 @@ public class GetTestResult extends HttpServlet {
 		return pairs;
 
 	}
+	
+	
+	// This function translates request into an useful data structure
+	private HashMap<String, String> parseRequestOLD(HttpServletRequest request) {
+
+		String arrayArg = request.getQueryString();
+		System.out.println(arrayArg);
+
+		int i = arrayArg.indexOf("%2C") + 3;
+
+		arrayArg = arrayArg.substring(i, arrayArg.length());
+
+		String testSetID = arrayArg.split("%2C")[0];
+		String classifierID = arrayArg.split("%2C")[1];
+
+		System.out.println(testSetID + " - " + classifierID);
+
+		////////////////////////////////////////////////////////
+		// test purpose XXX
+		// qui id del dataset - classifier ID / altro per usare uno specifico
+		//////////////////////////////////////////////////////// classificatore
+		HashMap<String, String> pairs = new HashMap<String, String>();
+		// pairs.put("watch_test01", "watch_classifier_1559642317");
+		pairs.put(testSetID, classifierID);
+
+		// http://localhost:9080/VisualRecognitionTester/show.html?
+		// arr=a,b,yyxxxxxxx,yyxxxxxxx,yyxxxxxxx,xxxxxxxxx
+
+		// diviso 3 = numero di triplette
+
+		////////////////////////////////////////////////////////
+		return pairs;
+
+	}
+	
+	
 
 	// XXX ottimizza e recupera tutti i testSet indicati con una sola query
 	private Dataset retrieveTestSet(String id) {
