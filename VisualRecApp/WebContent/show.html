@@ -13,18 +13,10 @@
 <script>createHead();</script>
 
 
-<body>
+localStorage.testname = testname;
+localStorage.testsetID = testsetID;
+localStorage.classifierID = classifierID;<body>
 	<header></header><script>createHeader();</script>
-
-	<script>
-		$.urlParam = function(name){
-			var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-// 			console.log(results[1]);
-// 			console.log(results);
-			return results[1] || 0;
-		}
-		var array = $.urlParam('arr');
-	</script>
 
 	<div class="content">
 
@@ -32,14 +24,14 @@
 		<center><div id="start"></div></center>
 
 		<!-- PARTE ALTA DELLA PAGINE (VALORI E IMMAGINI) -->
-		<div class="row clearfix">
+		<div class="row clearfix" id=firstrow>
 			<!-- PARTE SINISTRA (VALORI E SELEZIONE TEST) -->
-			<div class="column third"><h2>Results</h2>
+			<div class="column third">
 				<!-- Riga con i valori select dei test -->
 				<div class="row clearfix">
 					<div class="column full">
 						<select class="show_test" type="text" style="width:100%">
-							<option selected>Select Test Set to be analyzed...</option>
+							<option selected disabled>Select Test Set to be analyzed...</option>
 						</select>
 					</div>
 				</div>
@@ -49,13 +41,17 @@
 				<div class="row clearfix">
 					<div class="column half">
 						<div class="post-preview" style="width:100%; height:auto">
-							<div class="card" style="width:100%; height:auto" id=accuracy>
+							<div class="card" style="width:100%; height:auto">
+							<p class='result' id=accuracy>--</p>
+							<p>accuracy</p>
 							</div>
 						</div>
 					</div>
 					<div class="column half">
 						<div class="post-preview" style="width:100%; height:auto">
-							<div class="card" style="width:100%; height:auto" id=threshold>
+							<div class="card" style="width:100%; height:auto">
+							<p class='result' id=threshold>--</p>
+							<p>threshold</p>
 							</div>
 						</div>
 					</div>
@@ -66,6 +62,7 @@
 			<!-- RIGA FALSI POSITIVI -->
 				<div class="row clearfix">
 					<div class="column fourth" id=captionFP>
+					<p class='right'>False<br>positives</p>
 					</div>
 					<div class="column three-fourths">
 						<div class="post-preview" id="falsepositive">
@@ -75,6 +72,7 @@
 			<!-- RIGA FALSINEGATIVI -->
 				<div class="row clearfix">
 					<div class="column fourth" id=captionFN>
+					<p class='right'>False<br>negatives</p>
 					</div>
 					<div class="column three-fourths">
 						<div class="post-preview" id="falsenegative">
@@ -85,7 +83,7 @@
 		</div>
 
 		<!-- PARTE BASSA DELLA PAGINA (GRAFICI) -->
-		<div class="row clearfix">
+		<div class="row clearfix" id=secondrow>
 			<!-- PRIMO GRAFICO PARTE SINISTRA -->
 			<div class="column half">
 				<div class="post-preview">
@@ -115,14 +113,24 @@
 	</body>
 
 	<script>
-	getDataShow(array);
-	//Draw("json/frontend.json");
-	//addimages("json/frontend.json");
-	//populateSelectSim("json/frontend.json");
-	</script>
+	
+// 	$.urlParam = function(name){
+// 			var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+// 			return results[1] || 0;
+// 		}
+// 		var array = $.urlParam('arr');
 
-	<script>
-// 	$(".show_test").change(function(){addimages("json/frontend.json");});
+	getDataShow(
+		JSON.parse(localStorage.getItem("testname")),
+		JSON.parse(localStorage.getItem("testsetID")),
+		JSON.parse(localStorage.getItem("classifierID"))
+		);
+		
+	
+$('.show_test').on('change', function() {
+ 	addimages(cacheTestResult);
+ 	});
+
 	</script>
 
 </html>

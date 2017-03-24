@@ -195,7 +195,7 @@ function addimages(result){
 			var testname = $(".show_test").val();
 
 			//aggiungo tutte le immagini
-			var img_path = "GetImage?image_id="
+			var img_path = "https://visualrecognitiontester.eu-gb.mybluemix.net/GetImage?image_id="
 
 			for(var j in result)
 			{
@@ -214,7 +214,9 @@ function addimages(result){
 					for(var i in result[j].falsePositiveOpt)
 					{
 						var x = document.createElement("IMG");
-						var obj = result[j].falsePositiveOpt[i];
+//						var obj = result[j].falsePositiveOpt[i];
+						var obj = "10000463652437887083";
+//				console.log(obj);
 						x.setAttribute("src", img_path+obj);
 						x.setAttribute("onclick","openModal();currentSlide("+ slidenumber +")");
 						x.setAttribute("class","hover-shadow cursor");

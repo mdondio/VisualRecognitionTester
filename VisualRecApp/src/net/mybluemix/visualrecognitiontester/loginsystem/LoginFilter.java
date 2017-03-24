@@ -44,7 +44,8 @@ public class LoginFilter implements Filter {
 				uri.matches(".*GitHubEventHandler") ||				
 				uri.contains("login.html") ||
 				uri.contains("loginservlet")||
-				uri.contains("logoutservlet")) {
+				uri.contains("logoutservlet")||
+				uri.contains("GetImage")) {
 			chain.doFilter(request, response);
 			return;
 		}

@@ -1,0 +1,96 @@
+/* ================ MOBILE (DEFAULT) =====================*/
+
+* {
+  margin: 0; padding: 0px; outline: none;
+  -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+  text-decoration: none;
+}
+
+
+body{ background: #F6F6F6; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; }
+
+h1 { font-family: "museo-sans",sans-serif; font-style: normal; font-weight: 500; font-size: 50px; color: #FFFFFF; position: fixed; top: 0; left: 1%; }
+h2 { font-family: "IBM"; font-weight: bold; font-size: 20px; text-transform: none; color: #343b43; text-align: center; position: relative;}
+h3 { font-family: "museo-sans",sans-serif; font-style: normal; font-weight: 500; font-size: 25px; text-transform: uppercase; color: #000000; text-align: center; margin-top: 15px; margin-bottom: 10px; }
+h4 { font-family: "museo-sans",sans-serif; font-style: normal; font-weight: 500; font-size: 25px; text-transform: none; color: #000000; text-align: center; margin-top: 0px; margin-bottom: 10px; }
+h5 { font-family: "museo-sans",sans-serif; font-style: normal; font-weight: 500; font-size: 35px; text-transform: uppercase; color: #FFFFFF; text-align: center; margin-top: 20px; margin-bottom: 30px; }
+
+.content {
+  position: relative;
+  top: 80px;
+  bottom: 60px;
+  margin: 0 auto;
+  max-width: 95rem;
+  width: 100%;
+  font-family: "museo-sans",sans-serif;
+  font-style: normal;
+  font-weight: 100;
+  font-size: 18px;
+  text-transform: none;
+  color: #000000;
+}
+
+.column { float: left; padding-left: 1rem; padding-right: 1rem; }
+.column > a { color: #494949; text-decoration: none; font-weight: bold; }
+/* .column > img {	float: center; width: auto; overflow: hidden; position: absolute; height: 270px; top: -30px; } */
+
+.column.full { 			width: 100%; 	text-align: left; font-weight: 100; font-size: 15px; text-transform: none; }
+.column.two-thirds { 	width: 100%; 	text-align: left; }
+.column.half { 			width: 100%; 	text-align: left; }
+.column.third { 		width: 100%; 	text-align: left; }
+.column.fourth { 		width: 100%; 	text-align: left; }
+.column.three-fourths { width: 100%;	text-align: left; }
+.column.flow-opposite { float: right; 	text-align: left; }
+
+
+/* ================ TABLET PORTRAIT =====================*/
+
+@media screen and (min-width: 768px) {
+
+  .column.fourth { width: 50%; display: block; }
+
+}
+
+
+/* ================ TABLET LANDSCAPE =====================*/
+
+@media screen and (min-width: 1024px) {
+
+  .content { width: 95%; display: block; }
+
+  .column.full { 		  width: 100%; }
+  .column.two-thirds { 	  width: 66.7%; }
+  .column.half { 		  width: 50%; }
+  .column.third { 		  width: 33.3%; }
+  .column.fourth { 		  width: 25%; display: block; }
+  .column.three-fourths { width: 75%; }
+  .column.flow-opposite { float: right; }
+
+}
+
+
+/* ================ DESKTOP =====================*/
+
+@media all and (min-width: 1200px) {
+	
+body { min-width: 1024px; }	
+	
+h1 { left: 19%; }
+h2 { font-family: "IBM"; font-weight: bold; font-size: 20px; text-transform: none; color: #343b43; text-align: center; position: relative;}
+h3 { font-size: 35px; text-transform: none; margin-top: 0; margin-bottom: 30px; }
+h4 { font-family: "IBM"; font-style: normal; font-weight: 500; font-size: 35px;	text-transform: none; color: #00A6A0; text-align: center; margin-top: 0; margin-bottom: 30px; }
+h5 { font-size: 50px; color: #00A6A0; text-align: center; }
+h6 { font-family: "museo-sans",sans-serif; font-style: normal; font-weight: 500; font-size: 25px; text-transform: uppercase; color: #000000; text-align: center; margin-top: 20px; margin-bottom: 20px;	}
+  	
+.content { width: 85%/*73.5%*/; }
+  
+/* .column > img { float: left; height: 200px; top: -30px; } */
+.column > right { text-align: right; font-family: "museo-sans",sans-serif; font-style: normal; font-weight: 500; font-size: 25px; text-transform: none;	color: #343B43;	vertical-align: middle;	}
+
+.column.two-thirds { 	width: 66.7%; }
+.column.half { 		 	width: 50%; }
+.column.third { 	 	width: 33.3%; }
+.column.fourth { 		width: 25%; display: block; }
+.column.half-fourth { 		width: 12.5%; display: block; }
+.column.three-fourths { width: 75%; }
+.column.halfthird { 	width: 16.6%; text-align: left;	}

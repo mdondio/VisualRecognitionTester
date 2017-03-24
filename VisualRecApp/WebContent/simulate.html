@@ -4,36 +4,9 @@
 <head></head>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script type="text/javascript" src="js/menuButton.js"></script><!-- Mostra bottone menu -->
-<script type="text/javascript" src="js/menuDisplay.js"></script><!-- Mostra menu -->
 <script src="js/genericFunctions.js"></script>
 <script src="js/functions.js"></script>
 <script>createHead();</script>
-
-
-<script>
-// MULTIPLY SELECTORS
-var i = 1;
-var max = 10; // max number of allowed selectors: 10
-
-$(document).ready(function(){
-  $("#addmore").click(function(){
-    if(i < max){
-      var $div = $('div[id^="moltiplicandum"]:last'); // seleziono l'ultimo moltiplicandum
-      var num = parseInt( $div.prop("id").match(/\d+/g), 10 ) +1; // estraggo il numero identificativo e lo incremento
-      $("#moltiplicandum1").clone().prop('id', 'moltiplicandum'+num )
-      .find('input:text').val("")
-      .removeAttr('class')
-      .attr('name','test'+num).end()
-      .appendTo("#sim_list"); // clono, rinomino e appendo
-    } else {
-      alert("Max number of entries reached.");
-    }
-    i++;
-  });
-  				
-});
-</script>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script> 
@@ -41,82 +14,90 @@ $(document).ready(function(){
 <body>
   <header></header>
   <script>createHeader();</script>
+  
 
+<div class="content">
+	<div class="row clearfix">
+	
+		<div class="column third">
+			<div class="post-preview" style="width:100%; height:auto">
+				<img class="center" src="ico/addDARK.png" style="width:50px;height:auto;">
+					<h2>ADD ONE MORE TEST</h2>
+					<div class="card trasp">
+						<p>You can run 10 test at the same time</p>
+					</div>
+			</div>
+		</div>
+							
+	    <div class="column third">
+			<div class="post-preview" style="width:100%; height:auto">
+				<img class="center" src="ico/uploadDARK.png" style="width:50px;height:auto;">
+					<h2>UPLOAD A NEW TEST DATA SET</h2>
+					<div class="card trasp">
+						<p>Upload two .zip files with positive and negative images to set-up a new test data set</p>
+					</div>
+			</div>
+		</div>
+							
+	    <div class="column third">
+			<div class="post-preview" style="width:100%; height:auto">
+				<img class="center" src="ico/play-buttonDARK.png" style="width:50px;height:auto;">
+					<h2>RUN YOUR SIMULATION</h2>
+					<div class="card trasp">
+						<p>When you are ready start your simulation</p>
+					</div>			
+			</div>
+		</div>
+		
+	</div>
 
-  <div class="content">
-
+ 				<hr align="center" width="50%" class="middle_division">
+ 
     <div class="row clearfix">
 
-      <div class="column fourth">
-
-        <div class="post-preview"><h2>Simulate</h2>
-          <div class="card">
-            <p>
-              Here you can select up to 10 scenarios to perform a ROC analysis on available classifiers. Just select the test set, the cathegory you want to explore and the VR classifier. <br>Or, you may upload your own classifier to use to perform the ROC test.<br><br>When ready, just click on Start simulation.
-            </p>
-          </div>
-        </div>
-
-        <div class="post-preview">
-          <div>
-            <p>
-              <center>
-                <div id="drop_zone">Drop files here</div>
-                <output id="list"></output>
-                <div class="more" title="Upload"><img src="ico/upload_32.png" style="filter: invert(100%);" width="20px;"></div>
-                <div class="more" title="Browse"><img src="ico/search_32.png" style="filter: invert(100%);" width="20px;"></div>
-              </center>
-            </p>
-          </div>
-        </div>
-
-      </div>
-
-
-      <div class="column three-fourths">
-
+    	<div class="column full">
+      
+      		<div class="sim-buttons">
+ 				<img id="addicon" class="inline" src="ico/addDARK.png" style="width:60px;height:auto;">
+       			<img id="uploadicon" class="inline" src="ico/uploadDARK.png" style="width:60px;height:auto;">  
+       			<img id="playicon" class="inline" src="ico/play-buttonDARK.png" style="width:60px;height:auto;">
+	  		
+	  			<hr align="center" width="50%" class="middle_division">
+	  		</div>
+      
         <div id="sim_list">
 
-          <div class="row clearfix">
-           <div class="column third"><h4>Test name</h4></div>
-            <div class="column third"><h4>Test set</h4></div>
-            <div class="column third"><h4>Classifier</h4></div>
-          </div>
-<form id="myForm">          
-          <div class="row clearfix moltiplicandum" id="moltiplicandum1">
+			<form id="myForm">          
+	        	<div class="row clearfix moltiplicandum" id="moltiplicandum1" style="margin-bottom:20px;margin-left:200px;">
+			        
+			        
+					<div class="column fourth">
+		              <input class="test_set" data-validation="required" data-validation-error-msg="You did not enter a name for this test" name="test1" type="text" placeholder="Insert test name" style="width:100%">
+		            </div>
+		            
+		            <div class="column fourth">
+		              <select class="test_set" type="text" style="width:100%">
+		                <option selected disabled value="">Select test dataset</option>
+		              </select>
+		            </div>
+		
+		            <div class="column fourth">
+		              <select class="avail_class" type="text" style="width:100%">
+		                <option selected disabled value="">Select classifier</option>
+		              </select>
+		            </div>
+	
+		            <div class="column fourth">
+		            	<img id="reload1" class="inline" data-alt-src="ico/reload.png" src="ico/reloadDARK.png" style="width:30px; height:auto;">
+       					<img id="garbage1" class="inline" data-alt-src="ico/garbage.png" src="ico/garbageDARK.png" style="width:30px; height:auto;">  
+		            </div>
+	
+	        	</div>
+			</form>
 
-			<div class="column third">
-
-              <input class="test_set" data-validation="required" data-validation-error-msg="You did not enter a name for this test" name="test1" type="text" placeholder="Insert test name here..." style="width:100%">
-              
-            </div>
-            
-            <div class="column third">
-              <select class="test_set" type="text" style="width:100%">
-                <option selected disabled value="">Select...</option>
-              </select>
-            </div>
-
-            <div class="column third">
-              <select class="avail_class" type="text" style="width:100%">
-                <option selected disabled value="">Select...</option>
-              </select>
-            </div>
-
-          </div>
-</form>
         </div>
 
         <br>
-
-        <center id="sim-buttons">
-          <div id="addmore" class="more" title="Add test"><img src="ico/add-new_32.png" style="filter: invert(100%);" width="20px;"></div>
-          <div class="more" onclick="refreshPage()" title="Cancel"><img src="ico/revert_32.png" style="filter: invert(100%);" width="20px;"></div>
-<!--      <div class="more" id="play" onclick="retrieveSimConfig()" title="Start simulation"><img src="ico/play_32.png" style="filter: invert(100%);" width="20px;"></div> -->
-          <div class="more" id="play" onclick="window.location = 'show.html?arr='+retrieveSimConfig();" title="Start simulation"><img src="ico/play_32.png" style="filter: invert(100%);" width="20px;"></div>
-        </center>
-
-
 
 
         <center><div id="start"></div></center>
@@ -135,6 +116,116 @@ $(document).ready(function(){
 
 <script>
 
+//ADD button actions
+$('#addicon').mouseover(function(){
+	$(this).attr('src','ico/addicon.png');
+});
+
+$('#addicon').mouseleave(function(){
+	$(this).attr('src',"ico/addDARK.png" );
+});
+
+var i = 1;
+var max = 10; // max number of allowed selectors: 10
+$('#addicon').click(function(){
+if(i < max){
+      var $div = $('div[id^="moltiplicandum"]:last'); // seleziono l'ultimo moltiplicandum
+      var num = parseInt( $div.prop("id").match(/\d+/g), 10 ) +1; // estraggo il numero identificativo e lo incremento
+           
+      $("#moltiplicandum1").clone().prop('id', 'moltiplicandum'+num )
+      .find('input:text').val("")
+      .removeAttr('class')
+      .attr('name','test'+num).end()
+      .appendTo("#myForm"); // clono, rinomino e appendo
+      
+      $("#moltiplicandum"+num).find("img#reload1").attr("id","reload"+num);
+      $("#moltiplicandum"+num).find("img#garbage1").attr("id","garbage"+num);
+            
+    } else {
+      alert("Max number of entries reached.");
+    }
+    i++;
+});
+
+//UPLOAD button actions
+$('#uploadicon').mouseover(function(){
+	$(this).attr('src','ico/upload.png');
+});
+
+$('#uploadicon').mouseleave(function(){
+	$(this).attr('src',"ico/uploadDARK.png" );
+});
+
+//PLAY button actions
+$('#playicon').mouseover(function(){
+	$(this).attr('src','ico/play-button.png');
+});
+
+$('#playicon').mouseleave(function(){
+	$(this).attr('src',"ico/play-buttonDARK.png" );
+});
+
+$('#playicon').click(function(){
+//if(checkTestName() & checkSelectedInput())	window.location = 'show.html?arr='+retrieveSimConfig();
+
+if(checkTestName() & checkSelectedInput()){
+
+var testname = Array.prototype.map.call($(".moltiplicandum input"),(function(el){return el.value;}));
+var temp = Array.prototype.map.call($(".moltiplicandum select"),(function(el){return el.value;}));
+var testsetID = Array(temp.length/2);
+var classifierID = Array(temp.length/2);
+
+for(var i=0;i<temp.length/2;i++){
+testsetID[i]=temp[2*i];
+classifierID[i]=temp[2*i+1];
+}
+
+if (typeof(Storage) !== "undefined") {
+localStorage.setItem("testname",JSON.stringify(testname));
+localStorage.setItem("testsetID", JSON.stringify(testsetID));
+localStorage.setItem("classifierID",JSON.stringify(classifierID));
+window.location = 'show.html';
+} else {
+    alert("Your browser does not support localStorage, please use Firefox or Chrome");
+}
+
+}
+
+});
+
+//RELOAD button actions
+$('body').on("mouseover","img[id*=reload]",function(){
+ 	$(this).attr('src',"ico/reload.png");
+});
+
+$('body').on("mouseleave","img[id*=reload]",function(){
+ 	$(this).attr('src',"ico/reloadDARK.png");
+});
+
+$('body').on("click","img[id*=reload]",function(){
+	var $this = $(this);
+	var num = parseInt($this.prop("id").substring(6));
+  	$("#moltiplicandum"+num).find('input:text').val("");
+ 	$("#moltiplicandum"+num).find('select').val("").find('select').val("");      
+});
+
+//GARBAGE button actions
+$('body').on("mouseover","img[id*=garbage]",function(){
+ 	$(this).attr('src',"ico/garbage.png");
+});
+
+$('body').on("mouseleave","img[id*=garbage]",function(){
+ 	$(this).attr('src',"ico/garbageDARK.png");
+});
+
+$('body').on("click","img[id*=garbage]",function(){
+	var $this = $(this);
+	var num = parseInt($this.prop("id").substring(7));
+	if(num>1) $("#moltiplicandum"+num).remove();
+	else alert("You have to run at least one test");
+});
+
+    
 // DROP ZONE (after the drop_zone and output divs, outside functions.js)
 function handleFileSelect(evt) {
   evt.stopPropagation();

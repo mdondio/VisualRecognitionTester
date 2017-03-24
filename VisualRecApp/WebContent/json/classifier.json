@@ -1,12 +1,12 @@
 [
-		{"ID": "yyxxxxxxx", "label": "Watch", "trainingsize": 100, "status": "ready"},
-		{"ID": "yyxxxxxxx", "label": "Watch", "trainingsize": 1000, "status": "ready"},
-		{"ID": "yyxxxxxxx", "label": "Watch", "trainingsize": 300, "status": "ready"},
-		{"ID": "xxxxxxxxx", "label": "Helicopter", "trainingsize": 200, "status": "ready"},
-		{"ID": "xxxxxxxxx", "label": "Helicopter", "trainingsize": 200, "status": "training"},
-		{"ID": "xxxxxxxxx", "label": "Mushroom", "trainingsize": 200, "status": "ready"},
-		{"ID": "xxxxxxxxx", "label": "Tree", "trainingsize": 400, "status": "training"},
-		{"ID": "xxxxxxxxx", "label": "Plane", "trainingsize": 500, "status": "ready"},
-		{"ID": "xxxxxxxxx", "label": "Mushroom", "trainingsize": 200, "status": "training"},
-		{"ID": "xxxxxxxxx", "label": "Mushroom", "trainingsize": 3000, "status": "ready"}
+		{"ID": "yyxxxxxxx", "label": "Watch", "training_size": 100, "status": "ready"},
+		{"ID": "yyxxxxxxx", "label": "Watch", "training_size": 1000, "status": "ready"},
+		{"ID": "yyxxxxxxx", "label": "Watch", "training_size": 300, "status": "ready"},
+		{"ID": "xxxxxxxxx", "label": "Helicopter", "training_size": 200, "status": "ready"},
+		{"ID": "xxxxxxxxx", "label": "Helicopter", "training_size": 200, "status": "training"},
+		{"ID": "xxxxxxxxx", "label": "Mushroom", "training_size": 200, "status": "ready"},
+		{"ID": "xxxxxxxxx", "label": "Tree", "training_size": 400, "status": "training"},
+		{"ID": "xxxxxxxxx", "label": "Plane", "training_size": 500, "status": "ready"},
+		{"ID": "xxxxxxxxx", "label": "Mushroom", "training_size": 200, "status": "training"},
+		{"ID": "xxxxxxxxx", "label": "Mushroom", "training_size": 3000, "status": "ready"}
 ]

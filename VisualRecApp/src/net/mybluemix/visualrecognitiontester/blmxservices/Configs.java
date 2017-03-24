@@ -17,8 +17,6 @@ public class Configs {
 	public static final String CLOUDANT_PASS = "b3cb397d32d9e4860f9d14406d221c02c707127e97f858b2191693b75e290350";
 	public static final String DATABASENAME = "visualrec_db_new";
 
-	
-	
 	// Andrea Cloudant DB Instance
 //	public static final String CLOUDANT_USER = "7315f6b8-f122-4a38-9826-14a7a92ec657-bluemix";
 //	public static final String CLOUDANT_PASS = "073981e7f21af8f6a95cf20848f274f329b693dd4db8afe30ba4085bf59d5bac";
