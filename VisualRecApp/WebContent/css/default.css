@@ -172,6 +172,13 @@ th {
   z-index: 10000;
 }
 
+#loading { /* logo watson loading */
+  width: 150px;
+  height: auto;
+  position: relative;
+  filter: contrast(93.3%); /* per fare in modo che il bianco di sfondo diventi il grigio della pagina! */
+}
+
 #graph1, #graph2 {
   z-index: 10000;
   webkit-box-shadow: 2px 3px 7px rgba(0,0,0,0.12); -moz-box-shadow: 2px 3px 7px rgba(0,0,0,0.12); box-shadow: 2px 3px 7px rgba(0,0,0,0.12);
