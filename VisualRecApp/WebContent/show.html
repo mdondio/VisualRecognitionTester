@@ -16,14 +16,6 @@
 <body>
 	<header></header><script>createHeader();</script>
 
-	<script>
-		$.urlParam = function(name){
-			var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-			return results[1] || 0;
-		}
-		var array = $.urlParam('arr');
-	</script>
-
 	<div class="content">
 
 		<!-- Icona Watson -->
@@ -119,6 +111,11 @@
 	</body>
 
 	<script>
+	$.urlParam = function(name){
+			var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+			return results[1] || 0;
+		}
+		var array = $.urlParam('arr');
 	getDataShow(array);
 $('.show_test').on('change', function() {
  	console.log("CHANGE")

@@ -298,8 +298,7 @@ function showSlides(n) {
  */
 function retrieveSimConfig(){
 
-	if(checkTestName() & checkSelectedInput())
-	{
+
 		// Sfrutta classe jquery per raccogliere tutte le info dai menu a tendina in una volta sola
 		selectArray = Array.prototype.map.call($(".moltiplicandum input"),(function(el){
 			return el.value;
@@ -312,8 +311,7 @@ function retrieveSimConfig(){
 	
 		JSON.stringify(selectArray);
 		return(selectArray);
-		
-	}
+
 }
 
 //TODO commentare

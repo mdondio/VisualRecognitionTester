@@ -198,7 +198,13 @@ img.inline{
 	margin-right: 18px;
 }
 
-img.inline.reload{
+.icoreload{
+	display: inline;
+	margin: 0 auto;
+	margin-bottom: 8px;
+	margin-top: 8px;
+	margin-left: 18px;
+	margin-right: 18px;
 }
 
 img.inline.garbage{

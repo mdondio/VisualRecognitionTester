@@ -76,7 +76,7 @@
 		            </div>
 		            
 		            <div class="column fourth">
-		              <select placeholder="Select test dataset" class="test_set" type="text" style="width:100%">
+		              <select class="test_set" type="text" style="width:100%">
 		                <option selected disabled value="">Select test dataset</option>
 		              </select>
 		            </div>
@@ -88,8 +88,8 @@
 		            </div>
 	
 		            <div class="column fourth">
-		            	<img id="reload" class="inline" data-alt-src="ico/reload.png" src="ico/reloadDARK.png" style="width:30px; height:auto;">
-       					<img id="garbage" class="inline" data-alt-src="ico/garbage.png" src="ico/garbageDARK.png" style="width:30px; height:auto;">  
+		            	<img id="reload1" class="inline" data-alt-src="ico/reload.png" src="ico/reloadDARK.png" style="width:30px; height:auto;">
+       					<img id="garbage1" class="inline" data-alt-src="ico/garbage.png" src="ico/garbageDARK.png" style="width:30px; height:auto;">  
 		            </div>
 	
 	        	</div>
@@ -116,7 +116,7 @@
 
 <script>
 
-
+//ADD button actions
 $('#addicon').mouseover(function(){
 	$(this).attr('src','ico/addicon.png');
 });
@@ -131,14 +131,15 @@ $('#addicon').click(function(){
 if(i < max){
       var $div = $('div[id^="moltiplicandum"]:last'); // seleziono l'ultimo moltiplicandum
       var num = parseInt( $div.prop("id").match(/\d+/g), 10 ) +1; // estraggo il numero identificativo e lo incremento
+           
       $("#moltiplicandum1").clone().prop('id', 'moltiplicandum'+num )
       .find('input:text').val("")
       .removeAttr('class')
       .attr('name','test'+num).end()
       .appendTo("#myForm"); // clono, rinomino e appendo
       
-      $("#moltiplicandum"+num).find("img#reload").attr("id","reload"+num);
-      $("#moltiplicandum"+num).find("img#garbage").attr("id","garbage"+num);
+      $("#moltiplicandum"+num).find("img#reload1").attr("id","reload"+num);
+      $("#moltiplicandum"+num).find("img#garbage1").attr("id","garbage"+num);
             
     } else {
       alert("Max number of entries reached.");
@@ -146,6 +147,7 @@ if(i < max){
     i++;
 });
 
+//UPLOAD button actions
 $('#uploadicon').mouseover(function(){
 	$(this).attr('src','ico/upload.png');
 });
@@ -154,6 +156,7 @@ $('#uploadicon').mouseleave(function(){
 	$(this).attr('src',"ico/uploadDARK.png" );
 });
 
+//PLAY button actions
 $('#playicon').mouseover(function(){
 	$(this).attr('src','ico/play-button.png');
 });
@@ -163,25 +166,52 @@ $('#playicon').mouseleave(function(){
 });
 
 $('#playicon').click(function(){
-	window.location = 'show.html?arr='+retrieveSimConfig();
+//if(checkTestName() & checkSelectedInput())	window.location = 'show.html?arr='+retrieveSimConfig();
+
+if(checkTestName() & checkSelectedInput()){
+
+testname = Array.prototype.map.call($(".moltiplicandum input"),(function(el){return el.value;}));
+testsetID = selectArray.concat(Array.prototype.map.call($(".moltiplicandum.test-set select"),(function(el){return el.value;})));
+
+console.log(testsetID);	
+		
+// localStorage.testname =
+// localStorage.testsetID =
+// localStorage.classifierID =
+}
 });
 
-// $('img[reload]').mouseover(function(){
-// 	$(this).attr('src',"ico/reload.png");
-// });
+//RELOAD button actions
+$('body').on("mouseover","img[id*=reload]",function(){
+ 	$(this).attr('src',"ico/reload.png");
+});
 
-// $('img[reload]').mouseleave(function(){
-// 	$(this).attr('src',"ico/reloadDARK.png");
-// });
+$('body').on("mouseleave","img[id*=reload]",function(){
+ 	$(this).attr('src',"ico/reloadDARK.png");
+});
 
-// $('#garbage').mouseover(function(){
-// 	$(this).attr('src',"ico/garbage.png");
-// });
+$('body').on("click","img[id*=reload]",function(){
+	var $this = $(this);
+	var num = parseInt($this.prop("id").substring(6));
+  	$("#moltiplicandum"+num).find('input:text').val("");
+ 	$("#moltiplicandum"+num).find('select').val("").find('select').val("");      
+});
 
-// $('#garbage').mouseleave(function(){
-// 	$(this).attr('src',"ico/garbageDARK.png");
-// });
+//GARBAGE button actions
+$('body').on("mouseover","img[id*=garbage]",function(){
+ 	$(this).attr('src',"ico/garbage.png");
+});
 
+$('body').on("mouseleave","img[id*=garbage]",function(){
+ 	$(this).attr('src',"ico/garbageDARK.png");
+});
+
+$('body').on("click","img[id*=garbage]",function(){
+	var $this = $(this);
+	var num = parseInt($this.prop("id").substring(7));
+	if(num>1) $("#moltiplicandum"+num).remove();
+	else alert("You have to run at least one test");
+});
 
     
 // DROP ZONE (after the drop_zone and output divs, outside functions.js)
