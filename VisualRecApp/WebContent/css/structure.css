@@ -91,5 +91,6 @@ h6 { font-family: "museo-sans",sans-serif; font-style: normal; font-weight: 500;
 .column.half { 		 	width: 50%; }
 .column.third { 	 	width: 33.3%; }
 .column.fourth { 		width: 25%; display: block; }
+.column.half-fourth { 		width: 12.5%; display: block; }
 .column.three-fourths { width: 75%; }
 .column.halfthird { 	width: 16.6%; text-align: left;	}

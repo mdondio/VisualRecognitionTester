@@ -68,12 +68,11 @@
         <div id="sim_list">
 
 			<form id="myForm">          
-	        	<div class="row clearfix moltiplicandum" id="moltiplicandum1" style="margin-bottom:20px">
-	
+	        	<div class="row clearfix moltiplicandum" id="moltiplicandum1" style="margin-bottom:20px;margin-left:200px;">
+			        
+			        
 					<div class="column fourth">
-		
 		              <input class="test_set" data-validation="required" data-validation-error-msg="You did not enter a name for this test" name="test1" type="text" placeholder="Insert test name" style="width:100%">
-		              
 		            </div>
 		            
 		            <div class="column fourth">
@@ -89,8 +88,8 @@
 		            </div>
 	
 		            <div class="column fourth">
-		            	<img id="reloadicon" class="inline" src="ico/reloadDARK.png" style="width:30px; height:auto;">
-       					<img id="garbageicon" class="inline" src="ico/garbageDARK.png" style="width:30px; height:auto;">  
+		            	<img id="reload" class="inline" data-alt-src="ico/reload.png" src="ico/reloadDARK.png" style="width:30px; height:auto;">
+       					<img id="garbage" class="inline" data-alt-src="ico/garbage.png" src="ico/garbageDARK.png" style="width:30px; height:auto;">  
 		            </div>
 	
 	        	</div>
@@ -136,7 +135,11 @@ if(i < max){
       .find('input:text').val("")
       .removeAttr('class')
       .attr('name','test'+num).end()
-      .appendTo("#sim_list"); // clono, rinomino e appendo
+      .appendTo("#myForm"); // clono, rinomino e appendo
+      
+      $("#moltiplicandum"+num).find("img#reload").attr("id","reload"+num);
+      $("#moltiplicandum"+num).find("img#garbage").attr("id","garbage"+num);
+            
     } else {
       alert("Max number of entries reached.");
     }
@@ -163,24 +166,24 @@ $('#playicon').click(function(){
 	window.location = 'show.html?arr='+retrieveSimConfig();
 });
 
-$('#reloadicon').mouseover(function(){
-	$(this).attr('src',"ico/reload.png" );
-});
+// $('img[reload]').mouseover(function(){
+// 	$(this).attr('src',"ico/reload.png");
+// });
 
-$('#reloadicon').mouseleave(function(){
-	$(this).attr('src',"ico/reloadDARK.png" );
-});
+// $('img[reload]').mouseleave(function(){
+// 	$(this).attr('src',"ico/reloadDARK.png");
+// });
 
-$('#garbageicon').mouseover(function(){
-	$(this).attr('src',"ico/garbage.png" );
-});
+// $('#garbage').mouseover(function(){
+// 	$(this).attr('src',"ico/garbage.png");
+// });
 
-$('#garbageicon').mouseleave(function(){
-	$(this).attr('src',"ico/garbageDARK.png" );
-});
+// $('#garbage').mouseleave(function(){
+// 	$(this).attr('src',"ico/garbageDARK.png");
+// });
 
 
-
+    
 // DROP ZONE (after the drop_zone and output divs, outside functions.js)
 function handleFileSelect(evt) {
   evt.stopPropagation();
