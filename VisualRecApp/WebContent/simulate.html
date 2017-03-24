@@ -170,15 +170,29 @@ $('#playicon').click(function(){
 
 if(checkTestName() & checkSelectedInput()){
 
-testname = Array.prototype.map.call($(".moltiplicandum input"),(function(el){return el.value;}));
-testsetID = selectArray.concat(Array.prototype.map.call($(".moltiplicandum.test-set select"),(function(el){return el.value;})));
+var testname = Array.prototype.map.call($(".moltiplicandum input"),(function(el){return el.value;}));
+var temp = Array.prototype.map.call($(".moltiplicandum select"),(function(el){return el.value;}));
+var testsetID = Array(temp.length/2);
+var classifierID = Array(temp.length/2);
 
-console.log(testsetID);	
-		
-// localStorage.testname =
-// localStorage.testsetID =
-// localStorage.classifierID =
+for(var i=0;i<temp.length/2;i++){
+testsetID[i]=temp[2*i];
+classifierID[i]=temp[2*i+1];
 }
+
+if (typeof(Storage) !== "undefined") {
+
+    localStorage.setItem("testname",JSON.stringify(testname));
+localStorage.setItem("testsetID", JSON.stringify(testsetID));
+localStorage.setItem("classifierID",JSON.stringify(classifierID));
+
+window.location = 'show.html';
+} else {
+    alert("Your browser does not support localStorage, please use Firefox or Chrome");
+}
+
+}
+
 });
 
 //RELOAD button actions

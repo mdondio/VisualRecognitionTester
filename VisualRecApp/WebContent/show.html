@@ -13,7 +13,9 @@
 <script>createHead();</script>
 
 
-<body>
+localStorage.testname = testname;
+localStorage.testsetID = testsetID;
+localStorage.classifierID = classifierID;<body>
 	<header></header><script>createHeader();</script>
 
 	<div class="content">
@@ -111,15 +113,21 @@
 	</body>
 
 	<script>
-	$.urlParam = function(name){
-			var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-			return results[1] || 0;
-		}
-		var array = $.urlParam('arr');
-	getDataShow(array);
+	
+// 	$.urlParam = function(name){
+// 			var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+// 			return results[1] || 0;
+// 		}
+// 		var array = $.urlParam('arr');
+
+	getDataShow(
+		JSON.parse(localStorage.getItem("testname")),
+		JSON.parse(localStorage.getItem("testsetID")),
+		JSON.parse(localStorage.getItem("classifierID"))
+		);
+		
+	
 $('.show_test').on('change', function() {
- 	console.log("CHANGE")
- 	console.log(cacheTestResult);
  	addimages(cacheTestResult);
  	});
 

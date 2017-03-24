@@ -316,41 +316,38 @@ function retrieveSimConfig(){
 
 //TODO commentare
 //GET DATA TO SHOW: questa dovrebbe essere la funzione che lega la richiesta dei test da mostrare in show.html???
-function getDataShow(dataArray){
+function getDataShow(testname,testsetID,classifierID){
 
 	document.getElementById("firstrow").style.display = "none";
 	document.getElementById("secondrow").style.display = "none";
 	document.getElementById("start").style.display = "block";
 	$('#start').html("<img src='ico/load.svg' id='loading'>");
-//	console.log("chiamata ajax GET");
-	
+
 //	// Formatting dataArray to a well structured json to pass to the backend via ajax
-//	var length = dataArray.length;
-//	var names = length / 3;
-//	var i = 0; var k = names; var print; var jsonTest = {}; var json2 = "";
-//
+	var names = testname.length;
+	var i = 0; var print; var jsonTest = {}; var json2 = "";
+
 //	// looping dataArray through names
-//	while( names != 0 ){
-//		print = {
-//	      //"Name": dataArray[i],
-//	      "Test": dataArray[k],
-//	      "Classifier": dataArray[k+1]
-//	    }
-//		if( names == 1 ){ json2 = json2 + JSON.stringify(print); }		// if last, do not insert comma
-//	    	else { 		  json2 = json2 + JSON.stringify(print) + ','; } 	// if not last, put insert comma
-//	    i++; names--; k = k + 2; // iteration
-//	}
-//
-//	jsonTest = '{ "showme":[ ' + json2 + ' ]} '; // input to ajax call formatted in json
-	
+	while( names != 0 ){
+		print = {
+	      "Test": testsetID[i],
+	      "Classifier": classifierID[i]
+	    }
+		if( names == 1 ){ json2 = json2 + JSON.stringify(print); }		// if last, do not insert comma
+	    	else { 		  json2 = json2 + JSON.stringify(print) + ','; } 	// if not last, put insert comma
+	    i++; names--; // iteration
+	}
+
+	jsonTest = '{ "showme":[ ' + json2 + ' ]} '; // input to ajax call formatted in json
+	console.log(jsonTest);
 	// ajax call to backend
 	$.ajax(
 			{
 				//url: "json/testresult.json",
 				url: 'GetTestResult',
 				type: 'GET',
-//				data:{ array: jsonTest },
-				data:{ array: dataArray },
+				data:{ array: jsonTest },
+				//data:{ array: dataArray },
 
 				dataType: 'json',
 				success: function(result)
