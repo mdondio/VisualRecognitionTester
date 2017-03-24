@@ -76,7 +76,7 @@ h5 { font-family: "museo-sans",sans-serif; font-style: normal; font-weight: 500;
 body { min-width: 1024px; }	
 	
 h1 { left: 19%; }
-h2 { font-family: "IBM"; font-weight: bold; font-size: 20px; text-transform: none; color: #343b43; text-align: center; position: relative;}
+h2 { font-family: "IBM"; font-weight: bold; font-size: 24px; text-transform: none; color: #343b43; text-align: center; position: relative;}
 h3 { font-size: 35px; text-transform: none; margin-top: 0; margin-bottom: 30px; }
 h4 { font-family: "IBM"; font-style: normal; font-weight: 500; font-size: 35px;	text-transform: none; color: #00A6A0; text-align: center; margin-top: 0; margin-bottom: 30px; }
 h5 { font-size: 50px; color: #00A6A0; text-align: center; }

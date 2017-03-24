@@ -22,9 +22,10 @@
 		<div class="column third">
 			<div class="post-preview" style="width:100%; height:auto">
 				<img class="center" src="ico/addDARK.png" style="width:50px;height:auto;">
-					<h2>ADD ONE MORE TEST</h2>
+				<br>
+					<h2>Add one more test</h2>
 					<div class="card trasp">
-						<p>You can run 10 test at the same time</p>
+						<p style="font-size:18px;color:#A0A0A0">You can run 10 test at the same time</p>
 					</div>
 			</div>
 		</div>
@@ -32,9 +33,10 @@
 	    <div class="column third">
 			<div class="post-preview" style="width:100%; height:auto">
 				<img class="center" src="ico/uploadDARK.png" style="width:50px;height:auto;">
-					<h2>UPLOAD A NEW TEST DATA SET</h2>
+					<br>
+					<h2>Upload a new test dataset</h2>
 					<div class="card trasp">
-						<p>Upload two .zip files with positive and negative images to set-up a new test data set</p>
+						<p style="font-size:18px;color:#A0A0A0">Upload two .zip files with positive and negative images to set-up a new test data set</p>
 					</div>
 			</div>
 		</div>
@@ -42,15 +44,16 @@
 	    <div class="column third">
 			<div class="post-preview" style="width:100%; height:auto">
 				<img class="center" src="ico/play-buttonDARK.png" style="width:50px;height:auto;">
-					<h2>RUN YOUR SIMULATION</h2>
+					<br>
+					<h2>Run your simulation</h2>
 					<div class="card trasp">
-						<p>When you are ready start your simulation</p>
+						<p style="font-size:18px;color:#A0A0A0">When you are ready start your simulation</p>
 					</div>			
 			</div>
 		</div>
 		
 	</div>
-
+<br>
  				<hr align="center" width="50%" class="middle_division">
  
     <div class="row clearfix">
@@ -64,7 +67,7 @@
 	  		
 	  			<hr align="center" width="50%" class="middle_division">
 	  		</div>
-      
+      <br>
         <div id="sim_list">
 
 			<form id="myForm">          
@@ -221,7 +224,8 @@ $('body').on("mouseleave","img[id*=garbage]",function(){
 $('body').on("click","img[id*=garbage]",function(){
 	var $this = $(this);
 	var num = parseInt($this.prop("id").substring(7));
-	if(num>1) $("#moltiplicandum"+num).remove();
+	var size = Array.prototype.map.call($(".moltiplicandum input"),(function(el){return el.value;}));
+	if(size.length>1) $("#moltiplicandum"+num).remove();
 	else alert("You have to run at least one test");
 });
 

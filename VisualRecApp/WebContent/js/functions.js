@@ -321,8 +321,8 @@ function getDataShow(testname,testsetID,classifierID){
 	// ajax call to backend
 	$.ajax(
 			{
-				url: "json/testresult2.json",
-//				url: 'GetTestResult',
+//				url: "json/testresult2.json",
+				url: 'GetTestResult',
 				type: 'GET',
 				data:{ array: finalJSON },
 //				data:{ array: dataArray }
