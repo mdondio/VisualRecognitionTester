@@ -325,28 +325,30 @@ function getDataShow(testname,testsetID,classifierID){
 
 //	// Formatting dataArray to a well structured json to pass to the backend via ajax
 	var names = testname.length;
-	var i = 0; var print; var jsonTest = {}; var json2 = "";
-
+	var i = 0; 
+	jsonObj = [];
+	
 //	// looping dataArray through names
 	while( names != 0 ){
-		print = {
-	      "Test": testsetID[i],
-	      "Classifier": classifierID[i]
-	    }
-		if( names == 1 ){ json2 = json2 + JSON.stringify(print); }		// if last, do not insert comma
-	    	else { 		  json2 = json2 + JSON.stringify(print) + ','; } 	// if not last, put insert comma
-	    i++; names--; // iteration
+		var test = testsetID[i];
+	    var classifier = classifierID[i];
+	    item = {}
+	    item ["test"] = test;
+	    item ["classifier"] = classifier;
+	    jsonObj.push(item);
+	    i++;
+	    names--;
 	}
 
-	jsonTest = '{ "showme":[ ' + json2 + ' ]} '; // input to ajax call formatted in json
-	console.log(jsonTest);
+	finalJSON = JSON.stringify(jsonObj);
+
 	// ajax call to backend
 	$.ajax(
 			{
 				//url: "json/testresult.json",
 				url: 'GetTestResult',
 				type: 'GET',
-				data:{ array: jsonTest },
+				data:{ array: finalJSON },
 				//data:{ array: dataArray },
 
 				dataType: 'json',
@@ -371,8 +373,6 @@ function getDataShow(testname,testsetID,classifierID){
 				}
 			});
 
-//	addimages("json/frontend.json");
-//	populateSelectSim("json/frontend.json");
 }
 
 //TODO commentare

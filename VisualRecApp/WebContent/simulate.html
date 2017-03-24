@@ -181,11 +181,9 @@ classifierID[i]=temp[2*i+1];
 }
 
 if (typeof(Storage) !== "undefined") {
-
-    localStorage.setItem("testname",JSON.stringify(testname));
+localStorage.setItem("testname",JSON.stringify(testname));
 localStorage.setItem("testsetID", JSON.stringify(testsetID));
 localStorage.setItem("classifierID",JSON.stringify(classifierID));
-
 window.location = 'show.html';
 } else {
     alert("Your browser does not support localStorage, please use Firefox or Chrome");
