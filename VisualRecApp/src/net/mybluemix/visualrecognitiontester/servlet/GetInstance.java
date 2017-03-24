@@ -44,7 +44,7 @@ public class GetInstance extends HttpServlet {
 		Database db = CloudantClientMgr.getCloudantDB();
 
 		// Condizione
-		String selector = "{\"selector\": {\"type\":\"instance\"}}";
+		String selector = "{\"selector\": {\"type\":\"visual recognition instance\"}}";
 
 		
 		// debug, query

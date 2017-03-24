@@ -291,30 +291,6 @@ function showSlides(n) {
 //--------------------------------------------------------------------------
 
 //TODO commentare
-// READ SIMULATION CONFIGURATION simulation
-
-/**
- * @returns Raccoglie le info dai menu a tendina della pagina simulate.html e li trasferisce nella pagina show.html nella variabile "arr"
- */
-function retrieveSimConfig(){
-
-
-		// Sfrutta classe jquery per raccogliere tutte le info dai menu a tendina in una volta sola
-		selectArray = Array.prototype.map.call($(".moltiplicandum input"),(function(el){
-			return el.value;
-		}));
-		
-		// Sfrutta classe jquery per raccogliere tutte le info dai menu a tendina in una volta sola
-		selectArray = selectArray.concat(Array.prototype.map.call($(".moltiplicandum select"),(function(el){
-			return el.value;
-		})));
-	
-		JSON.stringify(selectArray);
-		return(selectArray);
-
-}
-
-//TODO commentare
 //GET DATA TO SHOW: questa dovrebbe essere la funzione che lega la richiesta dei test da mostrare in show.html???
 function getDataShow(testname,testsetID,classifierID){
 
@@ -516,8 +492,81 @@ function addMatrixTable(IDelement,table){
 	}
 	document.getElementById(IDelement).appendChild(tableElement);
 	}
-	
-	
+
+// variante tabella con solo la prima colonna evidenziata
+function addTableColumn(IDelement,table,trainingsize){
+	//Create a HTML Table element.
+	var tableElement = document.createElement('table');
+	var columnCount = table[0].length;
+	var rowCount = table.length;
+	//Add the data rows.
+	for (var i = 0; i < rowCount; i++) {
+		//row = tableElement.insertRow(-1);
+		var row = document.createElement('tr');
+		for (var j = 0; j < columnCount; j++) {
+
+			if(j==0){
+				var txt = document.createTextNode(table[i][j][0]);
+				var th = document.createElement('th');
+				th.style.width = "30px";
+				if(i==0) th.style.borderTopWidth = "3px";
+				var block = document.createElement('div');
+				block.className = 'blockfirstcolumn';
+				block.appendChild(txt);
+				th.appendChild(block);
+				row.appendChild(th);
+			}
+			else{
+				var td = document.createElement('td');
+				td.style.width = "30px";
+				if(i==0) td.style.borderTopWidth = "3px";
+				for(var k=0;k<3 & table[i][j][k]!="";k++)
+				{
+					var block = document.createElement('div');
+					
+					if(table[i][j][k]=="ready") block.className = 'blockready'; 
+					else block.className = 'blocktraining';
+					
+					block.appendChild(document.createTextNode(trainingsize[j-1]+"_"+"v"+k));
+					td.appendChild(block);
+				}
+				if(table[i][j][0]=="") td.appendChild(document.createTextNode(""));
+				row.appendChild(td);
+			}
+		}
+		tableElement.appendChild(row);
+	}
+	document.getElementById(IDelement).appendChild(tableElement);
+}
+
+
+function addMatrixTable(IDelement,table){
+	var tableElement = document.createElement('table');
+	var columnCount = table[0].length;
+	var rowCount = table.length;
+	for (var i = 0; i < rowCount; i++) {
+		var row = document.createElement('tr');
+		for (var j = 0; j < columnCount; j++) {
+			if(i==0){
+				var txt = document.createTextNode(table[i][j]);
+				var th = document.createElement('th');
+				th.appendChild(txt);
+				row.appendChild(th);
+			}
+			else{
+				var td = document.createElement('td');
+				var block = document.createElement('div');
+				//block.className = 'block';
+				block.appendChild(document.createTextNode(table[i][j]));
+				td.appendChild(block);
+				row.appendChild(td);
+			}
+		}
+		tableElement.appendChild(row);
+	}
+	document.getElementById(IDelement).appendChild(tableElement);
+	}
+
 /**
  * @returns unica funzione che permette la costruzione della pagina home.html grazie a tre chiamate ajax
  * @help servlet interrogate: GetInstance, GetClassifier, GetDataset
@@ -534,6 +583,7 @@ function generateHome(){
 		async: false,
 		success: function(result){
 			var free = 0;
+			console.log(result);
 			for(var i in result)
 			{
 				var obj = result[i].classifiers;
@@ -549,11 +599,11 @@ function generateHome(){
 	$.ajax({
 		contentType: "application/json",
 		dataType: "json",
-		//url: "json/classifier.json",
-		url: 'GetClassifier',
+		url: "json/classifier.json",
+		//url: 'GetClassifier',
 		async: false,
 		success: function(result){
-
+console.log(result);
 			//COMPUTE NUMBER FOR READY AND TRAINING
 			var ready = 0;
 			var training = 0;
@@ -574,10 +624,10 @@ function generateHome(){
 			{
 				var obj = result[i];
 				if(label.indexOf(obj.label) == -1) label.push(obj.label);
-				if(n_img.indexOf(obj.trainingsize) == -1) n_img.push(obj.trainingsize);
+				if(n_img.indexOf(obj.training_size) == -1) n_img.push(obj.training_size);
 			}
 			n_img.sort(function(a, b){return a - b;});
-
+			
 			//Inizializzazione matrice dei classificatori
 			var sizeRow=label.length;
 			var sizeCol=n_img.length;
@@ -591,8 +641,8 @@ function generateHome(){
 			}
 
 			//Inizializzazione matrice da stampare (classificatori + label + cardinality)
-			var print_table = new Array(sizeRow+1);
-			for (var i = 0; i < (sizeRow+1); i++) {
+			var print_table = new Array(sizeRow);
+			for (var i = 0; i < sizeRow; i++) {
 				print_table[i] = new Array(sizeCol+1);
 				for(var j=0;j<(sizeCol+1);j++) print_table[i][j] = new Array(3);
 			}
@@ -601,22 +651,22 @@ function generateHome(){
 			{
 				var obj = result[i];
 				var n = label.indexOf(obj.label); //row
-				var m = n_img.indexOf(obj.trainingsize); //col
+				var m = n_img.indexOf(obj.training_size); //col
 				var k = matrix[n][m].indexOf("");
 				matrix[n][m][k]=obj.status;
 			}
 			//inizializza header delle label
-			print_table[0][0][0] = "Cardinality";
-			for(var j = 0; j < sizeRow; j++)	print_table[j+1][0][0] = label[j];
-			for(var i = 0; i < sizeCol; i++) print_table[0][i+1][0] = n_img[i];
+			//print_table[0][0][0] = "Cardinality";
+			for(var i = 0; i < sizeRow; i++)	print_table[i][0][0] = label[i];
+			//for(var i = 0; i < sizeCol; i++) print_table[0][i+1][0] = n_img[i];
 			//imposta la matrice dei contenuti da stampare
 			for(var i = 0; i < sizeRow; i++)
 				for(var j = 0; j < sizeCol; j++)
-					for(var k = 0; k < sizeCol; k++)
-						print_table[i+1][j+1][k] = matrix[i][j][k];
+					for(var k = 0; k < 3; k++)
+						print_table[i][j+1][k] = matrix[i][j][k];
 
 			//add a table (idelement and table to print)
-			addTable("dvTable",print_table);
+			addTableColumn("dvTable",print_table,n_img);
 		}
 	});
 
