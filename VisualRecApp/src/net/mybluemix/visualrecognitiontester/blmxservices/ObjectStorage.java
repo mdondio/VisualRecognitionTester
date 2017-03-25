@@ -246,41 +246,9 @@ public class ObjectStorage {
 	}
 
 	public HttpURLConnection doGet(String containerName, String objectName) throws IOException {
-//  per fare richiesta usa		
 //		Use the value of the X-Subject-Token field from the response header as the X-Auth-Token field when you make requests to the Object Storage service.
 
-
-		///-.......
-		// TODO DA QUIIIII
-		// TODO DA QUIIIII
-		// TODO DA QUIIIII
-		// TODO DA QUIIIII
-		// TODO DA QUIIIII
-		// TODO DA QUIIIII
-		
-		// mi manca
-		// /<container namespace>/<object namespace>
-		
-//		HttpURLConnection c = null;
-//		URL u = new URL(auth_url + AUTH_VERSION_1);
-
-		// curl -i -H "X-Auth-User: ACC-278436-15:USERID " -H "X-Auth-Key:
-		// API_KEY " https://dal05.objectstorage.softlayer.net/auth/v1.0
-
-		// This call will return multiple useful values:
-		//
-		// X-Auth-Token: AUTH_tkb26239d441d6401d9482b004d45f7259 – the token we
-		// need
-		// X-Storage-Url:
-		// https://dal05.objectstorage.softlayer.net/v1/AUTH_df0de35c-d00a-40aa-b697-2b7f1b9331a6
-		// - the URL to access the storage
-//
-		
-		// TODO change me: dynamic
-	//	String storage_url = "https://dal.objectstorage.open.softlayer.com/v1/AUTH_" + projectId  + containerName + objectName;
-
 		System.out.println("[ObjectStorage doGet()] Retrieving: "+ storageUrl + containerName + objectName);
-		
 
 		URL u = new URL(storageUrl + containerName + objectName);
 
@@ -289,7 +257,16 @@ public class ObjectStorage {
 		con.setRequestProperty("X-Auth-Token", x_authToken);
 		con.setRequestProperty("Accept", "application/json");
 
-
+		
+		// If token expired, 401 error
+		if(con.getResponseCode() == HttpURLConnection.HTTP_UNAUTHORIZED){
+			doAuthenticationV3();
+			
+			// do get again with new token
+			return doGet(containerName, objectName);
+		}
+		
+		// token ok, return con
 		return con;
 		/*
 		// XXX
@@ -337,16 +314,12 @@ public class ObjectStorage {
 
 	// http://developer.openstack.org/api-ref/object-storage/?expanded=list-activated-capabilities-detail,show-container-details-and-list-objects-detail,show-account-metadata-detail,create-container-detail
 public void createContainer(String containerName) throws IOException{
-	
-	
-	// TODO change me: dynamic
-	String storage_url = "https://dal.objectstorage.open.softlayer.com/v1/AUTH_" + projectId  + containerName;
 
 	System.out.println("[ObjectStorage createContainer()] Creating...");
-	System.out.println(storage_url);
+	System.out.println(storageUrl);
 	
 
-	URL u = new URL(storage_url);
+	URL u = new URL(storageUrl);
 
 	HttpURLConnection con = (HttpURLConnection) u.openConnection();
 	con.setRequestMethod("PUT");

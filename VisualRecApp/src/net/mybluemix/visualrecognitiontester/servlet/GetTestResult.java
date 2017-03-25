@@ -1,11 +1,9 @@
 package net.mybluemix.visualrecognitiontester.servlet;
 
-//import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -20,12 +18,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-//import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-//import com.google.gson.JsonSyntaxException;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassification;
 
 import net.mybluemix.visualrecognitiontester.blmxservices.CloudantClientMgr;
@@ -51,7 +47,7 @@ public class GetTestResult extends HttpServlet {
 	 * @see HttpServlet#HttpServlet()
 	 */
 	public GetTestResult() {
-		super();
+		super();			
 	}
 
 	/**
@@ -65,24 +61,12 @@ public class GetTestResult extends HttpServlet {
 
 		
 
-		System.out.println(request.getParameter("array"));
+//		System.out.println(request.getParameter("array"));
 		
 		JsonParser parser = new JsonParser();
-//		JsonArray tests = parser.parse(request.getParameter("array")).getAsJsonObject().getAsJsonArray();
 		JsonArray tests = parser.parse(request.getParameter("array")).getAsJsonArray();
 		
-//		[{"test":"watch_test02","classifier":"watch_classifier_392224981"}]
-		
-		
-		System.out.println(tests);
-
-		
-		///////////////////////
-		// parse request: a list of testSet - classifier
-//		HashMap<String, String> pairs = parseRequest(request);
-////////////////////////////
-		// Create result object
-		// JsonObject o = new JsonObject();
+	//	System.out.println(tests);
 		JsonArray results = new JsonArray();
 
 		// For each test
@@ -92,11 +76,6 @@ public class GetTestResult extends HttpServlet {
 			
 			String testSetId = test.get("test").getAsString();
 			String classifierId = test.get("classifier").getAsString();
-
-
-			
-			
-//			for (String testSetId : pairs.keySet()) {
 
 			// retrieve dataset and classifier object
 			Dataset testSet = retrieveTestSet(testSetId);
@@ -131,11 +110,7 @@ public class GetTestResult extends HttpServlet {
 
 		System.out.println(results);
 
-		// CORRETTO DA USARE
 		response.getWriter().append(results.toString());
-
-		// XXX togliere
-		// response.getWriter().append(testResult());
 	}
 
 	/**
@@ -147,91 +122,8 @@ public class GetTestResult extends HttpServlet {
 		doGet(request, response);
 	}
 
-	// This function translates request into an useful data structure
-	private HashMap<String, String> parseRequest(HttpServletRequest request) {
-
-
-		System.out.println(request.getParameter("array"));
-		
-		JsonParser parser = new JsonParser();
-		JsonObject tests = parser.parse(request.getParameter("array")).getAsJsonObject();
-		
-
-		
-		
-		// 2 itera su ogni elemento
-		// 3 ogni elemento ha dentro test e classifier
-		
-		
-		
-		//-------------------------------------------------
-		
-		
-		String arrayArg = request.getQueryString();
-		System.out.println(arrayArg);
-
-		int i = arrayArg.indexOf("%2C") + 3;
-
-		arrayArg = arrayArg.substring(i, arrayArg.length());
-
-		String testSetID = arrayArg.split("%2C")[0];
-		String classifierID = arrayArg.split("%2C")[1];
-
-		System.out.println(testSetID + " - " + classifierID);
-
-		////////////////////////////////////////////////////////
-		// test purpose XXX
-		// qui id del dataset - classifier ID / altro per usare uno specifico
-		//////////////////////////////////////////////////////// classificatore
-		HashMap<String, String> pairs = new HashMap<String, String>();
-		// pairs.put("watch_test01", "watch_classifier_1559642317");
-		pairs.put(testSetID, classifierID);
-
-		// http://localhost:9080/VisualRecognitionTester/show.html?
-		// arr=a,b,yyxxxxxxx,yyxxxxxxx,yyxxxxxxx,xxxxxxxxx
-
-		// diviso 3 = numero di triplette
-
-		////////////////////////////////////////////////////////
-		return pairs;
-
-	}
 	
-	
-	// This function translates request into an useful data structure
-	private HashMap<String, String> parseRequestOLD(HttpServletRequest request) {
 
-		String arrayArg = request.getQueryString();
-		System.out.println(arrayArg);
-
-		int i = arrayArg.indexOf("%2C") + 3;
-
-		arrayArg = arrayArg.substring(i, arrayArg.length());
-
-		String testSetID = arrayArg.split("%2C")[0];
-		String classifierID = arrayArg.split("%2C")[1];
-
-		System.out.println(testSetID + " - " + classifierID);
-
-		////////////////////////////////////////////////////////
-		// test purpose XXX
-		// qui id del dataset - classifier ID / altro per usare uno specifico
-		//////////////////////////////////////////////////////// classificatore
-		HashMap<String, String> pairs = new HashMap<String, String>();
-		// pairs.put("watch_test01", "watch_classifier_1559642317");
-		pairs.put(testSetID, classifierID);
-
-		// http://localhost:9080/VisualRecognitionTester/show.html?
-		// arr=a,b,yyxxxxxxx,yyxxxxxxx,yyxxxxxxx,xxxxxxxxx
-
-		// diviso 3 = numero di triplette
-
-		////////////////////////////////////////////////////////
-		return pairs;
-
-	}
-	
-	
 
 	// XXX ottimizza e recupera tutti i testSet indicati con una sola query
 	private Dataset retrieveTestSet(String id) {
@@ -296,7 +188,6 @@ public class GetTestResult extends HttpServlet {
 		classifier.setLabel(classifierJson.getLabel());
 
 		// Classify all zips against Watson instance
-		// TODO gestire correttamente
 			List<VisualClassification> watsonres;
 				try {
 					watsonres = classifier.classify(zipFiles, Utils.WATSONMINSCORE);
@@ -340,9 +231,6 @@ public class GetTestResult extends HttpServlet {
 			fprTrace.add(fpr);
 
 			// Compute distance.. perfect classificator -> tpr = 1, fpr = 0
-			// XXX checkme
-			// double distance = Math.sqrt(Math.pow(1 - tpr, 2) + Math.pow(1 -
-			// fpr, 2));
 			double distance = Math.sqrt(Math.pow(fpr, 2) + Math.pow(1 - tpr, 2));
 
 			System.out.println("[GetTestResult runClassification()] threshold = " + df.format(threshold) + " tpr = "
@@ -358,10 +246,6 @@ public class GetTestResult extends HttpServlet {
 		// debug
 		System.out.println("[GetTestResult runClassification()] selected threshold = "
 				+ df.format(optResult.getThreshold()) + " and optDistance = " + df.format(optDistance));
-
-		// Build JSON with optimal result
-		// JsonObject result = buildJsonResult(optResult, tprTrace, fprTrace,
-		// computeAUC(tprTrace, fprTrace));
 
 		String id = testSet.getLabel() + " " + testSet.getSize() + " - " + classifierJson.getLabel() + " "
 				+ classifierJson.getTrainingSize();
@@ -396,39 +280,6 @@ public class GetTestResult extends HttpServlet {
 		return result;
 	}
 
-	// to quickly test integration
-	// // XXX to be removed
-	// private String testResult() throws JsonIOException, JsonSyntaxException,
-	// FileNotFoundException {
-	//
-	// String s = "[{\"ID\":\"test1\",\"accuracy\": 0.87,\"fpr\":[0, 0.2, 0.4,
-	// 1],\"tpr\":[0, 0.4, 0.7, 1],\"AUC\":0.67,\"trainingSize\": 50,
-	// \"threshold\":0.2,\"falsepositive\":[\"img/img_nature_wide.jpg\",\"img/img_fjords_wide.jpg\"],\"falsenegative\":[\"img/img_mountains_wide.jpg\",\"img/img_lights_wide.jpg\"]},{\"ID\":\"test2\",\"accuracy\":
-	// 0.57,\"fpr\":[0, 0.3, 0.5, 1],\"tpr\":[0, 0.4, 0.7, 1],\"AUC\":0.57,
-	// \"trainingSize\":
-	// 150,\"threshold\":0.4,\"falsepositive\":[\"img/408757582443373.jpg\",\"img/6471154175007223.jpg\",\"img/img_nature_wide.jpg\",\"img/img_fjords_wide.jpg\"],\"falsenegative\":[\"img/7169059395095464.jpg\",\"img/8119543326477369.jpg\",\"img/8433457349861016.jpg\",\"img/img_nature_wide.jpg\",\"img/img_fjords_wide.jpg\"]},{\"ID\":\"test3\",\"accuracy\":
-	// 0.67,\"fpr\":[0, 0.1, 0.8, 1],\"tpr\":[0, 0.4, 0.7, 1],\"AUC\":0.77,
-	// \"trainingSize\":
-	// 250,\"threshold\":0.5,\"falsepositive\":[\"img/img_nature_wide.jpg\",\"img/img_fjords_wide.jpg\"],\"falsenegative\":[\"img/img_mountains_wide.jpg\",\"img/img_lights_wide.jpg\"]},{\"ID\":\"test4\",\"accuracy\":
-	// 0.89,\"fpr\":[0, 0.4, 0.6, 1],\"tpr\":[0, 0.4, 0.7, 1],\"AUC\":0.97,
-	// \"trainingSize\": 350,
-	// \"threshold\":0.54,\"falsepositive\":[\"img/img_nature_wide.jpg\",\"img/img_fjords_wide.jpg\"],\"falsenegative\":[\"img/img_mountains_wide.jpg\",\"img/img_lights_wide.jpg\"]},{\"ID\":\"test5\",\"accuracy\":
-	// 0.99,\"fpr\":[0, 0.6, 0.8, 1],\"tpr\":[0, 0.4, 0.7, 1],\"AUC\":0.999,
-	// \"trainingSize\": 550,
-	// \"threshold\":0.99,\"falsepositive\":[\"img/img_nature_wide.jpg\",\"img/img_fjords_wide.jpg\"],\"falsenegative\":[\"img/img_mountains_wide.jpg\",\"img/img_lights_wide.jpg\",\"img/408757582443373.jpg\",\"img/6471154175007223.jpg\"]}]";
-	//
-	// // String path = getServletContext().getContextPath();
-	// // String path = getServletContext().getRealPath("/");
-	// // System.out.println(path);
-	// // JsonElement jelement = new JsonParser().parse(new FileReader(new
-	// // File(path + "/json/testresult.json")));
-	// // JsonObject o = jelement.getAsJsonObject();
-	//
-	// // return o;
-	//
-	// return s;
-	// }
-
 	// Method to build array from list
 	// Nota: per gestire correttamente unsigned long devo
 	// registrare un adapter custom
@@ -445,6 +296,8 @@ public class GetTestResult extends HttpServlet {
 	}
 
 	// Computes AUC from a given tprTrace and fprTrace
+	// TODO controllare con andrea
+	@SuppressWarnings("unused")
 	private double computeAndrea(List<Double> tprTrace, List<Double> fprTrace) {
 
 		double auc = 0.0;
@@ -473,8 +326,6 @@ public class GetTestResult extends HttpServlet {
 		auc *= (b - a) / n;
 
 		System.out.println("[GetTestResult computeAUCMarco()] auc = " + auc);
-
-		// TODO
 
 		return auc;
 	}
