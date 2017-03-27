@@ -186,18 +186,13 @@ function addimages(result){
 
 			//aggiungo tutte le immagini
 			var img_path = "GetImage?image_id=";
-			//var img_path = "/img/";
-			//	https://visualrecognitiontester.eu-gb.mybluemix.net/GetImage?image_id=10000463652437887083
 			for(var j in result)
 			{
 			if(result[j].ID == testname)
 				{
 
-					$("#accuracy").html(Math.round( ( (result[j].accuracyOpt) *100)/100));
-					$("#threshold").html(Math.round( ( (result[j].thresholdOpt) *100)/100));
-
-					console.log("******* addimages ******")
-					console.log(result);
+					$("#accuracy").html(result[j].accuracyOpt.toFixed(2));
+					$("#threshold").html(result[j].thresholdOpt.toFixed(2));
 
 					var slidenumber = 1
 					for(var i in result[j].falsePositiveOpt)
@@ -295,30 +290,6 @@ function showSlides(n) {
 //GET DATA TO SHOW: questa dovrebbe essere la funzione che lega la richiesta dei test da mostrare in show.html???
 function getDataShow(finalJSON){
 
-//	document.getElementById("firstrow").style.display = "none";
-//	document.getElementById("secondrow").style.display = "none";
-//	document.getElementById("start").style.display = "block";
-//	$('#start').html("<img src='ico/load.svg' id='loading'>");
-//
-////	// Formatting dataArray to a well structured json to pass to the backend via ajax
-//	var names = testname.length;
-//	var i = 0; 
-//	jsonObj = [];
-//	
-////	// looping dataArray through names
-//	while( names != 0 ){
-//		var test = testsetID[i];
-//	    var classifier = classifierID[i];
-//	    item = {}
-//	    item ["test"] = test;
-//	    item ["classifier"] = classifier;
-//	    jsonObj.push(item);
-//	    i++;
-//	    names--;
-//	}
-//
-//	finalJSON = JSON.stringify(jsonObj);
-
 	// ajax call to backend
 	$.ajax(
 			{
@@ -330,24 +301,18 @@ function getDataShow(finalJSON){
 				success: function(result)
 				{
 					$("#waiting").fadeOut(1000);
-		
-
-					setTimeout(function(){},2000);
 					$("#showtest").fadeIn(2000);
 					cacheTestResult = result;
-					console.log("*******************ENTRATO************");
-					Draw(result);
 					for(var j in result){
 						var obj = result[j];
-//						console.log(obj.ID);
 						$('.show_test').append($('<option>', {
 							value: obj.ID,
 							text: obj.ID
 						}));
 					}
-					//addimages("json/testresult2.json");
-					addimages(result);
-					
+					Draw(result);
+					console.log(result);
+					addimages(result);			
 				}
 			});
 

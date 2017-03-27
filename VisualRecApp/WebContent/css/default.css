@@ -83,7 +83,7 @@
 .card.ready { 	  text-align: center; font-size: 50px; color: #ffffff; background-color: #343b43; }
 .card.training { text-align: center; font-size: 50px; color: #ffffff; background-color: #343b43; }
 .card.free { text-align: center; font-size: 50px; color: #ffffff; background-color: #343b43; }
-.card.result { text-align: center; font-size: 50px; margin-bottom: -20px; }
+.result { text-align: center; font-size:50px; margin-bottom: -20px; }
 .card.trasp {background-color: transparent; -webkit-box-shadow: none; -moz-box-shadow: none; box-shadow: none; color:#485a67;}
 
 .home {
