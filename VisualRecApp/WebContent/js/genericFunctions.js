@@ -48,12 +48,8 @@ function createHeaderforShow(){
 		$('#cssmenu').append("<div class='logo'><img src='img/Avatar_new.png' height='40px'><a href='/'>Watson VR ROC Tester</a></div>");
 		$('#cssmenu').append("<div id='head-mobile'></div><div class='button'></div>");
 		$('#cssmenu').append("<ul id='begin'>");
-			$('#begin').append("<li><a href='home.html'>dashboard");
-			$('#begin').append("<li><a href='simulate.html'>simulate");
-			$('#begin').append("<li><a href='train.html'>train");
-			$('#begin').append("<li><a href='doc.html'>docs");
-			$('#begin').append("<li><a href='aboutus.html'>about us");	
-			$('#begin').append("<li><a href='logoutservlet'>logout");
+			$('#begin').append("<li><a href='simulate.html'>go back");
+
 	
 }
 

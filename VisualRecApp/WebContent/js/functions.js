@@ -329,11 +329,11 @@ function getDataShow(finalJSON){
 				dataType: 'json',
 				success: function(result)
 				{
-					document.getElementById("start").style.display = "none";
-					$("#start").hide("slow");
-					$("#showtest").show("slow");
-//					document.getElementById("firstrow").style.display = "block";
-//					document.getElementById("secondrow").style.display = "block";
+					$("#waiting").fadeOut(1000);
+		
+
+					setTimeout(function(){},2000);
+					$("#showtest").fadeIn(2000);
 					cacheTestResult = result;
 					console.log("*******************ENTRATO************");
 					Draw(result);

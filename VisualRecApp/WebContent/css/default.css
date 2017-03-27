@@ -228,12 +228,13 @@ th {
   color: #343B43;
 }
 
-#start {
-  display: none;
-  position: fixed;
-  top: 15%;
-  left: 45.1%;
+#logowait {
+  position: relative;
+  top: 20%;
+  left: 50%;
   z-index: 10000;
+  height: 250px;
+  width: auto;
 }
 
 #loading { /* logo watson loading */
