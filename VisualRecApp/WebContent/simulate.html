@@ -72,7 +72,8 @@
 			        
 			        
 					<div class="column fourth">
-		              <input class="test_set" data-validation="required" data-validation-error-msg="You did not enter a name for this test" name="test1" type="text" placeholder="Insert test name" style="width:100%">
+					  <!-- Class name was test_set, in conflict with the next one!  -->
+		              <input class="testName" data-validation="required" data-validation-error-msg="You did not enter a name for this test" name="test1" type="text" placeholder="Insert test name" style="width:100%">
 		            </div>
 		            
 		            <div class="column fourth">
@@ -82,6 +83,7 @@
 		            </div>
 		
 		            <div class="column fourth">
+		              <!-- Class name was avail_class -->
 		              <select class="avail_class" type="text" style="width:100%">
 		                <option selected disabled value="">Select classifier</option>
 		              </select>
@@ -166,30 +168,87 @@ $('#playicon').mouseleave(function(){
 });
 
 $('#playicon').click(function(){
+
+
+// ############# TEST FOR FUTURE SINGLE-PAGE LAYOUT BETWEEN simulate & show #############
+
+// 	JSON Creation protection
+ 	var go = false;
+ 	if( ! ( document.getElementsByClassName('test_set')[0].value == "" ) && ! ( document.getElementsByClassName('avail_class')[0].value == "" ) ) 
+ 		go = true;
+	
+	if( go ){
+
+		    directJSON = [];
+		    
+		    var totalRows = i;
+			var testDataset = document.getElementsByClassName('test_set');
+			var testClassifier = document.getElementsByClassName('avail_class');
+		    
+		    //can't use i index 'cause it was already globally living above for row counter ( shouldn't be globally reachable... )
+		    for( k = 0; k < totalRows; k++ ){
+		    	
+		    	item = {}
+		    	item["test"] = testDataset[k].value;
+		    	item["classifier"] = testClassifier[k].value;
+		    	
+		    	//Handling empty test added by user
+		    	if( ( testDataset[k].value == "" ) && ( testClassifier[k].value == "" ) )
+		    		continue;
+		    			    	
+		    	directJSON.push(item);
+		    
+		    }
+		    
+		    ready_to_be_sent_JSON = JSON.stringify(directJSON);
+		
+		    console.log(ready_to_be_sent_JSON);
+		    //Use this!
+
+	}	
+// ############# TEST FOR FUTURE SINGLE-PAGE LAYOUT BETWEEN simulate & show #############
+
+
+
+
+
+
+
+
+
+
+
 //if(checkTestName() & checkSelectedInput())	window.location = 'show.html?arr='+retrieveSimConfig();
 
-if(checkTestName() & checkSelectedInput()){
 
-var testname = Array.prototype.map.call($(".moltiplicandum input"),(function(el){return el.value;}));
-var temp = Array.prototype.map.call($(".moltiplicandum select"),(function(el){return el.value;}));
-var testsetID = Array(temp.length/2);
-var classifierID = Array(temp.length/2);
 
-for(var i=0;i<temp.length/2;i++){
-testsetID[i]=temp[2*i];
-classifierID[i]=temp[2*i+1];
-}
 
-if (typeof(Storage) !== "undefined") {
-localStorage.setItem("testname",JSON.stringify(testname));
-localStorage.setItem("testsetID", JSON.stringify(testsetID));
-localStorage.setItem("classifierID",JSON.stringify(classifierID));
-window.location = 'show.html';
-} else {
-    alert("Your browser does not support localStorage, please use Firefox or Chrome");
-}
+// OLD_WORKING
 
-}
+// if(checkTestName() & checkSelectedInput()){
+
+// var testname = Array.prototype.map.call($(".moltiplicandum input"),(function(el){return el.value;}));
+// var temp = Array.prototype.map.call($(".moltiplicandum select"),(function(el){return el.value;}));
+// var testsetID = Array(temp.length/2);
+// var classifierID = Array(temp.length/2);
+
+// for(var i=0;i<temp.length/2;i++){
+// testsetID[i]=temp[2*i];
+// classifierID[i]=temp[2*i+1];
+// }
+
+// if (typeof(Storage) !== "undefined") {
+// localStorage.setItem("testname",JSON.stringify(testname));
+// localStorage.setItem("testsetID", JSON.stringify(testsetID));
+// localStorage.setItem("classifierID",JSON.stringify(classifierID));
+// window.location = 'show.html';
+// } else {
+//     alert("Your browser does not support localStorage, please use Firefox or Chrome");
+// }
+
+// }
+
+// OLD_WORKING END
 
 });
 
