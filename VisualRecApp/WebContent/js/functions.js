@@ -196,6 +196,7 @@ function addimages(result){
 					$("#accuracy").html(Math.round( ( (result[j].accuracyOpt) *100)/100));
 					$("#threshold").html(Math.round( ( (result[j].thresholdOpt) *100)/100));
 
+					console.log("******* addimages ******")
 					console.log(result);
 
 					var slidenumber = 1
@@ -292,48 +293,49 @@ function showSlides(n) {
 
 //TODO commentare
 //GET DATA TO SHOW: questa dovrebbe essere la funzione che lega la richiesta dei test da mostrare in show.html???
-function getDataShow(testname,testsetID,classifierID){
+function getDataShow(finalJSON){
 
-	document.getElementById("firstrow").style.display = "none";
-	document.getElementById("secondrow").style.display = "none";
-	document.getElementById("start").style.display = "block";
-	$('#start').html("<img src='ico/load.svg' id='loading'>");
-
-//	// Formatting dataArray to a well structured json to pass to the backend via ajax
-	var names = testname.length;
-	var i = 0; 
-	jsonObj = [];
-	
-//	// looping dataArray through names
-	while( names != 0 ){
-		var test = testsetID[i];
-	    var classifier = classifierID[i];
-	    item = {}
-	    item ["test"] = test;
-	    item ["classifier"] = classifier;
-	    jsonObj.push(item);
-	    i++;
-	    names--;
-	}
-
-	finalJSON = JSON.stringify(jsonObj);
+//	document.getElementById("firstrow").style.display = "none";
+//	document.getElementById("secondrow").style.display = "none";
+//	document.getElementById("start").style.display = "block";
+//	$('#start').html("<img src='ico/load.svg' id='loading'>");
+//
+////	// Formatting dataArray to a well structured json to pass to the backend via ajax
+//	var names = testname.length;
+//	var i = 0; 
+//	jsonObj = [];
+//	
+////	// looping dataArray through names
+//	while( names != 0 ){
+//		var test = testsetID[i];
+//	    var classifier = classifierID[i];
+//	    item = {}
+//	    item ["test"] = test;
+//	    item ["classifier"] = classifier;
+//	    jsonObj.push(item);
+//	    i++;
+//	    names--;
+//	}
+//
+//	finalJSON = JSON.stringify(jsonObj);
 
 	// ajax call to backend
 	$.ajax(
 			{
-//				url: "json/testresult2.json",
-				url: 'GetTestResult',
+				url: "json/testresult2.json",
+//				url: 'GetTestResult',
 				type: 'GET',
-				data:{ array: finalJSON },
-//				data:{ array: dataArray }
-
+//				data:{ array: finalJSON },
 				dataType: 'json',
 				success: function(result)
 				{
 					document.getElementById("start").style.display = "none";
-					document.getElementById("firstrow").style.display = "block";
-					document.getElementById("secondrow").style.display = "block";
+					$("#start").hide("slow");
+					$("#showtest").show("slow");
+//					document.getElementById("firstrow").style.display = "block";
+//					document.getElementById("secondrow").style.display = "block";
 					cacheTestResult = result;
+					console.log("*******************ENTRATO************");
 					Draw(result);
 					for(var j in result){
 						var obj = result[j];

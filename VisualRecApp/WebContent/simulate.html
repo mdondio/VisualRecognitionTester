@@ -6,6 +6,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="js/genericFunctions.js"></script>
 <script src="js/functions.js"></script>
+<script src ="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script>createHead();</script>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -16,7 +17,7 @@
   <script>createHeader();</script>
   
 
-<div class="content">
+<div class="content" id="simulate">
 	<div class="row clearfix">
 	
 		<div class="column third">
@@ -110,6 +111,119 @@
       </div>
     </div>
   </div>
+  
+<!--   ================================================================ -->
+<!--   ====================== WAITING LOGO ====================== -->
+<!--   ================================================================ -->
+  
+  <!-- Icona Watson -->
+   <div class="content" id="start" style="display:none">
+		<div style="display:none">
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+<!-- 		<img src='ico/load.svg' id='loading'> -->
+		<img src='img/img_nature_wide.jpg'>
+<!-- 				<img src='ico/loading-indicator.gif' id='loading'> -->
+		</div>
+		</div>
+		
+		<!--   ================================================================ -->
+<!--   ====================== SHOW PAGE ====================== -->
+<!--   ================================================================ -->
+
+  <div class="content" id="showtest" style="display:none">
+
+		
+
+		<!-- PARTE ALTA DELLA PAGINE (VALORI E IMMAGINI) -->
+		<div class="row clearfix" id=firstrow>
+			<!-- PARTE SINISTRA (VALORI E SELEZIONE TEST) -->
+			<div class="column third">
+				<!-- Riga con i valori select dei test -->
+				<div class="row clearfix">
+					<div class="column full">
+						<select class="show_test" type="text" style="width:100%">
+							<option selected disabled>Select Test Set to be analyzed...</option>
+						</select>
+					</div>
+				</div>
+				<!--                   -->
+				<br>
+				<!-- Riga con i valori di ACCURACY e THRESHOLD -->
+				<div class="row clearfix">
+					<div class="column half">
+						<div class="post-preview" style="width:100%; height:auto">
+							<div class="card" style="width:100%; height:auto">
+							<p class='result' id=accuracy>--</p>
+							<p>accuracy</p>
+							</div>
+						</div>
+					</div>
+					<div class="column half">
+						<div class="post-preview" style="width:100%; height:auto">
+							<div class="card" style="width:100%; height:auto">
+							<p class='result' id=threshold>--</p>
+							<p>threshold</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- PARTE DESTRA (IMMAGINI) -->
+			<div class="column two-thirds"><h2></h2><br>
+			<!-- RIGA FALSI POSITIVI -->
+				<div class="row clearfix">
+					<div class="column fourth" id=captionFP>
+					<p class='right'>False<br>positives</p>
+					</div>
+					<div class="column three-fourths">
+						<div class="post-preview" id="falsepositive">
+						</div>
+					</div>
+				</div>
+			<!-- RIGA FALSINEGATIVI -->
+				<div class="row clearfix">
+					<div class="column fourth" id=captionFN>
+					<p class='right'>False<br>negatives</p>
+					</div>
+					<div class="column three-fourths">
+						<div class="post-preview" id="falsenegative">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- PARTE BASSA DELLA PAGINA (GRAFICI) -->
+		<div class="row clearfix" id=secondrow>
+			<!-- PRIMO GRAFICO PARTE SINISTRA -->
+			<div class="column half">
+				<div class="post-preview">
+					<h3><span class="title"></span></h3>
+					<div id="graph1" style="width: 100%; height: auto;"></div>
+				</div>
+			</div>
+			<!-- SECONDO GRAFICO PARTE DESTRA -->
+			<div class="column half">
+				<div class="post-preview">
+					<h3><span class="title"></span></h3>
+					<div id="graph2" style="width: 100%; height: auto;"></div>
+				</div>
+			</div>
+		</div>
+
+		<!-- gestione della preview immagini -->
+
+		<div id="myModal" class="modal">
+			<span class="close cursor" onclick="closeModal()">&times;</span>
+			<div class="modal-content" id="modalcontent">
+			</div>
+		</div>
+
+	</div>
 
 
 </body>
@@ -130,10 +244,10 @@ $('#addicon').mouseleave(function(){
 	$(this).attr('src',"ico/addDARK.png" );
 });
 
-var i = 1;
+var totalRows = 1;
 var max = 10; // max number of allowed selectors: 10
 $('#addicon').click(function(){
-if(i < max){
+if(totalRows < max){
       var $div = $('div[id^="moltiplicandum"]:last'); // seleziono l'ultimo moltiplicandum
       var num = parseInt( $div.prop("id").match(/\d+/g), 10 ) +1; // estraggo il numero identificativo e lo incremento
            
@@ -149,7 +263,7 @@ if(i < max){
     } else {
       alert("Max number of entries reached.");
     }
-    i++;
+    totalRows++;
 });
 
 //UPLOAD button actions
@@ -170,6 +284,7 @@ $('#playicon').mouseleave(function(){
 	$(this).attr('src',"ico/play-buttonDARK.png" );
 });
 
+
 $('#playicon').click(function(){
 
 
@@ -184,7 +299,6 @@ $('#playicon').click(function(){
 
 		    directJSON = [];
 		    
-		    var totalRows = i;
 			var testDataset = document.getElementsByClassName('test_set');
 			var testClassifier = document.getElementsByClassName('avail_class');
 		    
@@ -207,6 +321,11 @@ $('#playicon').click(function(){
 		
 		    console.log(ready_to_be_sent_JSON);
 		    //Use this!
+		    
+		    $("#simulate").hide("slow");
+			$("#start").show("slow");
+ 			//getDataShow(ready_to_be_sent_JSON);
+		    
 
 	}	
 // ############# TEST FOR FUTURE SINGLE-PAGE LAYOUT BETWEEN simulate & show #############
@@ -286,8 +405,15 @@ $('body').on("click","img[id*=garbage]",function(){
 	var size = Array.prototype.map.call($(".moltiplicandum input"),(function(el){return el.value;}));
 	if(size.length>1) $("#moltiplicandum"+num).remove();
 	else alert("You have to run at least one test");
+	totalRows--;
 });
 
+// ON CHANGE select test
+$('.show_test').on('change', function() {
+ 	addimages(cacheTestResult);
+ 	});    
+    
+    
     
 // DROP ZONE (after the drop_zone and output divs, outside functions.js)
 function handleFileSelect(evt) {
