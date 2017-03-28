@@ -40,6 +40,11 @@
     height: 1px;
     border: 0;
     border-top: 1px solid #ccc;}
+    
+    .middle_division2 { margin: auto; margin-top: 20px; margin-bottom: 20px; display: block;
+    height: 1px;
+    border: 0;
+    border-top: 2px solid #343b43;}
 
 .clearfix:before,
 .clearfix:after { content: " ";	display: table; }
@@ -83,7 +88,7 @@
 .card.ready { 	  text-align: center; font-size: 50px; color: #ffffff; background-color: #343b43; }
 .card.training { text-align: center; font-size: 50px; color: #ffffff; background-color: #343b43; }
 .card.free { text-align: center; font-size: 50px; color: #ffffff; background-color: #343b43; }
-.card.result { text-align: center; font-size: 50px; margin-bottom: -20px; }
+.result { text-align: center; font-size:50px; margin-bottom: -20px; }
 .card.trasp {background-color: transparent; -webkit-box-shadow: none; -moz-box-shadow: none; box-shadow: none; color:#485a67;}
 
 .home {
@@ -228,12 +233,13 @@ th {
   color: #343B43;
 }
 
-#start {
-  display: none;
-  position: fixed;
-  top: 15%;
-  left: 45.1%;
+#logowait {
+  position: relative;
+  top: 20%;
+  left: 50%;
   z-index: 10000;
+  height: 250px;
+  width: auto;
 }
 
 #loading { /* logo watson loading */
@@ -289,7 +295,24 @@ img.inline{
       border: 3px solid #343b43;
       position: relative;
       left: 40%;
-      
+    }
+    
+       .circle2 {
+      width: 150px;
+      height: 150px;
+      -webkit-border-radius: 75px;
+      -moz-border-radius: 75px;
+      border-radius: 75px;
+      background: transparent;
+      border: 3px solid #343b43;
+    position: relative;
+    top: 20%;
+    left:15%;
+/*       text-align: center;  */
+	font-size: 50px; 
+	color: #343b43; 
+	display: block;
+/*       left: 40%; */
     }
     
       .circle:hover {
@@ -304,6 +327,50 @@ img.inline{
 	margin:auto;
 	}
  
+ .ready2 {
+	text-align: center; 
+	font-size: 50px; 
+	color: #343b43; 
+/* 	width: 150px; */
+/* 	padding:20px; */
+	margin-left:auto;
+	margin-right:auto;
+	position:relative;
+	top:20%;
+	}
+	
+	 .ready3 {
+	text-align: center; 
+	font-size: 28px; 
+	color: #343b43; 
+/* 	padding:20px; */
+	margin:auto;
+	position:relative;
+	top:10%;
+	}
+	
+		 .ready4 {
+	text-align: right; 
+	font-size: 22px; 
+	color: #343b43; 
+/* 	padding:20px; */
+	margin:auto;
+	position:relative;
+	font-weight: bold;
+/* 	top:10%; */
+	}
+	
+			 .ready5 {
+	text-align: right; 
+	font-size: 12px; 
+	color: #808080; 
+/* 	padding:20px; */
+	margin:auto;
+	position:relative;
+/* 	font-weight: bold; */
+/* 	top:10%; */
+	}
+	
  .free {
 	text-align: center; 
 	font-size: 50px; 
@@ -318,6 +385,13 @@ img.inline{
 	color: #343b43; 
 	padding:20px;
 	margin:auto;
+	}
+	
+	.imglogin{
+	margin-left: auto;
+	margin-right:auto;
+	display: block;
+	width: 300px;
 	}
 	
 }

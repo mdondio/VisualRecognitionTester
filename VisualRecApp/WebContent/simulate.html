@@ -6,25 +6,27 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="js/genericFunctions.js"></script>
 <script src="js/functions.js"></script>
+<script src ="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script>createHead();</script>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script> 
 
 <body>
-  <header></header>
+  <header id="header" style="animation-duration:2s"></header>
   <script>createHeader();</script>
   
 
-<div class="content">
+<div class="content" id="simulate">
 	<div class="row clearfix">
 	
 		<div class="column third">
 			<div class="post-preview" style="width:100%; height:auto">
 				<img class="center" src="ico/addDARK.png" style="width:50px;height:auto;">
-					<h2>ADD ONE MORE TEST</h2>
+				<br>
+					<h2>Add one more test</h2>
 					<div class="card trasp">
-						<p>You can run 10 test at the same time</p>
+						<p style="font-size:18px;color:#A0A0A0">You can run 10 test at the same time</p>
 					</div>
 			</div>
 		</div>
@@ -32,9 +34,10 @@
 	    <div class="column third">
 			<div class="post-preview" style="width:100%; height:auto">
 				<img class="center" src="ico/uploadDARK.png" style="width:50px;height:auto;">
-					<h2>UPLOAD A NEW TEST DATA SET</h2>
+					<br>
+					<h2>Upload a new test dataset</h2>
 					<div class="card trasp">
-						<p>Upload two .zip files with positive and negative images to set-up a new test data set</p>
+						<p style="font-size:18px;color:#A0A0A0">Upload two .zip files with positive and negative images to set-up a new test data set</p>
 					</div>
 			</div>
 		</div>
@@ -42,47 +45,52 @@
 	    <div class="column third">
 			<div class="post-preview" style="width:100%; height:auto">
 				<img class="center" src="ico/play-buttonDARK.png" style="width:50px;height:auto;">
-					<h2>RUN YOUR SIMULATION</h2>
+					<br>
+					<h2>Run your simulation</h2>
 					<div class="card trasp">
-						<p>When you are ready start your simulation</p>
+						<p style="font-size:18px;color:#A0A0A0">When you are ready start your simulation</p>
 					</div>			
 			</div>
 		</div>
 		
 	</div>
 
- 				<hr align="center" width="50%" class="middle_division">
+ 				
  
     <div class="row clearfix">
 
     	<div class="column full">
+
       
+      <form id="myForm" action="javascript:startSimulation();"> 
+			       <br>    	
+      <hr align="center" width="50%" class="middle_division">
       		<div class="sim-buttons">
- 				<img id="addicon" class="inline" src="ico/addDARK.png" style="width:60px;height:auto;">
-       			<img id="uploadicon" class="inline" src="ico/uploadDARK.png" style="width:60px;height:auto;">  
-       			<img id="playicon" class="inline" src="ico/play-buttonDARK.png" style="width:60px;height:auto;">
+ 				<input type=image id="addicon" class="inline" src="ico/addDARK.png" style="width:60px;height:auto;">
+       			<input type=image id="uploadicon" class="inline" src="ico/uploadDARK.png" style="width:60px;height:auto;margin-left:30px;margin-right:30px;">  
+       			<input type=image id="playicon" class="inline" src="ico/play-buttonDARK.png" style="width:60px;height:auto;">
 	  		
 	  			<hr align="center" width="50%" class="middle_division">
 	  		</div>
-      
-        <div id="sim_list">
-
-			<form id="myForm">          
+      <br>
+        
 	        	<div class="row clearfix moltiplicandum" id="moltiplicandum1" style="margin-bottom:20px;margin-left:200px;">
 			        
 			        
 					<div class="column fourth">
-		              <input class="test_set" data-validation="required" data-validation-error-msg="You did not enter a name for this test" name="test1" type="text" placeholder="Insert test name" style="width:100%">
+					  <!-- Class name was test_set, in conflict with the next one!  -->
+		              <input required class="testName" name="test1" type="text" placeholder="Insert test name" style="width:100%">
 		            </div>
 		            
 		            <div class="column fourth">
-		              <select class="test_set" type="text" style="width:100%">
+		              <select required class="test_set" type="text" style="width:100%">
 		                <option selected disabled value="">Select test dataset</option>
 		              </select>
 		            </div>
 		
 		            <div class="column fourth">
-		              <select class="avail_class" type="text" style="width:100%">
+		              <!-- Class name was avail_class -->
+		              <select required class="avail_class" type="text" style="width:100%">
 		                <option selected disabled value="">Select classifier</option>
 		              </select>
 		            </div>
@@ -90,21 +98,188 @@
 		            <div class="column fourth">
 		            	<img id="reload1" class="inline" data-alt-src="ico/reload.png" src="ico/reloadDARK.png" style="width:30px; height:auto;">
        					<img id="garbage1" class="inline" data-alt-src="ico/garbage.png" src="ico/garbageDARK.png" style="width:30px; height:auto;">  
-		            </div>
-	
-	        	</div>
-			</form>
+		            </div>		
 
         </div>
-
+</form>
         <br>
-
-
-        <center><div id="start"></div></center>
 
       </div>
     </div>
   </div>
+  
+<!--   ================================================================ -->
+<!--   ====================== WAITING LOGO ====================== -->
+<!--   ================================================================ -->
+  
+  <!-- Icona Watson -->
+   <div class="content" id="waiting" style="display:none;position:absolute;">
+		<img src='ico/load.svg' id="logowait" systle="display:width=300px">
+		</div>
+		
+		<!--   ================================================================ -->
+<!--   ====================== SHOW PAGE ====================== -->
+<!--   ================================================================ -->
+
+  <div class="content" id="showtest" style="display:none;">
+
+		
+
+		<!-- PARTE ALTA DELLA PAGINE (VALORI E IMMAGINI) -->
+		<div class="row clearfix" id=firstrow>
+			<!-- PARTE SINISTRA (VALORI E SELEZIONE TEST) -->
+			<div class="column third">
+
+				<!--                   -->
+				<br><br>
+				<!-- Riga con i valori di ACCURACY e THRESHOLD -->
+				<div class="row clearfix">
+				
+					<div class="column half">
+						<div class="post-preview" style="width: 100%; height: auto">
+
+							<div class="circle2">
+								<div class=ready2 id=accuracy>--.--</div>
+								<div class=ready3>accuracy</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="column half">
+						<div class="post-preview" style="width: 100%; height: auto">
+							<div class="circle2">
+								<div class=ready2 id=threshold>--.--</div>
+								<div class=ready3>threshold</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				
+				<br><br>
+								<!-- Riga con i valori select dei test -->
+				<div class="row clearfix">
+					<div class="column full">
+						<select class="show_test" type="text" style="width:100%">
+							<option selected disabled>Select Test Set to be analyzed...</option>
+						</select>
+					</div>
+				</div>
+				
+				
+				</div>
+			
+			
+			<!-- PARTE DESTRA (IMMAGINI) -->
+			<div class="column two-thirds"><h2></h2><br>
+			
+			<hr align="center" width="75%" class="middle_division">
+			
+			<!-- RIGA FALSI POSITIVI -->
+				<div class="row clearfix">
+					<div class="column fourth" id=captionFP>
+					<p class='ready4'>false<br>positives</p>
+					<p class='ready5'>is a result that indicates a given condition has been fulfilled, when it has not</p>
+					</div>
+					<div class="column three-fourths">
+						<div class="post-preview" id="falsepositive">
+						</div>
+					</div>
+				</div>
+				
+				<hr align="center" width="75%" class="middle_division">
+			<!-- RIGA FALSINEGATIVI -->
+				<div class="row clearfix">
+					<div class="column fourth" id=captionFN>
+					<p class='ready4'>false<br>negatives</p>
+										<p class='ready5'> is where a test result indicates that a condition failed, while it was successful</p>
+					</div>
+					<div class="column three-fourths">
+						<div class="post-preview" id="falsenegative">
+						</div>
+					</div>
+				</div>
+				
+				<hr align="center" width="75%" class="middle_division">
+			</div>
+		</div>
+
+<br><br>
+		<!-- PARTE BASSA DELLA PAGINA (GRAFICI) -->
+		<div class="row clearfix" id=secondrow>
+			<!-- PRIMO GRAFICO PARTE SINISTRA -->
+			<div class="column half">
+			
+				<div class="row clearfix">
+				
+				
+				<div class="column fourth">
+				<div class="post-preview">
+					<div>
+						<p style="text-align:right;color:#343b43;font-weight:bold;font-size:28px;">ROC curve</p>
+					</div>
+				</div>
+				</div>
+				
+				<div class="column three-fourths">
+				<div class="post-preview">
+					<div>
+						<p style="text-align:left;color:#A0A0A0;font-size:14px;">In statistics, a receiver operating characteristic curve, or ROC curve, is a graphical plot that illustrates the performance of a binary classifier system as its discrimination threshold is varied.</p>
+					</div>
+				</div>
+				</div>	
+					</div>
+				<br>
+				<div class="row clearfix">
+				<div class="post-preview">
+				<div id="graph1" style="width: 100%; height: auto;"></div>
+				</div>
+				
+				</div>
+				
+			</div>
+			<!-- SECONDO GRAFICO PARTE DESTRA -->
+			<div class="column half">
+				<div class="row clearfix">
+					
+					
+					
+					
+<!-- 					<hr align="center" width="75%" class="middle_division"> -->
+					
+									<div class="column fourth">
+				<div class="post-preview">
+					<div>
+						<p style="text-align:right;color:#343b43;font-weight:bold;font-size:28px;">AUC curve</p>
+					</div>
+				</div>
+				</div>
+				
+				<div class="column three-fourths">
+				<div class="post-preview">
+					<div>
+						<p style="text-align:left;color:#A0A0A0;font-size:14px;">The area under the curve (often referred to as simply the AUC) is equal to the probability that a classifier will rank a randomly chosen positive instance higher than a randomly chosen negative one </p>
+					</div>
+				</div>
+				</div>	
+				</div>
+				<br>
+			<div class="row clearfix">
+<div class="post-preview">
+					<div id="graph2" style="width: 100%; height: auto;position:relative;"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- gestione della preview immagini -->
+
+		<div id="myModal" class="modal">
+			<span class="close cursor" onclick="closeModal()">&times;</span>
+			<div class="modal-content" id="modalcontent"></div>
+		</div>
+
+	</div>
 
 
 </body>
@@ -125,26 +300,31 @@ $('#addicon').mouseleave(function(){
 	$(this).attr('src',"ico/addDARK.png" );
 });
 
-var i = 1;
+var totalRowsFilled = 1;
 var max = 10; // max number of allowed selectors: 10
 $('#addicon').click(function(){
-if(i < max){
+if(totalRowsFilled < max){
+      
       var $div = $('div[id^="moltiplicandum"]:last'); // seleziono l'ultimo moltiplicandum
-      var num = parseInt( $div.prop("id").match(/\d+/g), 10 ) +1; // estraggo il numero identificativo e lo incremento
-           
-      $("#moltiplicandum1").clone().prop('id', 'moltiplicandum'+num )
+      
+      var nextrow = parseInt( $div.prop("id").match(/\d+/g), 10 ) +1; // estraggo il numero identificativo e lo incremento
+     console.log(nextrow);
+      var currentrow = nextrow-1;     
+      
+      $("#moltiplicandum"+currentrow).clone()
+      .prop('id', 'moltiplicandum'+nextrow)
       .find('input:text').val("")
       .removeAttr('class')
-      .attr('name','test'+num).end()
+      .attr('name','test'+nextrow).end()
       .appendTo("#myForm"); // clono, rinomino e appendo
       
-      $("#moltiplicandum"+num).find("img#reload1").attr("id","reload"+num);
-      $("#moltiplicandum"+num).find("img#garbage1").attr("id","garbage"+num);
+      $("#moltiplicandum"+nextrow).find("img#reload"+currentrow).attr("id","reload"+nextrow);
+      $("#moltiplicandum"+nextrow).find("img#garbage"+currentrow).attr("id","garbage"+nextrow);
             
     } else {
       alert("Max number of entries reached.");
     }
-    i++;
+    totalRowsFilled++;
 });
 
 //UPLOAD button actions
@@ -165,33 +345,31 @@ $('#playicon').mouseleave(function(){
 	$(this).attr('src',"ico/play-buttonDARK.png" );
 });
 
-$('#playicon').click(function(){
-//if(checkTestName() & checkSelectedInput())	window.location = 'show.html?arr='+retrieveSimConfig();
-
-if(checkTestName() & checkSelectedInput()){
-
-var testname = Array.prototype.map.call($(".moltiplicandum input"),(function(el){return el.value;}));
-var temp = Array.prototype.map.call($(".moltiplicandum select"),(function(el){return el.value;}));
-var testsetID = Array(temp.length/2);
-var classifierID = Array(temp.length/2);
-
-for(var i=0;i<temp.length/2;i++){
-testsetID[i]=temp[2*i];
-classifierID[i]=temp[2*i+1];
+function startSimulation(){
+directJSON = [];
+		    
+		    var testName = Array.prototype.map.call($(".moltiplicandum input"),(function(el){return el.value;}));
+		    
+			var testDataset = document.getElementsByClassName('test_set');
+			var testClassifier = document.getElementsByClassName('avail_class');
+		    var testname;
+		    //can't use i index 'cause it was already globally living above for row counter ( shouldn't be globally reachable... )
+		    for( k = 0; k < totalRowsFilled; k++ ){
+		    	
+		    	item = {}
+		    	item["name"] = testName[k];
+		    	item["test"] = testDataset[k].value;
+		    	item["classifier"] = testClassifier[k].value;
+		    	directJSON.push(item); 
+		    }
+		    
+		    finalJSON = JSON.stringify(directJSON);
+		    $("#simulate").fadeOut(1000);
+		    setTimeout(function(){$("#waiting").fadeIn(1000)},1000);
+ 			setTimeout(
+ 			function(){getDataShow()},
+ 			3000);
 }
-
-if (typeof(Storage) !== "undefined") {
-localStorage.setItem("testname",JSON.stringify(testname));
-localStorage.setItem("testsetID", JSON.stringify(testsetID));
-localStorage.setItem("classifierID",JSON.stringify(classifierID));
-window.location = 'show.html';
-} else {
-    alert("Your browser does not support localStorage, please use Firefox or Chrome");
-}
-
-}
-
-});
 
 //RELOAD button actions
 $('body').on("mouseover","img[id*=reload]",function(){
@@ -205,6 +383,7 @@ $('body').on("mouseleave","img[id*=reload]",function(){
 $('body').on("click","img[id*=reload]",function(){
 	var $this = $(this);
 	var num = parseInt($this.prop("id").substring(6));
+	console.log("num reload "+num);
   	$("#moltiplicandum"+num).find('input:text').val("");
  	$("#moltiplicandum"+num).find('select').val("").find('select').val("");      
 });
@@ -221,10 +400,24 @@ $('body').on("mouseleave","img[id*=garbage]",function(){
 $('body').on("click","img[id*=garbage]",function(){
 	var $this = $(this);
 	var num = parseInt($this.prop("id").substring(7));
-	if(num>1) $("#moltiplicandum"+num).remove();
+	var size = Array.prototype.map.call($(".moltiplicandum input"),(function(el){return el.value;}));
+	if(size.length>1) 
+	{
+	$("#moltiplicandum"+num).remove();
+		totalRowsFilled--;
+	console.log("TOTAL ROWS"+totalRowsFilled)
+		console.log("RIGA CANCELLATA"+num)
+	}
 	else alert("You have to run at least one test");
+
 });
 
+// ON CHANGE select test
+$('.show_test').on('change', function() {
+ 	addimages(cacheTestResult);
+ 	});    
+    
+    
     
 // DROP ZONE (after the drop_zone and output divs, outside functions.js)
 function handleFileSelect(evt) {

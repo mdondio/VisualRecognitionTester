@@ -1,5 +1,5 @@
 var cacheTestResult;
-
+var finalJSON;
 
 //TODO commentare
 //RESET BROWSE FILE show (will be deprecated)
@@ -40,23 +40,26 @@ function Draw(result){
 			//CREAZIONE DELL'INPUT PER GRAFICO ROC -------------------------------------
 			var ROCcurves = []; //INPUT PER PLOT
 			var count = 0;
+			var parsedJSON = JSON.parse(finalJSON);
 			for(var i in result){
 				var obj = result[i];
 				var x = [];
 				var y = [];
 				for(var j in obj.fprTrace) x.push(obj.fprTrace[j]);
 				for(var j in obj.tprTrace) y.push(obj.tprTrace[j]);
-				
+				var objJSON = parsedJSON[count];
+				console.log(parsedJSON)
+				console.log(objJSON.name)
 				ROCcurves.push(
 						{
 							"x": x,
 							"y": y,
 							"mode": "lines",
-							"name": obj.ID,
+							"name": objJSON.name,
 							"line": {
 								"shape": "spline",
-								"color": "rgb(168,168,168)"
-								//"color": "rgb("+colorpalette[count][0]+","+colorpalette[count][1]+","+colorpalette[count][2]+")"
+//								"color": "rgb(168,168,168)"
+							"color": "rgb("+colorpalette[count][0]+","+colorpalette[count][1]+","+colorpalette[count][2]+")"
 							}
 						}
 				);
@@ -175,76 +178,87 @@ function Draw(result){
  * @TODO integrare la lettura delle immagini direttamente da object storage con query da DB
  */
 function addimages(result){
-
-			$("#modalcontent").empty();
-			$("#falsepositive").empty();
-			$("#falsenegative").empty();
-			$("#accuracy").empty();
-			$("#threshold").empty();
-			
+		
 			var testname = $(".show_test").val();
-
+			var parsedJSON = JSON.parse(finalJSON);
 			//aggiungo tutte le immagini
 			var img_path = "GetImage?image_id=";
-			//var img_path = "/img/";
-			//	https://visualrecognitiontester.eu-gb.mybluemix.net/GetImage?image_id=10000463652437887083
-			for(var j in result)
+			for(var j in parsedJSON)
 			{
-			if(result[j].ID == testname)
+				
+				//ammettiamo che non vengano lanciati test uguali
+			if(parsedJSON[j].name == testname)
 				{
+				
+				$("#modalcontent").empty();
+				$("#falsepositive").empty();
+				$("#falsenegative").empty();
+				$("#accuracy").empty();
+				$("#threshold").empty();
 
-					$("#accuracy").html(Math.round( ( (result[j].accuracyOpt) *100)/100));
-					$("#threshold").html(Math.round( ( (result[j].thresholdOpt) *100)/100));
+				$("#modalcontent").empty();
+				$("#falsepositive").empty();
+				$("#falsenegative").empty();
+				$("#accuracy").empty();
+				$("#threshold").empty();
+				
+					$("#accuracy").html(result[j].accuracyOpt.toFixed(2));
+					$("#threshold").html(result[j].thresholdOpt.toFixed(2));
 
-					console.log(result);
-
-					var slidenumber = 1
+					var slidenumberFP = 1;
+					var slidenumberFN = 1;
+					var totalslideFP = 0;
+					var totalslideFN = 0;
+					
+					for(var i in result[j].falsePositiveOpt) { totalslideFP++; } // loop to count total number of FP images
+					for(var i in result[j].falseNegativeOpt) { totalslideFN++; } // loop to count total number of FN images
+					
 					for(var i in result[j].falsePositiveOpt)
 					{
 						var x = document.createElement("IMG");
 						var obj = result[j].falsePositiveOpt[i];
 
 						x.setAttribute("src", img_path+obj);
-						x.setAttribute("onclick","openModal();currentSlide("+ slidenumber +")");
+						x.setAttribute("onclick","openModal();currentSlide("+ slidenumberFP +")");
 						x.setAttribute("class","hover-shadow cursor");
 						document.getElementById("falsepositive").appendChild(x);
-						$('#modalcontent').append("<div class='mySlides'><div class='numbertext'>"+ slidenumber +" / 4</div><img src="+img_path+obj+" style='width:100%'></div>");
-						slidenumber++;
+						$('#modalcontent').append("<div class='mySlides'><div class='numbertext'>"+ slidenumberFP +" / "+ totalslideFP +"<br>false positive</div><img class='modal-img' src="+img_path+obj+"></div>");
+						slidenumberFP++;
 					}
 					for(var i in result[j].falseNegativeOpt)
 					{
 						var x = document.createElement("IMG");
 						var obj = result[j].falseNegativeOpt[i];
 						x.setAttribute("src", img_path+obj);
-						x.setAttribute("onclick","openModal();currentSlide("+ slidenumber +")");
+						x.setAttribute("onclick","openModal();currentSlide("+ slidenumberFN +")");
 						x.setAttribute("class","hover-shadow cursor");
 						document.getElementById("falsenegative").appendChild(x);
-						$('#modalcontent').append("<div class='mySlides'><div class='numbertext'>"+ slidenumber +" / 4</div><img src="+img_path+obj+" style='width:100%'></div>");
-						slidenumber++;
+						$('#modalcontent').append("<div class='mySlides'><div class='numbertext'>"+ slidenumberFN +" / "+ totalslideFN +"<br>false negative</div><img class='modal-img' src="+img_path+obj+"></div>");
+						slidenumberFN++;
 					}
 				}
 
 			
 
-			$('#modalcontent').append("<a class='prev' onclick='plusSlides(-1)'>&#10094;</a>");
-			$('#modalcontent').append("<a class='next' onclick='plusSlides(1)'>&#10095;</a>");
-			$('#modalcontent').append("<div class='caption-container'><p id='caption'></p></div>");
-
-			//aggiungo tutte le caption
-			slidenumber=1;
-			for(var i in result[j].falsePositiveOpt)
-			{
-				var obj = result[j].falsePositiveOpt[i];
-				$('#modalcontent').append("<div class='column-captions'><img class='demo cursor' src="+img_path+obj+" onclick='currentSlide("+ slidenumber +")'></div>");
-				slidenumber++;
-			}
-			for(var i in result[j].falseNegativeOpt)
-			{
-				var obj = result[j].falseNegativeOpt[i];
-				$('#modalcontent').append("<div class='column-captions'><img class='demo cursor' src="+img_path+obj+" onclick='currentSlide("+ slidenumber +")'></div>");
-				slidenumber++;
-			}
-			
+				$('#modalcontent').append("<a class='prev' onclick='plusSlides(-1)'>&#10094;</a>");
+				$('#modalcontent').append("<a class='next' onclick='plusSlides(1)'>&#10095;</a>");
+				$('#modalcontent').append("<div class='caption-container'><p id='caption'></p></div>");
+	
+				//aggiungo tutte le caption
+				slidenumber = 1;
+				for(var i in result[j].falsePositiveOpt)
+				{
+					var obj = result[j].falsePositiveOpt[i];
+					$('#modalcontent').append("<div class='column-captions'><img class='demo cursor' src="+img_path+obj+" onclick='currentSlide("+ slidenumber +")'></div>");
+					slidenumber++;
+				}
+				for(var i in result[j].falseNegativeOpt)
+				{
+					var obj = result[j].falseNegativeOpt[i];
+					$('#modalcontent').append("<div class='column-captions'><img class='demo cursor' src="+img_path+obj+" onclick='currentSlide("+ slidenumber +")'></div>");
+					slidenumber++;
+				}
+				
 			}
 //		}
 //	});
@@ -292,31 +306,7 @@ function showSlides(n) {
 
 //TODO commentare
 //GET DATA TO SHOW: questa dovrebbe essere la funzione che lega la richiesta dei test da mostrare in show.html???
-function getDataShow(testname,testsetID,classifierID){
-
-	document.getElementById("firstrow").style.display = "none";
-	document.getElementById("secondrow").style.display = "none";
-	document.getElementById("start").style.display = "block";
-	$('#start').html("<img src='ico/load.svg' id='loading'>");
-
-//	// Formatting dataArray to a well structured json to pass to the backend via ajax
-	var names = testname.length;
-	var i = 0; 
-	jsonObj = [];
-	
-//	// looping dataArray through names
-	while( names != 0 ){
-		var test = testsetID[i];
-	    var classifier = classifierID[i];
-	    item = {}
-	    item ["test"] = test;
-	    item ["classifier"] = classifier;
-	    jsonObj.push(item);
-	    i++;
-	    names--;
-	}
-
-	finalJSON = JSON.stringify(jsonObj);
+function getDataShow(){
 
 	// ajax call to backend
 	$.ajax(
@@ -324,28 +314,26 @@ function getDataShow(testname,testsetID,classifierID){
 //				url: "json/testresult2.json",
 				url: 'GetTestResult',
 				type: 'GET',
-				data:{ array: finalJSON },
-//				data:{ array: dataArray }
-
+//				data:{ array: finalJSON },
 				dataType: 'json',
 				success: function(result)
 				{
-					document.getElementById("start").style.display = "none";
-					document.getElementById("firstrow").style.display = "block";
-					document.getElementById("secondrow").style.display = "block";
+					$("#waiting").fadeOut(1000);
+					$("#showtest").fadeIn(2000);
 					cacheTestResult = result;
-					Draw(result);
-					for(var j in result){
-						var obj = result[j];
-//						console.log(obj.ID);
+					parsedJSON = JSON.parse(finalJSON)
+					for(var j in parsedJSON){
+						var obj = parsedJSON[j];
+						console.log(obj)
+						console.log("*******************"+obj.name)
 						$('.show_test').append($('<option>', {
-							value: obj.ID,
-							text: obj.ID
+							value: obj.name,
+							text: obj.name
 						}));
 					}
-					//addimages("json/testresult2.json");
-					addimages(result);
-					
+					Draw(result);
+					console.log(result);
+					addimages(result);			
 				}
 			});
 
@@ -684,7 +672,8 @@ console.log(result);
 			var training_sets = new Array(["Label","# of images"]);
 			for(var i in result){
 				var obj = result[i];
-				training_sets.push([obj.label,obj.trainingSize]);
+				var size = 0;
+				training_sets.push([obj._id,obj.images.positive.length+obj.images.negative.length]);
 			}
 			addMatrixTable("dvList",training_sets);
 		}
