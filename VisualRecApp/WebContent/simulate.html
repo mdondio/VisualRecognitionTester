@@ -129,7 +129,35 @@
 		<div class="row clearfix" id=firstrow>
 			<!-- PARTE SINISTRA (VALORI E SELEZIONE TEST) -->
 			<div class="column third">
-				<!-- Riga con i valori select dei test -->
+
+				<!--                   -->
+				<br><br>
+				<!-- Riga con i valori di ACCURACY e THRESHOLD -->
+				<div class="row clearfix">
+				
+					<div class="column half">
+						<div class="post-preview" style="width: 100%; height: auto">
+
+							<div class="circle2">
+								<div class=ready2 id=accuracy></div>
+								<div class=ready3>accuracy</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="column half">
+						<div class="post-preview" style="width: 100%; height: auto">
+							<div class="circle2">
+								<div class=ready2 id=threshold></div>
+								<div class=ready3>threshold</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				
+				<br>
+								<!-- Riga con i valori select dei test -->
 				<div class="row clearfix">
 					<div class="column full">
 						<select class="show_test" type="text" style="width:100%">
@@ -137,50 +165,42 @@
 						</select>
 					</div>
 				</div>
-				<!--                   -->
-				<br>
-				<!-- Riga con i valori di ACCURACY e THRESHOLD -->
-				<div class="row clearfix">
-					<div class="column half">
-						<div class="post-preview" style="width:100%; height:auto">
-							<div class="card" style="width:100%; height:auto">
-							<p class='result' id=accuracy>--</p>
-							<p>accuracy</p>
-							</div>
-						</div>
-					</div>
-					<div class="column half">
-						<div class="post-preview" style="width:100%; height:auto">
-							<div class="card" style="width:100%; height:auto">
-							<p class='result' id=threshold>--</p>
-							<p>threshold</p>
-							</div>
-						</div>
-					</div>
+				
+				
 				</div>
-			</div>
+			
+			
 			<!-- PARTE DESTRA (IMMAGINI) -->
 			<div class="column two-thirds"><h2></h2><br>
+			
+			<hr align="center" width="75%" class="middle_division">
+			
 			<!-- RIGA FALSI POSITIVI -->
 				<div class="row clearfix">
 					<div class="column fourth" id=captionFP>
-					<p class='right'>False<br>positives</p>
+					<p class='ready4'>false<br>positives</p>
+					<p class='ready5'>is a result that indicates a given condition has been fulfilled, when it has not</p>
 					</div>
 					<div class="column three-fourths">
 						<div class="post-preview" id="falsepositive">
 						</div>
 					</div>
 				</div>
+				
+				<hr align="center" width="75%" class="middle_division">
 			<!-- RIGA FALSINEGATIVI -->
 				<div class="row clearfix">
 					<div class="column fourth" id=captionFN>
-					<p class='right'>False<br>negatives</p>
+					<p class='ready4'>false<br>negatives</p>
+										<p class='ready5'> is where a test result indicates that a condition failed, while it was successful</p>
 					</div>
 					<div class="column three-fourths">
 						<div class="post-preview" id="falsenegative">
 						</div>
 					</div>
 				</div>
+				
+				<hr align="center" width="75%" class="middle_division">
 			</div>
 		</div>
 
@@ -294,51 +314,13 @@ directJSON = [];
 		    	directJSON.push(item); 
 		    }
 		    
-		    ready_to_be_sent_JSON = JSON.stringify(directJSON);
+		    finalJSON = JSON.stringify(directJSON);
 		    $("#simulate").fadeOut(1000);
 		    setTimeout(function(){$("#waiting").fadeIn(1000)},1000);
  			setTimeout(
- 			function(){getDataShow(ready_to_be_sent_JSON)},
+ 			function(){getDataShow()},
  			3000);
 }
-
-// $('#playicon').click(function(){
-
-// // 	JSON Creation protection
-//  	var go = false;
-//  	if( ! ( $(".moltiplicandum input")[0].value == "Insert test name") && ! ( document.getElementsByClassName('test_set')[0].value == "" ) && ! ( document.getElementsByClassName('avail_class')[0].value == "" ) ) 
-//  		{go = true;}
-//  		//else alert("Controlla bene i parametri!");
-// 	go=true;
-// 	if( go ){
-
-// 		    directJSON = [];
-		    
-// 		    var testName = Array.prototype.map.call($(".moltiplicandum input"),(function(el){return el.value;}));
-// 			var testDataset = document.getElementsByClassName('test_set');
-// 			var testClassifier = document.getElementsByClassName('avail_class');
-// 		    var testname;
-// 		    //can't use i index 'cause it was already globally living above for row counter ( shouldn't be globally reachable... )
-// 		    for( k = 0; k < totalRowsFilled; k++ ){
-		    	
-// 		    	item = {}
-// 		    	item["test"] = testDataset[k].value;
-// 		    	item["classifier"] = testClassifier[k].value;
-		    	
-// 		    	//Handling empty test added by user
-// 		    	if( ( testDataset[k].value == "" ) && ( testClassifier[k].value == "" ) )
-// 		    		continue;
-// 		    	directJSON.push(item); 
-// 		    }
-		    
-// 		    ready_to_be_sent_JSON = JSON.stringify(directJSON);
-// 		    $("#simulate").fadeOut(1000);
-// 		    setTimeout(function(){$("#waiting").fadeIn(1000)},1000);
-//  			setTimeout(
-//  			function(){getDataShow(ready_to_be_sent_JSON,testName)},
-//  			3000);
-// 	}	
-// });
 
 //RELOAD button actions
 $('body').on("mouseover","img[id*=reload]",function(){

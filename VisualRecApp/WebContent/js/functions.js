@@ -1,5 +1,5 @@
 var cacheTestResult;
-
+var finalJSON;
 
 //TODO commentare
 //RESET BROWSE FILE show (will be deprecated)
@@ -183,12 +183,14 @@ function addimages(result){
 			$("#threshold").empty();
 			
 			var testname = $(".show_test").val();
-
+var parsedJSON = JSON.parse(finalJSON);
 			//aggiungo tutte le immagini
 			var img_path = "GetImage?image_id=";
-			for(var j in result)
+			for(var j in parsedJSON)
 			{
-			if(result[j].name == testname)
+				
+				//ammettiamo che non vengano lanciati test uguali
+			if(parsedJSON[j].name == testname)
 				{
 
 					$("#accuracy").html(result[j].accuracyOpt.toFixed(2));
@@ -288,7 +290,7 @@ function showSlides(n) {
 
 //TODO commentare
 //GET DATA TO SHOW: questa dovrebbe essere la funzione che lega la richiesta dei test da mostrare in show.html???
-function getDataShow(finalJSON){
+function getDataShow(){
 
 	// ajax call to backend
 	$.ajax(
