@@ -178,11 +178,9 @@ function Draw(result){
  * @TODO integrare la lettura delle immagini direttamente da object storage con query da DB
  */
 function addimages(result){
-
-
-			
+		
 			var testname = $(".show_test").val();
-var parsedJSON = JSON.parse(finalJSON);
+			var parsedJSON = JSON.parse(finalJSON);
 			//aggiungo tutte le immagini
 			var img_path = "GetImage?image_id=";
 			for(var j in parsedJSON)
@@ -191,6 +189,12 @@ var parsedJSON = JSON.parse(finalJSON);
 				//ammettiamo che non vengano lanciati test uguali
 			if(parsedJSON[j].name == testname)
 				{
+				
+				$("#modalcontent").empty();
+				$("#falsepositive").empty();
+				$("#falsenegative").empty();
+				$("#accuracy").empty();
+				$("#threshold").empty();
 
 				$("#modalcontent").empty();
 				$("#falsepositive").empty();
@@ -201,53 +205,60 @@ var parsedJSON = JSON.parse(finalJSON);
 					$("#accuracy").html(result[j].accuracyOpt.toFixed(2));
 					$("#threshold").html(result[j].thresholdOpt.toFixed(2));
 
-					var slidenumber = 1
+					var slidenumberFP = 1;
+					var slidenumberFN = 1;
+					var totalslideFP = 0;
+					var totalslideFN = 0;
+					
+					for(var i in result[j].falsePositiveOpt) { totalslideFP++; } // loop to count total number of FP images
+					for(var i in result[j].falseNegativeOpt) { totalslideFN++; } // loop to count total number of FN images
+					
 					for(var i in result[j].falsePositiveOpt)
 					{
 						var x = document.createElement("IMG");
 						var obj = result[j].falsePositiveOpt[i];
 
 						x.setAttribute("src", img_path+obj);
-						x.setAttribute("onclick","openModal();currentSlide("+ slidenumber +")");
+						x.setAttribute("onclick","openModal();currentSlide("+ slidenumberFP +")");
 						x.setAttribute("class","hover-shadow cursor");
 						document.getElementById("falsepositive").appendChild(x);
-						$('#modalcontent').append("<div class='mySlides'><div class='numbertext'>"+ slidenumber +" / 4</div><img src="+img_path+obj+" style='width:100%'></div>");
-						slidenumber++;
+						$('#modalcontent').append("<div class='mySlides'><div class='numbertext'>"+ slidenumberFP +" / "+ totalslideFP +"<br>false positive</div><img class='modal-img' src="+img_path+obj+"></div>");
+						slidenumberFP++;
 					}
 					for(var i in result[j].falseNegativeOpt)
 					{
 						var x = document.createElement("IMG");
 						var obj = result[j].falseNegativeOpt[i];
 						x.setAttribute("src", img_path+obj);
-						x.setAttribute("onclick","openModal();currentSlide("+ slidenumber +")");
+						x.setAttribute("onclick","openModal();currentSlide("+ slidenumberFN +")");
 						x.setAttribute("class","hover-shadow cursor");
 						document.getElementById("falsenegative").appendChild(x);
-						$('#modalcontent').append("<div class='mySlides'><div class='numbertext'>"+ slidenumber +" / 4</div><img src="+img_path+obj+" style='width:100%'></div>");
-						slidenumber++;
+						$('#modalcontent').append("<div class='mySlides'><div class='numbertext'>"+ slidenumberFN +" / "+ totalslideFN +"<br>false negative</div><img class='modal-img' src="+img_path+obj+"></div>");
+						slidenumberFN++;
 					}
 				}
 
 			
 
-			$('#modalcontent').append("<a class='prev' onclick='plusSlides(-1)'>&#10094;</a>");
-			$('#modalcontent').append("<a class='next' onclick='plusSlides(1)'>&#10095;</a>");
-			$('#modalcontent').append("<div class='caption-container'><p id='caption'></p></div>");
-
-			//aggiungo tutte le caption
-			slidenumber=1;
-			for(var i in result[j].falsePositiveOpt)
-			{
-				var obj = result[j].falsePositiveOpt[i];
-				$('#modalcontent').append("<div class='column-captions'><img class='demo cursor' src="+img_path+obj+" onclick='currentSlide("+ slidenumber +")'></div>");
-				slidenumber++;
-			}
-			for(var i in result[j].falseNegativeOpt)
-			{
-				var obj = result[j].falseNegativeOpt[i];
-				$('#modalcontent').append("<div class='column-captions'><img class='demo cursor' src="+img_path+obj+" onclick='currentSlide("+ slidenumber +")'></div>");
-				slidenumber++;
-			}
-			
+				$('#modalcontent').append("<a class='prev' onclick='plusSlides(-1)'>&#10094;</a>");
+				$('#modalcontent').append("<a class='next' onclick='plusSlides(1)'>&#10095;</a>");
+				$('#modalcontent').append("<div class='caption-container'><p id='caption'></p></div>");
+	
+				//aggiungo tutte le caption
+				slidenumber = 1;
+				for(var i in result[j].falsePositiveOpt)
+				{
+					var obj = result[j].falsePositiveOpt[i];
+					$('#modalcontent').append("<div class='column-captions'><img class='demo cursor' src="+img_path+obj+" onclick='currentSlide("+ slidenumber +")'></div>");
+					slidenumber++;
+				}
+				for(var i in result[j].falseNegativeOpt)
+				{
+					var obj = result[j].falseNegativeOpt[i];
+					$('#modalcontent').append("<div class='column-captions'><img class='demo cursor' src="+img_path+obj+" onclick='currentSlide("+ slidenumber +")'></div>");
+					slidenumber++;
+				}
+				
 			}
 //		}
 //	});
