@@ -1,13 +1,18 @@
 package net.mybluemix.visualrecognitiontester.blmxservices.marcovisualreclibrary;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
+import org.apache.commons.io.IOUtils;
 
 import net.mybluemix.visualrecognitiontester.blmxservices.ObjectStorage;
 
@@ -47,15 +52,32 @@ public class Utils {
 				con = oo.doGet("/"+containerName+"", "/"+Long.toUnsignedString(id)+".jpg");
 			} catch (IOException e) {
 
-				System.out.println("buildCompressedStream: error while retrieving " +Long.toUnsignedString(id) + ".jpg. Skip image." );
+				System.out.println("[Utils buildCompressedStream()]: error while retrieving " +Long.toUnsignedString(id) + ".jpg. Skip image." );
 			continue;
 			}
 			
 			// skip non images
-			if(!con.getHeaderField("Content-Type").equals("image/jpeg"))
+			if(!con.getHeaderField("Content-Type").equals("image/jpeg")){
+				
+				System.out.println("[Utils buildCompressedStream()]: Content-Type: " + con.getHeaderField("Content-Type"));
+				System.out.println("[Utils buildCompressedStream()] con.getResponseCode() = " + con.getResponseCode());
+				System.out.println("[Utils buildCompressedStream()]: error while retrieving " + Long.toUnsignedString(id) + ".jpg.");
+
+//				BufferedReader reader = new BufferedReader(
+//	                    new InputStreamReader(con.getInputStream()));				
+//				
+//				String s;
+//				while( (s = reader.readLine())!=null)
+//					System.out.println(s);
+				
+				
 				continue;
+
+			}
 			
 // We have a valid image: add as zip entry
+			
+			System.out.println("[Utils buildCompressedStream()] Adding " +Long.toUnsignedString(id) );
 			
 			BufferedInputStream entryStream = new BufferedInputStream(con.getInputStream(), 2048);
 			ZipEntry entry = new ZipEntry(Long.toUnsignedString(id) + ".jpg");

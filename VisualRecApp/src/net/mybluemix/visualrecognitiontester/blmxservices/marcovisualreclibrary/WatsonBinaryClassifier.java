@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.ibm.watson.developer_cloud.service.exception.BadRequestException;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.VisualRecognition;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.ClassifierOptions;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.ClassifierOptions.Builder;
@@ -165,8 +166,15 @@ public class WatsonBinaryClassifier {
 		ClassifyImagesOptions options = new ClassifyImagesOptions.Builder().images(images, "images.zip")
 				.classifierIds(classifierId).threshold(minThreshold).build();
 
-		VisualClassification result = service.classify(options).execute();
-		
+		VisualClassification result = null;
+		try{
+			
+		result = service.classify(options).execute();
+		}		
+		catch(BadRequestException e) {
+			throw new VisualClassifierException("VisualClassification: Bad request - " + e.getMessage());
+		}
+		    
 		System.out.println("[WatsonBinaryClassifier] classify():");
 //		System.out.println(result.);
 		System.out.println(result);

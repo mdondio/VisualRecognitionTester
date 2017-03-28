@@ -66,7 +66,7 @@ public class GetTestResult extends HttpServlet {
 		JsonParser parser = new JsonParser();
 		JsonArray tests = parser.parse(request.getParameter("array")).getAsJsonArray();
 		
-	//	System.out.println(tests);
+		System.out.println(tests);
 		JsonArray results = new JsonArray();
 
 		// For each test

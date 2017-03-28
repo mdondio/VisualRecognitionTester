@@ -314,7 +314,7 @@ function getDataShow(){
 //				url: "json/testresult2.json",
 				url: 'GetTestResult',
 				type: 'GET',
-//				data:{ array: finalJSON },
+				data:{ array: finalJSON },
 				dataType: 'json',
 				success: function(result)
 				{
@@ -587,8 +587,8 @@ function generateHome(){
 	$.ajax({
 		contentType: "application/json",
 		dataType: "json",
-		url: "json/classifier.json",
-		//url: 'GetClassifier',
+		//url: "json/classifier.json",
+		url: 'GetClassifier',
 		async: false,
 		success: function(result){
 console.log(result);
