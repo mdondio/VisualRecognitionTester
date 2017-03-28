@@ -8,30 +8,122 @@
 <script src="js/functions.js"></script>
 <script>createHead();</script>
 
-<body>
+<body style="background-image:url('images/loginpage.png')">
 	<header></header>
 <script>
-		createHeader();
+		createHeaderforLogin();
 	</script>
-<div class="column third">
-</div>
-<div class="column third">
-	<div class=content>
-							<img src="img/user.png" width="200px" padding=10px"">
-							<br>
-								<form action ="loginservlet" name="login_form" id="login_form" method="post"> 
-									<input type="text" name="username" placeholder="Username" size="50">
-									<br>
-									<input type="password" name="password" placeholder="Password" size="50">
-									<br>
-									<input type="submit" value="login" class="more">
-									<input type="reset" value="cancel" class="more">
-								</form>
-								<br>
-							<font size="2">powered by </font><img src="img/bluemix.png" width="150px" align="middle">
-</div>
-</div>
-<div class="column third">
-</div>
+	
+	<div class=content style="width: 100%; height: 50%; position: absolute;margin-left:7%;">
+	<br>
+	<div class=card style="width:30%;padding:20px;">
+		<br>
+		<br>
+		<img src="images/VRimage.png" class="imglogin"> <br>
+		<br>
+		<form action="loginservlet" name="login_form" id="login_form" method="post"
+			style="margin: 0 auto; width: 100%; text-align: center;">
+			<input required type="text" name="username" id="username" placeholder="Username" size="50"> 
+			<br> 
+			<input required type="password" name="password" id="password" placeholder="Password" size="50"> 
+			<br> 
+			<input type="submit" value="login" name="login" id="login" class="more">
+		</form>
+		<br>
+		<br>
+		<br>
+		<br>
+		<div style="text-align: center">
+			<font size="2">powered by </font><img src="img/bluemix.png"
+				width="150px" align="middle">
+		</div>
+		<br>
+		<br>
+		</div>
+	</div>
+
 </body>
+
+<script>
+// 	$("#login").click(function() {
+// 		var user = $("#username").val();
+// 		var pass = $("#password").val();
+// 		var check = true;
+// 		// Checking for blank fields.
+// 		console.log(user);
+// 		console.log(pass);
+// 		if (user == '') {
+// 			$('input[id="username"]').css("border", "2px solid red");
+// 			$('input[id="username"]').css("box-shadow", "0 0 3px red");
+// 			check = false;
+// 		}
+
+// 		if (pass == '') {
+// 			$('input[id="password"]').css("border", "2px solid red");
+// 			$('input[id="password"]').css("box-shadow", "0 0 3px red");
+// 			check = false;
+// 		}
+
+// 		if (!check)
+// 			{
+// // 			alert("Please fill all fields...!!!!!!");
+// 			}
+// 		else {
+
+// // 			$.ajax({
+// // 				contentType : "application/json",
+// // 				dataType : "json",
+// // 				method: POST,
+// // 				url : 'loginservlet',
+// // 				data: {username: username, password: password},
+// // 				async : false,
+// // 				success : function(result) {
+// // 				}
+// // 			});
+// 										$.post(
+// 												"loginservlet", 
+// 												{username: user,password : pass},
+// 												function(data) {
+// 			// 												if (data == 'Invalid Email.......') {
+// 			// 													$('input[type="text"]')
+// 			// 															.css(
+// 			// 																	{
+// 			// 																		"border" : "2px solid red",
+// 			// 																		"box-shadow" : "0 0 3px red"
+// 			// 																	});
+// 			// 													$('input[type="password"]')
+// 			// 															.css(
+// 			// 																	{
+// 			// 																		"border" : "2px solid #00F5FF",
+// 			// 																		"box-shadow" : "0 0 5px #00F5FF"
+// 			// 																	});
+// 			// 													alert(data);
+// 			// 												} else if (data == 'Email or Password is wrong...!!!!') {
+// 			// 													$(
+// 			// 															'input[type="text"],input[type="password"]')
+// 			// 															.css(
+// 			// 																	{
+// 			// 																		"border" : "2px solid red",
+// 			// 																		"box-shadow" : "0 0 3px red"
+// 			// 																	});
+// 			// 													alert(data);
+// 			// 												} else if (data == 'Successfully Logged in...') {
+// 			// 													$("form")[0].reset();
+// 			// 													$(
+// 			// 															'input[type="text"],input[type="password"]')
+// 			// 															.css(
+// 			// 																	{
+// 			// 																		"border" : "2px solid #00F5FF",
+// 			// 																		"box-shadow" : "0 0 5px #00F5FF"
+// 			// 																	});
+// 			// 													alert(data);
+// 			// 												} else {
+// 			// 													alert(data);
+// // 															}
+// 														});
+// 		}
+// 	});
+</script>
+
 </html>
+

@@ -69,26 +69,26 @@
 	  			<hr align="center" width="50%" class="middle_division">
 	  		</div>
       <br>
-        <div id="sim_list">
-
-			<form id="myForm">          
+      
+      <form id="myForm"> 
+			         
 	        	<div class="row clearfix moltiplicandum" id="moltiplicandum1" style="margin-bottom:20px;margin-left:200px;">
 			        
 			        
 					<div class="column fourth">
 					  <!-- Class name was test_set, in conflict with the next one!  -->
-		              <input class="testName" name="test1" type="text" placeholder="Insert test name" style="width:100%">
+		              <input required class="testName" name="test1" type="text" placeholder="Insert test name" style="width:100%">
 		            </div>
 		            
 		            <div class="column fourth">
-		              <select class="test_set" type="text" style="width:100%">
+		              <select required class="test_set" type="text" style="width:100%">
 		                <option selected disabled value="">Select test dataset</option>
 		              </select>
 		            </div>
 		
 		            <div class="column fourth">
 		              <!-- Class name was avail_class -->
-		              <select class="avail_class" type="text" style="width:100%">
+		              <select required class="avail_class" type="text" style="width:100%">
 		                <option selected disabled value="">Select classifier</option>
 		              </select>
 		            </div>
@@ -96,13 +96,10 @@
 		            <div class="column fourth">
 		            	<img id="reload1" class="inline" data-alt-src="ico/reload.png" src="ico/reloadDARK.png" style="width:30px; height:auto;">
        					<img id="garbage1" class="inline" data-alt-src="ico/garbage.png" src="ico/garbageDARK.png" style="width:30px; height:auto;">  
-		            </div>
-	
-	        	</div>
-			</form>
+		            </div>		
 
         </div>
-
+</form>
         <br>
 
       </div>
@@ -232,26 +229,31 @@ $('#addicon').mouseleave(function(){
 	$(this).attr('src',"ico/addDARK.png" );
 });
 
-var totalRows = 1;
+var totalRowsFilled = 1;
 var max = 10; // max number of allowed selectors: 10
 $('#addicon').click(function(){
-if(totalRows < max){
+if(totalRowsFilled < max){
+      
       var $div = $('div[id^="moltiplicandum"]:last'); // seleziono l'ultimo moltiplicandum
-      var num = parseInt( $div.prop("id").match(/\d+/g), 10 ) +1; // estraggo il numero identificativo e lo incremento
-           
-      $("#moltiplicandum1").clone().prop('id', 'moltiplicandum'+num )
+      
+      var nextrow = parseInt( $div.prop("id").match(/\d+/g), 10 ) +1; // estraggo il numero identificativo e lo incremento
+     console.log(nextrow);
+      var currentrow = nextrow-1;     
+      
+      $("#moltiplicandum"+currentrow).clone()
+      .prop('id', 'moltiplicandum'+nextrow)
       .find('input:text').val("")
       .removeAttr('class')
-      .attr('name','test'+num).end()
+      .attr('name','test'+nextrow).end()
       .appendTo("#myForm"); // clono, rinomino e appendo
       
-      $("#moltiplicandum"+num).find("img#reload1").attr("id","reload"+num);
-      $("#moltiplicandum"+num).find("img#garbage1").attr("id","garbage"+num);
+      $("#moltiplicandum"+nextrow).find("img#reload"+currentrow).attr("id","reload"+nextrow);
+      $("#moltiplicandum"+nextrow).find("img#garbage"+currentrow).attr("id","garbage"+nextrow);
             
     } else {
       alert("Max number of entries reached.");
     }
-    totalRows++;
+    totalRowsFilled++;
 });
 
 //UPLOAD button actions
@@ -279,18 +281,18 @@ $('#playicon').click(function(){
  	var go = false;
  	if( ! ( $(".moltiplicandum input")[0].value == "Insert test name") && ! ( document.getElementsByClassName('test_set')[0].value == "" ) && ! ( document.getElementsByClassName('avail_class')[0].value == "" ) ) 
  		{go = true;}
- 		else alert("Controlla bene i parametri!");
-	
+ 		//else alert("Controlla bene i parametri!");
+	go=true;
 	if( go ){
 
 		    directJSON = [];
 		    
-		    var $testName = $(".moltiplicandum input");
+		    var testName = Array.prototype.map.call($(".moltiplicandum input"),(function(el){return el.value;}));
 			var testDataset = document.getElementsByClassName('test_set');
 			var testClassifier = document.getElementsByClassName('avail_class');
-		    
+		    var testname;
 		    //can't use i index 'cause it was already globally living above for row counter ( shouldn't be globally reachable... )
-		    for( k = 0; k < totalRows; k++ ){
+		    for( k = 0; k < totalRowsFilled; k++ ){
 		    	
 		    	item = {}
 		    	item["test"] = testDataset[k].value;
@@ -306,7 +308,7 @@ $('#playicon').click(function(){
 		    $("#simulate").fadeOut(1000);
 		    setTimeout(function(){$("#waiting").fadeIn(1000)},1000);
  			setTimeout(
- 			function(){getDataShow(ready_to_be_sent_JSON)},
+ 			function(){getDataShow(ready_to_be_sent_JSON,testName)},
  			3000);
 	}	
 });
@@ -323,6 +325,7 @@ $('body').on("mouseleave","img[id*=reload]",function(){
 $('body').on("click","img[id*=reload]",function(){
 	var $this = $(this);
 	var num = parseInt($this.prop("id").substring(6));
+	console.log("num reload "+num);
   	$("#moltiplicandum"+num).find('input:text').val("");
  	$("#moltiplicandum"+num).find('select').val("").find('select').val("");      
 });
@@ -340,9 +343,15 @@ $('body').on("click","img[id*=garbage]",function(){
 	var $this = $(this);
 	var num = parseInt($this.prop("id").substring(7));
 	var size = Array.prototype.map.call($(".moltiplicandum input"),(function(el){return el.value;}));
-	if(size.length>1) $("#moltiplicandum"+num).remove();
+	if(size.length>1) 
+	{
+	$("#moltiplicandum"+num).remove();
+		totalRowsFilled--;
+	console.log("TOTAL ROWS"+totalRowsFilled)
+		console.log("RIGA CANCELLATA"+num)
+	}
 	else alert("You have to run at least one test");
-	totalRows--;
+
 });
 
 // ON CHANGE select test

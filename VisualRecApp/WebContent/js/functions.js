@@ -288,7 +288,7 @@ function showSlides(n) {
 
 //TODO commentare
 //GET DATA TO SHOW: questa dovrebbe essere la funzione che lega la richiesta dei test da mostrare in show.html???
-function getDataShow(finalJSON){
+function getDataShow(finalJSON,testName){
 
 	// ajax call to backend
 	$.ajax(
@@ -651,7 +651,8 @@ console.log(result);
 			var training_sets = new Array(["Label","# of images"]);
 			for(var i in result){
 				var obj = result[i];
-				training_sets.push([obj.label,obj.trainingSize]);
+				var size = 0;
+				training_sets.push([obj._id,obj.images.positive.length+obj.images.negative.length]);
 			}
 			addMatrixTable("dvList",training_sets);
 		}
