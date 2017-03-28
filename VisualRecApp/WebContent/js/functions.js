@@ -40,23 +40,26 @@ function Draw(result){
 			//CREAZIONE DELL'INPUT PER GRAFICO ROC -------------------------------------
 			var ROCcurves = []; //INPUT PER PLOT
 			var count = 0;
+			var parsedJSON = JSON.parse(finalJSON);
 			for(var i in result){
 				var obj = result[i];
 				var x = [];
 				var y = [];
 				for(var j in obj.fprTrace) x.push(obj.fprTrace[j]);
 				for(var j in obj.tprTrace) y.push(obj.tprTrace[j]);
-				
+				var objJSON = parsedJSON[count];
+				console.log(parsedJSON)
+				console.log(objJSON.name)
 				ROCcurves.push(
 						{
 							"x": x,
 							"y": y,
 							"mode": "lines",
-							"name": obj.ID,
+							"name": objJSON.name,
 							"line": {
 								"shape": "spline",
-								"color": "rgb(168,168,168)"
-								//"color": "rgb("+colorpalette[count][0]+","+colorpalette[count][1]+","+colorpalette[count][2]+")"
+//								"color": "rgb(168,168,168)"
+							"color": "rgb("+colorpalette[count][0]+","+colorpalette[count][1]+","+colorpalette[count][2]+")"
 							}
 						}
 				);
