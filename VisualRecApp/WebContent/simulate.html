@@ -54,24 +54,26 @@
 		</div>
 		
 	</div>
-<br>
- 				<hr align="center" width="50%" class="middle_division">
+
+ 				
  
     <div class="row clearfix">
 
     	<div class="column full">
+
       
+      <form id="myForm" action="javascript:startSimulation();"> 
+			       <br>    	
+      <hr align="center" width="50%" class="middle_division">
       		<div class="sim-buttons">
- 				<img id="addicon" class="inline" src="ico/addDARK.png" style="width:60px;height:auto;">
-       			<img id="uploadicon" class="inline" src="ico/uploadDARK.png" style="width:60px;height:auto;">  
-       			<img id="playicon" class="inline" src="ico/play-buttonDARK.png" style="width:60px;height:auto;">
+ 				<input type=image id="addicon" class="inline" src="ico/addDARK.png" style="width:60px;height:auto;">
+       			<input type=image id="uploadicon" class="inline" src="ico/uploadDARK.png" style="width:60px;height:auto;margin-left:30px;margin-right:30px;">  
+       			<input type=image id="playicon" class="inline" src="ico/play-buttonDARK.png" style="width:60px;height:auto;">
 	  		
 	  			<hr align="center" width="50%" class="middle_division">
 	  		</div>
       <br>
-      
-      <form id="myForm"> 
-			         
+        
 	        	<div class="row clearfix moltiplicandum" id="moltiplicandum1" style="margin-bottom:20px;margin-left:200px;">
 			        
 			        
@@ -274,18 +276,8 @@ $('#playicon').mouseleave(function(){
 	$(this).attr('src',"ico/play-buttonDARK.png" );
 });
 
-
-$('#playicon').click(function(){
-
-// 	JSON Creation protection
- 	var go = false;
- 	if( ! ( $(".moltiplicandum input")[0].value == "Insert test name") && ! ( document.getElementsByClassName('test_set')[0].value == "" ) && ! ( document.getElementsByClassName('avail_class')[0].value == "" ) ) 
- 		{go = true;}
- 		//else alert("Controlla bene i parametri!");
-	go=true;
-	if( go ){
-
-		    directJSON = [];
+function startSimulation(){
+directJSON = [];
 		    
 		    var testName = Array.prototype.map.call($(".moltiplicandum input"),(function(el){return el.value;}));
 			var testDataset = document.getElementsByClassName('test_set');
@@ -310,8 +302,45 @@ $('#playicon').click(function(){
  			setTimeout(
  			function(){getDataShow(ready_to_be_sent_JSON,testName)},
  			3000);
-	}	
-});
+}
+
+// $('#playicon').click(function(){
+
+// // 	JSON Creation protection
+//  	var go = false;
+//  	if( ! ( $(".moltiplicandum input")[0].value == "Insert test name") && ! ( document.getElementsByClassName('test_set')[0].value == "" ) && ! ( document.getElementsByClassName('avail_class')[0].value == "" ) ) 
+//  		{go = true;}
+//  		//else alert("Controlla bene i parametri!");
+// 	go=true;
+// 	if( go ){
+
+// 		    directJSON = [];
+		    
+// 		    var testName = Array.prototype.map.call($(".moltiplicandum input"),(function(el){return el.value;}));
+// 			var testDataset = document.getElementsByClassName('test_set');
+// 			var testClassifier = document.getElementsByClassName('avail_class');
+// 		    var testname;
+// 		    //can't use i index 'cause it was already globally living above for row counter ( shouldn't be globally reachable... )
+// 		    for( k = 0; k < totalRowsFilled; k++ ){
+		    	
+// 		    	item = {}
+// 		    	item["test"] = testDataset[k].value;
+// 		    	item["classifier"] = testClassifier[k].value;
+		    	
+// 		    	//Handling empty test added by user
+// 		    	if( ( testDataset[k].value == "" ) && ( testClassifier[k].value == "" ) )
+// 		    		continue;
+// 		    	directJSON.push(item); 
+// 		    }
+		    
+// 		    ready_to_be_sent_JSON = JSON.stringify(directJSON);
+// 		    $("#simulate").fadeOut(1000);
+// 		    setTimeout(function(){$("#waiting").fadeIn(1000)},1000);
+//  			setTimeout(
+//  			function(){getDataShow(ready_to_be_sent_JSON,testName)},
+//  			3000);
+// 	}	
+// });
 
 //RELOAD button actions
 $('body').on("mouseover","img[id*=reload]",function(){
