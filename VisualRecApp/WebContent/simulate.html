@@ -139,7 +139,7 @@
 						<div class="post-preview" style="width: 100%; height: auto">
 
 							<div class="circle2">
-								<div class=ready2 id=accuracy></div>
+								<div class=ready2 id=accuracy>--.--</div>
 								<div class=ready3>accuracy</div>
 							</div>
 						</div>
@@ -148,7 +148,7 @@
 					<div class="column half">
 						<div class="post-preview" style="width: 100%; height: auto">
 							<div class="circle2">
-								<div class=ready2 id=threshold></div>
+								<div class=ready2 id=threshold>--.--</div>
 								<div class=ready3>threshold</div>
 							</div>
 						</div>
@@ -156,7 +156,7 @@
 
 				</div>
 				
-				<br>
+				<br><br>
 								<!-- Riga con i valori select dei test -->
 				<div class="row clearfix">
 					<div class="column full">
@@ -204,20 +204,70 @@
 			</div>
 		</div>
 
+<br><br>
 		<!-- PARTE BASSA DELLA PAGINA (GRAFICI) -->
 		<div class="row clearfix" id=secondrow>
 			<!-- PRIMO GRAFICO PARTE SINISTRA -->
 			<div class="column half">
+			
+				<div class="row clearfix">
+				
+				
+				<div class="column fourth">
 				<div class="post-preview">
-					<h3><span class="title"></span></h3>
-					<div id="graph1" style="width: 100%; height: auto;"></div>
+					<div>
+						<p style="text-align:right;color:#343b43;font-weight:bold;font-size:28px;">ROC curve</p>
+					</div>
 				</div>
+				</div>
+				
+				<div class="column three-fourths">
+				<div class="post-preview">
+					<div>
+						<p style="text-align:left;color:#A0A0A0;font-size:14px;">In statistics, a receiver operating characteristic curve, or ROC curve, is a graphical plot that illustrates the performance of a binary classifier system as its discrimination threshold is varied.</p>
+					</div>
+				</div>
+				</div>	
+					</div>
+				<br>
+				<div class="row clearfix">
+				<div class="post-preview">
+				<div id="graph1" style="width: 100%; height: auto;"></div>
+				</div>
+				
+				</div>
+				
 			</div>
 			<!-- SECONDO GRAFICO PARTE DESTRA -->
 			<div class="column half">
+				<div class="row clearfix">
+					
+					
+					
+					
+<!-- 					<hr align="center" width="75%" class="middle_division"> -->
+					
+									<div class="column fourth">
 				<div class="post-preview">
-					<h3><span class="title"></span></h3>
-					<div id="graph2" style="width: 100%; height: auto;"></div>
+					<div>
+						<p style="text-align:right;color:#343b43;font-weight:bold;font-size:28px;">AUC curve</p>
+					</div>
+				</div>
+				</div>
+				
+				<div class="column three-fourths">
+				<div class="post-preview">
+					<div>
+						<p style="text-align:left;color:#A0A0A0;font-size:14px;">The area under the curve (often referred to as simply the AUC) is equal to the probability that a classifier will rank a randomly chosen positive instance higher than a randomly chosen negative one </p>
+					</div>
+				</div>
+				</div>	
+				</div>
+				<br>
+			<div class="row clearfix">
+<div class="post-preview">
+					<div id="graph2" style="width: 100%; height: auto;position:relative;"></div>
+					</div>
 				</div>
 			</div>
 		</div>

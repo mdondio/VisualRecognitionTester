@@ -176,11 +176,7 @@ function Draw(result){
  */
 function addimages(result){
 
-			$("#modalcontent").empty();
-			$("#falsepositive").empty();
-			$("#falsenegative").empty();
-			$("#accuracy").empty();
-			$("#threshold").empty();
+
 			
 			var testname = $(".show_test").val();
 var parsedJSON = JSON.parse(finalJSON);
@@ -193,6 +189,12 @@ var parsedJSON = JSON.parse(finalJSON);
 			if(parsedJSON[j].name == testname)
 				{
 
+				$("#modalcontent").empty();
+				$("#falsepositive").empty();
+				$("#falsenegative").empty();
+				$("#accuracy").empty();
+				$("#threshold").empty();
+				
 					$("#accuracy").html(result[j].accuracyOpt.toFixed(2));
 					$("#threshold").html(result[j].thresholdOpt.toFixed(2));
 
