@@ -188,7 +188,7 @@ function addimages(result){
 			var img_path = "GetImage?image_id=";
 			for(var j in result)
 			{
-			if(result[j].ID == testname)
+			if(result[j].name == testname)
 				{
 
 					$("#accuracy").html(result[j].accuracyOpt.toFixed(2));
@@ -288,7 +288,7 @@ function showSlides(n) {
 
 //TODO commentare
 //GET DATA TO SHOW: questa dovrebbe essere la funzione che lega la richiesta dei test da mostrare in show.html???
-function getDataShow(finalJSON,testName){
+function getDataShow(finalJSON){
 
 	// ajax call to backend
 	$.ajax(
@@ -303,11 +303,14 @@ function getDataShow(finalJSON,testName){
 					$("#waiting").fadeOut(1000);
 					$("#showtest").fadeIn(2000);
 					cacheTestResult = result;
-					for(var j in result){
-						var obj = result[j];
+					parsedJSON = JSON.parse(finalJSON)
+					for(var j in parsedJSON){
+						var obj = parsedJSON[j];
+						console.log(obj)
+						console.log("*******************"+obj.name)
 						$('.show_test').append($('<option>', {
-							value: obj.ID,
-							text: obj.ID
+							value: obj.name,
+							text: obj.name
 						}));
 					}
 					Draw(result);

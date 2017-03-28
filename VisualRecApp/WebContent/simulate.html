@@ -280,6 +280,7 @@ function startSimulation(){
 directJSON = [];
 		    
 		    var testName = Array.prototype.map.call($(".moltiplicandum input"),(function(el){return el.value;}));
+		    
 			var testDataset = document.getElementsByClassName('test_set');
 			var testClassifier = document.getElementsByClassName('avail_class');
 		    var testname;
@@ -287,12 +288,9 @@ directJSON = [];
 		    for( k = 0; k < totalRowsFilled; k++ ){
 		    	
 		    	item = {}
+		    	item["name"] = testName[k];
 		    	item["test"] = testDataset[k].value;
 		    	item["classifier"] = testClassifier[k].value;
-		    	
-		    	//Handling empty test added by user
-		    	if( ( testDataset[k].value == "" ) && ( testClassifier[k].value == "" ) )
-		    		continue;
 		    	directJSON.push(item); 
 		    }
 		    
@@ -300,7 +298,7 @@ directJSON = [];
 		    $("#simulate").fadeOut(1000);
 		    setTimeout(function(){$("#waiting").fadeIn(1000)},1000);
  			setTimeout(
- 			function(){getDataShow(ready_to_be_sent_JSON,testName)},
+ 			function(){getDataShow(ready_to_be_sent_JSON)},
  			3000);
 }
 
