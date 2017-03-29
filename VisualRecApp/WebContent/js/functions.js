@@ -311,8 +311,8 @@ function getDataShow(){
 	// ajax call to backend
 	$.ajax(
 			{
-//				url: "json/testresult2.json",
-				url: 'GetTestResult',
+				url: "json/testresult2.json",
+//				url: 'GetTestResult',
 				type: 'GET',
 				data:{ array: finalJSON },
 				dataType: 'json',
@@ -340,15 +340,14 @@ function getDataShow(){
 							title: "Warning",
 							imageUrl: "img/tired.png",
 							text: "Classifier "+parsedJSON[testcount].classifier+" is exhausted. Wait 24h and you will regain your free API calls",
-							});
-							
-							testcount++;
+							});	
 						}else{
 							$('.show_test').append($('<option>', {
 								value: parsedJSON[testcount].name,
 								text: parsedJSON[testcount].name
 							}));
 						}
+						testcount++;
 						}
 					Draw(result);
 					console.log(result);
