@@ -6,6 +6,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,6 +25,8 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassification;
 
+import net.mybluemix.visualrecognitiontester.backgroundaemons.Job;
+import net.mybluemix.visualrecognitiontester.backgroundaemons.JobQueue;
 import net.mybluemix.visualrecognitiontester.blmxservices.CloudantClientMgr;
 import net.mybluemix.visualrecognitiontester.blmxservices.ObjectStorage;
 import net.mybluemix.visualrecognitiontester.blmxservices.ObjectStorageClientMgr;
@@ -141,8 +144,6 @@ public class GetTestResult extends HttpServlet {
 		// execute query
 		List<Dataset> datasets = db.findByIndex(selector, Dataset.class, opt);
 		
-		System.out.println("-------------------------------------------");
-
 		return datasets == null ? null : datasets.get(0);
 	}
 
@@ -194,13 +195,28 @@ public class GetTestResult extends HttpServlet {
 					watsonres = classifier.classify(zipFiles, Utils.WATSONMINSCORE);
 				} catch (VisualClassifierException e) {
 
+					// if we have an error, we exhausted 
+					// classification calls
+					// TODO rendere più robusto
 				System.out.println("[GetTestResult runClassification()] VisualClassifierException: " + e.getMessage());	
+
+				// Now we add this classifier to the zombie queue...
+				ServletContext ctx = getServletContext();
+				@SuppressWarnings("unchecked")
+				JobQueue<Job<String>> zombieQueue = (JobQueue<Job<String>>) ctx.getAttribute("zombieQueue");
+				
+				zombieQueue.addJob(new Job<String>(classifierJson.getID()));
+				
+				// return an empty object to client
+				// TODO definire un formato di errore!
 				return new JsonObject();
 				}
 		// Compute results and metrics
 		// TODO passarli come parametri aggiuntivi alla simulazione?
-		double minThreshold = 0.05;
-		double maxThreshold = 0.6;
+//				double minThreshold = 0.05;
+//				double maxThreshold = 0.6;
+				double minThreshold = 0.0;
+				double maxThreshold = 1.0;
 		double step = 0.05; // era 0.05
 
 		DecimalFormat df = new DecimalFormat("#.###");

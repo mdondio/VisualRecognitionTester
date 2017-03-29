@@ -10,21 +10,29 @@ import java.util.LinkedList;
  * @author Marco Dondio
  *
  */
-public class JobQueue {
+public class JobQueue<T> {
 
-	LinkedList<Long> queue = new LinkedList<Long>();
+	// TODO capire come è meglio fare: linkedmap?
+	LinkedList<T> queue = new LinkedList<T>();
 
-	public synchronized void addJob(Long id) {
+	public synchronized void addJob(T id) {
 
-		System.out.println("JobQueue(): addJob(" + id + ")");
+//		System.out.println("[JobQueue]: addJob(" + id + ")");
 		queue.addLast(id);
+		
 		notify();
 	}
 
-	public synchronized Long getJob() throws InterruptedException {
+	public synchronized T getJob() throws InterruptedException {
 		while (queue.isEmpty()) {
+			
+//			System.out.println("[JobQueue] getJob() waiting...");
 			wait();
+
 		}
+//		System.out.println("[JobQueue] Returning value...");
+
 		return queue.removeFirst();
 	}
+
 }
