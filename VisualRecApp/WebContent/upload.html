@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head></head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="js/genericFunctions.js"></script>
+<script src="js/sweetalert.min.js"></script>
+<link rel="stylesheet" href="css/sweetalert.css">
+
+
+<script>createHead();</script>
+
+<body>
+
+<header></header><script>createHeader();</script>
+
+<div class="content">
+
+	<h4>Test</h4>
+    <button id="a" onclick="Test()">RUN ME</button>
+
+</div>
+
+</body>
+
+<script>
+
+function Test() {
+		  swal({
+		  title: "Sure?",
+		  text: "You ain't gonna recover from this u fool!",
+		  type: "warning",
+		  showCancelButton: true,
+		  confirmButtonColor: "#DD6B55",
+		  confirmButtonText: "Yes, c'mon!",
+		  cancelButtonText: "Nope!",
+		  closeOnConfirm: false,
+		  closeOnCancel: false
+	},
+function(isConfirm){
+		  if (isConfirm) {
+		    swal("Deleted!", "The file has been deleted.", "success");
+		  } else {
+		    swal("Cancelled", "You're safe mate :)", "error");
+		  }
+	});
+}
+
+</script>
+
+</html>
