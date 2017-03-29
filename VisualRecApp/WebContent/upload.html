@@ -3,8 +3,8 @@
 <head></head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="js/genericFunctions.js"></script>
-<script src="js/sweetalert.min.js"></script>
-<link rel="stylesheet" href="css/sweetalert.css">
+<script src="js/sweetalert2_mine.js"></script>
+<link rel="stylesheet" href="css/sweetalert2_mine.css">
 
 
 <script>createHead();</script>
@@ -25,24 +25,31 @@
 <script>
 
 function Test() {
-		  swal({
-		  title: "Sure?",
-		  text: "You ain't gonna recover from this u fool!",
-		  type: "warning",
-		  showCancelButton: true,
-		  confirmButtonColor: "#DD6B55",
-		  confirmButtonText: "Yes, c'mon!",
-		  cancelButtonText: "Nope!",
-		  closeOnConfirm: false,
-		  closeOnCancel: false
-	},
-function(isConfirm){
-		  if (isConfirm) {
-		    swal("Deleted!", "The file has been deleted.", "success");
-		  } else {
-		    swal("Cancelled", "You're safe mate :)", "error");
-		  }
-	});
+
+	swal({
+	    title: 'Are you sure?',
+	    text: 'You will not be able to recover this imaginary file!',
+	    type: 'warning',
+	    showCancelButton: true,
+	    confirmButtonText: 'Yes, delete it!',
+	    cancelButtonText: 'No, keep it'
+  }).then(function() {
+	    swal(
+	      'Deleted!',
+	      'Your imaginary file has been deleted.',
+	      'success'
+	    )
+  }, function(dismiss) {
+	    // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
+	    if (dismiss === 'cancel') {
+		      swal(
+		        'Cancelled',
+		        'Your imaginary file is safe :)',
+		        'error'
+		      )
+	    }
+  })
+  
 }
 
 </script>
