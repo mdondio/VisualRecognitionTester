@@ -12,6 +12,10 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script> 
 
+
+<script src="js/sweetalert.min.js"></script>
+<link rel="stylesheet" href="css/sweetalert.css">
+
 <body>
   <header id="header" style="animation-duration:2s"></header>
   <script>createHeader();</script>
@@ -322,7 +326,10 @@ if(totalRowsFilled < max){
       $("#moltiplicandum"+nextrow).find("img#garbage"+currentrow).attr("id","garbage"+nextrow);
             
     } else {
-      alert("Max number of entries reached.");
+    swal({
+				title: "Warning",
+				text: "Max number of entries reached. You can run max 10 tests simultaneously.",
+				type: "warning"});
     }
     totalRowsFilled++;
 });
@@ -408,7 +415,10 @@ $('body').on("click","img[id*=garbage]",function(){
 	console.log("TOTAL ROWS"+totalRowsFilled)
 		console.log("RIGA CANCELLATA"+num)
 	}
-	else alert("You have to run at least one test");
+	else swal({
+				title: "Warning",
+				text: "You have to run at least one test",
+				type: "warning"});
 
 });
 
