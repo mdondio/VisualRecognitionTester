@@ -322,15 +322,34 @@ function getDataShow(){
 					$("#showtest").fadeIn(2000);
 					cacheTestResult = result;
 					parsedJSON = JSON.parse(finalJSON)
-					for(var j in parsedJSON){
-						var obj = parsedJSON[j];
-						console.log(obj)
-						console.log("*******************"+obj.name)
-						$('.show_test').append($('<option>', {
-							value: obj.name,
-							text: obj.name
-						}));
-					}
+//					for(var j in parsedJSON){
+//						var obj = parsedJSON[j];
+//						$('.show_test').append($('<option>', {
+//							value: obj.name,
+//							text: obj.name
+//						}));
+//					}
+					var testcount = 0;
+					for(var j in result)
+						{
+						var obj = result[j];
+						console.log(obj.ID);
+						if(obj.ID==null) {
+							
+							swal({
+							title: "Warning",
+							imageUrl: "img/tired.png",
+							text: "Classifier "+parsedJSON[testcount].classifier+" is exhausted. Wait 24h and you will regain your free API calls",
+							});
+							
+							testcount++;
+						}else{
+							$('.show_test').append($('<option>', {
+								value: parsedJSON[testcount].name,
+								text: parsedJSON[testcount].name
+							}));
+						}
+						}
 					Draw(result);
 					console.log(result);
 					addimages(result);			
@@ -591,7 +610,7 @@ function generateHome(){
 		url: 'GetClassifier',
 		async: false,
 		success: function(result){
-console.log(result);
+
 			//COMPUTE NUMBER FOR READY AND TRAINING
 			var ready = 0;
 			var training = 0;
