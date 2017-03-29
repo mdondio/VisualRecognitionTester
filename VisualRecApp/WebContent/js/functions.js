@@ -189,73 +189,84 @@ function addimages(result){
 				//ammettiamo che non vengano lanciati test uguali
 			if(parsedJSON[j].name == testname)
 				{
+var inputgallery="FN";
+//				$("#modalcontentFP").empty();
+				setGallery(inputgallery);
+				$("#modalcontent"+gallery).empty();
 				
-				$("#modalcontent").empty();
-				$("#falsepositive").empty();
-				$("#falsenegative").empty();
+//				$("#falsepositive").empty();
+				
+				$("#gallery"+gallery).empty();
+				
+				
+				//togliere da questa funzione
 				$("#accuracy").empty();
 				$("#threshold").empty();
-
-				$("#modalcontent").empty();
-				$("#falsepositive").empty();
-				$("#falsenegative").empty();
-				$("#accuracy").empty();
-				$("#threshold").empty();
-				
-					$("#accuracy").html(result[j].accuracyOpt.toFixed(2));
+				$("#accuracy").html(result[j].accuracyOpt.toFixed(2));
 					$("#threshold").html(result[j].thresholdOpt.toFixed(2));
 
-					var slidenumberFP = 1;
-					var slidenumberFN = 1;
-					var totalslideFP = 0;
-					var totalslideFN = 0;
+//					var slidenumberFP = 1;
+					var slidenumber = 1;
+//					var totalslideFP = 0;
+					var totalslide = result[j].falseNegativeOpt.length;
 					
-					for(var i in result[j].falsePositiveOpt) { totalslideFP++; } // loop to count total number of FP images
-					for(var i in result[j].falseNegativeOpt) { totalslideFN++; } // loop to count total number of FN images
+//					for(var i in result[j].falsePositiveOpt) { totalslideFP++; } // loop to count total number of FP images
+//					for(var i in result[j].falseNegativeOpt) { totalslideFN++; } // loop to count total number of FN images
 					
-					for(var i in result[j].falsePositiveOpt)
-					{
-						var x = document.createElement("IMG");
-						var obj = result[j].falsePositiveOpt[i];
-
-						x.setAttribute("src", img_path+obj);
-						x.setAttribute("onclick","openModal();currentSlide("+ slidenumberFP +")");
-						x.setAttribute("class","hover-shadow cursor");
-						document.getElementById("falsepositive").appendChild(x);
-						$('#modalcontent').append("<div class='mySlides'><div class='numbertext'>"+ slidenumberFP +" / "+ totalslideFP +"<br>false positive</div><img class='modal-img' src="+img_path+obj+"></div>");
-						slidenumberFP++;
-					}
+//					for(var i in result[j].falsePositiveOpt)
+//					{
+//						var x = document.createElement("IMG");
+//						var obj = result[j].falsePositiveOpt[i];
+//
+//						x.setAttribute("src", img_path+obj);
+//						x.setAttribute("onclick","openModal('FP');currentSlide("+ slidenumberFP +")");
+//						x.setAttribute("class","hover-shadow cursor");
+//						document.getElementById("falsepositive").appendChild(x);
+//						$('#modalcontentFP').append("<div class='mySlides'><div class='numbertext'>"+ slidenumberFP +" / "+ totalslideFP +"<br>false positive</div><img class='modal-img' src="+img_path+obj+"></div>");
+//						slidenumberFP++;
+//					}
+					
+					
+					
 					for(var i in result[j].falseNegativeOpt)
 					{
 						var x = document.createElement("IMG");
 						var obj = result[j].falseNegativeOpt[i];
 						x.setAttribute("src", img_path+obj);
-						x.setAttribute("onclick","openModal();currentSlide("+ slidenumberFN +")");
+						console.log("**********PRIMA"+gallery)
+						//TODO approfondire addEventListener anche per pezzo successivo
+						x.addEventListener("click",function(event){newImg(inputgallery,slidenumber);event.preventDefault();});
+						console.log("*********DOPO"+gallery)
 						x.setAttribute("class","hover-shadow cursor");
-						document.getElementById("falsenegative").appendChild(x);
-						$('#modalcontent').append("<div class='mySlides'><div class='numbertext'>"+ slidenumberFN +" / "+ totalslideFN +"<br>false negative</div><img class='modal-img' src="+img_path+obj+"></div>");
-						slidenumberFN++;
+						document.getElementById("gallery"+gallery).appendChild(x);
+						$('#modalcontent'+gallery).append("<div class='mySlides'"+gallery+"><div class='numbertext'>"+ slidenumber +" / "+ totalslide +"</div><img class='modal-img' src="+img_path+obj+"></div>");
+						slidenumber++;
 					}
 				}
 
 			
 
-				$('#modalcontent').append("<a class='prev' onclick='plusSlides(-1)'>&#10094;</a>");
-				$('#modalcontent').append("<a class='next' onclick='plusSlides(1)'>&#10095;</a>");
-				$('#modalcontent').append("<div class='caption-container'><p id='caption'></p></div>");
+//				$('#modalcontentFP').append("<a class='prev' onclick='plusSlides(-1)'>&#10094;</a>");
+//				$('#modalcontentFP').append("<a class='next' onclick='plusSlides(1)'>&#10095;</a>");
+//				$('#modalcontentFP').append("<div class='caption-container'><p id='caption'></p></div>");
 	
+				$('#modalcontent'+gallery).append("<a class='prev' onclick='prevImg("+inputgallery+")'>&#10094;</a>");
+				$('#modalcontent'+gallery).append("<a class='next' onclick='nextImg("+inputgallery+")'>&#10095;</a>");
+				$('#modalcontent'+gallery).append("<div class='caption-container'><p id='caption"+gallery+"'></p></div>");
+				
 				//aggiungo tutte le caption
 				slidenumber = 1;
-				for(var i in result[j].falsePositiveOpt)
-				{
-					var obj = result[j].falsePositiveOpt[i];
-					$('#modalcontent').append("<div class='column-captions'><img class='demo cursor' src="+img_path+obj+" onclick='currentSlide("+ slidenumber +")'></div>");
-					slidenumber++;
-				}
+//				for(var i in result[j].falsePositiveOpt)
+//				{
+//					var obj = result[j].falsePositiveOpt[i];
+//					$('#modalcontentFP').append("<div class='column-captions'><img class='demo cursor' src="+img_path+obj+" onclick='currentSlide("+ slidenumber +")'></div>");
+//					slidenumber++;
+//				}
+				
 				for(var i in result[j].falseNegativeOpt)
 				{
 					var obj = result[j].falseNegativeOpt[i];
-					$('#modalcontent').append("<div class='column-captions'><img class='demo cursor' src="+img_path+obj+" onclick='currentSlide("+ slidenumber +")'></div>");
+					$('#modalcontent'+gallery).append("<div class='column-captions'><img class='demo"+gallery+" cursor' src="+img_path+obj+" onclick='setGallery("+inputgallery+");currentSlide("+ slidenumber +")'></div>");
 					slidenumber++;
 				}
 				
@@ -264,16 +275,36 @@ function addimages(result){
 //	});
 }
 
-//Le seguenti funzioni sono a supporto della funzione addimages() ----------------
-function openModal() {
-	document.getElementById('myModal').style.display = "block";
+function newImg(inputgallery,slidenumber){
+	setGallery(inputgallery);
+	console.log("DENTRO**********"+gallery);
+	openModal();
+	currentSlide(slidenumber);
+	}
+
+function prevImg(inputgallery){
+	setGallery(inputgallery);
+	plusSlides(-1);
 }
 
+function nextImg(inputgallery){
+	setGallery(inputgallery);
+	plusSlides(1);
+}
+
+//Le seguenti funzioni sono a supporto della funzione addimages() ----------------
+function openModal() {
+	document.getElementById('myModal'+gallery).style.display = "block";
+}
+
+
 function closeModal() {
-	document.getElementById('myModal').style.display = "none";
+	document.getElementById('myModal'+gallery).style.display = "none";
 }
 
 var slideIndex = 1;
+var gallery = "FP";
+function setGallery(galleryname){gallery=galleryname;};
 showSlides(slideIndex);
 
 function plusSlides(n) {
@@ -286,9 +317,9 @@ function currentSlide(n) {
 
 function showSlides(n) {
 	var i;
-	var slides = document.getElementsByClassName("mySlides");
-	var dots = document.getElementsByClassName("demo");
-	var captionText = document.getElementById("caption");
+	var slides = document.getElementsByClassName("mySlides"+gallery);
+	var dots = document.getElementsByClassName("demo"+gallery);
+	var captionText = document.getElementById("caption"+gallery);
 	if (n > slides.length) {slideIndex = 1}
 	if (n < 1) {slideIndex = slides.length}
 	for (i = 0; i < slides.length; i++) {
