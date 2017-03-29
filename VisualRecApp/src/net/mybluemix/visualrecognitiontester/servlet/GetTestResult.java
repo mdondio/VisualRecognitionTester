@@ -203,9 +203,9 @@ public class GetTestResult extends HttpServlet {
 				// Now we add this classifier to the zombie queue...
 				ServletContext ctx = getServletContext();
 				@SuppressWarnings("unchecked")
-				JobQueue<Job<String>> zombieQueue = (JobQueue<Job<String>>) ctx.getAttribute("zombieQueue");
+				JobQueue<Job<Classifier>> zombieQueue = (JobQueue<Job<Classifier>>) ctx.getAttribute("zombieQueue");
 				
-				zombieQueue.addJob(new Job<String>(classifierJson.getID()));
+				zombieQueue.addJob(new Job<Classifier>(classifierJson));
 				
 				// return an empty object to client
 				// TODO definire un formato di errore!

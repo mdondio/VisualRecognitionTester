@@ -9,21 +9,22 @@ import java.util.Date;
  */
 public class Job<T> {
 
-	T id;
+	T obj;
 	Date date;
 	
-	public Job(T id){
-		this.id = id;
+	public Job(T obj){
+		this.obj = obj;
 		date = new Date();
 	}
 	
-public T getID(){
-	return id;
+public T getObj(){
+	return obj;
 }	
 public Date getDate(){
 	return date;
 }	
 	public String toString(){
-		return id + " - " + date;
+		return obj + " - " + date;
 	}
+
 }

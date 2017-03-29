@@ -1,6 +1,8 @@
 package net.mybluemix.visualrecognitiontester.backgroundaemons;
 
 
+import java.util.concurrent.ConcurrentLinkedQueue;
+
 import javax.servlet.ServletContext;
 
 import com.cloudant.client.api.Database;
@@ -22,8 +24,8 @@ public class ZombieDaemon implements Runnable {
 
 	// Setup context info
 	private ServletContext ctx;
-	private JobQueue<Job<String>> zombieQueue;
-	private JobQueue<Job<String>> zombieMonitorQueue;
+	private JobQueue<Job<Classifier>> zombieQueue;
+	private ConcurrentLinkedQueue<Job<Classifier>> zombieTimerQueue;
 	
 	public ZombieDaemon(ServletContext ctx) {
 
@@ -34,8 +36,8 @@ public class ZombieDaemon implements Runnable {
 
 	@SuppressWarnings("unchecked")
 	public void initialize(){
-		zombieQueue = (JobQueue<Job<String>>) ctx.getAttribute("zombieQueue");
-		zombieMonitorQueue = (JobQueue<Job<String>>) ctx.getAttribute("zombieMonitorQueue");
+		zombieQueue = (JobQueue<Job<Classifier>>) ctx.getAttribute("zombieQueue");
+		zombieTimerQueue = (ConcurrentLinkedQueue<Job<Classifier>>) ctx.getAttribute("zombieTimerQueue");
 	}
 	
 	public void run() {
@@ -46,7 +48,7 @@ public class ZombieDaemon implements Runnable {
 		while (true) {
 
 			// wait for a new job
-			Job<String> classifier = null;
+			Job<Classifier> classifier = null;
 			try {
 				classifier = zombieQueue.getJob();
 			} catch (InterruptedException e) {
@@ -55,34 +57,25 @@ public class ZombieDaemon implements Runnable {
 			System.out.println("[ZombieDaemon] Classifier received = " + classifier + ". Processing...");
 
 			// Set as zombie current classifier
-			setAsZombie(classifier);
+			//setAsZombie(classifier);
 			
 			// Now add this classifier to the zombiemonitor
 			// for future re-activation
-			System.out.println("[ZombieDaemon] Passing " + classifier + " to ZombieMonitorDaemon...");
+			System.out.println("[ZombieDaemon] Passing " + classifier + " to zombieTimerQueue...");
 
-			zombieMonitorQueue.addJob(classifier);
-			
-			 
-//			try {
-//				Thread.sleep(3000);
-//			} catch (InterruptedException e) {
-//				break;
-//			}
-			//----------------------------------------------------------
-			System.out.println("[ZombieDaemon] Job completed!");
+			zombieTimerQueue.add(classifier);
+				System.out.println("[ZombieDaemon] Job completed!");
 		}
-	//	System.out.println("[ZombieDaemon] Terminating");
-
 	}
 
-	private void setAsZombie(Job<String> classifier) {
+	private void setAsZombie(Job<Classifier> classifier) {
 
 		// get db connection
 		Database db = CloudantClientMgr.getCloudantDB();
 		
+		// XXX forse non serve, per sicurezza
 		// Get the classifier from db
-		 Classifier c = db.find(Classifier.class, classifier.getID());
+		 Classifier c = db.find(Classifier.class, classifier.getObj().getID());
 		 
 		// Update classifier
 		 c.setStatus("zombie");

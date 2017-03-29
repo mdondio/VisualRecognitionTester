@@ -2,6 +2,9 @@ package net.mybluemix.visualrecognitiontester.backgroundaemons;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -11,6 +14,8 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
 import org.eclipse.paho.client.mqttv3.MqttException;
+
+import net.mybluemix.visualrecognitiontester.datamodel.Classifier;
 
 
 /**
@@ -47,14 +52,17 @@ public class BackgroundDaemonManager implements ServletContextListener {
 		////////////////////////////////////////////
 		// Setup context info: add all info
 		ctx = event.getServletContext();
-		ctx.setAttribute("zombieQueue", new JobQueue<Job<String>>());
-		ctx.setAttribute("zombieMonitorQueue", new JobQueue<Job<String>>());
+		ctx.setAttribute("zombieQueue", new JobQueue<Job<Classifier>>());
+		ctx.setAttribute("zombieTimerQueue", new ConcurrentLinkedQueue<Job<Classifier>>());
 
 		////////////////////////////////////////////
 		// Prepare all daemons for execution
 		List<Runnable> daemons = new ArrayList<Runnable>();
 		daemons.add(new ZombieDaemon(ctx));
-		daemons.add(new ZombieMonitorDaemon(ctx));
+//		daemons.add(new ZombieMonitorDaemon(ctx));
+		
+		
+		
 		
 		////////////////////////////////////////////
 //		System.out.println("[BackgroundDaemonManager] mqtt disabled");
@@ -72,6 +80,13 @@ public class BackgroundDaemonManager implements ServletContextListener {
 		// XXX: metodo execute potrebbe usare il current thread?
 		for (Runnable daemon : daemons)
 			executor.execute(daemon);
+		
+		// Finally, schedule my timer to check 
+		// periodically for zombie classifiers
+		TimerTask timerTask = new ZombieTimer(ctx);
+        Timer timer = new Timer(true);
+        // every 30 mins, check classifiers!
+        timer.scheduleAtFixedRate(timerTask, 0, 30*60*1000);
 	}
 
 	/*

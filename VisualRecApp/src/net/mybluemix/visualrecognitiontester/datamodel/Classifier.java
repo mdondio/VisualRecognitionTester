@@ -50,4 +50,8 @@ public class Classifier {
 //this.zombie_date = zombie_date;	
 //	}
 	
+	public String toString(){
+		return _id;
+	}
+	
 }
