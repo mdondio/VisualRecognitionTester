@@ -100,13 +100,14 @@
 		<br>
 		<div class="row clearfix">
 
-			<div class="column fourth">
+			<div class="column fourth" >
+<div class="post-preview" id="listdataset">
 
-				<div class="post-preview">
+<a type=image href="showgallery.html">vai a gallery</a>
 
-						<div id="dvList"></div>
+</div>
 
-				</div>
+			
 			</div>
 
 			<div class="column three-fourths">
@@ -122,8 +123,26 @@
 		</div>
 
 	</div>
+	
+
+		
 </body>
 
-<script>generateHome();</script>
+<script>
+generateHome();
+
+$('body').on("click","[id*=showdatasetID]",function(){
+	
+	window.location.href = 'showgallery.html';
+	console.log($(this).attr("id"));
+ 	var ID = $(this).attr("id").substring(13);
+ 	console.log(ID);	
+	localStorage.setItem("idgallery", ID);
+
+// 	console.log("num reload "+num);
+     
+});
+
+</script>
 
 </html>

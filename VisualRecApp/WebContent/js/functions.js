@@ -344,6 +344,37 @@ function showSlides(n) {
 	}
 }
 
+function createGallery(idTOappend,images,idgallery)
+{
+	var gallery = "TestSetHome"+idgallery;
+	var myGallery = document.createElement("div");
+	myGallery.setAttribute("class","post-preview");
+	myGallery.setAttribute("id","gallery"+gallery);
+	
+	var myModal = document.createElement("div");	
+	myModal.setAttribute("class", "modal");
+	myModal.setAttribute("id", "myModal"+gallery);
+	
+	var modalContent = document.createElement("div");
+	modalContent.setAttribute("class","modal-content");
+	modalContent.setAttribute("id","modalcontent"+gallery);
+	
+	var mySpan = document.createElement("span");
+	mySpan.setAttribute("class","close cursor");
+	mySpan.addEventListener("click", function(event) {
+		closeModal();
+		event.preventDefault();
+	});
+	mySpan.appendChild(document.createTextNode("CLOSE"));
+
+	myModal.appendChild(mySpan);
+	myModal.appendChild(modalContent);
+	
+	$("#"+idTOappend+"").append(myGallery);
+	$("#"+idTOappend+"").append(myModal);
+	
+	showGallery(images,gallery);
+	}
 //--------------------------------------------------------------------------
 
 //TODO commentare
@@ -723,22 +754,76 @@ function generateHome(){
 	//********* GET FROM THE SERVER TRAININGDATASETS ***************************
 	//**************************************************************************
 	$.ajax({
-		contentType: "application/json",
-		dataType: "json",
-		//url: "json/dataset.json",
-		url: 'GetDataset',
-		data: 'sub_type=training_set',
-		async: false,
-		success: function(result){
-			var training_sets = new Array(["Label","# of images"]);
-			for(var i in result){
-				var obj = result[i];
-				var size = 0;
-				training_sets.push([obj._id,obj.images.positive.length+obj.images.negative.length]);
+		contentType : "application/json",
+		dataType : "json",
+		// url: "json/dataset.json",
+		url : 'GetDataset',
+		data : 'sub_type=test_set',
+		async : false,
+		success : function(result) {
+			for ( var i in result) {
+				
+				var circle = document.createElement("div");
+				circle.setAttribute("class","circle3");
+				circle.setAttribute("id","showdatasetID"+result[i]._id);
+				
+				var ready = document.createElement("div");
+				ready.setAttribute("class","ready3");
+				ready.appendChild(document.createTextNode(result[i]._id));
+				circle.appendChild(ready);
+				$("#listdataset").append(circle);
+				
 			}
-			addMatrixTable("dvList",training_sets);
 		}
 	});
+	
+	// **************************************************************************
+	//********* GET FROM THE SERVER TESTSET ***************************
+	//**************************************************************************
+//	$.ajax({
+//		contentType: "application/json",
+//		dataType: "json",
+//		//url: "json/dataset.json",
+//		url: 'GetDataset',
+//		data: 'sub_type=test_set',
+//		async: false,
+//		success: function(result){
+//			
+//			console.log(result);
+//for(var i in result)
+//	{
+//			var gallery = "TestSetHome"+result[i]._id;
+//			var myGallery = document.createElement("div");
+//			myGallery.setAttribute("class","post-preview");
+//			myGallery.setAttribute("id","gallery"+gallery);
+//			
+//			var myModal = document.createElement("div");	
+//			myModal.setAttribute("class", "modal");
+//			myModal.setAttribute("id", "myModal"+gallery);
+//			
+//			var modalContent = document.createElement("div");
+//			modalContent.setAttribute("class","modal-content");
+//			modalContent.setAttribute("id","modalcontent"+gallery);
+//			
+//			var mySpan = document.createElement("span");
+//			mySpan.setAttribute("class","close cursor");
+//			mySpan.addEventListener("click", function(event) {
+//				closeModal();
+//				event.preventDefault();
+//			});
+//			mySpan.appendChild(document.createTextNode("CLOSE"));
+//
+//			myModal.appendChild(mySpan);
+//			myModal.appendChild(modalContent);
+//			
+//			$('#testSetGallery').append(myGallery);
+//			$('#testSetGallery').append(myModal);
+//			
+//			showGallery(result[i].images.negative,gallery);		
+//		}
+//
+//		}
+//	});
 
 }
 

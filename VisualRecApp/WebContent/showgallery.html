@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head></head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="js/genericFunctions.js"></script>
+<script src="js/functions.js"></script>
+<script src="js/sweetalert2_mine.js"></script>
+<link rel="stylesheet" href="css/sweetalert2_mine.css">
+<script>createHead();</script>
+
+<body style="background-color:#343b43">
+<!-- <header></header> -->
+<!-- <script>createHeader();</script> -->
+	<div class="content">
+				<div class="post-preview" id="testsetTitle"></div>
+		<div class="row clearfix">
+
+			<div class="column fourth">Positive Images</div>
+			<div class="column three-fourths">
+				<div class="post-preview" id="positivetestSetGallery"></div>
+			</div>
+		</div>
+
+		<br><br>
+
+		<div class="row clearfix">
+
+			<div class="column fourth">Negative Images</div>
+			<div class="column three-fourths">
+				<div class="post-preview" id="negativetestSetGallery"></div>
+			</div>
+		</div>
+</div>
+</body>
+
+<script>
+
+//**************************************************************************
+	//********* GET FROM THE SERVER TESTSET ***************************
+	//**************************************************************************
+
+	$.ajax({
+		contentType : "application/json",
+		dataType : "json",
+		//url: "json/dataset.json",
+		url : 'GetDataset',
+		data : 'sub_type=test_set',
+		async : false,
+		success : function(result) {
+			var idgallery = localStorage.getItem("idgallery");
+			for ( var i in result) {
+				if (result[i]._id == idgallery) {
+					$("#testsetTitle").append(document.createTextNode(idgallery));
+					createGallery('negativetestSetGallery',result[i].images.negative, result[i]._id + "NEG");
+					createGallery('positivetestSetGallery',result[i].images.positive, result[i]._id + "POS");
+				}
+			}
+
+		}
+	});
+</script>
+
+</html>
