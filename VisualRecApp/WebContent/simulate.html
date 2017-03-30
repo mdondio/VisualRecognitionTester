@@ -184,12 +184,12 @@
 			
 			<!-- RIGA FALSI POSITIVI -->
 				<div class="row clearfix">
-					<div class="column fourth" id=captionFP>
+					<div class="column fourth">
 					<p class='ready4'>false<br>positives</p>
 					<p class='ready5'>is a result that indicates a given condition has been fulfilled, when it has not</p>
 					</div>
 					<div class="column three-fourths">
-						<div class="post-preview" id="falsepositive">
+						<div class="post-preview" id="galleryFP">
 						</div>
 					</div>
 				</div>
@@ -197,7 +197,7 @@
 				<hr align="center" width="75%" class="middle_division">
 			<!-- RIGA FALSINEGATIVI -->
 				<div class="row clearfix">
-					<div class="column fourth" id=captionFN>
+					<div class="column fourth">
 					<p class='ready4'>false<br>negatives</p>
 										<p class='ready5'> is where a test result indicates that a condition failed, while it was successful</p>
 					</div>
@@ -432,7 +432,15 @@ $('body').on("click","img[id*=garbage]",function(){
 
 // ON CHANGE select test
 $('.show_test').on('change', function() {
- 	addimages(cacheTestResult);
+					var testname = $(".show_test").val();
+					var parsedJSON = JSON.parse(finalJSON);
+					for ( var j in parsedJSON) {
+						if (parsedJSON[j].name == testname) {
+							setParameters(cacheTestResult[j]);
+							showGallery(cacheTestResult[j].falseNegativeOpt, "FN");
+							showGallery(cacheTestResult[j].falsePositiveOpt, "FP");
+						}
+					}
  	});    
     
     
