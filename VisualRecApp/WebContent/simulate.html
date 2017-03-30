@@ -8,7 +8,8 @@
 <script src="js/functions.js"></script>
 <script src ="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script src="js/sweetalert2_mine.js"></script>
-<link rel="stylesheet" href="css/sweetalert2_mine.css">
+<script src="js/dropzone.js"></script>
+<link rel="stylesheet" href="css/dropzone.css">
 
 <script>createHead();</script>
 
@@ -16,8 +17,8 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script> 
 
 
-<script src="js/sweetalert.min.js"></script>
-<link rel="stylesheet" href="css/sweetalert.css">
+<!-- <script src="js/sweetalert.min.js"></script> -->
+<!-- <link rel="stylesheet" href="css/sweetalert.css"> -->
 
 <body>
   <header id="header" style="animation-duration:2s"></header>
@@ -62,7 +63,8 @@
 		
 	</div>
 
- 				
+ 				<form action="/" method="post" class="dropzone" id="my-awesome-dropzone"></form>
+ 				 
  
     <div class="row clearfix">
 
@@ -74,7 +76,8 @@
       <hr align="center" width="50%" class="middle_division">
       		<div class="sim-buttons">
  				<input type=image id="addicon" class="inline" src="ico/addDARK.png" style="width:60px;height:auto;">
-       			<input type=image id="uploadicon" class="inline" src="ico/uploadDARK.png" style="width:60px;height:auto;margin-left:30px;margin-right:30px;">  
+ 				
+ 				<!--  <input type=image id="uploadicon" class="inline" src="ico/uploadDARK.png" style="width:60px;height:auto;margin-left:30px;margin-right:30px;">  -->  
        			<input type=image id="playicon" class="inline" src="ico/play-buttonDARK.png" style="width:60px;height:auto;">
 	  		
 	  			<hr align="center" width="50%" class="middle_division">
@@ -303,6 +306,7 @@
 
 <script>
 
+
 //ADD button actions
 $('#addicon').mouseover(function(){
 	$(this).attr('src','ico/addicon.png');
@@ -343,6 +347,36 @@ if(totalRowsFilled < max){
 });
 
 //UPLOAD button actions
+
+Dropzone.options.myAwesomeDropzone = {
+    init: function() {
+      this.on("addedfile", function(file) {
+
+        // Create the remove button
+        var removeButton = Dropzone.createElement("<button>Remove file</button>");
+
+
+        // Capture the Dropzone instance as closure.
+        var _this = this;
+
+        // Listen to the click event
+        removeButton.addEventListener("click", function(e) {
+          // Make sure the button click doesn't submit the form:
+          e.preventDefault();
+          e.stopPropagation();
+
+          // Remove the file preview.
+          _this.removeFile(file);
+          // If you want to the delete the file on the server as well,
+          // you can do the AJAX request here.
+        });
+
+        // Add the button to the file preview element.
+        file.previewElement.appendChild(removeButton);
+      });
+    }
+  };
+
 $('#uploadicon').mouseover(function(){
 	$(this).attr('src','ico/upload.png');
 });
@@ -350,6 +384,10 @@ $('#uploadicon').mouseover(function(){
 $('#uploadicon').mouseleave(function(){
 	$(this).attr('src',"ico/uploadDARK.png" );
 });
+
+// $('#uploadicon').click(function(){
+// 	console.log('HERE!')
+// });
 
 //PLAY button actions
 $('#playicon').mouseover(function(){
