@@ -172,139 +172,140 @@ function Draw(result){
 
 //append images from json files
 /**
+ * @param filename nome del file json dove raccogliere le info per i parametri di accuracy e threshold
+ * @returns permette di impostare i parametri accuracy e threshold al variare del menù a tendina
+ */
+function setParameters(result) {
+
+			$("#accuracy").empty();
+			$("#threshold").empty();
+			$("#accuracy").html(result.accuracyOpt.toFixed(2));
+			$("#threshold").html(result.thresholdOpt.toFixed(2));
+
+}
+
+/**
  * @param filename nome del file json dove raccogliere le info per le immagini da caricare (falsipositivi e falsinegativi)
  * @returns permette di visionare nella pagina show.html i falsi positivi e i falsi negativi con anche una modalità preview
- * @help al momento utilizzata solamente nella pagina show.html. 
- * @TODO integrare la lettura delle immagini direttamente da object storage con query da DB
+ * @help you have to set two div element in your html page with specific id (gallery, myModal and modalcontent)
  */
-function addimages(result){
-		
-			var testname = $(".show_test").val();
-			var parsedJSON = JSON.parse(finalJSON);
-			//aggiungo tutte le immagini
-			var img_path = "GetImage?image_id=";
-			for(var j in parsedJSON)
-			{
-				
-				//ammettiamo che non vengano lanciati test uguali
-			if(parsedJSON[j].name == testname)
-				{
-var inputgallery="FN";
-//				$("#modalcontentFP").empty();
-				setGallery(inputgallery);
-				$("#modalcontent"+gallery).empty();
-				
-//				$("#falsepositive").empty();
-				
-				$("#gallery"+gallery).empty();
-				
-				
-				//togliere da questa funzione
-				$("#accuracy").empty();
-				$("#threshold").empty();
-				$("#accuracy").html(result[j].accuracyOpt.toFixed(2));
-					$("#threshold").html(result[j].thresholdOpt.toFixed(2));
+function showGallery(result,inputgallery) {
 
-//					var slidenumberFP = 1;
-					var slidenumber = 1;
-//					var totalslideFP = 0;
-					var totalslide = result[j].falseNegativeOpt.length;
-					
-//					for(var i in result[j].falsePositiveOpt) { totalslideFP++; } // loop to count total number of FP images
-//					for(var i in result[j].falseNegativeOpt) { totalslideFN++; } // loop to count total number of FN images
-					
-//					for(var i in result[j].falsePositiveOpt)
-//					{
-//						var x = document.createElement("IMG");
-//						var obj = result[j].falsePositiveOpt[i];
-//
-//						x.setAttribute("src", img_path+obj);
-//						x.setAttribute("onclick","openModal('FP');currentSlide("+ slidenumberFP +")");
-//						x.setAttribute("class","hover-shadow cursor");
-//						document.getElementById("falsepositive").appendChild(x);
-//						$('#modalcontentFP').append("<div class='mySlides'><div class='numbertext'>"+ slidenumberFP +" / "+ totalslideFP +"<br>false positive</div><img class='modal-img' src="+img_path+obj+"></div>");
-//						slidenumberFP++;
-//					}
-					
-					
-					
-					for(var i in result[j].falseNegativeOpt)
-					{
-						var x = document.createElement("IMG");
-						var obj = result[j].falseNegativeOpt[i];
-						x.setAttribute("src", img_path+obj);
-						console.log("**********PRIMA"+gallery)
-						//TODO approfondire addEventListener anche per pezzo successivo
-						x.addEventListener("click",function(event){newImg(inputgallery,slidenumber);event.preventDefault();});
-						console.log("*********DOPO"+gallery)
-						x.setAttribute("class","hover-shadow cursor");
-						document.getElementById("gallery"+gallery).appendChild(x);
-						$('#modalcontent'+gallery).append("<div class='mySlides'"+gallery+"><div class='numbertext'>"+ slidenumber +" / "+ totalslide +"</div><img class='modal-img' src="+img_path+obj+"></div>");
-						slidenumber++;
-					}
-				}
-
+	var img_path = "GetImage?image_id=";
+			setGallery(inputgallery);
 			
+			$("#modalcontent" + GALLERY).empty();
+			$("#gallery" + GALLERY).empty();
 
-//				$('#modalcontentFP').append("<a class='prev' onclick='plusSlides(-1)'>&#10094;</a>");
-//				$('#modalcontentFP').append("<a class='next' onclick='plusSlides(1)'>&#10095;</a>");
-//				$('#modalcontentFP').append("<div class='caption-container'><p id='caption'></p></div>");
-	
-				$('#modalcontent'+gallery).append("<a class='prev' onclick='prevImg("+inputgallery+")'>&#10094;</a>");
-				$('#modalcontent'+gallery).append("<a class='next' onclick='nextImg("+inputgallery+")'>&#10095;</a>");
-				$('#modalcontent'+gallery).append("<div class='caption-container'><p id='caption"+gallery+"'></p></div>");
-				
-				//aggiungo tutte le caption
-				slidenumber = 1;
-//				for(var i in result[j].falsePositiveOpt)
-//				{
-//					var obj = result[j].falsePositiveOpt[i];
-//					$('#modalcontentFP').append("<div class='column-captions'><img class='demo cursor' src="+img_path+obj+" onclick='currentSlide("+ slidenumber +")'></div>");
-//					slidenumber++;
-//				}
-				
-				for(var i in result[j].falseNegativeOpt)
-				{
-					var obj = result[j].falseNegativeOpt[i];
-					$('#modalcontent'+gallery).append("<div class='column-captions'><img class='demo"+gallery+" cursor' src="+img_path+obj+" onclick='setGallery("+inputgallery+");currentSlide("+ slidenumber +")'></div>");
-					slidenumber++;
-				}
-				
+			var slidenumber = 1;
+			var totalslide = result.length;
+
+			//Aggiungo le immagini nella modalità preview (elemento div con id gallery)
+			for ( var i in result) {
+				var x = document.createElement("IMG");
+				var obj = result[i];
+				x.setAttribute("src", img_path + obj);
+				// TODO approfondire addEventListener anche per pezzo successivo
+				x.addEventListener("click", function(event) {
+					newImg(inputgallery, slidenumber);
+					event.preventDefault();
+				});
+				x.setAttribute("class", "hover-shadow cursor");
+				document.getElementById("gallery" + GALLERY).appendChild(x);
+				$('#modalcontent' + GALLERY).append(
+						"<div class='mySlides" + GALLERY
+								+ "'><div class='numbertext'>" + slidenumber
+								+ " / " + totalslide
+								+ "</div><img class='modal-img' src="
+								+ img_path + obj + "></div>");
+				slidenumber++;
 			}
-//		}
-//	});
+
+			//inserisco le frecce per scorrere la galleria in modalità ZOOM (elemento div con id modalcontent)
+			var a_prev = document.createElement("a");
+			var a_next = document.createElement("a");
+			var div_caption = document.createElement("div");
+			a_prev.setAttribute("class", "prev");
+			a_next.setAttribute("class", "next");
+			a_prev.appendChild(document.createTextNode("B"));
+			a_next.appendChild(document.createTextNode("N"));
+			a_prev.addEventListener("click", function(event) {
+				prevImg(inputgallery);
+				event.preventDefault();
+			});
+			a_next.addEventListener("click", function(event) {
+				nextImg(inputgallery);
+				event.preventDefault();
+			});
+			$('#modalcontent' + GALLERY).append(a_prev);
+			$('#modalcontent' + GALLERY).append(a_next);
+			
+			//Aggiungo l'elemento div che conterrà la galleria di immagini da mostrare sotto l'immagine in ZOOM (elemento div con modalcontent)
+			$('#modalcontent' + GALLERY).append("<div class='caption-container'><p id='caption" + GALLERY + "'></p></div>");
+			slidenumber = 1;
+			for ( var i in result) {
+				var obj = result[i];
+
+				var x = document.createElement("IMG");
+				x.setAttribute("src", img_path + obj);
+				x.addEventListener("click", function(event) {
+					newImgZoom(inputgallery, slidenumber);
+					event.preventDefault();
+				});
+				x.setAttribute("class", "demo" + GALLERY + " cursor");
+				x.setAttribute("name", GALLERY + " " + slidenumber);
+				x.setAttribute("id", "ID "+ GALLERY + " " + slidenumber);
+				var div = document.createElement("div");
+				div.setAttribute("class", 'column-captions');
+				div.appendChild(x);
+				$('#modalcontent' + GALLERY).append(div);
+				slidenumber++;
+			}
 }
+
+function newImgZoom(inputgallery,slidenumber){
+	setGallery(inputgallery);
+	console.log("DENTRO ZOOM**********"+GALLERY);
+	console.log("DENTRO ZOOM**********"+slidenumber);
+	console.log("id "+ $(this).attr("id"));
+	console.log("class "+ $(this).attr("class"));
+	console.log("name "+ $(this).attr("name"));
+	currentSlide(slidenumber);
+	}
 
 function newImg(inputgallery,slidenumber){
 	setGallery(inputgallery);
-	console.log("DENTRO**********"+gallery);
+	console.log("DENTRO**********"+GALLERY);
+	console.log("DENTRO**********"+slidenumber);
 	openModal();
 	currentSlide(slidenumber);
 	}
 
 function prevImg(inputgallery){
 	setGallery(inputgallery);
+	console.log("DENTRO tasto freccia PREV**********"+GALLERY);
 	plusSlides(-1);
 }
 
 function nextImg(inputgallery){
 	setGallery(inputgallery);
+	console.log("DENTRO tasto freccia NEXT**********"+GALLERY);
 	plusSlides(1);
 }
 
 //Le seguenti funzioni sono a supporto della funzione addimages() ----------------
 function openModal() {
-	document.getElementById('myModal'+gallery).style.display = "block";
+	document.getElementById('myModal'+GALLERY).style.display = "block";
 }
 
 
 function closeModal() {
-	document.getElementById('myModal'+gallery).style.display = "none";
+	document.getElementById('myModal'+GALLERY).style.display = "none";
 }
 
 var slideIndex = 1;
-var gallery = "FP";
-function setGallery(galleryname){gallery=galleryname;};
+var GALLERY = "";
+function setGallery(galleryname){GALLERY=galleryname;};
 showSlides(slideIndex);
 
 function plusSlides(n) {
@@ -316,23 +317,64 @@ function currentSlide(n) {
 }
 
 function showSlides(n) {
-	var i;
-	var slides = document.getElementsByClassName("mySlides"+gallery);
-	var dots = document.getElementsByClassName("demo"+gallery);
-	var captionText = document.getElementById("caption"+gallery);
-	if (n > slides.length) {slideIndex = 1}
-	if (n < 1) {slideIndex = slides.length}
-	for (i = 0; i < slides.length; i++) {
-		slides[i].style.display = "none";
+	if (GALLERY == "") {
+		swal('Oops...',
+				'You are trying to access a gallery that does not exist!',
+				'error')
+	} else {
+		var i;
+		var slides = document.getElementsByClassName("mySlides" + GALLERY);
+		var dots = document.getElementsByClassName("demo" + GALLERY);
+		var captionText = document.getElementById("caption" + GALLERY);
+		if (n > slides.length) {
+			slideIndex = 1
+		}
+		if (n < 1) {
+			slideIndex = slides.length
+		}
+		for (i = 0; i < slides.length; i++) {
+			slides[i].style.display = "none";
+		}
+		for (i = 0; i < dots.length; i++) {
+			dots[i].className = dots[i].className.replace(" active", "");
+		}
+		slides[slideIndex - 1].style.display = "block";
+		dots[slideIndex - 1].className += " active";
+		captionText.innerHTML = dots[slideIndex - 1].alt;
 	}
-	for (i = 0; i < dots.length; i++) {
-		dots[i].className = dots[i].className.replace(" active", "");
-	}
-	slides[slideIndex-1].style.display = "block";
-	dots[slideIndex-1].className += " active";
-	captionText.innerHTML = dots[slideIndex-1].alt;
 }
 
+function createGallery(idTOappend,images,idgallery)
+{
+	var gallery = "TestSetHome"+idgallery;
+	var myGallery = document.createElement("div");
+	myGallery.setAttribute("class","post-preview");
+	myGallery.setAttribute("id","gallery"+gallery);
+	
+	var myModal = document.createElement("div");	
+	myModal.setAttribute("class", "modal");
+	myModal.setAttribute("id", "myModal"+gallery);
+	
+	var modalContent = document.createElement("div");
+	modalContent.setAttribute("class","modal-content");
+	modalContent.setAttribute("id","modalcontent"+gallery);
+	
+	var mySpan = document.createElement("span");
+	mySpan.setAttribute("class","close cursor");
+	mySpan.addEventListener("click", function(event) {
+		closeModal();
+		event.preventDefault();
+	});
+	mySpan.appendChild(document.createTextNode("CLOSE"));
+
+	myModal.appendChild(mySpan);
+	myModal.appendChild(modalContent);
+	
+	$("#"+idTOappend+"").append(myGallery);
+	$("#"+idTOappend+"").append(myModal);
+	
+	showGallery(images,gallery);
+	}
 //--------------------------------------------------------------------------
 
 //TODO commentare
@@ -353,20 +395,12 @@ function getDataShow(){
 					$("#showtest").fadeIn(2000);
 					cacheTestResult = result;
 					parsedJSON = JSON.parse(finalJSON)
-//					for(var j in parsedJSON){
-//						var obj = parsedJSON[j];
-//						$('.show_test').append($('<option>', {
-//							value: obj.name,
-//							text: obj.name
-//						}));
-//					}
 					var testcount = 0;
 					for(var j in result)
 						{
 						var obj = result[j];
 						console.log(obj.ID);
 						if(obj.ID==null) {
-							
 							swal({
 							title: "Warning",
 							imageUrl: "img/tired.png",
@@ -380,9 +414,18 @@ function getDataShow(){
 						}
 						testcount++;
 						}
+					
 					Draw(result);
-					console.log(result);
-					addimages(result);			
+					
+					var testname = $(".show_test").val();
+					var parsedJSON = JSON.parse(finalJSON);
+					for ( var j in parsedJSON) {
+						if (parsedJSON[j].name == testname) {
+							setParameters(result[j]);
+							showGallery(result[j].falseNegativeOpt, "FN");
+							showGallery(result[j].falsePositiveOpt, "FP");
+						}
+					}
 				}
 			});
 
@@ -711,22 +754,76 @@ function generateHome(){
 	//********* GET FROM THE SERVER TRAININGDATASETS ***************************
 	//**************************************************************************
 	$.ajax({
-		contentType: "application/json",
-		dataType: "json",
-		//url: "json/dataset.json",
-		url: 'GetDataset',
-		data: 'sub_type=training_set',
-		async: false,
-		success: function(result){
-			var training_sets = new Array(["Label","# of images"]);
-			for(var i in result){
-				var obj = result[i];
-				var size = 0;
-				training_sets.push([obj._id,obj.images.positive.length+obj.images.negative.length]);
+		contentType : "application/json",
+		dataType : "json",
+		// url: "json/dataset.json",
+		url : 'GetDataset',
+		data : 'sub_type=test_set',
+		async : false,
+		success : function(result) {
+			for ( var i in result) {
+				
+				var circle = document.createElement("div");
+				circle.setAttribute("class","circle3");
+				circle.setAttribute("id","showdatasetID"+result[i]._id);
+				
+				var ready = document.createElement("div");
+				ready.setAttribute("class","ready3");
+				ready.appendChild(document.createTextNode(result[i]._id));
+				circle.appendChild(ready);
+				$("#listdataset").append(circle);
+				
 			}
-			addMatrixTable("dvList",training_sets);
 		}
 	});
+	
+	// **************************************************************************
+	//********* GET FROM THE SERVER TESTSET ***************************
+	//**************************************************************************
+//	$.ajax({
+//		contentType: "application/json",
+//		dataType: "json",
+//		//url: "json/dataset.json",
+//		url: 'GetDataset',
+//		data: 'sub_type=test_set',
+//		async: false,
+//		success: function(result){
+//			
+//			console.log(result);
+//for(var i in result)
+//	{
+//			var gallery = "TestSetHome"+result[i]._id;
+//			var myGallery = document.createElement("div");
+//			myGallery.setAttribute("class","post-preview");
+//			myGallery.setAttribute("id","gallery"+gallery);
+//			
+//			var myModal = document.createElement("div");	
+//			myModal.setAttribute("class", "modal");
+//			myModal.setAttribute("id", "myModal"+gallery);
+//			
+//			var modalContent = document.createElement("div");
+//			modalContent.setAttribute("class","modal-content");
+//			modalContent.setAttribute("id","modalcontent"+gallery);
+//			
+//			var mySpan = document.createElement("span");
+//			mySpan.setAttribute("class","close cursor");
+//			mySpan.addEventListener("click", function(event) {
+//				closeModal();
+//				event.preventDefault();
+//			});
+//			mySpan.appendChild(document.createTextNode("CLOSE"));
+//
+//			myModal.appendChild(mySpan);
+//			myModal.appendChild(modalContent);
+//			
+//			$('#testSetGallery').append(myGallery);
+//			$('#testSetGallery').append(myModal);
+//			
+//			showGallery(result[i].images.negative,gallery);		
+//		}
+//
+//		}
+//	});
 
 }
 

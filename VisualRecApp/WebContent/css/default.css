@@ -315,6 +315,24 @@ img.inline{
 /*       left: 40%; */
     }
     
+           .circle3 {
+      width: 250px;
+      height: 50px;
+      -webkit-border-radius: 15px;
+      -moz-border-radius: 15px;
+      border-radius: 15px;
+      background: transparent;
+      border: 3px solid #343b43;
+    position: relative;
+    top: 20%;
+    left:15%;
+/*       text-align: center;  */
+	font-size: 50px; 
+	color: #343b43; 
+	display: block;
+/*       left: 40%; */
+    }
+    
       .circle:hover {
       background: #f2f2f2;  
     }
