@@ -57,7 +57,7 @@ public class ZombieDaemon implements Runnable {
 			System.out.println("[ZombieDaemon] Classifier received = " + classifier + ". Processing...");
 
 			// Set as zombie current classifier
-			//setAsZombie(classifier);
+			setAsZombie(classifier);
 			
 			// Now add this classifier to the zombiemonitor
 			// for future re-activation
@@ -72,14 +72,13 @@ public class ZombieDaemon implements Runnable {
 
 		// get db connection
 		Database db = CloudantClientMgr.getCloudantDB();
-		
-		// XXX forse non serve, per sicurezza
-		// Get the classifier from db
+
+		// Get classifier
 		 Classifier c = db.find(Classifier.class, classifier.getObj().getID());
-		 
+		
 		// Update classifier
 		 c.setStatus("zombie");
-//		 c.setZombieDate(classifier.getDate());
+		 c.setZombieSince(classifier.getDate());
 		 
 		 // now update the remote classifier
 		  Response responseUpdate = db.update(c);

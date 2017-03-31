@@ -124,12 +124,11 @@ public class ZombieTimer extends TimerTask {
 		Database db = CloudantClientMgr.getCloudantDB();
 
 		// Get the classifier from db
-		// XXX forse non necessario
 		Classifier c = db.find(Classifier.class, classifier.getObj().getID());
 
 		// Update classifier
 		c.setStatus("ready");
-		// c.setZombieDate(classifier.getDate());
+		 c.setZombieSince(null);
 
 		// now update the remote classifier
 		Response responseUpdate = db.update(c);

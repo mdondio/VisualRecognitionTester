@@ -214,11 +214,17 @@ public class WatsonBinaryClassificationResult {
 //		 System.out.println("[WatsonBinaryClassificationResult computeStats()] tpr -> " + computeMetric(METRIC.tpr));
 //		 System.out.println("[WatsonBinaryClassificationResult computeStats()] tpr -> " + computeMetric(METRIC.fpr));
 
-		 
+		// Per Andrea, costruire 
+		buildHistograms();
 	}
 
-	public double computeMetric(METRIC m) {
+	
+	private void buildHistograms() {
+		// TODO
+	}
 
+
+	public double computeMetric(METRIC m) {
 		switch (m) {
 		case POS:	// positive values in dataset
 			return testSet.getImages().getPositives().size();
