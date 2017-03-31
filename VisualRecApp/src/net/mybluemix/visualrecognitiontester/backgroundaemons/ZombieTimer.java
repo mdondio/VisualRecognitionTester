@@ -135,7 +135,7 @@ public class ZombieTimer extends TimerTask {
 
 		// Update classifier
 		c.setStatus("ready");
-		 c.setZombieSince(null);
+//		 c.setZombieSince(null);
 
 		// now update the remote classifier
 		Response responseUpdate = db.update(c);

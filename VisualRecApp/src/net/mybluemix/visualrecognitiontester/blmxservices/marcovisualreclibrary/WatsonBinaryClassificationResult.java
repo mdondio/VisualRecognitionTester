@@ -94,6 +94,12 @@ public class WatsonBinaryClassificationResult {
 
 			// for each image
 			for (ImageClassification img : watRes.getImages()) {
+				
+				// XXX capire che succede, mi è capitato un caso con eccezione
+				if(img == null){
+					System.out.println("[WatsonBinaryClassificationResult buildPredictedValuesAndHistogram()] watRes images null. Skip");
+					continue;
+				}
 
 				// First generate imageID from name
 				// img.getImage(); // XXX nome dell'immagine? qui estrai ID
