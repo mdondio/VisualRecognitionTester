@@ -53,7 +53,6 @@ public class BackgroundDaemonManager implements ServletContextListener {
 		// Setup context info: add all info
 		ctx = event.getServletContext();
 		ctx.setAttribute("zombieQueue", new JobQueue<Job<Classifier>>());
-		ctx.setAttribute("zombieTimerQueue", new ConcurrentLinkedQueue<Job<Classifier>>());
 
 		////////////////////////////////////////////
 		// Prepare all daemons for execution
@@ -65,7 +64,7 @@ public class BackgroundDaemonManager implements ServletContextListener {
 		
 		
 		////////////////////////////////////////////
-//		System.out.println("[BackgroundDaemonManager] mqtt disabled");
+//		System.out.println("[BackgroundDaemonManager] mqtt enabled");
 //		try {
 //			daemons.add(new MqttClientDaemon(ctx));
 //		} catch (MqttException e) {

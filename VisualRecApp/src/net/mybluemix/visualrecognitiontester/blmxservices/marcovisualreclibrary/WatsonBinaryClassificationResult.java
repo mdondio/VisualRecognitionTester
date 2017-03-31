@@ -45,28 +45,36 @@ public class WatsonBinaryClassificationResult {
 	private List<Long> falsePositives;
 	private List<Long> falseNegatives;
 
+	private List<Double> histogramPositive;	// scores dei positivi
+	private List<Double> histogramNegative;	// scores dei negativi
+
 
 	public WatsonBinaryClassificationResult(Classifier classifier, Dataset testSet, List<VisualClassification> watsonResults,
 			double threshold) {
 
 		this.classifierJson = classifier;
 		this.testSet = testSet;
-		this.datasetSize = testSet.getSize();
 		this.threshold = threshold;
 
-	//	this.realValues = extractRealValues();
-		//this.n = realValues.size();
+		this.histogramPositive = new ArrayList<Double>();
+		this.histogramNegative = new ArrayList<Double>();
 
-		this.predictedValues = buildPredictedValues(watsonResults);
+		this.predictedValues = buildPredictedValuesAndHistogram(watsonResults);
+		
+		// real images returned
+		this.datasetSize = histogramPositive.size() + histogramNegative.size();
 
+		
+		
 		// build contingency matrix
 		computeStats();
+		
 	}
 
 
 	// TODO fare più robusto: devo controllare nome classificatore e nome classe
 	// per essere sicuri, ora assumo ce ne sia solo uno...
-	private HashMap<Long, Boolean> buildPredictedValues(List<VisualClassification> watsonResults) {
+	private HashMap<Long, Boolean> buildPredictedValuesAndHistogram(List<VisualClassification> watsonResults) {
 
 		HashMap<Long, Boolean> values = new LinkedHashMap<Long, Boolean>();
 
@@ -98,6 +106,11 @@ public class WatsonBinaryClassificationResult {
 				// If no classifier found prediction is false...
 				if (img.getClassifiers().isEmpty()) {
 					values.put(imageID, false); // classifier not found!
+					
+					if(testSet.getImages().getPositives().contains(imageID))
+					  histogramPositive.add(0.0);
+					else
+						histogramNegative.add(0.0);
 					continue;
 				}
 				// XXX assume we have only one classifier
@@ -106,12 +119,20 @@ public class WatsonBinaryClassificationResult {
 				String classifierName = classifierJson.getLabel() + "_classifier";
 				if (!classifierName.equals(classifier.getName())) {
 					values.put(imageID, false); // classifier not found!
+					if(testSet.getImages().getPositives().contains(imageID))
+						  histogramPositive.add(0.0);
+						else
+							histogramNegative.add(0.0);
 					continue;
 				}
 
 				// If no class found prediction is false...
 				if (classifier.getClasses().isEmpty()) {
 					values.put(imageID, false);
+					if(testSet.getImages().getPositives().contains(imageID))
+						  histogramPositive.add(0.0);
+						else
+							histogramNegative.add(0.0);
 					continue;
 
 				}
@@ -121,6 +142,10 @@ public class WatsonBinaryClassificationResult {
 
 				if (!classifierJson.getLabel().equals(myClass.getName())) {
 					values.put(imageID, false); // class not found!
+					if(testSet.getImages().getPositives().contains(imageID))
+						  histogramPositive.add(0.0);
+						else
+							histogramNegative.add(0.0);
 					continue;
 				}
 
@@ -132,6 +157,13 @@ public class WatsonBinaryClassificationResult {
 				else // classified as positive!
 					values.put(imageID, true); // classifier not found!
 
+				
+				if(testSet.getImages().getPositives().contains(imageID))
+					  histogramPositive.add(watsonScore);
+					else
+						histogramNegative.add(watsonScore);
+
+				
 				// System.out.println(Long.toUnsignedString(imageID) + " Watson
 				// Score -> " + watsonScore);
 			}
@@ -154,6 +186,7 @@ public class WatsonBinaryClassificationResult {
 
 		return values;
 	}
+
 
 	// generates all needed basic metrics
 	// TODO refactor... molte cose inutili
@@ -212,24 +245,44 @@ public class WatsonBinaryClassificationResult {
 //		 System.out.println("[WatsonBinaryClassificationResult computeStats()] fn -> " + computeMetric(METRIC.fn));
 //
 //		 System.out.println("[WatsonBinaryClassificationResult computeStats()] tpr -> " + computeMetric(METRIC.tpr));
-//		 System.out.println("[WatsonBinaryClassificationResult computeStats()] tpr -> " + computeMetric(METRIC.fpr));
+//		 System.out.println("[WatsonBinaryClassificationResult computeStats()] fpr -> " + computeMetric(METRIC.fpr));
+//
+//		 
+//		 System.out.println("[WatsonBinaryClassificationResult computeStats()] POS -> " + computeMetric(METRIC.POS));
+//		 System.out.println("[WatsonBinaryClassificationResult computeStats()] NEG -> " + computeMetric(METRIC.NEG));
+//
+//		 System.out.println("[WatsonBinaryClassificationResult computeStats()] datasetSize -> " + datasetSize);
 
-		// Per Andrea, costruire 
-		buildHistograms();
+		 
 	}
 
 	
-	private void buildHistograms() {
-		// TODO
-	}
+//	private void buildHistograms(List<VisualClassification> watsonResults) {
+//		// TODO
+//	
+//		// Get all real image classes...
+//		List<Long> positives = testSet.getImages().getPositives();
+//		List<Long> negatives = testSet.getImages().getNegatives();
+//		
+//		
+//		// per tutti i risultati
+//		for(VisualClassification : watsonResults)
+//		
+//		
+//		
+//	}
 
 
 	public double computeMetric(METRIC m) {
 		switch (m) {
 		case POS:	// positive values in dataset
-			return testSet.getImages().getPositives().size();
+			return histogramPositive.size();
 		case NEG: // negative values in dataset
-			return testSet.getImages().getNegatives().size();
+			return histogramNegative.size();
+//		case POS:	// positive values in dataset
+//			return testSet.getImages().getPositives().size();
+//		case NEG: // negative values in dataset
+//			return testSet.getImages().getNegatives().size();
 		case tp: // true positive %
 			return (double) measures.get(METRIC.TP) / (double)datasetSize;
 		case tn: // true negative %
@@ -241,7 +294,9 @@ public class WatsonBinaryClassificationResult {
 		case tpr: // true positive ratio
 			return (double) computeMetric(METRIC.tp) / (double) (computeMetric(METRIC.tp) + computeMetric(METRIC.fn));
 		case fpr: // false positive ratio
-			return (double) computeMetric(METRIC.fp) / (double) (computeMetric(METRIC.tp) + computeMetric(METRIC.fn));
+			return (double) computeMetric(METRIC.fp) / (double) (computeMetric(METRIC.fp) + computeMetric(METRIC.tn));
+//		case fpr: // false positive ratio
+//			return (double) computeMetric(METRIC.fp) / (double) (computeMetric(METRIC.tp) + computeMetric(METRIC.fn));
 		case precision:
 			return (double) measures.get(METRIC.TP) / (double)(measures.get(METRIC.TP) + measures.get(METRIC.FP));
 		case recall:
@@ -268,6 +323,13 @@ public class WatsonBinaryClassificationResult {
 	}
 	public List<Long> getfalseNegatives() {
 		return falseNegatives;
+	}
+
+	public List<Double> getHistogramPositive() {
+		return histogramPositive;
+	}
+	public List<Double> getHistogramNegative() {
+		return histogramNegative;
 	}
 
 }

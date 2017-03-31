@@ -1,7 +1,6 @@
 package net.mybluemix.visualrecognitiontester.backgroundaemons;
 
 
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.servlet.ServletContext;
 
@@ -25,7 +24,6 @@ public class ZombieDaemon implements Runnable {
 	// Setup context info
 	private ServletContext ctx;
 	private JobQueue<Job<Classifier>> zombieQueue;
-	private ConcurrentLinkedQueue<Job<Classifier>> zombieTimerQueue;
 	
 	public ZombieDaemon(ServletContext ctx) {
 
@@ -37,7 +35,6 @@ public class ZombieDaemon implements Runnable {
 	@SuppressWarnings("unchecked")
 	public void initialize(){
 		zombieQueue = (JobQueue<Job<Classifier>>) ctx.getAttribute("zombieQueue");
-		zombieTimerQueue = (ConcurrentLinkedQueue<Job<Classifier>>) ctx.getAttribute("zombieTimerQueue");
 	}
 	
 	public void run() {
@@ -59,11 +56,6 @@ public class ZombieDaemon implements Runnable {
 			// Set as zombie current classifier
 			setAsZombie(classifier);
 			
-			// Now add this classifier to the zombiemonitor
-			// for future re-activation
-			System.out.println("[ZombieDaemon] Passing " + classifier + " to zombieTimerQueue...");
-
-			zombieTimerQueue.add(classifier);
 				System.out.println("[ZombieDaemon] Job completed!");
 		}
 	}

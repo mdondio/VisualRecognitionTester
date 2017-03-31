@@ -285,6 +285,11 @@ public class GetTestResult extends HttpServlet {
 
 		result.add("falseNegativeOpt", buildArrayFromList(optResult.getfalseNegatives()));
 
+		result.add("histogramPositive", buildArrayFromList(optResult.getHistogramPositive()));
+		result.add("histogramNegative", buildArrayFromList(optResult.getHistogramNegative()));
+
+		
+		
 		return result;
 	}
 

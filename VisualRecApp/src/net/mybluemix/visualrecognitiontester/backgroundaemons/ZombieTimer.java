@@ -5,14 +5,15 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Date;
+import java.util.List;
 import java.util.TimerTask;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import javax.servlet.ServletContext;
 
 import com.cloudant.client.api.Database;
+import com.cloudant.client.api.model.FindByIndexOptions;
 import com.cloudant.client.api.model.Response;
 
 import net.mybluemix.visualrecognitiontester.blmxservices.CloudantClientMgr;
@@ -25,11 +26,8 @@ import net.mybluemix.visualrecognitiontester.datamodel.Classifier;
 
 public class ZombieTimer extends TimerTask {
 
-	private ConcurrentLinkedQueue<Job<Classifier>> zombieTimerQueue;
 
-	@SuppressWarnings("unchecked")
 	public ZombieTimer(ServletContext ctx) {
-		this.zombieTimerQueue = (ConcurrentLinkedQueue<Job<Classifier>>) ctx.getAttribute("zombieTimerQueue");
 	}
 
 	@Override
@@ -45,20 +43,31 @@ public class ZombieTimer extends TimerTask {
 
 	private void checkClassifiers() throws IOException {
 
-		System.out.println("[ZombieTimer] zombieTimerQueue size: " + zombieTimerQueue.size());
 
-		for (Job<Classifier> classifier : zombieTimerQueue) {
+		Database db = CloudantClientMgr.getCloudantDB();
 
-			System.out.println("[ZombieTimer] Checking classifierId " + classifier.getObj() + "...");
+		
+		// retrieve all zombie classifiers
+		String selector = "{\"selector\": {\"type\":\"classifier\", \"status\":\"zombie\"}}";
+
+
+        // Limita i campi
+        FindByIndexOptions o = new FindByIndexOptions()
+        	 .fields("_id").fields("label").fields("instance").fields("zombie_since");
+        
+        // execute query
+        List<Classifier> classifiers = db.findByIndex(selector, Classifier.class, o);
+    
+        for(Classifier c : classifiers){
+			System.out.println("[ZombieTimer] Checking zombie classifierId " + c.getID() + "...");
 
 			// if ready, set to ready in cloudant
 			// and remove from queue
-			if (true) {
+			if (isClassifierReadyAgain(c)) {
 				//if (isClassifierReadyAgain(classifier)) {
-				System.out.println("[ZombieTimer] " + classifier.getObj()
+				System.out.println("[ZombieTimer] " + c.getID()
 						+ " became ready! Removing from zombieTimerQueue and set ready in cloudant!");
-				zombieTimerQueue.remove(classifier);
-			//	setReady(classifier);
+				setReady(c.getID());
 			}
 		}
 
@@ -93,9 +102,7 @@ public class ZombieTimer extends TimerTask {
 		return bos.toByteArray();
 	}
 
-	private boolean isClassifierReadyAgain(Job<Classifier> classifierJob) throws IOException {
-
-		Classifier c = classifierJob.getObj();
+	private boolean isClassifierReadyAgain(Classifier c) throws IOException {
 
 		// Get instance
 		ObjectStorage oo = ObjectStorageClientMgr.getObjectStorage();
@@ -118,13 +125,13 @@ public class ZombieTimer extends TimerTask {
 	}
 
 
-	private void setReady(Job<Classifier> classifier) {
+	private void setReady(String classifierId) {
 
 		// get db connection
 		Database db = CloudantClientMgr.getCloudantDB();
 
 		// Get the classifier from db
-		Classifier c = db.find(Classifier.class, classifier.getObj().getID());
+		Classifier c = db.find(Classifier.class, classifierId);
 
 		// Update classifier
 		c.setStatus("ready");
