@@ -227,8 +227,8 @@ function showGallery(result,inputgallery) {
 			var div_caption = document.createElement("div");
 			a_prev.setAttribute("class", "prev");
 			a_next.setAttribute("class", "next");
-			a_prev.appendChild(document.createTextNode("B"));
-			a_next.appendChild(document.createTextNode("N"));
+			a_prev.appendChild(document.createTextNode("\u276C"));
+			a_next.appendChild(document.createTextNode("\u276D"));
 			a_prev.addEventListener("click", function(event) {
 				prevImg(inputgallery);
 				event.preventDefault();
@@ -365,7 +365,7 @@ function createGallery(idTOappend,images,idgallery)
 		closeModal();
 		event.preventDefault();
 	});
-	mySpan.appendChild(document.createTextNode("CLOSE"));
+	mySpan.appendChild(document.createTextNode('\u2715'));
 
 	myModal.appendChild(mySpan);
 	myModal.appendChild(modalContent);
@@ -384,8 +384,8 @@ function getDataShow(){
 	// ajax call to backend
 	$.ajax(
 			{
-				url: "json/testresult2.json",
-//				url: 'GetTestResult',
+//				url: "json/testresult2.json",
+				url: 'GetTestResult',
 				type: 'GET',
 				data:{ array: finalJSON },
 				dataType: 'json',
