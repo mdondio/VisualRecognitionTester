@@ -412,4 +412,9 @@ img.inline{
 	width: 300px;
 	}
 	
+	#testsetTitle{
+		text-align: center;
+		color:#343b43; font-weight:bold; font-size:28px; margin-bottom: 20px;
+	}
+	
 }

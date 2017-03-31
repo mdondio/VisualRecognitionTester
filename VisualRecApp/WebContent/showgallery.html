@@ -8,15 +8,24 @@
 <link rel="stylesheet" href="css/sweetalert2_mine.css">
 <script>createHead();</script>
 
-<body style="background-color:#343b43">
-<!-- <header></header> -->
-<!-- <script>createHeader();</script> -->
+<!-- <body style="background-color:#343b43"> -->
+<body>
+  <header id="header" style="animation-duration:2s"></header>
+  <script>createHeader();</script>
+
 	<div class="content">
-				<div class="post-preview" id="testsetTitle"></div>
+	
+		<input type=image id="backicon" class="inline" src="ico/addDARK.png" style="width:60px;height:auto;">
+	
+		<div class="post-preview" id="testsetTitle"></div>
+			
 		<div class="row clearfix">
 
-			<div class="column fourth">Positive Images</div>
-			<div class="column three-fourths">
+			<div class="column fourth">
+				<p class='ready4'><br>positive<br>images</p>
+				<p class='ready5'>list of all the pictures containing an object representing the category</p>	
+			</div>
+			<div class="column three-fourths"><br>
 				<div class="post-preview" id="positivetestSetGallery"></div>
 			</div>
 		</div>
@@ -25,8 +34,11 @@
 
 		<div class="row clearfix">
 
-			<div class="column fourth">Negative Images</div>
-			<div class="column three-fourths">
+			<div class="column fourth">
+				<p class='ready4'><br>negative<br>images</p>
+				<p class='ready5'>list of all the pictures not containing any object representing the category, but similar ones</p>	
+			</div>
+			<div class="column three-fourths"><br>
 				<div class="post-preview" id="negativetestSetGallery"></div>
 			</div>
 		</div>
@@ -35,7 +47,7 @@
 
 <script>
 
-//**************************************************************************
+	//**************************************************************************
 	//********* GET FROM THE SERVER TESTSET ***************************
 	//**************************************************************************
 
@@ -58,6 +70,21 @@
 
 		}
 	});
+	
+	
+	//ADD button actions
+	$('#backicon').mouseover(function(){
+	$(this).attr('src','ico/addicon.png');
+	});
+	
+	$('#backicon').mouseleave(function(){
+		$(this).attr('src',"ico/addDARK.png" );
+	});
+	
+	$('#backicon').click(function(){
+		window.history.back();
+	});
+	
 </script>
 
 </html>
