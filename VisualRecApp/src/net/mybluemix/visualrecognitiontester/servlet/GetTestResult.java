@@ -45,7 +45,6 @@ import net.mybluemix.visualrecognitiontester.datamodel.Dataset;
 @WebServlet("/GetTestResult")
 public class GetTestResult extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
