@@ -10,13 +10,17 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 
 /**
  * Serve per gestire parsing di date con valori nulli
  * @author Marco Dondio
  *
  */
-public class DateAdapter implements JsonDeserializer<Date>{
+//http://www.makeinjava.com/date-serialization-deserialization-pojo-json-gson-example/
+public class DateAdapter implements JsonDeserializer<Date>, JsonSerializer<Date>{
 
 	// http://stackoverflow.com/questions/289311/output-rfc-3339-timestamp-in-java
 	DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
@@ -27,5 +31,11 @@ public class DateAdapter implements JsonDeserializer<Date>{
             } catch (ParseException e) {
                 return null;
             }
+	}
+	@Override
+	public JsonElement serialize(Date d, Type arg1, JsonSerializationContext arg2) {
+
+		return d == null? null : new JsonPrimitive(df.format(d));
+		
 	}
 }
