@@ -3,22 +3,28 @@
 
 <head></head>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="js/sweetalert2_mine.js"></script>
 <link rel="stylesheet" href="css/sweetalert2_mine.css">
 <script src="js/genericFunctions.js"></script>
 <script src="js/functions.js"></script>
-<script>createHead();</script>
+<script>
+	createHead();
+</script>
 
 
 <body>
-	<header></header><script>createHeader();</script>
+	<header></header>
+	<script>
+		createHeader();
+	</script>
 
 	<div class="content">
 
 		<div class="row clearfix">
 
-			<div class="column third">		
+			<div class="column third">
 				<div class="post-preview">
 					<div class="circle">
 						<div class="ready"></div>
@@ -26,123 +32,137 @@
 				</div>
 				<hr align="center" width="75%" class="middle_division">
 				<div class="column half">
-				<div class="post-preview">
-					<div>
-						<p class="home" style="text-align:right;color:#343b43;font-weight:bold;">ready <br> classifiers</p>
+					<div class="post-preview">
+						<div>
+							<p class="home"
+								style="text-align: right; color: #343b43; font-weight: bold;">
+								ready <br> classifiers
+							</p>
+						</div>
 					</div>
 				</div>
-				</div>
-				
+
 				<div class="column half">
-				<div class="post-preview">
-					<div>
-						<p style="text-align:left;color:#A0A0A0">You can use these classifiers for your simulations.</p>
+					<div class="post-preview">
+						<div>
+							<p style="text-align: left; color: #A0A0A0">You can use these
+								classifiers for your simulations.</p>
+						</div>
 					</div>
-				</div>
 				</div>
 			</div>
 
 
 			<div class="column third">
-			
-							<div class="post-preview">
+
+				<div class="post-preview">
 					<div class="circle">
 						<div class="free"></div>
 					</div>
 				</div>
 				<hr align="center" width="75%" class="middle_division">
 				<div class="column half">
-				<div class="post-preview">
-					<div>
-						<p class="home" style="text-align:right;color:#343b43;font-weight:bold;">free <br> classifiers</p>
+					<div class="post-preview">
+						<div>
+							<p class="home"
+								style="text-align: right; color: #343b43; font-weight: bold;">
+								free <br> classifiers
+							</p>
+						</div>
 					</div>
 				</div>
-				</div>
-				
+
 				<div class="column half">
-				<div class="post-preview">
-					<div>
-						<p style="text-align:left;color:#A0A0A0">These instances are free to train. Let's go to the train panel!</p>
+					<div class="post-preview">
+						<div>
+							<p style="text-align: left; color: #A0A0A0">These instances
+								are free to train. Let's go to the train panel!</p>
+						</div>
 					</div>
 				</div>
-				</div>	
-					
+
 			</div>
 
 			<div class="column third">
-			
-										<div class="post-preview">
+
+				<div class="post-preview">
 					<div class="circle">
 						<div class="training"></div>
 					</div>
 				</div>
 				<hr align="center" width="75%" class="middle_division">
 				<div class="column half">
-				<div class="post-preview">
-					<div>
-						<p class="home" style="text-align:right;color:#343b43;font-weight:bold;">classifiers <br> in training</p>
+					<div class="post-preview">
+						<div>
+							<p class="home"
+								style="text-align: right; color: #343b43; font-weight: bold;">
+								classifiers <br> in training
+							</p>
+						</div>
 					</div>
 				</div>
-				</div>
-				
+
 				<div class="column half">
-				<div class="post-preview">
-					<div>
-						<p style="text-align:left;color:#A0A0A0">We are building new classifiers for you, just relax and prepare your next simulation.</p>
+					<div class="post-preview">
+						<div>
+							<p style="text-align: left; color: #A0A0A0">We are building
+								new classifiers for you, just relax and prepare your next
+								simulation.</p>
+						</div>
 					</div>
 				</div>
-				</div>
-				
+
 			</div>
 
 		</div>
-		<br>
-		<br>
+		<br> <br>
 		<div class="row clearfix">
 
-			<div class="column fourth" >
-<div class="post-preview" id="listdataset">
+			<div class="column fourth">
+				<div class="post-preview" id="listdataset">
 
-<a type=image href="showgallery.html">vai a gallery</a>
+<!-- 					<a type=image href="showgallery.html">vai a gallery</a> -->
 
-</div>
+				</div>
 
-			
+
 			</div>
 
 			<div class="column three-fourths">
 				<div class="post-preview">
 
-						<div id="dvTable" style=""></div>
-						<br><br><br><br>
+					<div id="dvTable" style=""></div>
+					<br>
+					<br>
+					<br>
+					<br>
 
 				</div>
 			</div>
-			
+
 
 		</div>
 
 	</div>
-	
 
-		
+
+
 </body>
 
 <script>
-generateHome();
+	generateHome();
 
-$('body').on("click","[id*=showdatasetID]",function(){
-	
-	window.location.href = 'showgallery.html';
-	console.log($(this).attr("id"));
- 	var ID = $(this).attr("id").substring(13);
- 	console.log(ID);	
-	localStorage.setItem("idgallery", ID);
+	$('body').on("click", "[id*=showdatasetID]", function() {
 
-// 	console.log("num reload "+num);
-     
-});
+		window.location.href = 'showgallery.html';
+		console.log($(this).attr("id"));
+		var ID = $(this).attr("id").substring(13);
+		console.log(ID);
+		localStorage.setItem("idgallery", ID);
 
+		// 	console.log("num reload "+num);
+
+	});
 </script>
 
 </html>
