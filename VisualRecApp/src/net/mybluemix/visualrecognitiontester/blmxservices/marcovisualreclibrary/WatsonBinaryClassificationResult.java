@@ -100,7 +100,13 @@ public class WatsonBinaryClassificationResult {
 					System.out.println("[WatsonBinaryClassificationResult buildPredictedValuesAndHistogram()] watRes images null. Skip");
 					continue;
 				}
+				if(img.getClassifiers() == null){
+					System.out.println("[WatsonBinaryClassificationResult buildPredictedValuesAndHistogram()] classifiers null. Skip");
+					continue;
+				}
 
+				
+				
 				// First generate imageID from name
 				// img.getImage(); // XXX nome dell'immagine? qui estrai ID
 				// immagine
@@ -242,22 +248,22 @@ public class WatsonBinaryClassificationResult {
 		measures.put(METRIC.FP, FP);
 		measures.put(METRIC.FN, FN);
 
-//		 for (METRIC m : measures.keySet())
-//		 System.out.println("[WatsonBinaryClassificationResult computeStats()]" + m + " -> " + measures.get(m));
-//
-//		 System.out.println("[WatsonBinaryClassificationResult computeStats()] tp -> " + computeMetric(METRIC.tp));
-//		 System.out.println("[WatsonBinaryClassificationResult computeStats()] tn -> " + computeMetric(METRIC.tn));
-//		 System.out.println("[WatsonBinaryClassificationResult computeStats()] fp -> " + computeMetric(METRIC.fp));
-//		 System.out.println("[WatsonBinaryClassificationResult computeStats()] fn -> " + computeMetric(METRIC.fn));
-//
-//		 System.out.println("[WatsonBinaryClassificationResult computeStats()] tpr -> " + computeMetric(METRIC.tpr));
-//		 System.out.println("[WatsonBinaryClassificationResult computeStats()] fpr -> " + computeMetric(METRIC.fpr));
-//
-//		 
-//		 System.out.println("[WatsonBinaryClassificationResult computeStats()] POS -> " + computeMetric(METRIC.POS));
-//		 System.out.println("[WatsonBinaryClassificationResult computeStats()] NEG -> " + computeMetric(METRIC.NEG));
-//
-//		 System.out.println("[WatsonBinaryClassificationResult computeStats()] datasetSize -> " + datasetSize);
+		 for (METRIC m : measures.keySet())
+		 System.out.println("[WatsonBinaryClassificationResult computeStats()]" + m + " -> " + measures.get(m));
+
+		 System.out.println("[WatsonBinaryClassificationResult computeStats()] tp -> " + computeMetric(METRIC.tp));
+		 System.out.println("[WatsonBinaryClassificationResult computeStats()] tn -> " + computeMetric(METRIC.tn));
+		 System.out.println("[WatsonBinaryClassificationResult computeStats()] fp -> " + computeMetric(METRIC.fp));
+		 System.out.println("[WatsonBinaryClassificationResult computeStats()] fn -> " + computeMetric(METRIC.fn));
+
+		 System.out.println("[WatsonBinaryClassificationResult computeStats()] tpr -> " + computeMetric(METRIC.tpr));
+		 System.out.println("[WatsonBinaryClassificationResult computeStats()] fpr -> " + computeMetric(METRIC.fpr));
+
+		 
+		 System.out.println("[WatsonBinaryClassificationResult computeStats()] POS -> " + computeMetric(METRIC.POS));
+		 System.out.println("[WatsonBinaryClassificationResult computeStats()] NEG -> " + computeMetric(METRIC.NEG));
+
+		 System.out.println("[WatsonBinaryClassificationResult computeStats()] datasetSize -> " + datasetSize);
 
 		 
 	}
