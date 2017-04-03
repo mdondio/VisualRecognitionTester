@@ -17,12 +17,12 @@ function createHead(){
 	var str = ["<link rel='stylesheet' type='text/css' href='css/structure.css'/>"]; //css per le pagine
 	var nav = ["<link rel='stylesheet' type='text/css' href='css/navbar.css'/>"]; //css per il menu
 	var uti = ["<link rel='stylesheet' type='text/css' href='css/utilities.css'/>"]; //css per parti comuni della pagina
+	var swa = ["<link rel='stylesheet' type='text/css' href='css/sweetalert2_mine.css'/>"]; //css per sweetalert2
 	var title = ["<title>Watson VR Test</title>"];
 
-	var headfull = start.concat(uti, fon, def, str, nav, uti, title);
+	var headfull = start.concat(uti, fon, def, str, nav, uti, swa, title);
 	$('head').append(headfull);
 }
-
 
 /**
  * @returns Genera il menu, sia per desktop che per mobile

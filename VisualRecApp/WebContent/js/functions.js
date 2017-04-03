@@ -101,16 +101,16 @@ function Draw(result){
 				yAUC.push(listAUC[i].y);
 			}
 			//ADD HORIZONTAL AXIS AT 1
-//			AUCcurves.push({
-//				"x": [0.0, 3500],
-//				"y": [1.0, 1.0],
-//				"mode": "lines",
-//				"name": "AUC = 1",
-//				"line": {
-//					"dash": "dot",
-//					"color": "rgb(168, 168, 168)"
-//				}
-//			});
+			AUCcurves.push({
+				"x": [0.0, 3500],
+				"y": [1.0, 1.0],
+				"mode": "lines",
+				"name": "AUC = 1",
+				"line": {
+					"dash": "dot",
+					"color": "rgb(168, 168, 168)"
+				}
+			});
 			//ADD POINTS OF THE AUC CURVE
 			AUCcurves.push({
 				"x": xAUC,
@@ -119,78 +119,50 @@ function Draw(result){
 				"name": "AUC curve",
 				"line": {
 					"dash": "dot",
-					"color": "rgb("+colorpalette[count][4]+","+colorpalette[count][4]+","+colorpalette[count][4]+")"
+					//"color": "rgb("+colorpalette[count][4]+","+colorpalette[count][4]+","+colorpalette[count][4]+")"
 				}
 			});
 
 			//LAYOUT GRAFICO ROC
 			var layout1 = {
-					showlegend: false,
-//					legend: {
-//						x: 1,
-//						y: 1,
-//						traceorder: 'reversed',
-//						font: {size: 16},
-//						yref: 'paper',
-//					},
-					//title: 'ROC Curve',
+					legend: {
+						y: 0.5,
+						traceorder: 'reversed',
+						font: {size: 16},
+						yref: 'paper',
+					},
+					title: 'ROC Curve',
 					xaxis: {
 						title: 'fpr',
-//						range: [0, 1],
-						autorange: true
+						range: [0, 1],
+						autorange: false
 					},
 					yaxis: {
 						title: 'tpr',
-//						range: [0, 1],
-						autorange: true
-					},
-					  autosize: false,
-					  width: 400,
-					  height: 400,
-					  margin: {
-					    l: 50,
-					    r: 50,
-					    b: 100,
-					    t: 100,
-					    pad: 4
-					  },
-					  paper_bgcolor: '#f2f2f2',
-					  plot_bgcolor: '#f2f2f2'
+						range: [0, 1],
+						autorange: false
+					}
 			};
 
 			//LAYOUT GRAFICO AUC
 			var layout2 = {
-					shoelegend: false,
-//					legend: {
-//						x: 1,
-//						y: 1,
-//						traceorder: 'reversed',
-//						font: {size: 16},
-//						yref: 'paper',
-//					},
-					//title: 'AUC Curve',
+					legend: {
+						y: 0.5,
+						traceorder: 'reversed',
+						font: {size: 16},
+						yref: 'paper',
+					},
+					title: 'AUC Curve',
 					xaxis: {
 						title: 'N',
-//						range: [0, 350],
-						autorange: true
+						range: [0, 350],
+						autorange: false
 					},
 					yaxis: {
 						title: 'AUC',
-//						range: [0, 1],
-						autorange: true
-					},
-					  autosize: true,
-					  width: 400,
-					  height: 400,
-					  margin: {
-					    l: 50,
-					    r: 50,
-					    b: 100,
-					    t: 100,
-					    pad: 4
-					  },
-					  paper_bgcolor: '#f2f2f2',
-					  plot_bgcolor: '#f2f2f2'
+						range: [0, 1],
+						autorange: false
+					}
 			};
 
 			//PLOT GRAFICO ROC E AUC
@@ -333,8 +305,8 @@ function showGallery(result,inputgallery) {
 			var div_caption = document.createElement("div");
 			a_prev.setAttribute("class", "prev");
 			a_next.setAttribute("class", "next");
-			a_prev.appendChild(document.createTextNode("B"));
-			a_next.appendChild(document.createTextNode("N"));
+			a_prev.appendChild(document.createTextNode("\u276C"));
+			a_next.appendChild(document.createTextNode("\u276D"));
 			a_prev.addEventListener("click", function(event) {
 				prevImg(inputgallery);
 				event.preventDefault();
@@ -471,7 +443,7 @@ function createGallery(idTOappend,images,idgallery)
 		closeModal();
 		event.preventDefault();
 	});
-	mySpan.appendChild(document.createTextNode("CLOSE"));
+	mySpan.appendChild(document.createTextNode('\u2715'));
 
 	myModal.appendChild(mySpan);
 	myModal.appendChild(modalContent);
@@ -490,8 +462,8 @@ function getDataShow(){
 	// ajax call to backend
 	$.ajax(
 			{
-				url: "json/testresult2.json",
-//				url: 'GetTestResult',
+//				url: "json/testresult2.json",
+				url: 'GetTestResult',
 				type: 'GET',
 				data:{ array: finalJSON },
 				dataType: 'json',
@@ -530,8 +502,6 @@ function getDataShow(){
 							setParameters(result[j]);
 							showGallery(result[j].falseNegativeOpt, "FN");
 							showGallery(result[j].falsePositiveOpt, "FP");
-							DrawHistogram(cacheTestResult[j].histogramNegative,
-									cacheTestResult[j].histogramPositive);
 						}
 					}
 				}
@@ -934,8 +904,6 @@ function generateHome(){
 //	});
 
 }
-
-
 
 function checkTestName() {
 	selectArray = Array.prototype.map.call($(".moltiplicandum input"),(function(el) {return el.value;}));

@@ -8,7 +8,6 @@
 <link rel="stylesheet" href="css/sweetalert2_mine.css">
 <script>createHead();</script>
 
-<!-- <body style="background-color:#343b43"> -->
 <body>
   <header id="header" style="animation-duration:2s"></header>
   <script>createHeader();</script>
@@ -62,7 +61,8 @@
 			var idgallery = localStorage.getItem("idgallery");
 			for ( var i in result) {
 				if (result[i]._id == idgallery) {
-					$("#testsetTitle").append(document.createTextNode(idgallery));
+// 					var testname = idgallery.replace("_", " ");
+					$("#testsetTitle").append(document.createTextNode(idgallery)); /*sostituire idgallery con testname se si vuole parsare il titolo*/
 					createGallery('negativetestSetGallery',result[i].images.negative, result[i]._id + "NEG");
 					createGallery('positivetestSetGallery',result[i].images.positive, result[i]._id + "POS");
 				}
