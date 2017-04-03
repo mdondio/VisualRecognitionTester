@@ -5,7 +5,8 @@
 <script src="js/genericFunctions.js"></script>
 <script src="js/sweetalert2_mine.js"></script>
 <link rel="stylesheet" href="css/sweetalert2_mine.css">
-
+<script src="js/dropzone.js"></script>
+<link rel="stylesheet" href="css/dropzone.css">
 
 <script>createHead();</script>
 
@@ -15,42 +16,87 @@
 
 <div class="content">
 
-	<h4>Test</h4>
-    <button id="a" onclick="Test()">RUN ME</button>
+	<input type=image id="backicon" class="inline" src="ico/backDARK.png" style="width:60px;height:auto;">
+
+	<h3> Upload </h3>	
+	
+	<div id="dropzone">
+		<form action="/" method="post" class="dropzone" id="my-awesome-dropzone">
+
+		  	<div class="dz-message testing">
+		    	Drop files here or click to upload.<br />
+		    </div>
+
+		</form>
+	</div>
 
 </div>
 
 </body>
 
+
+<style>
+.dz-max-files-reached {background-color: red};
+</style>
+<style>
+.dz-filename {width: 100%};
+</style>
+<style>
+.dz-details {height: 100%; width: 100%};
+</style>
+
+
 <script>
 
-function Test() {
 
-	swal({
-	    title: 'Are you sure?',
-	    text: 'You will not be able to recover this imaginary file!',
-	    type: 'warning',
-	    showCancelButton: true,
-	    confirmButtonText: 'Yes, delete it!',
-	    cancelButtonText: 'No, keep it'
-  }).then(function() {
-	    swal(
-	      'Deleted!',
-	      'Your imaginary file has been deleted.',
-	      'success'
-	    )
-  }, function(dismiss) {
-	    // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
-	    if (dismiss === 'cancel') {
-		      swal(
-		        'Cancelled',
-		        'Your imaginary file is safe :)',
-		        'error'
-		      )
-	    }
-  })
+Dropzone.options.myAwesomeDropzone = {
+	maxFiles: 20,
+    init: function() {
+      this.on("addedfile", function(file) {
+
+        // Create the remove button
+        var removeButton = Dropzone.createElement("<img class='center' src='ico/garbageDARK.png' style='width:30px; height:auto;'>");
+
+        // Capture the Dropzone instance as closure.
+        var _this = this;
+
+        // Listen to the click event
+        removeButton.addEventListener("click", function(e) {
+          // Make sure the button click doesn't submit the form:
+          e.preventDefault();
+          e.stopPropagation();
+
+          // Remove the file preview.
+          _this.removeFile(file);
+          // If you want to the delete the file on the server as well,
+          // you can do the AJAX request here.
+        });
+
+        // Add the button to the file preview element.
+        file.previewElement.appendChild(removeButton);
+      });
+      
+      
+      this.on("sending", function(file) {
+    	file.myCustomName = "testName_" + file.name;
+    	console.log(file.myCustomName);
+	});
+      
+    }
+  };
   
-}
+  $('#backicon').mouseover(function(){
+	$(this).attr('src','ico/back.png');
+	});
+	
+	$('#backicon').mouseleave(function(){
+		$(this).attr('src',"ico/backDARK.png" );
+	});
+	
+	$('#backicon').click(function(){
+		window.history.back();
+	});
+  
 
 </script>
 

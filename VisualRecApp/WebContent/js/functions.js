@@ -101,16 +101,16 @@ function Draw(result){
 				yAUC.push(listAUC[i].y);
 			}
 			//ADD HORIZONTAL AXIS AT 1
-//			AUCcurves.push({
-//				"x": [0.0, 3500],
-//				"y": [1.0, 1.0],
-//				"mode": "lines",
-//				"name": "AUC = 1",
-//				"line": {
-//					"dash": "dot",
-//					"color": "rgb(168, 168, 168)"
-//				}
-//			});
+			AUCcurves.push({
+				"x": [0.0, 3500],
+				"y": [1.0, 1.0],
+				"mode": "lines",
+				"name": "AUC = 1",
+				"line": {
+					"dash": "dot",
+					"color": "rgb(168, 168, 168)"
+				}
+			});
 			//ADD POINTS OF THE AUC CURVE
 			AUCcurves.push({
 				"x": xAUC,
@@ -119,154 +119,55 @@ function Draw(result){
 				"name": "AUC curve",
 				"line": {
 					"dash": "dot",
-					"color": "rgb("+colorpalette[count][4]+","+colorpalette[count][4]+","+colorpalette[count][4]+")"
+					//"color": "rgb("+colorpalette[count][4]+","+colorpalette[count][4]+","+colorpalette[count][4]+")"
 				}
 			});
 
 			//LAYOUT GRAFICO ROC
 			var layout1 = {
-					showlegend: false,
-//					legend: {
-//						x: 1,
-//						y: 1,
-//						traceorder: 'reversed',
-//						font: {size: 16},
-//						yref: 'paper',
-//					},
-					//title: 'ROC Curve',
+					legend: {
+						y: 0.5,
+						traceorder: 'reversed',
+						font: {size: 16},
+						yref: 'paper',
+					},
+					title: 'ROC Curve',
 					xaxis: {
 						title: 'fpr',
-//						range: [0, 1],
-						autorange: true
+						range: [0, 1],
+						autorange: false
 					},
 					yaxis: {
 						title: 'tpr',
-//						range: [0, 1],
-						autorange: true
-					},
-					  autosize: false,
-					  width: 400,
-					  height: 400,
-					  margin: {
-					    l: 50,
-					    r: 50,
-					    b: 100,
-					    t: 100,
-					    pad: 4
-					  },
-					  paper_bgcolor: '#f2f2f2',
-					  plot_bgcolor: '#f2f2f2'
+						range: [0, 1],
+						autorange: false
+					}
 			};
 
 			//LAYOUT GRAFICO AUC
 			var layout2 = {
-					shoelegend: false,
-//					legend: {
-//						x: 1,
-//						y: 1,
-//						traceorder: 'reversed',
-//						font: {size: 16},
-//						yref: 'paper',
-//					},
-					//title: 'AUC Curve',
+					legend: {
+						y: 0.5,
+						traceorder: 'reversed',
+						font: {size: 16},
+						yref: 'paper',
+					},
+					title: 'AUC Curve',
 					xaxis: {
 						title: 'N',
-//						range: [0, 350],
-						autorange: true
+						range: [0, 350],
+						autorange: false
 					},
 					yaxis: {
 						title: 'AUC',
-//						range: [0, 1],
-						autorange: true
-					},
-					  autosize: true,
-					  width: 400,
-					  height: 400,
-					  margin: {
-					    l: 50,
-					    r: 50,
-					    b: 100,
-					    t: 100,
-					    pad: 4
-					  },
-					  paper_bgcolor: '#f2f2f2',
-					  plot_bgcolor: '#f2f2f2'
+						range: [0, 1],
+						autorange: false
+					}
 			};
 
 			//PLOT GRAFICO ROC E AUC
 			Plotly.newPlot('graph1', ROCcurves, layout1);
 			Plotly.newPlot('graph2', AUCcurves, layout2);
-}
-
-function DrawHistogram(histogramNegative,histogramPositive){
-		
-	var scores = [];
-	var negative = [];
-	var positive = [];
-	for(var i=0;i<100;i++)
-		{
-		negative.push(Math.random());
-		positive.push(Math.random());
-//		negative.push(histogramNegative[i]);
-//		positive.push(histogramPositive[i]);
-		}
-	
-	//ADD negative histogram
-	var negativeTrace = {
-		x: negative,
-		type: "histogram",
-		opacity: 0.5,
-		name: "Negative distribution",
-		marker: {
-			"color": "green",
-		}
-	};
-	
-	//ADD positive histogram
-	var positiveTrace = {
-		x: positive,
-		type: "histogram",
-		opacity: 0.6,
-		name: "Positive distribution",
-		marker: {
-			"color": "red",
-		}
-	};
-	
-	var data = [negativeTrace , positiveTrace];
-
-
-		var layout = {
-		showlegend : false,
-//		legend : {
-//			x : 1,
-//			y : 1
-//		},
-		title : 'Distribution',
-		barmode : "overlay",
-		xaxis : {
-			title : 'scores',
-			autorange : true
-		},
-		yaxis : {
-			title : 'frequency',
-			autorange : true
-		},
-		  autosize: false,
-		  width: 400,
-		  height: 400,
-		  margin: {
-		    l: 50,
-		    r: 50,
-		    b: 100,
-		    t: 100,
-		    pad: 4
-		  },
-		  paper_bgcolor: '#f2f2f2',
-		  plot_bgcolor: '#f2f2f2'
-	};
-	
-	Plotly.newPlot('graph_histogram', data, layout);
 }
 
 //append images from json files
@@ -523,8 +424,6 @@ function getDataShow(){
 							setParameters(result[j]);
 							showGallery(result[j].falseNegativeOpt, "FN");
 							showGallery(result[j].falsePositiveOpt, "FP");
-							DrawHistogram(cacheTestResult[j].histogramNegative,
-									cacheTestResult[j].histogramPositive);
 						}
 					}
 				}
@@ -927,8 +826,6 @@ function generateHome(){
 //	});
 
 }
-
-
 
 function checkTestName() {
 	selectArray = Array.prototype.map.call($(".moltiplicandum input"),(function(el) {return el.value;}));

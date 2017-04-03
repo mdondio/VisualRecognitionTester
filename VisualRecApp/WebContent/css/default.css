@@ -1,4 +1,5 @@
 /* ================ MOBILE (DEFAULT) =====================*/
+
 .post-preview {
 	width: 100%;
 	padding-bottom: 0;
@@ -131,65 +132,13 @@
 		-moz-box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.12);
 		box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.12);
 	}
-<<<<<<< HEAD
 	.card>img {
 		width: 100%;
 		margin: auto;
 		padding: 0;
-=======
-	
-		 .ready4 {
-	text-align: left; 
-	font-size: 22px; 
-	color: #343b43; 
-/* 	padding:20px; */
-	margin:auto;
-	position:relative;
-	font-weight: bold;
-/* 	top:10%; */
->>>>>>> branch 'frontend' of https://github.com/mdondio/VisualRecognitionTester.git
 	}
-<<<<<<< HEAD
 	.card>p {
 		padding: 10px;
-=======
-	
-			 .ready5 {
-	text-align: left; 
-	font-size: 12px; 
-	color: #808080; 
-/* 	padding:20px; */
-	margin:auto;
-	position:relative;
-/* 	font-weight: bold; */
-/* 	top:10%; */
-	}
-	
- .free {
-	text-align: center; 
-	font-size: 50px; 
-	color: #343b43; 
-	padding:20px;
-	margin:auto;
-	}
-	
-	 .training {
-	text-align: center; 
-	font-size: 50px; 
-	color: #343b43; 
-	padding:20px;
-	margin:auto;
-	}
-	
-	.imglogin{
-	margin-left: auto;
-	margin-right:auto;
-	display: block;
-	width: 300px;
-	}
-	
-	#testsetTitle{
->>>>>>> branch 'frontend' of https://github.com/mdondio/VisualRecognitionTester.git
 		text-align: center;
 	}
 	.card>p>img {
