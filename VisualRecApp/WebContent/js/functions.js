@@ -205,8 +205,15 @@ function DrawHistogram(histogramNegative,histogramPositive){
 	var positive = [];
 	for(var i=0;i<100;i++)
 		{
-		negative.push(Math.random());
-		positive.push(Math.random());
+		var neg =0;
+		var pos =0.1;
+		for(var j=0;j<50;j++)
+			{
+			neg+=(Math.random()/50);
+			pos+=(Math.random()/50);
+			}
+		negative.push(neg);
+		positive.push(pos);
 //		negative.push(histogramNegative[i]);
 //		positive.push(histogramPositive[i]);
 		}
