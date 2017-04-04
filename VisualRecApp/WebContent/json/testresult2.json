@@ -6,7 +6,7 @@
     
     
     
-    {"ID":"test_secondario","accuracyOpt": 3.9,"fprTrace":[0, 0.6, 0.9, 2],"tprTrace":[0, 0.8, 0.4, 1],"AUC":0.779999999999999,"trainingSize": 150, "thresholdOpt":0.4,
+    {"ID":"test_secondario","accuracyOpt": 3.9,"fprTrace":[0, 0.6, 0.9, 1],"tprTrace":[0, 0.8, 0.9, 1],"AUC":0.779999999999999,"trainingSize": 150, "thresholdOpt":0.4,
     "falsePositiveOpt":[ "109727212687252646", "112003894791314085", "114952591094028306", "12211208660174918", "122390645380843876" ],
     "falseNegativeOpt":[ "10017432640630971088", "10019071378028748469", "10019719361445717246", "10055949566164936371" ]}
     

@@ -48,18 +48,15 @@ function Draw(result){
 				for(var j in obj.fprTrace) x.push(obj.fprTrace[j]);
 				for(var j in obj.tprTrace) y.push(obj.tprTrace[j]);
 				var objJSON = parsedJSON[count];
-				console.log(parsedJSON)
-				console.log(objJSON.name)
 				ROCcurves.push(
 						{
-							"x": x,
-							"y": y,
-							"mode": "lines",
-							"name": objJSON.name,
-							"line": {
+							x: x,
+							y: y,
+							mode: "lines",
+							name: objJSON.name,
+							line: {
 								"shape": "spline",
-//								"color": "rgb(168,168,168)"
-							"color": "rgb("+colorpalette[count][0]+","+colorpalette[count][1]+","+colorpalette[count][2]+")"
+								"color": "rgb("+colorpalette[count][0]+","+colorpalette[count][1]+","+colorpalette[count][2]+")"
 							}
 						}
 				);
@@ -67,18 +64,18 @@ function Draw(result){
 			}
 
 			ROCcurves.push({
-				"x": [0.0, 1.0],
-				"y": [0.0, 1.0],
-				"mode": "lines",
-				"name": "tpf = fpr",
-				"line": {
+				x: [0.0, 1.0],
+				y: [0.0, 1.0],
+				mode: "lines",
+				name: "tpf = fpr",
+				line: {
 					"dash": "dot",
 					"color": "rgb(168, 168, 168)"
 				}
 			});
 
 			//CREAZIONE DELL'INPUT PER GRAFICO AUC -------------------------------------
-			var AUCcurves = []; //INPUT PER PLOT
+//			var AUCcurves = []; //INPUT PER PLOT
 			var listAUC = [];
 			for(var i in result) {
 				var obj = result[i];
@@ -101,55 +98,55 @@ function Draw(result){
 				yAUC.push(listAUC[i].y);
 			}
 			//ADD HORIZONTAL AXIS AT 1
-			AUCcurves.push({
-				"x": [0.0, 3500],
-				"y": [1.0, 1.0],
-				"mode": "lines",
-				"name": "AUC = 1",
-				"line": {
-					"dash": "dot",
-					"color": "rgb(168, 168, 168)"
-				}
-			});
+//			AUCcurves.push({
+//				"x": [0.0, 3500],
+//				"y": [1.0, 1.0],
+//				"mode": "lines",
+//				"name": "AUC = 1",
+//				"line": {
+//					"dash": "dot",
+//					"color": "rgb(168, 168, 168)"
+//				}
+//			});
 			//ADD POINTS OF THE AUC CURVE
-			AUCcurves.push({
-				"x": xAUC,
-				"y": yAUC,
-				"mode": "splines",
-				"name": "AUC curve",
-				"line": {
+			var AUCcurves = {
+				x: xAUC,
+				y: yAUC,
+				mode: "splines",
+				name: "AUC curve",
+				line: {
 					"dash": "dot",
-					//"color": "rgb("+colorpalette[count][4]+","+colorpalette[count][4]+","+colorpalette[count][4]+")"
+					"color": "rgb("+colorpalette[count][4]+","+colorpalette[count][4]+","+colorpalette[count][4]+")"
 				}
-			});
+			};
 
 			//LAYOUT GRAFICO ROC
 			var layout1 = {
 					legend: {
-						x: 1,
-						y: 1,
-						traceorder: 'reversed',
-						font: {size: 16},
+						x: 0.6,
+						y: 20,
+						font: {size: 12},
 						yref: 'paper',
 					},
-					title: 'ROC Curve',
 					xaxis: {
 						title: 'fpr',
-						autorange: true
+						range: [0 , 1],
+//						autorange: true
 					},
 					yaxis: {
 						title: 'tpr',
-						autorange: true
+						range: [0 , 1],
+//						autorange: true
 					},
-					autosize: false,
-					  width: 400,
-					  height: 400,
+					autosize: true,
+//					  width: 400,
+//					  height: 400,
 					  margin: {
-					    l: 50,
+					    l: 70,
 					    r: 50,
-					    b: 100,
-					    t: 100,
-					    pad: 4
+					    b: 80,
+					    t: 50,
+					    pad: 8
 					  },
 					  paper_bgcolor: '#f2f2f2',
 					  plot_bgcolor: '#f2f2f2'
@@ -157,39 +154,43 @@ function Draw(result){
 
 			//LAYOUT GRAFICO AUC
 			var layout2 = {
+					showlegend: true,
 					legend: {
-						x: 1,
-						y: 1,
-						traceorder: 'reversed',
-						font: {size: 16},
+						x: 0.5,
+						y: 20,
+//						traceorder: 'reversed',
+						font: {size: 12},
 						yref: 'paper',
 					},
-					title: 'AUC Curve',
+//					title: 'AUC Curve',
 					xaxis: {
 						title: 'N',
 						autorange: true
 					},
 					yaxis: {
 						title: 'AUC',
-						autorange: true
+						range: [0,1],
+						autorange: false
 					},
-					autosize: false,
-					  width: 400,
-					  height: 400,
+					autosize: true,
+//					  width: 400,
+//					  height: 400,
 					  margin: {
-					    l: 50,
+					    l: 70,
 					    r: 50,
-					    b: 100,
-					    t: 100,
-					    pad: 4
+					    b: 80,
+					    t: 50,
+					    pad: 8
 					  },
 					  paper_bgcolor: '#f2f2f2',
 					  plot_bgcolor: '#f2f2f2'
 			};
 
+			var data1 = [];
+			var data2 = [AUCcurves];
 			//PLOT GRAFICO ROC E AUC
 			Plotly.newPlot('graph1', ROCcurves, layout1);
-			Plotly.newPlot('graph2', AUCcurves, layout2);
+			Plotly.newPlot('graph2', data2, layout2);
 }
 
 function DrawHistogram(histogramNegative,histogramPositive){
@@ -197,7 +198,7 @@ function DrawHistogram(histogramNegative,histogramPositive){
 	var scores = [];
 	var negative = [];
 	var positive = [];
-	for(var i=0;i<100;i++)
+	for(var i=0;i<histogramNegative.length;i++)
 		{
 		var neg =0;
 		var pos =0.1;
@@ -206,10 +207,11 @@ function DrawHistogram(histogramNegative,histogramPositive){
 			neg+=(Math.random()/50);
 			pos+=(Math.random()/50);
 			}
-		negative.push(neg);
-		positive.push(pos);
-//		negative.push(histogramNegative[i]);
-//		positive.push(histogramPositive[i]);
+//		negative.push(neg);
+//		positive.push(pos);
+		console.log(histogramNegative)
+		negative.push(histogramNegative[i]);
+		positive.push(histogramPositive[i]);
 		}
 	
 	//ADD negative histogram
@@ -238,30 +240,33 @@ function DrawHistogram(histogramNegative,histogramPositive){
 
 
 		var layout = {
-		showlegend : false,
-//		legend : {
-//			x : 1,
-//			y : 1
-//		},
-		title : 'Distribution',
+//		showlegend : true,
+		legend : {
+			x : 0.5,
+			y : 20,
+			font: {size: 12},
+			yref: 'paper'
+		},
+//		title : 'Distribution',
 		barmode : "overlay",
 		xaxis : {
 			title : 'scores',
-			autorange : true
+			range : [0,1],
+			autorange : false
 		},
 		yaxis : {
 			title : 'frequency',
 			autorange : true
 		},
-		  autosize: false,
-		  width: 400,
-		  height: 400,
+		  autosize: true,
+//		  width: 400,
+//		  height: 400,
 		  margin: {
-		    l: 50,
+		    l: 70,
 		    r: 50,
-		    b: 100,
-		    t: 100,
-		    pad: 4
+		    b: 80,
+		    t: 50,
+		    pad: 8
 		  },
 		  paper_bgcolor: '#f2f2f2',
 		  plot_bgcolor: '#f2f2f2'
@@ -484,8 +489,8 @@ function getDataShow(){
 	// ajax call to backend
 	$.ajax(
 			{
-				url: "json/testresult2.json",
-//				url: 'GetTestResult',
+//				url: "json/testresult2.json",
+				url: 'GetTestResult',
 				type: 'GET',
 				data:{ array: finalJSON },
 				dataType: 'json',
@@ -499,7 +504,6 @@ function getDataShow(){
 					for(var j in result)
 						{
 						var obj = result[j];
-						console.log(obj.ID);
 						if(obj.ID==null) {
 							swal({
 							title: "Warning",
@@ -524,6 +528,9 @@ function getDataShow(){
 							setParameters(result[j]);
 							showGallery(result[j].falseNegativeOpt, "FN");
 							showGallery(result[j].falsePositiveOpt, "FP");
+							console.log(cacheTestResult);
+							console.log(cacheTestResult[j].histogramNegative);
+							console.log(cacheTestResult[j].histogramPositive);
 							DrawHistogram(cacheTestResult[j].histogramNegative,
 									cacheTestResult[j].histogramPositive);
 						}
@@ -580,30 +587,6 @@ function populateSelectSim(){
 
 		}
 	});
-	
-	// TODO: attenzione che questo blocco sotto non può stare qui, altrimenti si invoca
-	// la GetTestResult
-	// chiamata per popolare il menu a tendina dei test eseguiti nella pagina show.html
-	// LENTISSIMO, CREARE FUNZIONE A PARTE O METTERE PARAMETRO
-	
-//	$.ajax({													
-//		dataType: "json",
-//		//url: "json/testresult.json",
-//		url: 'GetTestResult',
-//		async: false,
-//		success: function(result)
-//		{
-//			//update show page test set
-//			for(var j in result){
-//				var obj = result[j];
-////				console.log(obj.ID);
-//				$('.show_test').append($('<option>', {
-//					value: obj.ID,
-//					text: obj.ID
-//				}));
-//			}
-//		}
-//	});
 	
 }
 
