@@ -680,9 +680,7 @@ function addTableColumn(IDelement,table,trainingsize){
 				var txt = document.createTextNode(table[i][j][0]);
 				var th = document.createElement('th');
 				th.style.width = "30px";
-				if(i==0) th.style.borderTopWidth = "3px";
 				var block = document.createElement('div');
-				block.className = 'blockfirstcolumn';
 				block.appendChild(txt);
 				th.appendChild(block);
 				row.appendChild(th);
@@ -690,13 +688,12 @@ function addTableColumn(IDelement,table,trainingsize){
 			else{
 				var td = document.createElement('td');
 				td.style.width = "30px";
-				if(i==0) td.style.borderTopWidth = "3px";
 				for(var k=0;k<3 & table[i][j][k]!="";k++)
 				{
 					var block = document.createElement('div');
 					
-					if(table[i][j][k]=="ready") block.className = 'blockready'; 
-					else block.className = 'blocktraining';
+					if(table[i][j][k]=="ready") block.className = 'smoothrectangle ready'; 
+					else block.className = 'smoothrectangle training';
 					
 					block.appendChild(document.createTextNode(trainingsize[j-1]+"_"+"v"+k));
 					td.appendChild(block);
@@ -760,7 +757,7 @@ function generateHome(){
 				var obj = result[i].classifiers;
 				if(obj.length == 0) free++;
 			}
-			$('.free').html(free);
+			$('#freeclass').html(free);
 		}
 	});
 
@@ -785,8 +782,8 @@ function generateHome(){
 				if(obj.status == "ready") ready++;
 				else training++
 			}
-			$('.ready').html(ready);
-			$('.training').html(training);
+			$('#readyclass').html(ready);
+			$('#trainingclass').html(training);
 
 			//PRINT TABLE OF CLASSIFIERS
 			var label = [];
@@ -855,13 +852,9 @@ function generateHome(){
 			for ( var i in result) {
 				
 				var circle = document.createElement("div");
-				circle.setAttribute("class","circle3");
+				circle.setAttribute("class","smoothrectangle ready");
 				circle.setAttribute("id","showdatasetID"+result[i]._id);
-				
-				var ready = document.createElement("div");
-				ready.setAttribute("class","ready3");
-				ready.appendChild(document.createTextNode(result[i]._id));
-				circle.appendChild(ready);
+				circle.appendChild(document.createTextNode(result[i]._id));
 				$("#listdataset").append(circle);
 				
 			}
