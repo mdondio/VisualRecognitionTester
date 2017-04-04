@@ -564,6 +564,7 @@ p.bigtitle {
 p.bigtitle.centeralign {
 	text-align: center;
 	padding: 16px;
+	transition-duration: 0.3s;
 }
 
 p.bigtitle.centeralign:hover {
@@ -576,6 +577,17 @@ p.title {
 	font-weight: bold;
 	font-size: 28px;
 	font-family: IBM;
+}
+
+p.title.centeralign {
+	text-align: center;
+	padding: 2px;
+	transition-duration: 0.3s;
+}
+
+p.title.centeralign:hover {
+	color: #ffffff;
+	transition-duration: 0.3s;
 }
 
 p.title.right {
