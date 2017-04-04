@@ -31,6 +31,7 @@ public class Dataset {
 //	  }
 //	}
 	private String _id;
+	private String _rev;
 	private String type;
 	private String sub_type;
 	private String label;
@@ -49,11 +50,18 @@ public class Dataset {
 	}
 
 	public int getSize() {
-
 		return images.getPositives().size() + images.getNegatives().size();
-
 	}
 
+	public int getPositiveSize() {
+		return images.getPositives().size();
+	}
+
+	public int getNegativeSize() {
+		return images.getNegatives().size();
+	}
+
+	
 	public String getType() {
 
 	return type;

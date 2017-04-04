@@ -1,5 +1,6 @@
 package net.mybluemix.visualrecognitiontester.blmxservices;
 
+import java.util.Date;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -13,26 +14,27 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import net.mybluemix.visualrecognitiontester.datamodel.DateAdapter;
 import net.mybluemix.visualrecognitiontester.datamodel.Images;
 import net.mybluemix.visualrecognitiontester.datamodel.ImagesAdapter;
 
 /**
  * This class is needed to manage the Cloudant DB service instance. This class
  * guarantees we will instantiate only one instance of the service.
+ * 
  * @author Marco Dondio
  *
  */
 public class CloudantClientMgr {
 
 	private static CloudantClient cloudant = null;
-	private static  GsonBuilder customGsonBuilder;
+	private static GsonBuilder customGsonBuilder;
 
 	private static Database db = null;
 
 	private static String user = null;
 	private static String password = null;
 
-	
 	// This method guarantees we will have only one instance of this object
 	public static Database getCloudantDB() {
 		if (cloudant == null) {
@@ -54,7 +56,6 @@ public class CloudantClientMgr {
 
 	}
 
-	
 	private static void initClient() {
 		if (cloudant == null) {
 			synchronized (CloudantClientMgr.class) {
@@ -72,12 +73,14 @@ public class CloudantClientMgr {
 		String serviceName = null;
 
 		if (VCAP_SERVICES != null) {
-			// When running in Bluemix, the VCAP_SERVICES env var will have the credentials for all bound/connected services
+			// When running in Bluemix, the VCAP_SERVICES env var will have the
+			// credentials for all bound/connected services
 			// Parse the VCAP JSON structure looking for cloudant.
 			JsonObject obj = (JsonObject) new JsonParser().parse(VCAP_SERVICES);
 			Entry<String, JsonElement> dbEntry = null;
 			Set<Entry<String, JsonElement>> entries = obj.entrySet();
-			// Look for the VCAP key that holds the cloudant no sql db information
+			// Look for the VCAP key that holds the cloudant no sql db
+			// information
 			for (Entry<String, JsonElement> eachEntry : entries) {
 				if (eachEntry.getKey().toLowerCase().contains("cloudant")) {
 					dbEntry = eachEntry;
@@ -98,8 +101,8 @@ public class CloudantClientMgr {
 			password = obj.get("password").getAsString();
 
 		} else {
-			//If VCAP_SERVICES env var doesn't exist: running locally.
-			//Replace these values with your Cloudant credentials
+			// If VCAP_SERVICES env var doesn't exist: running locally.
+			// Replace these values with your Cloudant credentials
 
 			System.out.println("[createCLient] VCAP_SERVICES NOT FOUND");
 			user = Configs.CLOUDANT_USER;
@@ -108,21 +111,18 @@ public class CloudantClientMgr {
 
 		try {
 			System.out.println("Connecting to Cloudant : " + user);
-			
+
 			// TODO: necessario per gestire Images internamente come Long
-			 customGsonBuilder = new GsonBuilder().registerTypeAdapter(Images.class, new ImagesAdapter());
-			
-			CloudantClient client = ClientBuilder.account(user)
-					.username(user)
-					.password(password)
-					.gsonBuilder(customGsonBuilder) 
-					.build();
+			customGsonBuilder = new GsonBuilder().registerTypeAdapter(Images.class, new ImagesAdapter())
+					.registerTypeAdapter(Date.class, new DateAdapter());
+
+			CloudantClient client = ClientBuilder.account(user).username(user).password(password)
+					.gsonBuilder(customGsonBuilder).build();
 			return client;
 		} catch (CouchDbException e) {
 			throw new RuntimeException("Unable to connect to repository", e);
 		}
 	}
-
 
 	private CloudantClientMgr() {
 	}

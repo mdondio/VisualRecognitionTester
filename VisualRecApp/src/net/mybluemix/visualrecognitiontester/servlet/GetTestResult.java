@@ -6,6 +6,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,6 +25,8 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassification;
 
+import net.mybluemix.visualrecognitiontester.backgroundaemons.Job;
+import net.mybluemix.visualrecognitiontester.backgroundaemons.JobQueue;
 import net.mybluemix.visualrecognitiontester.blmxservices.CloudantClientMgr;
 import net.mybluemix.visualrecognitiontester.blmxservices.ObjectStorage;
 import net.mybluemix.visualrecognitiontester.blmxservices.ObjectStorageClientMgr;
@@ -42,12 +45,11 @@ import net.mybluemix.visualrecognitiontester.datamodel.Dataset;
 @WebServlet("/GetTestResult")
 public class GetTestResult extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
 	public GetTestResult() {
-		super();			
+		super();
 	}
 
 	/**
@@ -59,28 +61,25 @@ public class GetTestResult extends HttpServlet {
 
 		System.out.println("[GetTestResult doGet()] Function called");
 
-		
+		// System.out.println(request.getParameter("array"));
 
-//		System.out.println(request.getParameter("array"));
-		
 		JsonParser parser = new JsonParser();
 		JsonArray tests = parser.parse(request.getParameter("array")).getAsJsonArray();
-		
+
 		System.out.println(tests);
 		JsonArray results = new JsonArray();
 
 		// For each test
-		for (int i = 0; i < tests.size(); i++ ) {
-						    
+		for (int i = 0; i < tests.size(); i++) {
+
 			JsonObject test = tests.get(i).getAsJsonObject();
-			
+
 			String testSetId = test.get("test").getAsString();
 			String classifierId = test.get("classifier").getAsString();
 
 			// retrieve dataset and classifier object
 			Dataset testSet = retrieveTestSet(testSetId);
 
-			
 			// -----------------------
 			// debug
 			// System.out.println("------------------------");
@@ -123,9 +122,6 @@ public class GetTestResult extends HttpServlet {
 		doGet(request, response);
 	}
 
-	
-
-
 	// XXX ottimizza e recupera tutti i testSet indicati con una sola query
 	private Dataset retrieveTestSet(String id) {
 
@@ -140,8 +136,6 @@ public class GetTestResult extends HttpServlet {
 
 		// execute query
 		List<Dataset> datasets = db.findByIndex(selector, Dataset.class, opt);
-		
-		System.out.println("-------------------------------------------");
 
 		return datasets == null ? null : datasets.get(0);
 	}
@@ -189,19 +183,34 @@ public class GetTestResult extends HttpServlet {
 		classifier.setLabel(classifierJson.getLabel());
 
 		// Classify all zips against Watson instance
-			List<VisualClassification> watsonres;
-				try {
-					watsonres = classifier.classify(zipFiles, Utils.WATSONMINSCORE);
-				} catch (VisualClassifierException e) {
+		List<VisualClassification> watsonres;
+		try {
+			watsonres = classifier.classify(zipFiles, Utils.WATSONMINSCORE);
+		} catch (VisualClassifierException e) {
 
-				System.out.println("[GetTestResult runClassification()] VisualClassifierException: " + e.getMessage());	
-				return new JsonObject();
-				}
+			// if we have an error, we exhausted
+			// classification calls
+			// TODO rendere più robusto
+			System.out.println("[GetTestResult runClassification()] VisualClassifierException: " + e.getMessage());
+
+			// Now we add this classifier to the zombie queue...
+			ServletContext ctx = getServletContext();
+			@SuppressWarnings("unchecked")
+			JobQueue<Job<Classifier>> zombieQueue = (JobQueue<Job<Classifier>>) ctx.getAttribute("zombieQueue");
+
+			zombieQueue.addJob(new Job<Classifier>(classifierJson));
+
+			// return an empty object to client
+			// TODO definire un formato di errore!
+			return new JsonObject();
+		}
 		// Compute results and metrics
 		// TODO passarli come parametri aggiuntivi alla simulazione?
-		double minThreshold = 0.05;
-		double maxThreshold = 0.6;
-		double step = 0.05; // era 0.05
+		// double minThreshold = 0.05;
+		// double maxThreshold = 0.6;
+		double stepSize = 0.05; // era 0.05
+
+		int step = (int) (1.0 / stepSize);
 
 		DecimalFormat df = new DecimalFormat("#.###");
 		/////////////////////////////////////////////////////////////////////////////
@@ -217,12 +226,11 @@ public class GetTestResult extends HttpServlet {
 		List<Double> tprTrace = new ArrayList<Double>();
 		List<Double> fprTrace = new ArrayList<Double>();
 
-		// for (double threshold = minThreshold; threshold <= maxThreshold;
-		// threshold += step) {
-		for (double threshold = maxThreshold; threshold >= minThreshold; threshold -= step) {
+		// for each threshold step...
+		for (int i = step; i >= 0; i--) {
 
 			WatsonBinaryClassificationResult result = new WatsonBinaryClassificationResult(classifierJson, testSet,
-					watsonres, threshold);
+					watsonres, stepSize * i);
 
 			double tpr = result.computeMetric(METRIC.tpr);
 			double fpr = result.computeMetric(METRIC.fpr);
@@ -234,7 +242,7 @@ public class GetTestResult extends HttpServlet {
 			// Compute distance.. perfect classificator -> tpr = 1, fpr = 0
 			double distance = Math.sqrt(Math.pow(fpr, 2) + Math.pow(1 - tpr, 2));
 
-			System.out.println("[GetTestResult runClassification()] threshold = " + df.format(threshold) + " tpr = "
+			System.out.println("[GetTestResult runClassification()] threshold = " + df.format(stepSize * i) + " tpr = "
 					+ df.format(tpr) + " fpr = " + df.format(fpr) + " distance = " + df.format(distance));
 
 			// Update best result
@@ -251,7 +259,6 @@ public class GetTestResult extends HttpServlet {
 		String id = testSet.getLabel() + " " + testSet.getSize() + " - " + classifierJson.getLabel() + " "
 				+ classifierJson.getTrainingSize();
 
-		
 		JsonObject result = buildJsonResult(id, optResult, tprTrace, fprTrace, computeAUCMarco(tprTrace, fprTrace));
 
 		return result;
@@ -278,6 +285,11 @@ public class GetTestResult extends HttpServlet {
 
 		result.add("falseNegativeOpt", buildArrayFromList(optResult.getfalseNegatives()));
 
+		result.add("histogramPositive", buildArrayFromList(optResult.getHistogramPositive()));
+		result.add("histogramNegative", buildArrayFromList(optResult.getHistogramNegative()));
+
+		
+		
 		return result;
 	}
 
@@ -306,7 +318,8 @@ public class GetTestResult extends HttpServlet {
 		for (int i = 0; i < (tprTrace.size() - 1); i++)
 			auc += ((fprTrace.get(i + 1) - fprTrace.get(i)) * (tprTrace.get(i + 1) + tprTrace.get(i)) / 2);
 
-		// System.out.println("[GetTestResult computeAUCAndrea()] auc = " + auc);
+		// System.out.println("[GetTestResult computeAUCAndrea()] auc = " +
+		// auc);
 
 		return auc;
 	}
