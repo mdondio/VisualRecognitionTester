@@ -123,176 +123,195 @@
   
   <!-- Icona Watson -->
    	<div class="content" id="waiting" style="display:none;position:absolute;">
-		<img src='ico/load.svg' id="logowait" systle="display:width=300px">
+		<img src='ico/load.svg' id="logowait" style="display:width=300px">
 	</div>
 		
-<!--   ================================================================ -->
-<!--   ====================== SHOW PAGE ====================== -->
-<!--   ================================================================ -->
+	<!--   ================================================================ -->
+	<!--   ====================== SHOW PAGE ====================== -->
+	<!--   ================================================================ -->
 
-  <div class="content" id="showtest" style="display:none;">
+	<div class="content" id="showtest" style="display: none;">
+	
+<!-- 		==================================================================== -->
+<!-- 		===================== PRIMA COLONNA ================================ -->
+<!-- 		==================================================================== -->
+		<div class="column third">
 
-		
-
-		<!-- PARTE ALTA DELLA PAGINE (VALORI E IMMAGINI) -->
-		<div class="row clearfix" id=firstrow>
-			<!-- PARTE SINISTRA (VALORI E SELEZIONE TEST) -->
-			<div class="column third">
-
-				<!--                   -->
-				<br><br>
-				<!-- Riga con i valori di ACCURACY e THRESHOLD -->
-				<div class="row clearfix">
-				
-					<div class="column half">
-						<div class="post-preview" style="width: 100%; height: auto">
-
-							<div class="circle2">
-								<div class=ready2 id=accuracy>--.--</div>
-								<div class=ready3>accuracy</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="column half">
-						<div class="post-preview" style="width: 100%; height: auto">
-							<div class="circle2">
-								<div class=ready2 id=threshold>--.--</div>
-								<div class=ready3>threshold</div>
-							</div>
-						</div>
-					</div>
-
-				</div>
-				
-				<br><br>
-								<!-- Riga con i valori select dei test -->
-				<div class="row clearfix">
-					<div class="column full">
-						<select class="show_test" type="text" style="width:100%">
-							<option selected disabled>Select Test Set to be analyzed...</option>
-						</select>
-					</div>
-				</div>
-				
-				
-				</div>
-			
-			
-			<!-- PARTE DESTRA (IMMAGINI) -->
-			<div class="column two-thirds"><h2></h2><br>
-			
-			<hr align="center" width="75%" class="middle_division">
-			
-			<!-- RIGA FALSI POSITIVI -->
-				<div class="row clearfix">
-					<div class="column fourth">
-					<p class='ready4'>false<br>positives</p>
-					<p class='ready5'>is a result that indicates a given condition has been fulfilled, when it has not</p>
-					</div>
-					<div class="column three-fourths">
-						<div class="post-preview" id="galleryFP">
-						</div>
-					</div>
-				</div>
-				
-				<hr align="center" width="75%" class="middle_division">
-			<!-- RIGA FALSINEGATIVI -->
-				<div class="row clearfix">
-					<div class="column fourth">
-					<p class='ready4'>false<br>negatives</p>
-										<p class='ready5'> is where a test result indicates that a condition failed, while it was successful</p>
-					</div>
-					<div class="column three-fourths">
-						<div class="post-preview" id="galleryFN">
-						</div>
-					</div>
-				</div>
-				
-				<hr align="center" width="75%" class="middle_division">
-			</div>
-		</div>
-
-<br><br>
-		<!-- PARTE BASSA DELLA PAGINA (GRAFICI) -->
-		<div class="row clearfix" id=secondrow>
-			<!-- PRIMO GRAFICO PARTE SINISTRA -->
-			<div class="column half">
-			
-				<div class="row clearfix">
-				
-				
-				<div class="column fourth">
-				<div class="post-preview">
-					<div>
-						<p style="text-align:right;color:#343b43;font-weight:bold;font-size:28px;">ROC curve</p>
-					</div>
-				</div>
-				</div>
-				
-				<div class="column three-fourths">
-				<div class="post-preview">
-					<div>
-						<p style="text-align:left;color:#A0A0A0;font-size:14px;">In statistics, a receiver operating characteristic curve, or ROC curve, is a graphical plot that illustrates the performance of a binary classifier system as its discrimination threshold is varied.</p>
-					</div>
-				</div>
-				</div>	
-					</div>
-				<br>
-				<div class="row clearfix">
-				<div class="post-preview">
-				<div id="graph1" style="width: 100%; height: auto;"></div>
-				</div>
-				
-				</div>
-				
-			</div>
-			<!-- SECONDO GRAFICO PARTE DESTRA -->
-			<div class="column half">
-				<div class="row clearfix">
-					
-					
-					
-					
-<!-- 					<hr align="center" width="75%" class="middle_division"> -->
-					
-									<div class="column fourth">
-				<div class="post-preview">
-					<div>
-						<p style="text-align:right;color:#343b43;font-weight:bold;font-size:28px;">AUC curve</p>
-					</div>
-				</div>
-				</div>
-				
-				<div class="column three-fourths">
-				<div class="post-preview">
-					<div>
-						<p style="text-align:left;color:#A0A0A0;font-size:14px;">The area under the curve (often referred to as simply the AUC) is equal to the probability that a classifier will rank a randomly chosen positive instance higher than a randomly chosen negative one </p>
-					</div>
-				</div>
-				</div>	
-				</div>
-				<br>
 			<div class="row clearfix">
-<div class="post-preview">
-					<div id="graph2" style="width: 100%; height: auto;position:relative;"></div>
+				<div class="column full">
+					<select class="show_test" type="text" style="width: 100%">
+						<option selected disabled>Select Test Set to be
+							analyzed...</option>
+					</select>
+				</div>
+			</div>
+
+			<br> <br>
+
+			<div class="row clearfix">
+
+				<div class="column half">
+					<div class="post-preview" style="width: 100%; height: auto">
+						<div class="circle2">
+							<div class=ready2 id=accuracy>--.--</div>
+							<div class=ready3>accuracy</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="column half">
+					<div class="post-preview" style="width: 100%; height: auto">
+						<div class="circle2">
+							<div class=ready2 id=threshold>--.--</div>
+							<div class=ready3>threshold</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+			<br> <br>
+
+			<hr align="center" width="75%" class="middle_division">
+
+			<div class="row clearfix">
+				<div class="column full">
+					<p class='ready4'>
+						false positives
+					</p>
+					<p class='ready5'>is a result that indicates a given condition
+						has been fulfilled, when it has not</p>
+				</div>
+				<div class="column full">
+					<div class="post-preview" id="galleryFP"></div>
+				</div>
+			</div>
+
+			<hr align="center" width="75%" class="middle_division">
+
+			<div class="row clearfix">
+				<div class="column full">
+					<p class='ready4'>
+						false negatives
+					</p>
+					<p class='ready5'>is where a test result indicates that a
+						condition failed, while it was successful</p>
+				</div>
+				<div class="column full">
+					<div class="post-preview" id="galleryFN"></div>
+				</div>
+			</div>
+
+			<hr align="center" width="75%" class="middle_division">
+
+		</div>
+
+<!-- 		==================================================================== -->
+<!-- 		===================== SECONDA COLONNA ================================ -->
+<!-- 		==================================================================== -->
+		<div class="column third">
+		
+<!-- 	===========================		GRAFICO ROC CURVE ============================= -->
+			<div class="row clearfix">
+
+				<div class="column full">
+					<div class="post-preview">
+						<div>
+						<p style="text-align: left; color: #343b43; font-weight: bold; font-size: 28px;">ROC curve</p>
+							<p style="text-align: left; color: #A0A0A0; font-size: 14px;">In
+								statistics, a receiver operating characteristic curve, or ROC
+								curve, is a graphical plot that illustrates the performance of a
+								binary classifier system as its discrimination threshold is
+								varied.</p>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<br>
+			<div class="row clearfix">
+				<div class="post-preview">
+					<div id="graph1"></div>
+				</div>
+			</div>
+<!-- 	============================= FINE ROC CURVE ============================= -->
+<hr align="center" width="75%" class="middle_division">
+<!-- 	============================= DISTRIBUTION CURVE ============================= -->
+			<div class="row clearfix">
+
+				<div class="column full">
+					<div class="post-preview">
+						<div>
+						<p
+								style="text-align: left; color: #343b43; font-weight: bold; font-size: 28px;">Distribution
+								curve</p>
+							<p style="text-align: left; color: #A0A0A0; font-size: 14px;">In
+								statistics, a receiver operating characteristic curve, or ROC
+								curve, is a graphical plot that illustrates the performance of a
+								binary classifier system as its discrimination threshold is
+								varied.</p>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<br>
+			<div class="row clearfix">
+				<div class="post-preview">
+					<div id="graph_histogram"></div>
+				</div>
+			</div>
+			<!-- 	============================= FINE DISTRIBUTION CURVE ============================= -->
+			
+		</div>
+		
+<!-- 		==================================================================== -->
+<!-- 		===================== TERZA COLONNA ================================ -->
+<!-- 		==================================================================== -->
+
+		<div class="column third">
+<!-- 	===========================		GRAFICO AUC CURVE ============================= -->
+			<div class="row clearfix">
+
+				<div class="column full">
+					<div class="post-preview">
+						<div>
+													<p
+								style="text-align: left; color: #343b43; font-weight: bold; font-size: 28px;">AUC
+								curve</p>
+							<p style="text-align: left; color: #A0A0A0; font-size: 14px;">The
+								area under the curve (often referred to as simply the AUC) is
+								equal to the probability that a classifier will rank a randomly
+								chosen positive instance higher than a randomly chosen negative
+								one</p>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 
-		<!-- gestione della preview immagini -->
+			<br>
 
-		<div id="myModalFP" class="modal">
-			<span class="close cursor" onclick="closeModal()">&times;</span>
-			<div class="modal-content" id="modalcontentFP"></div>
-		</div>
-		
-				<div id="myModalFN" class="modal">
-			<span class="close cursor" onclick="closeModal()">&times;</span>
-			<div class="modal-content" id="modalcontentFN"></div>
-		</div>
+			<div class="row clearfix">
+				<div class="post-preview">
+					<div id="graph2"></div>
+				</div>
+			</div>
 
+		</div>
+<!-- 	============================= FINE AUC CURVE ============================= -->
+
+	</div>
+
+	<!-- gestione della preview immagini -->
+
+	<div id="myModalFP" class="modal">
+		<span class="close cursor" onclick="closeModal()">&times;</span>
+		<div class="modal-content" id="modalcontentFP"></div>
+	</div>
+
+	<div id="myModalFN" class="modal">
+		<span class="close cursor" onclick="closeModal()">&times;</span>
+		<div class="modal-content" id="modalcontentFN"></div>
 	</div>
 
 
@@ -469,17 +488,21 @@ $('body').on("click","img[id*=garbage]",function(){
 });
 
 // ON CHANGE select test
-$('.show_test').on('change', function() {
-					var testname = $(".show_test").val();
-					var parsedJSON = JSON.parse(finalJSON);
-					for ( var j in parsedJSON) {
-						if (parsedJSON[j].name == testname) {
-							setParameters(cacheTestResult[j]);
-							showGallery(cacheTestResult[j].falseNegativeOpt, "FN");
-							showGallery(cacheTestResult[j].falsePositiveOpt, "FP");
-						}
+	$('.show_test').on(
+			'change',
+			function() {
+				var testname = $(".show_test").val();
+				var parsedJSON = JSON.parse(finalJSON);
+				for ( var j in parsedJSON) {
+					if (parsedJSON[j].name == testname) {
+						setParameters(cacheTestResult[j]);
+						showGallery(cacheTestResult[j].falseNegativeOpt, "FN");
+						showGallery(cacheTestResult[j].falsePositiveOpt, "FP");
+						DrawHistogram(cacheTestResult[j].histogramNegative,
+								cacheTestResult[j].histogramPositive);
 					}
- 	});    
+				}
+});   
     
     
     

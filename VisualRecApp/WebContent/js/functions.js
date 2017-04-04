@@ -126,7 +126,8 @@ function Draw(result){
 			//LAYOUT GRAFICO ROC
 			var layout1 = {
 					legend: {
-						y: 0.5,
+						x: 1,
+						y: 1,
 						traceorder: 'reversed',
 						font: {size: 16},
 						yref: 'paper',
@@ -134,20 +135,31 @@ function Draw(result){
 					title: 'ROC Curve',
 					xaxis: {
 						title: 'fpr',
-						range: [0, 1],
-						autorange: false
+						autorange: true
 					},
 					yaxis: {
 						title: 'tpr',
-						range: [0, 1],
-						autorange: false
-					}
+						autorange: true
+					},
+					autosize: false,
+					  width: 400,
+					  height: 400,
+					  margin: {
+					    l: 50,
+					    r: 50,
+					    b: 100,
+					    t: 100,
+					    pad: 4
+					  },
+					  paper_bgcolor: '#f2f2f2',
+					  plot_bgcolor: '#f2f2f2'
 			};
 
 			//LAYOUT GRAFICO AUC
 			var layout2 = {
 					legend: {
-						y: 0.5,
+						x: 1,
+						y: 1,
 						traceorder: 'reversed',
 						font: {size: 16},
 						yref: 'paper',
@@ -155,14 +167,24 @@ function Draw(result){
 					title: 'AUC Curve',
 					xaxis: {
 						title: 'N',
-						range: [0, 350],
-						autorange: false
+						autorange: true
 					},
 					yaxis: {
 						title: 'AUC',
-						range: [0, 1],
-						autorange: false
-					}
+						autorange: true
+					},
+					autosize: false,
+					  width: 400,
+					  height: 400,
+					  margin: {
+					    l: 50,
+					    r: 50,
+					    b: 100,
+					    t: 100,
+					    pad: 4
+					  },
+					  paper_bgcolor: '#f2f2f2',
+					  plot_bgcolor: '#f2f2f2'
 			};
 
 			//PLOT GRAFICO ROC E AUC
@@ -462,8 +484,8 @@ function getDataShow(){
 	// ajax call to backend
 	$.ajax(
 			{
-//				url: "json/testresult2.json",
-				url: 'GetTestResult',
+				url: "json/testresult2.json",
+//				url: 'GetTestResult',
 				type: 'GET',
 				data:{ array: finalJSON },
 				dataType: 'json',
@@ -502,6 +524,8 @@ function getDataShow(){
 							setParameters(result[j]);
 							showGallery(result[j].falseNegativeOpt, "FN");
 							showGallery(result[j].falsePositiveOpt, "FP");
+							DrawHistogram(cacheTestResult[j].histogramNegative,
+									cacheTestResult[j].histogramPositive);
 						}
 					}
 				}
