@@ -1,30 +1,33 @@
 <!DOCTYPE html>
 <html>
-
 <head></head>
 
+<!-- LIBRERIE GENERICHE PER JQUERY -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script> 
+
+<!-- FUNZIONI CREATE DA NOI -->
 <script src="js/genericFunctions.js"></script>
 <script src="js/functions.js"></script>
+
+<!-- LIBRERIA PER DISEGNARE GRAFICI -->
 <script src ="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+<!-- LIBRERIA PER PERSONALIZZAZIONE DEGLI ALERT -->
 <script src="js/sweetalert2_mine.js"></script>
+<link rel="stylesheet" href="css/sweetalert2_mine.css">
+
+<!-- LIBRERIA PER CARICARE I FILE -->
 <script src="js/dropzone.js"></script>
 <link rel="stylesheet" href="css/dropzone.css">
 
 <script>createHead();</script>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script> 
-
-
-<!-- <script src="js/sweetalert.min.js"></script> -->
-<!-- <link rel="stylesheet" href="css/sweetalert.css"> -->
-
 <body>
   <header id="header" style="animation-duration:2s"></header>
   <script>createHeader();</script>
   
-
 <div class="content" id="simulate">
 	<div class="row clearfix">
 	
@@ -62,9 +65,6 @@
 		</div>
 		
 	</div>
-
- 				<!--  <form action="/" method="post" class="dropzone" id="my-awesome-dropzone"></form>  -->
- 				 
  
     <div class="row clearfix">
 
@@ -501,8 +501,8 @@ $('body').on("click","img[id*=garbage]",function(){
 						setParameters(cacheTestResult[j]);
 						showGallery(cacheTestResult[j].falseNegativeOpt, "FN");
 						showGallery(cacheTestResult[j].falsePositiveOpt, "FP");
-						DrawHistogram(cacheTestResult[j].histogramNegative,
-								cacheTestResult[j].histogramPositive);
+						console.log(cacheTestResult[j]);
+						DrawHistogram(cacheTestResult[j].histogramNegative,cacheTestResult[j].histogramPositive);
 					}
 				}
 });   

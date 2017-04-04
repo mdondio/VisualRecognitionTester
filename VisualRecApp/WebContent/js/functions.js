@@ -195,24 +195,19 @@ function Draw(result){
 
 function DrawHistogram(histogramNegative,histogramPositive){
 		
-	var scores = [];
 	var negative = [];
 	var positive = [];
+	console.log(histogramNegative)
 	for(var i=0;i<histogramNegative.length;i++)
 		{
-		var neg =0;
-		var pos =0.1;
-		for(var j=0;j<50;j++)
-			{
-			neg+=(Math.random()/50);
-			pos+=(Math.random()/50);
-			}
-//		negative.push(neg);
-//		positive.push(pos);
-		console.log(histogramNegative)
 		negative.push(histogramNegative[i]);
-		positive.push(histogramPositive[i]);
 		}
+	
+	console.log(histogramPositive)
+	for(var i=0;i<histogramPositive.length;i++)
+	{
+	positive.push(histogramPositive[i]);
+	}
 	
 	//ADD negative histogram
 	var negativeTrace = {
@@ -222,7 +217,12 @@ function DrawHistogram(histogramNegative,histogramPositive){
 		name: "Negative distribution",
 		marker: {
 			"color": "green",
-		}
+		},
+	xbins:{
+		start: 0,
+		end: 1,
+		size: 0.05		
+	}
 	};
 	
 	//ADD positive histogram
@@ -233,6 +233,11 @@ function DrawHistogram(histogramNegative,histogramPositive){
 		name: "Positive distribution",
 		marker: {
 			"color": "red",
+		},
+		xbins:{
+			start: 0,
+			end: 1,
+			size: 0.05		
 		}
 	};
 	
@@ -423,9 +428,10 @@ function currentSlide(n) {
 
 function showSlides(n) {
 	if (GALLERY == "") {
-		swal('Oops...',
-				'You are trying to access a gallery that does not exist!',
-				'error')
+	    swal({
+			title: 'Warning',
+			text: 'You are trying to access a gallery that does not exist!',
+			type: 'warning',});
 	} else {
 		var i;
 		var slides = document.getElementsByClassName("mySlides" + GALLERY);

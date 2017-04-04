@@ -177,11 +177,11 @@
 		box-shadow: none;
 		color: #485a67;
 	}
-	.home {
-		font-size: 24px;
-		color: #808080;
-		font-family: IBM;
-	}
+/* 	.home { */
+/* 		font-size: 24px; */
+/* 		color: #808080; */
+/* 		font-family: IBM; */
+/* 	} */
 
 	/*----------------------------------------*/
 	.clearfix:before, .clearfix:after {
@@ -509,5 +509,22 @@
 	}
 	.titledataset{
 		border-top: 3px solid #343b43; padding-top: 30px; margin-bottom: 30px;
+	}
+	
+	
+/* 	NUOVE CLASSI PER FORMATTING */
+	
+	p.title {
+	color: #343b43; 
+	font-weight: bold; 
+	font-size: 28px;
+	}
+	
+	p.title.right {
+	text-align: right; 
+	}
+	
+	p.title.left {
+	text-align: left; 
 	}
 }

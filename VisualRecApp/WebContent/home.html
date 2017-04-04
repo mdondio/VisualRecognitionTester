@@ -1,13 +1,27 @@
 <!DOCTYPE html>
 <html>
-
 <head></head>
 
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="js/sweetalert2_mine.js"></script>
+<!-- LIBRERIE GENERICHE PER JQUERY -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script> 
+
+<!-- FUNZIONI CREATE DA NOI -->
 <script src="js/genericFunctions.js"></script>
 <script src="js/functions.js"></script>
+
+<!-- LIBRERIA PER DISEGNARE GRAFICI -->
+<script src ="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+<!-- LIBRERIA PER PERSONALIZZAZIONE DEGLI ALERT -->
+<script src="js/sweetalert2_mine.js"></script>
+<link rel="stylesheet" href="css/sweetalert2_mine.css">
+
+<!-- LIBRERIA PER CARICARE I FILE -->
+<script src="js/dropzone.js"></script>
+<link rel="stylesheet" href="css/dropzone.css">
+
 <script>
 	createHead();
 </script>
@@ -32,12 +46,9 @@
 				<hr align="center" width="75%" class="middle_division">
 				<div class="column half">
 					<div class="post-preview">
-						<div>
-							<p class="home"
-								style="text-align: right; color: #343b43; font-weight: bold;">
+						<p class="title right">
 								ready <br> classifiers
 							</p>
-						</div>
 					</div>
 				</div>
 
