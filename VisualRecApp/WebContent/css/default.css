@@ -581,7 +581,7 @@ p.title {
 
 p.title.centeralign {
 	text-align: center;
-	padding: 2px;
+	padding: 16px;
 	transition-duration: 0.3s;
 }
 
