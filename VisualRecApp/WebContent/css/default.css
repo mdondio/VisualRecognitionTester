@@ -563,8 +563,9 @@ p.bigtitle {
 
 p.bigtitle.centeralign {
 	text-align: center;
-	padding: 16px;
+/* 	padding: 16px; */
 	transition-duration: 0.3s;
+
 }
 
 p.bigtitle.centeralign:hover {
@@ -663,61 +664,72 @@ th {
 }
 
 .circumference {
-	background: transparent;
-	border: 3px solid #343b43;
-	position: relative;
-	color: #343b43;
-	transition-duration: 0.3s;
-	-webkit-transition-duration: 0.3s;
-}
-
-.circumference:hover {
-	background: #343b43;
-    transition-duration: 0.3s;
-    -webkit-transition-duration: 0.3s;
-}
-
-.circumference.medium {
-	width: 100px;
-	height: 100px;
-	-webkit-border-radius: 50px;
-	-moz-border-radius: 50px;
-	border-radius: 50px;
-	left: 40%;
-}
-
-.circumference.large {
-	width: 150px;
-	height: 150px;
-	-webkit-border-radius: 75px;
-	-moz-border-radius: 75px;
-	border-radius: 75px;
-	left: 32%;
-}
-
-.smoothrectangle {
-	width: 100%;
-	height: 50px;
-	margin-top: 10px;
-	margin-bottom: 10px;
-	padding: 12px;
-	background: #ECECEC;
-	font-family: IBM;
-	text-align: center;
-	font-size: 12pt;
-	color: #343b43;
-	-webkit-border-radius: 25px;
-	-moz-border-radius: 25px;
-	border-radius: 25px;
-	font-weight: bold;
-	border-style: solid;
-	border-color: #343b43;
-	border-width: 2px;
+		/* 	hape characteristcs */
+		background: transparent;
+		border: 3px solid #343b43;
+		position: relative;
+		/* 	test characteristics */
+		font-family: "IBM";
+		color: #343b43;
+		/* 	transform characteristics */
 		transition-duration: 0.3s;
 		-webkit-transition-duration: 0.3s;
-}
-
-.smoothrectangle:hover{
+	}
+	.circumference:hover {
+		background: #343b43;
+		color: #ffffff;
+		transition-duration: 0.3s;
+		-webkit-transition-duration: 0.3s;
+	}
+	.circumference.medium {
+		/* 	shape characteristcs */
+		width: 100px;
+		height: 100px;
+		-webkit-border-radius: 50px;
+		-moz-border-radius: 50px;
+		border-radius: 50px;
+		/* 	test characteristics */
+		font-weight: bold;
+		font-size: 52px;
+		text-align: center;
+		line-height: 89px;
+	}
+	.circumference.large {
+		/* 	shape characteristcs */
+		width: 130px;
+		height: 130px;
+		-webkit-border-radius: 65px;
+		-moz-border-radius: 65px;
+		border-radius: 65px;
+		/* 	test characteristics */
+		font-weight: bold;
+		font-size: 52px;
+		text-align: center;
+		line-height: 119px;
+	}
+	
+.smoothrectangle {
+		width: 100%;
+		height: 50px;
+		margin-top: 10px;
+		margin-bottom: 10px;
+		padding: 12px;
+		background: #ECECEC;
+		font-family: IBM;
+		text-align: center;
+		font-size: 12pt;
+		color: #343b43;
+		-webkit-border-radius: 25px;
+		-moz-border-radius: 25px;
+		border-radius: 25px;
+		font-weight: bold;
+		border-style: solid;
+		border-color: #343b43;
+		border-width: 2px;
+		transition-duration: 0.3s;
+		-webkit-transition-duration: 0.3s;
+	}
+	.smoothrectangle:hover{
 transform: scale(1.1);
  -webkit-transform: scale(1.1);
 transition-duration: 0.3s;
