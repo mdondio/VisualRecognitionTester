@@ -546,8 +546,39 @@ function getDataShow(){
 
 }
 
-//TODO commentare
-// POPULATE SIMULATION DROP DOWN MENUS
+
+/**
+ * @returns prepara il file JSON con gli input e richiama la funzione getDataShow() per ottenere i risultati dal backend
+ */
+function startSimulation(){
+	directJSON = [];
+			    
+			    var testName = Array.prototype.map.call($("[id*=testname]"),(function(el){return el.value;}));
+				var testDataset = Array.prototype.map.call($("[id*=testset]"),(function(el){return el.value;}));
+				var testClassifier = Array.prototype.map.call($("[id*=testclassifier]"),(function(el){return el.value;}));
+			    var testname;
+			    
+			    for( k = 0; k < TOTALROWSFILLED; k++ ){
+			       	item = {}
+			    	item["name"] = testName[k];
+			    	item["test"] = testDataset[k];
+			    	item["classifier"] = testClassifier[k];
+			    	directJSON.push(item); 
+			    }
+			    
+			    finalJSON = JSON.stringify(directJSON);
+			    $("#simulate").fadeOut(1000);
+			    setTimeout(function(){$("#waiting").fadeIn(1000)},1000);
+	 			setTimeout(
+	 			function(){getDataShow()},
+	 			3000);
+	}
+
+
+
+/**
+ * @returns popola i menu a tendina della pagine di set-up
+ */
 function populateSelectSim(){
 
 	// chiamata per popolare il menu a tendina dei classificatori ready nella pagina simulate.html
@@ -563,7 +594,7 @@ function populateSelectSim(){
 			for(var j in result){
 				var obj = result[j];
 				if(obj.status == "ready"){
-					$('.avail_class').append($('<option>', {
+					$('[id*="testclassifier"]').append($('<option>', {
 						value: obj._id,
 						text: obj.label+" "+obj.training_size
 					}));
@@ -585,7 +616,7 @@ function populateSelectSim(){
 			for(var i in result){
 				var obj = result[i];
 	
-					$('.test_set').append($('<option>', {
+					$('[id*="testset"]').append($('<option>', {
 						value: obj._id,
 						text: obj.label+" "+ (obj.images.positive.length + obj.images.negative.length)
 					}));

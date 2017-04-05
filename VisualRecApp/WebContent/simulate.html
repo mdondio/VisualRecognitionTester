@@ -32,8 +32,8 @@
 	<div class="row clearfix">
 	
 		<div class="column third">
-			<div class="post-preview" style="width:100%; height:auto">
-				<img class="center" src="ico/addDARK.png" style="width:50px;height:auto;">
+			<div class="post-preview" style="width:100%;">
+				<img src="ico/addDARK.png" class="icon small centeralign">
 				<br>
 					<p class="title center">Add one more test</p>
 					<p class="paragraph center">You can run 10 test at the same time</p>
@@ -41,8 +41,8 @@
 		</div>
 							
 	    <div class="column third">
-			<div class="post-preview" style="width:100%; height:auto">
-					<img class="icon small centeralign" src="ico/uploadDARK.png">
+			<div class="post-preview" style="width:100%;">
+					<img src="ico/uploadDARK.png" class="icon small centeralign">
 					<br>
 					<p class="title center">Upload a new test dataset</p>
 					<p class="paragraph center">Upload two .zip files with positive and negative images to set-up a new test data set</p>
@@ -50,8 +50,8 @@
 		</div>
 							
 	    <div class="column third">
-			<div class="post-preview" style="width:100%; height:auto">
-				<img class="center" src="ico/play-buttonDARK.png" style="width:50px;height:auto;">
+			<div class="post-preview" style="width:100%">
+				<img src="ico/play-buttonDARK.png" class="icon small centeralign">
 					<br>
 					<p class="title center">Run your simulation</p>
 					<p class="paragraph center">When you are ready start your simulation</p>		
@@ -61,54 +61,58 @@
 	</div>
  
     <div class="row clearfix">
-
     	<div class="column full">
+				<form id="myForm" action="javascript:startSimulation();">
+					<br>
+					<hr class="lineseparator">
+					
+					<div style="text-align:center;">
+					<button>
+					<img id="addicon" class="icon medium" src="ico/addDARK.png">
+					</button>
+					<button>
+					<img id="uploadicon" class="icon medium" src="ico/uploadDARK.png">
+					</button>
+					<button type="submit">
+					<img id="playicon" class="icon medium" src="ico/play-buttonDARK.png">
+					</button>
+					</div>
+					
+					<hr class="lineseparator">
+					<br>
 
-      
-      <form id="myForm" action="javascript:startSimulation();"> 
-			       <br>    	
-      <hr align="center" width="50%" class="middle_division">
-      		<div class="sim-buttons">
- 				<input type=image id="addicon" class="inline" src="ico/addDARK.png" style="width:60px;height:auto;">
- 				<input type=image id="uploadicon" class="inline" src="ico/uploadDARK.png" style="width:60px;height:auto;margin-left:30px;margin-right:30px;"> 
-       			<input type=image id="playicon" class="inline" src="ico/play-buttonDARK.png" style="width:60px;height:auto;">
-	  		
-	  			<hr align="center" width="50%" class="middle_division">
-	  		</div>
-      <br>
-        
-	        	<div class="row clearfix moltiplicandum" id="moltiplicandum1" style="margin-bottom:20px;margin-left:200px;">
-			        
-			        
-					<div class="column fourth">
-					  <!-- Class name was test_set, in conflict with the next one!  -->
-		              <input required class="testName" name="test1" type="text" placeholder="Insert test name" style="width:100%">
-		            </div>
-		            
-		            <div class="column fourth">
-		              <select required class="test_set" type="text" style="width:100%">
-		                <option selected disabled value="">Select test dataset</option>
-		              </select>
-		            </div>
-		
-		            <div class="column fourth">
-		              <!-- Class name was avail_class -->
-		              <select required class="avail_class" type="text" style="width:100%">
-		                <option selected disabled value="">Select classifier</option>
-		              </select>
-		            </div>
-	
-		            <div class="column fourth">
-		            	<img id="reload1" class="inline" data-alt-src="ico/reload.png" src="ico/reloadDARK.png" style="width:30px; height:auto;">
-       					<img id="garbage1" class="inline" data-alt-src="ico/garbage.png" src="ico/garbageDARK.png" style="width:30px; height:auto;">  
-		            </div>		
+					<div class="row clearfix moltiplicandum" id="moltiplicandum1"
+						style="margin-bottom: 20px; margin-left: 200px;">
 
-        </div>
-</form>
-        <br>
-
+						<div class="column fourth">
+							<input class="title" id="testname1" type="text"
+								placeholder="TEST_1">
+						</div>
+						<div class="column fourth">
+							<select required class="title" id="testset1">
+								<option selected disabled value="">Select test dataset</option>
+							</select>
+						</div>
+						<div class="column fourth">
+							<select required class="title" id="testclassifier1">
+								<option selected disabled value="">Select classifier</option>
+							</select>
+						</div>
+						<div class="column fourth">
+							<button>
+								<img id="reload1" class="icon verysmall"
+									data-alt-src="ico/reload.png" src="ico/reloadDARK.png">
+							</button>
+							<button>
+								<img id="garbage1" class="icon verysmall"
+									data-alt-src="ico/garbage.png" src="ico/garbageDARK.png">
+							</button>
+						</div>
+					</div>
+				</form>
       </div>
     </div>
+    
   </div>
   
 <!--   ================================================================ -->
@@ -313,7 +317,6 @@
 
 <script>
 
-
 //ADD button actions
 $('#addicon').mouseover(function(){
 	$(this).attr('src','ico/addicon.png');
@@ -323,67 +326,29 @@ $('#addicon').mouseleave(function(){
 	$(this).attr('src',"ico/addDARK.png" );
 });
 
-var totalRowsFilled = 1;
-var max = 10; // max number of allowed selectors: 10
+var TOTALROWSFILLED = 1;
 $('#addicon').click(function(){
-if(totalRowsFilled < max){
-      
+if(TOTALROWSFILLED < 10){
       var $div = $('div[id^="moltiplicandum"]:last'); // seleziono l'ultimo moltiplicandum
-      
       var nextrow = parseInt( $div.prop("id").match(/\d+/g), 10 ) +1; // estraggo il numero identificativo e lo incremento
-     console.log(nextrow);
-      var currentrow = nextrow-1;     
-      
-      $("#moltiplicandum"+currentrow).clone()
-      .prop('id', 'moltiplicandum'+nextrow)
-      .find('input:text').val("")
-      .removeAttr('class')
-      .attr('name','test'+nextrow).end()
-      .appendTo("#myForm"); // clono, rinomino e appendo
-      
+      var currentrow = nextrow-1;       
+      $("#moltiplicandum"+currentrow).clone().prop('id', 'moltiplicandum'+nextrow).appendTo("#myForm"); // clono, rinomino e appendo
+      $("#moltiplicandum"+nextrow).find('input:text').val("TEST_"+nextrow);
+      $("#moltiplicandum"+nextrow).find("input#testname"+currentrow).attr("id","testname"+nextrow);
+      $("#moltiplicandum"+nextrow).find("select#testset"+currentrow).attr("id","testset"+nextrow);
+      $("#moltiplicandum"+nextrow).find("select#testclassifier"+currentrow).attr("id","testclassifier"+nextrow);
       $("#moltiplicandum"+nextrow).find("img#reload"+currentrow).attr("id","reload"+nextrow);
       $("#moltiplicandum"+nextrow).find("img#garbage"+currentrow).attr("id","garbage"+nextrow);
-            
     } else {
     swal({
 				title: "Warning",
 				text: "Max number of entries reached. You can run max 10 tests simultaneously.",
 				type: "warning"});
     }
-    totalRowsFilled++;
+    TOTALROWSFILLED++;
 });
 
 //UPLOAD button actions
-
-// Dropzone.options.myAwesomeDropzone = {
-//     init: function() {
-//       this.on("addedfile", function(file) {
-
-//         // Create the remove button
-//         var removeButton = Dropzone.createElement("<button>Remove file</button>");
-
-
-//         // Capture the Dropzone instance as closure.
-//         var _this = this;
-
-//         // Listen to the click event
-//         removeButton.addEventListener("click", function(e) {
-//           // Make sure the button click doesn't submit the form:
-//           e.preventDefault();
-//           e.stopPropagation();
-
-//           // Remove the file preview.
-//           _this.removeFile(file);
-//           // If you want to the delete the file on the server as well,
-//           // you can do the AJAX request here.
-//         });
-
-//         // Add the button to the file preview element.
-//         file.previewElement.appendChild(removeButton);
-//       });
-//     }
-//   };
-
 $('#uploadicon').mouseover(function(){
 	$(this).attr('src','ico/upload.png');
 });
@@ -406,32 +371,6 @@ $('#playicon').mouseleave(function(){
 	$(this).attr('src',"ico/play-buttonDARK.png" );
 });
 
-function startSimulation(){
-directJSON = [];
-		    
-		    var testName = Array.prototype.map.call($(".moltiplicandum input"),(function(el){return el.value;}));
-		    
-			var testDataset = document.getElementsByClassName('test_set');
-			var testClassifier = document.getElementsByClassName('avail_class');
-		    var testname;
-		    //can't use i index 'cause it was already globally living above for row counter ( shouldn't be globally reachable... )
-		    for( k = 0; k < totalRowsFilled; k++ ){
-		    	
-		    	item = {}
-		    	item["name"] = testName[k];
-		    	item["test"] = testDataset[k].value;
-		    	item["classifier"] = testClassifier[k].value;
-		    	directJSON.push(item); 
-		    }
-		    
-		    finalJSON = JSON.stringify(directJSON);
-		    $("#simulate").fadeOut(1000);
-		    setTimeout(function(){$("#waiting").fadeIn(1000)},1000);
- 			setTimeout(
- 			function(){getDataShow()},
- 			3000);
-}
-
 //RELOAD button actions
 $('body').on("mouseover","img[id*=reload]",function(){
  	$(this).attr('src',"ico/reload.png");
@@ -444,8 +383,7 @@ $('body').on("mouseleave","img[id*=reload]",function(){
 $('body').on("click","img[id*=reload]",function(){
 	var $this = $(this);
 	var num = parseInt($this.prop("id").substring(6));
-	console.log("num reload "+num);
-  	$("#moltiplicandum"+num).find('input:text').val("");
+  	$("#moltiplicandum"+num).find('input:text').val("TEST_"+num);
  	$("#moltiplicandum"+num).find('select').val("").find('select').val("");      
 });
 
@@ -465,15 +403,12 @@ $('body').on("click","img[id*=garbage]",function(){
 	if(size.length>1) 
 	{
 	$("#moltiplicandum"+num).remove();
-		totalRowsFilled--;
-	console.log("TOTAL ROWS"+totalRowsFilled)
-		console.log("RIGA CANCELLATA"+num)
+		TOTALROWSFILLED--;
 	}
 	else swal({
 				title: "Warning",
 				text: "You have to run at least one test",
 				type: "warning"});
-
 });
 
 // ON CHANGE select test
@@ -492,43 +427,7 @@ $('body').on("click","img[id*=garbage]",function(){
 					}
 				}
 });   
-    
-    
-    
-// DROP ZONE (after the drop_zone and output divs, outside functions.js)
-// function handleFileSelect(evt) {
-//   evt.stopPropagation();
-//   evt.preventDefault();
-
-//   var files = evt.dataTransfer.files; // FileList object.
-
-//   // files is a FileList of File objects. List some properties.
-//   var output = [];
-//   for (var i = 0, f; f = files[i]; i++) {
-//     output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
-//     f.size, ' bytes, last modified: ',
-//     f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
-//     '</li>');
-//   }
-//   document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
-// }
-
-// function handleDragOver(evt) {
-//   evt.stopPropagation();
-//   evt.preventDefault();
-//   evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
-// }
-
-// // Setup the dnd listeners.
-// var dropZone = document.getElementById('drop_zone');
-// dropZone.addEventListener('dragover', handleDragOver, false);
-// dropZone.addEventListener('drop', handleFileSelect, false);
-
-
-
-
 </script>
-
 
 <script>
 populateSelectSim();

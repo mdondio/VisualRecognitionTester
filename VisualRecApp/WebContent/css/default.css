@@ -289,10 +289,6 @@ and
 /* 	box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.12); */
 /* } */
 
-.icon {
-	width: 50px;
-}
-
 /* img.center { */
 /* 	display: block; */
 /* 	margin: 0 auto; */
@@ -300,16 +296,15 @@ and
 /* 	margin-top: 8px; */
 /* } */
 
-img.inline {
-	display: inline;
-	margin: 0 auto;
-	margin-bottom: 8px;
-	margin-top: 8px;
-	margin-left: 18px;
-	margin-right: 18px;
-}
-
-.icoreload {
+/* img.inline { */
+/* 		display: inline; */
+/* 		margin: 0 auto; */
+/* 		margin-bottom: 8px; */
+/* 		margin-top: 8px; */
+/* 		margin-left: 18px; */
+/* 		margin-right: 18px; */
+/* 	} */
+	.icoreload {
 	display: inline;
 	margin: 0 auto;
 	margin-bottom: 8px;
@@ -361,34 +356,11 @@ p.bigtitle {
 	position: relative;
 }
 
-p.bigtitle.centeralign {
-	text-align: center;
-/* 	padding: 16px; */
-	transition-duration: 0.3s;
-
-}
-
-p.bigtitle.centeralign:hover {
-	color: #ffffff;
-	transition-duration: 0.3s;
-}
-
 p.title {
 	color: #343b43;
 	font-weight: bold;
 	font-size: 28px;
 	font-family: IBM;
-}
-
-p.title.centeralign {
-	text-align: center;
-	padding: 16px;
-	transition-duration: 0.3s;
-}
-
-p.title.centeralign:hover {
-	color: #ffffff;
-	transition-duration: 0.3s;
 }
 
 p.title.right {
@@ -421,14 +393,7 @@ p.paragraph.left {
 	text-align: left;
 }
 
-select.title{
-	width: 100%;
-	
-	color: #343b43;
-	font-weight: bold;
-	font-size: 14px;
-	font-family: IBM;
-}
+
 /* ================== GESTIONE TABELLE ============== */
 
 table, td, th {
@@ -461,21 +426,61 @@ th {
 	text-align: left;
 }
 
-/*============ IMMAGINI ==========*/
+/*============ BOTTONI ==========*/
 
-.img.icon{
-
+button{
+	background: transparent;
+	border: transparent;
+	margin-left: 15px;
+		margin-right: 15px;
 }
 
-.img.icon.small{
+select.title{
+	width: 100%;
+	
+	color: #343b43;
+	font-weight: bold;
+	font-size: 14px;
+	font-family: IBM;
+}
+
+input.title{
+	width: 100%;
+	
+	color: #343b43;
+	font-weight: bold;
+	font-size: 14px;
+	font-family: IBM;
+}
+/*============ IMMAGINI ==========*/
+
+img.icon{
+	display:block;
+}
+
+img.icon.inline{
+	display: inline;
+}
+
+img.icon.verysmall{
+	width:30px; 
+	height:auto;
+}
+
+img.icon.small{
+	width:50px; 
+	height:auto;
+}
+
+img.icon.medium{
 	width:100px; 
 	height:auto;
 }
 
-.img.centeralign{
-	margin: 0 auto;
-	margin-bottom: 8px;
-	margin-top: 8px;
+img.centeralign{
+	margin: auto;
+/* 	margin-bottom: 8px; */
+/* 	margin-top: 8px; */
 }
 
 /*============ OGGETTI GRAFICI ==========*/
