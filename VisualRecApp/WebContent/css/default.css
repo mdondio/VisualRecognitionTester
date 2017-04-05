@@ -71,25 +71,25 @@
 /* .sim-buttons { */
 /* 	text-align: center; */
 /* } */
-.middle_division {
-	margin: auto;
-	margin-top: 20px;
-	margin-bottom: 20px;
-	display: block;
-	height: 1px;
-	border: 0;
-	border-top: 1px solid #ccc;
-}
+/* .middle_division { */
+/* 	margin: auto; */
+/* 	margin-top: 20px; */
+/* 	margin-bottom: 20px; */
+/* 	display: block; */
+/* 	height: 1px; */
+/* 	border: 0; */
+/* 	border-top: 1px solid #ccc; */
+/* } */
 
-.middle_division2 {
-	margin: auto;
-	margin-top: 20px;
-	margin-bottom: 20px;
-	display: block;
-	height: 1px;
-	border: 0;
-	border-top: 2px solid #343b43;
-}
+/* .middle_division2 { */
+/* 	margin: auto; */
+/* 	margin-top: 20px; */
+/* 	margin-bottom: 20px; */
+/* 	display: block; */
+/* 	height: 1px; */
+/* 	border: 0; */
+/* 	border-top: 2px solid #343b43; */
+/* } */
 
 /* .clearfix:before, .clearfix:after { */
 /* 	content: " "; */
@@ -238,71 +238,14 @@ and
 	box-shadow: 0px 5px 5px #ff8040;
 }
 
-.blockready {
-	width: 100%;
-	height: 50px;
-	margin-top: 10px;
-	margin-bottom: 10px;
-	padding: 10px;
-	background: #ECECEC;
-	font-family: IBM;
-	text-align: center;
-	font-size: 14pt;
-	/*   box-shadow: 0px 3px 3px #c0c0c0; */
-	color: #485a67;
-	-webkit-border-radius: 25px;
-	-moz-border-radius: 25px;
-	border-radius: 25px;
-	font-weight: bold;
-	border-style: solid;
-	border-color: #485a67;
-	border-width: 2px;
-}
 
-.blockfirstcolumn {
-	width: 100%;
-	height: 100%;
-	/*   margin-top: 10px; */
-	/*   margin-bottom: 10px; */
-	padding: 10px;
-	background: transparent;
-	font-family: IBM;
-	text-align: left;
-	font-size: 18pt;
-	color: #343b43;
-	-webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-	border-radius: 10px;
-	font-weight: bold;
-	/*             border-style: solid; */
-	/*       border-color:#343b43; */
-}
 
-.blocktraining {
-	width: 100%;
-	height: 50px;
-	margin-top: 10px;
-	margin-bottom: 10px;
-	padding: 10px;
-	background: #ECECEC;
-	font-family: IBM;
-	text-align: center;
-	font-size: 14pt;
-	/*   box-shadow: 0px 3px 3px #c0c0c0; */
-	color: #d9d9d9;
-	-webkit-border-radius: 25px;
-	-moz-border-radius: 25px;
-	border-radius: 25px;
-	font-weight: bold;
-	border-style: solid;
-	border-color: #d9d9d9;
-	border-width: 2px;
-}
+
 
 /*======== DRAG AND DROP UTILITIES =========*/
-.textbox {
-	align: center;
-}
+/* .textbox { */
+/* 	align: center; */
+/* } */
 
 #drop_zone { /* zone in which you can drop files to upload */
 	border: dashed 2px #ddd;
@@ -339,23 +282,23 @@ and
 	/* per fare in modo che il bianco di sfondo diventi il grigio della pagina! */
 }
 
-#graph1, #graph2 {
-	z-index: 10000;
-	webkit-box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.12);
-	-moz-box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.12);
-	box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.12);
-}
+/* #graph1, #graph2 { */
+/* 	z-index: 10000; */
+/* 	webkit-box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.12); */
+/* 	-moz-box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.12); */
+/* 	box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.12); */
+/* } */
 
 .icon {
 	width: 50px;
 }
 
-img.center {
-	display: block;
-	margin: 0 auto;
-	margin-bottom: 8px;
-	margin-top: 8px;
-}
+/* img.center { */
+/* 	display: block; */
+/* 	margin: 0 auto; */
+/* 	margin-bottom: 8px; */
+/* 	margin-top: 8px; */
+/* } */
 
 img.inline {
 	display: inline;
@@ -375,149 +318,6 @@ img.inline {
 	margin-right: 18px;
 }
 
-.circle {
-	width: 100px;
-	height: 100px;
-	-webkit-border-radius: 50px;
-	-moz-border-radius: 50px;
-	border-radius: 50px;
-	background: transparent;
-	border: 3px solid #343b43;
-	position: relative;
-	left: 40%;
-}
-
-.circle2 {
-	width: 150px;
-	height: 150px;
-	-webkit-border-radius: 75px;
-	-moz-border-radius: 75px;
-	border-radius: 75px;
-	background: transparent;
-	border: 3px solid #343b43;
-	position: relative;
-	top: 20%;
-	left: 15%;
-	/*       text-align: center;  */
-	font-size: 50px;
-	color: #343b43;
-	display: block;
-	/*       left: 40%; */
-}
-
-.circle3 {
-	width: 100%;
-	height: 50px;
-	margin-top: 10px;
-	margin-bottom: 10px;
-	padding: 6px;
-	-webkit-border-radius: 25px;
-	-moz-border-radius: 25px;
-	border-radius: 25px;
-	background: transparent;
-	border: 2px solid #343b43;
-	position: relative;
-	top: 20%;
-	/* 		left: 15%; */
-	font-size: 40px;
-	color: #343b43;
-	display: block;
-	margin-bottom: 7px;
-	/* 		width: 100%; */
-	/* 		height: 50px; */
-	/* 		margin-top: 10px; */
-	/* 		margin-bottom: 10px; */
-	/* 		padding: 10px; */
-	/* 		background: #ECECEC; */
-	/* 		font-family: IBM; */
-	/* 		text-align: center; */
-	/* 		font-size: 14pt; */
-	/* 		color: #485a67; */
-	/* 		-webkit-border-radius: 25px; */
-	/* 		-moz-border-radius: 25px; */
-	/* 		border-radius: 25px; */
-	/* 		font-weight: bold; */
-	/* 		border-style: solid; */
-	/* 		border-color: #485a67; */
-	/* 		border-width: 2px; */
-}
-
-.circle:hover {
-	background: #ececec;
-}
-
-.circle3:hover {
-	background: #ececec;
-	cursor: pointer;
-}
-
-.ready {
-	text-align: center;
-	font-size: 50px;
-	color: #343b43;
-	padding: 17px;
-	margin: auto;
-}
-
-.ready2 {
-	text-align: center;
-	font-size: 50px;
-	color: #343b43;
-	/* 	width: 150px; */
-	/* 	padding:20px; */
-	margin-left: auto;
-	margin-right: auto;
-	position: relative;
-	top: 20%;
-}
-
-.ready3 {
-	text-align: center;
-	font-size: 15px;
-	color: #343b43;
-	/* 	padding:20px; */
-	margin: auto;
-	position: relative;
-	top: 22%;
-}
-
-.ready4 {
-	text-align: right;
-	font-size: 22px;
-	color: #343b43;
-	/* 	padding:20px; */
-	margin: auto;
-	position: relative;
-	font-weight: bold;
-	/* 	top:10%; */
-}
-
-.ready5 {
-	text-align: right;
-	font-size: 12px;
-	color: #808080;
-	/* 	padding:20px; */
-	margin: auto;
-	position: relative;
-	/* 	font-weight: bold; */
-	/* 	top:10%; */
-}
-
-.free {
-	text-align: center;
-	font-size: 50px;
-	color: #343b43;
-	padding: 20px;
-	margin: auto;
-}
-
-.training {
-	text-align: center;
-	font-size: 50px;
-	color: #343b43;
-	padding: 20px;
-	margin: auto;
-}
 
 .imglogin {
 	margin-left: auto;
@@ -613,6 +413,10 @@ p.paragraph.right {
 	text-align: right;
 }
 
+p.paragraph.center {
+	text-align: center;
+}
+
 p.paragraph.left {
 	text-align: left;
 }
@@ -655,6 +459,23 @@ th {
 	font-weight: bold;
 	font-size: 20px;
 	text-align: left;
+}
+
+/*============ IMMAGINI ==========*/
+
+.img.icon{
+
+}
+
+.img.icon.small{
+	width:100px; 
+	height:auto;
+}
+
+.img.centeralign{
+	margin: 0 auto;
+	margin-bottom: 8px;
+	margin-top: 8px;
 }
 
 /*============ OGGETTI GRAFICI ==========*/
