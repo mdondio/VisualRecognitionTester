@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
-<head><meta charset="utf-8"/></head>
+<head></head>
+
 
 <!-- LIBRERIE GENERICHE PER JQUERY -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -67,15 +68,9 @@
 					<hr class="lineseparator">
 					
 					<div style="text-align:center;">
-					<button>
-					<img id="addicon" class="icon medium" src="ico/addDARK.png">
-					</button>
-					<button>
-					<img id="uploadicon" class="icon medium" src="ico/uploadDARK.png">
-					</button>
-					<button type="submit">
-					<img id="playicon" class="icon medium" src="ico/play-buttonDARK.png">
-					</button>
+					<input type="image" id="addicon" src="ico/addDARK.png" style="width:70px;height:auto;margin-left:15px;margin-right:15px;">
+					<input type="image" id="uploadicon" src="ico/uploadDARK.png" style="width:70px;height:auto;margin-left:15px;margin-right:15px;">
+					<input type="image" id="playicon" src="ico/play-buttonDARK.png" style="width:70px;height:auto;margin-left:15px;margin-right:15px;">
 					</div>
 					
 					<hr class="lineseparator">
@@ -85,28 +80,22 @@
 						style="margin-bottom: 20px; margin-left: 200px;">
 
 						<div class="column fourth">
-							<input id="testname1" type="text"
+							<input class="title" id="testname1" type="text"
 								placeholder="TEST_1">
 						</div>
 						<div class="column fourth">
-							<select required id="testset1">
+							<select required class="title" id="testset1">
 								<option selected disabled value="">Select test dataset</option>
 							</select>
 						</div>
 						<div class="column fourth">
-							<select required id="testclassifier1">
+							<select required class="title" id="testclassifier1">
 								<option selected disabled value="">Select classifier</option>
 							</select>
 						</div>
 						<div class="column fourth">
-							<button>
-								<img id="reload1" class="icon verysmall"
-									data-alt-src="ico/reload.png" src="ico/reloadDARK.png">
-							</button>
-							<button>
-								<img id="garbage1" class="icon verysmall"
-									data-alt-src="ico/garbage.png" src="ico/garbageDARK.png">
-							</button>
+							<img id="reload1" data-alt-src="ico/reload.png" src="ico/reloadDARK.png" style="width:40px;height:auto;margin-left:15px;margin-right:15px;">
+							<img id="garbage1" data-alt-src="ico/garbage.png" src="ico/garbageDARK.png" style="width:40px;height:auto;margin-left:15px;margin-right:15px;">
 						</div>
 					</div>
 				</form>
