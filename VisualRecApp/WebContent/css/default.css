@@ -617,6 +617,14 @@ p.paragraph.left {
 	text-align: left;
 }
 
+select.title{
+	width: 100%;
+	
+	color: #343b43;
+	font-weight: bold;
+	font-size: 14px;
+	font-family: IBM;
+}
 /* ================== GESTIONE TABELLE ============== */
 
 table, td, th {

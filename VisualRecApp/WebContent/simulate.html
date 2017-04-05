@@ -139,9 +139,8 @@
 
 			<div class="row clearfix">
 				<div class="column full">
-					<select class="show_test" type="text" style="width: 100%">
-						<option selected disabled>Select Test Set to be
-							analyzed...</option>
+					<select id="show_test" class="title">
+<!-- 						<option selected disabled>Select Test Set to be	analyzed...</option> -->
 					</select>
 				</div>
 			</div>
@@ -178,37 +177,35 @@
 
 			<br> <br>
 
-			<hr align="center" width="75%" class="middle_division">
+			<hr class="lineseparator">
 
 			<div class="row clearfix">
 				<div class="column full">
-					<p class='ready4'>
+					<p class='title left'>
 						false positives
 					</p>
-					<p class='ready5'>is a result that indicates a given condition
+					<p class='paragraph left'>is a result that indicates a given condition
 						has been fulfilled, when it has not</p>
-				</div>
-				<div class="column full">
+				<br>
 					<div class="post-preview" id="galleryFP"></div>
 				</div>
 			</div>
 
-			<hr align="center" width="75%" class="middle_division">
+			<hr class="lineseparator">
 
 			<div class="row clearfix">
 				<div class="column full">
-					<p class='ready4'>
+					<p class='title left'>
 						false negatives
 					</p>
-					<p class='ready5'>is where a test result indicates that a
+					<p class='paragraph left'>is where a test result indicates that a
 						condition failed, while it was successful</p>
-				</div>
-				<div class="column full">
+				<br>
 					<div class="post-preview" id="galleryFN"></div>
 				</div>
 			</div>
 
-			<hr align="center" width="75%" class="middle_division">
+			<hr class="lineseparator">
 
 		</div>
 
@@ -222,10 +219,8 @@
 				<div class="row clearfix">
 						<div class="post-preview">
 							<div>
-								<p
-									style="text-align: left; color: #343b43; font-weight: bold; font-size: 28px;">ROC
-									curve</p>
-								<p style="text-align: left; color: #A0A0A0; font-size: 14px;">In
+								<p class="title left">ROC curve</p>
+								<p class="paragraph left">In
 									statistics, a receiver operating characteristic curve, or ROC
 									curve, is a graphical plot that illustrates the performance of
 									a binary classifier system as its discrimination threshold is
@@ -235,20 +230,17 @@
 				</div>
 				<br>
 				<div class="row clearfix">
-					<div class="post-preview">
-						<div id="graph1"></div>
-					</div>
+					<div class="post-preview" id="graph1"></div>
 				</div>
 				<!-- 	============================= FINE ROC CURVE ============================= -->
-				<hr align="center" width="75%" class="middle_division">
+				<hr class="lineseparator">
 				<!-- 	============================= DISTRIBUTION CURVE ============================= -->
 				<div class="row clearfix">
 					<div class="post-preview">
 						<div>
-							<p
-								style="text-align: left; color: #343b43; font-weight: bold; font-size: 28px;">Distribution
+							<p class="title left">Distribution
 								curve</p>
-							<p style="text-align: left; color: #A0A0A0; font-size: 14px;">In
+							<p class="paragraph left">In
 								statistics, a receiver operating characteristic curve, or ROC
 								curve, is a graphical plot that illustrates the performance of a
 								binary classifier system as its discrimination threshold is
@@ -258,9 +250,7 @@
 				</div>
 				<br>
 				<div class="row clearfix">
-					<div class="post-preview">
-						<div id="graph_histogram"></div>
-					</div>
+					<div class="post-preview" id="graph_histogram"></div>
 				</div>
 				<!-- 	============================= FINE DISTRIBUTION CURVE ============================= -->
 
@@ -282,10 +272,8 @@
 				<div class="row clearfix">
 					<div class="post-preview">
 						<div>
-							<p
-								style="text-align: left; color: #343b43; font-weight: bold; font-size: 28px;">AUC
-								curve</p>
-							<p style="text-align: left; color: #A0A0A0; font-size: 14px;">The
+							<p class="title left">AUC curve</p>
+							<p class="paragraph left">The
 								area under the curve (often referred to as simply the AUC) is
 								equal to the probability that a classifier will rank a randomly
 								chosen positive instance higher than a randomly chosen negative
@@ -296,12 +284,10 @@
 				<br>
 
 				<div class="row clearfix">
-					<div class="post-preview">
-						<div id="graph2"></div>
-					</div>
+					<div class="post-preview" id="graph2"></div>
 				</div>
 <!-- 	============================= FINE AUC CURVE ============================= -->
-				<hr align="center" width="75%" class="middle_division">
+				<hr class="lineseparator">
 			</div>
 
 
@@ -497,10 +483,10 @@ $('body').on("click","img[id*=garbage]",function(){
 });
 
 // ON CHANGE select test
-	$('.show_test').on(
+	$('#show_test').on(
 			'change',
 			function() {
-				var testname = $(".show_test").val();
+				var testname = $("#show_test").val();
 				var parsedJSON = JSON.parse(finalJSON);
 				for ( var j in parsedJSON) {
 					if (parsedJSON[j].name == testname) {

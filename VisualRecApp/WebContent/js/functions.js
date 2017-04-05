@@ -517,7 +517,7 @@ function getDataShow(){
 							text: "Classifier "+parsedJSON[testcount].classifier+" is exhausted. Wait 24h and you will regain your free API calls",
 							});	
 						}else{
-							$('.show_test').append($('<option>', {
+							$('#show_test').append($('<option>', {
 								value: parsedJSON[testcount].name,
 								text: parsedJSON[testcount].name
 							}));
@@ -527,7 +527,7 @@ function getDataShow(){
 					
 					Draw(result);
 					
-					var testname = $(".show_test").val();
+					var testname = $("#show_test").val();
 					var parsedJSON = JSON.parse(finalJSON);
 					for ( var j in parsedJSON) {
 						if (parsedJSON[j].name == testname) {
