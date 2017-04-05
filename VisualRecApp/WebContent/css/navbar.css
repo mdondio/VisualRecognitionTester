@@ -55,7 +55,10 @@ nav{
 	letter-spacing:1px;
 	text-decoration:none;
 	color:#FFFFFF;
-	font-family: IBM; font-size: 15px; line-height: 0.2;
+	font-family: IBM; 
+	font-size: 15px; 
+	line-height: 0.2;
+/* 	background:#485a67; */
 }
 
 #cssmenu > ul > li > a > img { 
@@ -70,19 +73,37 @@ nav{
 #cssmenu > ul > li:hover > a,#cssmenu ul li.active a{ color:#00A6A0; }
 #cssmenu > ul > li:hover,#cssmenu ul li.active:hover,#cssmenu ul li.active,#cssmenu ul li.has-sub.active:hover{
 	border-bottom: 4px solid #00a6a0;
-	-webkit-transition:border-bottom .3s ease;-ms-transition:border-bottom .3s ease;-moz-transition:border-bottom .3s ease; transition:border-bottom .3s ease;
+	-webkit-transition:border-bottom .3s ease;
+	-ms-transition:border-bottom .3s ease;
+	-moz-transition:border-bottom .3s ease; 
+	transition:border-bottom .3s ease;
 }
 #cssmenu > ul > li.has-sub > a{ padding-right:30px; }
 
 /* + */
 #cssmenu > ul > li.has-sub > a:after{
-	position:absolute; top:22px; right:11px; 
-	width:8px; height:2px;
+	position:absolute; 
+	top:22px; 
+	right:11px; 
+	width:8px; 
+	height:2px;
 	display:block;
 	background:#000000;
 	content:''
 }
-#cssmenu > ul > li.has-sub > a:before{position:absolute;top:19px;right:14px;display:block;width:2px;height:8px;background:#000000;content:'';-webkit-transition:all .25s ease;-ms-transition:all .25s ease;transition:all .25s ease}
+#cssmenu > ul > li.has-sub > a:before{
+	position:absolute;
+	top:19px;
+	right:14px;
+	display:block;
+	width:2px;
+	height:8px;
+	background:#000000;
+	content:'';
+	-webkit-transition:all .25s ease;
+	-ms-transition:all .25s ease;
+	transition:all .25s ease
+	}
 #cssmenu > ul > li.has-sub:hover > a:before{top:23px;height:0}
 
 /* Submenu */
@@ -94,19 +115,47 @@ nav{
 #cssmenu ul ul ul{ margin-left: 100%; top: 10px; position: relative;}
 #cssmenu ul ul li a{
 	border-bottom: 0px solid rgba(150,150,150,0.15);
-	padding: 11px 15px; width: 170px;
+	padding: 11px 15px;
+	width: 170px;
 	text-decoration: none;
 	color: #000000;
-	font-family: IBM; font-size: 15px;
+	font-family: IBM; 
+	font-size: 15px;
 }
 #cssmenu ul ul li:last-child > a,#cssmenu ul ul li.last-item > a{border-bottom:0}
 #cssmenu ul ul li:hover > a,#cssmenu ul ul li a:hover{color:#FFFFFF; }
-#cssmenu ul ul li.has-sub > a:after{position:absolute;top:16px;right:11px;width:8px;height:2px;display:block;background:#ddd;content:''}
-#cssmenu ul ul li.has-sub > a:before{position:absolute;top:13px;right:14px;display:block;width:2px;height:8px;background:#ddd;content:'';-webkit-transition:all .25s ease;-ms-transition:all .25s ease;transition:all .25s ease}
-#cssmenu ul ul > li.has-sub:hover > a:before{top:17px;height:0}
-#cssmenu ul ul li.has-sub:hover,#cssmenu ul li.has-sub ul li.has-sub ul li:hover{background:#363636;}
-#cssmenu ul ul ul li.active a{border-left:1px solid #333}
-#cssmenu > ul > li.has-sub > ul > li.active > a,#cssmenu > ul ul > li.has-sub > ul > li.active> a{border-top:1px solid #333}
+#cssmenu ul ul li.has-sub > a:after{
+	position:absolute;
+	top:16px;
+	right:11px;
+	width:8px;
+	height:2px;
+	display:block;
+	background:#ddd;
+	content:''}
+#cssmenu ul ul li.has-sub > a:before{
+	position:absolute;
+	top:13px;
+	right:14px;
+	display:block;
+	width:2px;
+	height:8px;
+	background:#ddd;
+	content:'';
+	-webkit-transition:all .25s ease;
+	-ms-transition:all .25s ease;
+	transition:all .25s ease
+	}
+#cssmenu ul ul > li.has-sub:hover > a:before{
+	top:17px;
+	height:0
+	}
+#cssmenu ul ul li.has-sub:hover,#cssmenu ul li.has-sub ul li.has-sub ul li:hover{
+	background:#363636;}
+#cssmenu ul ul ul li.active a{
+	border-left:1px solid #333}
+#cssmenu > ul > li.has-sub > ul > li.active > a,#cssmenu > ul ul > li.has-sub > ul > li.active> a{
+	border-top:1px solid #333}
 
 
 
