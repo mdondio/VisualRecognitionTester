@@ -34,7 +34,9 @@ function createHeader(){
 		$('#cssmenu').append("<div id='head-mobile'></div><div class='button'></div>");
 		$('#cssmenu').append("<ul id='begin'>");
 			$('#begin').append("<li><a href='home.html'>dashboard");
-			$('#begin').append("<li><a href='simulate.html'>simulate");
+			$('#begin').append("<li><a href='simulate.html'>simulate</a><ul id='subs0'>");
+				$('#subs0').append("<li><a href='/'>run new test");
+				$('#subs0').append("<li><a href='/'>see previous tests");
 			$('#begin').append("<li><a href='train.html'>train");
 			$('#begin').append("<li><a href='doc.html'>docs");
 			$('#begin').append("<li><a href='aboutus.html'>about us");	
