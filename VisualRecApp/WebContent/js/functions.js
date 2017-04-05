@@ -495,8 +495,8 @@ function getDataShow(){
 	// ajax call to backend
 	$.ajax(
 			{
-				url: "json/testresult2.json",
-//				url: 'GetTestResult',
+//				url: "json/helicopter_test.json",
+				url: 'GetTestResult',
 				type: 'GET',
 				data:{ array: finalJSON },
 				dataType: 'json',
