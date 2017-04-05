@@ -35,15 +35,15 @@
 	<div class="card" style="width:30%;padding:20px;">
 		<br>
 		<br>
-		<img src="images/VRimage.png" class="icon xlarge"> <br>
+		<img src="images/VRimage.png" class="imglogin"> <br>
 		<br>
 		<form action="loginservlet" name="login_form" id="login_form" method="post"
-			style="margin: 0; width: 100%; text-align: center;">
-			<input required type="text" name="username" id="username" placeholder="Username" style="width:90%;"> 
+			style="margin: 0 auto; width: 100%; text-align: center;">
+			<input required type="text" name="username" id="username" placeholder="Username" size="50"> 
 			<br> 
-			<input required type="password" name="password" id="password" placeholder="Password" style="width:90%;"> 
-			<br><br>
-			<input type="submit" value="login" name="login" id="login" class="rectangle">
+			<input required type="password" name="password" id="password" placeholder="Password" size="50"> 
+			<br> 
+			<input type="submit" value="login" name="login" id="login" class="more">
 		</form>
 		<br>
 		<br>
@@ -59,6 +59,87 @@
 	</div>
 
 </body>
+
+<script>
+// 	$("#login").click(function() {
+// 		var user = $("#username").val();
+// 		var pass = $("#password").val();
+// 		var check = true;
+// 		// Checking for blank fields.
+// 		console.log(user);
+// 		console.log(pass);
+// 		if (user == '') {
+// 			$('input[id="username"]').css("border", "2px solid red");
+// 			$('input[id="username"]').css("box-shadow", "0 0 3px red");
+// 			check = false;
+// 		}
+
+// 		if (pass == '') {
+// 			$('input[id="password"]').css("border", "2px solid red");
+// 			$('input[id="password"]').css("box-shadow", "0 0 3px red");
+// 			check = false;
+// 		}
+
+// 		if (!check)
+// 			{
+// // 			alert("Please fill all fields...!!!!!!");
+// 			}
+// 		else {
+
+// // 			$.ajax({
+// // 				contentType : "application/json",
+// // 				dataType : "json",
+// // 				method: POST,
+// // 				url : 'loginservlet',
+// // 				data: {username: username, password: password},
+// // 				async : false,
+// // 				success : function(result) {
+// // 				}
+// // 			});
+// 										$.post(
+// 												"loginservlet", 
+// 												{username: user,password : pass},
+// 												function(data) {
+// 			// 												if (data == 'Invalid Email.......') {
+// 			// 													$('input[type="text"]')
+// 			// 															.css(
+// 			// 																	{
+// 			// 																		"border" : "2px solid red",
+// 			// 																		"box-shadow" : "0 0 3px red"
+// 			// 																	});
+// 			// 													$('input[type="password"]')
+// 			// 															.css(
+// 			// 																	{
+// 			// 																		"border" : "2px solid #00F5FF",
+// 			// 																		"box-shadow" : "0 0 5px #00F5FF"
+// 			// 																	});
+// 			// 													alert(data);
+// 			// 												} else if (data == 'Email or Password is wrong...!!!!') {
+// 			// 													$(
+// 			// 															'input[type="text"],input[type="password"]')
+// 			// 															.css(
+// 			// 																	{
+// 			// 																		"border" : "2px solid red",
+// 			// 																		"box-shadow" : "0 0 3px red"
+// 			// 																	});
+// 			// 													alert(data);
+// 			// 												} else if (data == 'Successfully Logged in...') {
+// 			// 													$("form")[0].reset();
+// 			// 													$(
+// 			// 															'input[type="text"],input[type="password"]')
+// 			// 															.css(
+// 			// 																	{
+// 			// 																		"border" : "2px solid #00F5FF",
+// 			// 																		"box-shadow" : "0 0 5px #00F5FF"
+// 			// 																	});
+// 			// 													alert(data);
+// 			// 												} else {
+// 			// 													alert(data);
+// // 															}
+// 														});
+// 		}
+// 	});
+</script>
 
 </html>
 
