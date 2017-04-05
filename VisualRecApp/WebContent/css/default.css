@@ -234,6 +234,7 @@ select {
 
 input.title{
 	width: 100%;
+	
 	color: #343b43;
 	font-weight: bold;
 	font-size: 14px;
@@ -259,6 +260,7 @@ input[type=text]:focus {
 input[type=password]:focus {
 	background-color: transparent;
 }
+
 
 /*============ IMMAGINI ==========*/
 img.icon {
@@ -296,6 +298,8 @@ img.icon.xlarge {
 
 img.centeralign {
 	margin: auto;
+/* 	margin-bottom: 8px; */
+/* 	margin-top: 8px; */
 }
 
 /*============ OGGETTI GRAFICI ==========*/

@@ -315,12 +315,14 @@ function showGallery(result,inputgallery) {
 				var x = document.createElement("IMG");
 				var obj = result[i];
 				x.setAttribute("src", img_path + obj);
+				x.setAttribute("onclick", 'openModal();currentSlide('+slidenumber+')');
 				// TODO approfondire addEventListener anche per pezzo successivo
 				x.addEventListener("click", function(event) {
 					newImg(inputgallery, slidenumber);
 					event.preventDefault();
 				});
 				x.setAttribute("class", "hover-shadow cursor");
+				x.setAttribute("onclick", 'currentSlide('+slidenumber+')');
 				document.getElementById("gallery" + GALLERY).appendChild(x);
 				$('#modalcontent' + GALLERY).append(
 						"<div class='mySlides" + GALLERY
@@ -363,6 +365,7 @@ function showGallery(result,inputgallery) {
 					event.preventDefault();
 				});
 				x.setAttribute("class", "demo" + GALLERY + " cursor");
+				x.setAttribute("onclick", 'currentSlide('+slidenumber+')');
 				x.setAttribute("name", GALLERY + " " + slidenumber);
 				x.setAttribute("id", "ID "+ GALLERY + " " + slidenumber);
 				var div = document.createElement("div");
