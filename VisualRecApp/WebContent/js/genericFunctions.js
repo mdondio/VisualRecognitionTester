@@ -35,8 +35,8 @@ function createHeader(){
 		$('#cssmenu').append("<ul id='begin'>");
 			$('#begin').append("<li><a href='home.html'>dashboard");
 			$('#begin').append("<li><a href='simulate.html'>simulate</a><ul id='subs0'>");
-				$('#subs0').append("<li><a href='simulate.html'>run new test");
-				$('#subs0').append("<li><a href='history.html'>see previous tests");
+				$('#subs0').append("<li><a href='simulate.html'><b>run</b> new test");
+				$('#subs0').append("<li><a href='history.html'><b>see</b> previous tests");
 			$('#begin').append("<li><a href='train.html'>train");
 			$('#begin').append("<li><a href='doc.html'>docs");
 			$('#begin').append("<li><a href='aboutus.html'>about us");	

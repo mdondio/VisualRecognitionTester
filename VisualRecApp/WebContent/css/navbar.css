@@ -81,34 +81,47 @@ nav{
 #cssmenu > ul > li.has-sub > a{ padding-right:30px; }
 
 /* + */
-#cssmenu > ul > li.has-sub > a:after{
-	position:absolute; 
-	top:22px; 
-	right:11px; 
-	width:8px; 
-	height:2px;
-	display:block;
-	background:#000000;
-	content:''
-}
-#cssmenu > ul > li.has-sub > a:before{
-	position:absolute;
-	top:19px;
-	right:14px;
-	display:block;
-	width:2px;
-	height:8px;
-	background:#000000;
-	content:'';
-	-webkit-transition:all .25s ease;
-	-ms-transition:all .25s ease;
-	transition:all .25s ease
-	}
-#cssmenu > ul > li.has-sub:hover > a:before{top:23px;height:0}
+/* #cssmenu > ul > li.has-sub > a:after{ */
+/* 	position:absolute;  */
+/* 	top:22px;  */
+/* 	right:11px;  */
+/* 	width:8px;  */
+/* 	height:2px; */
+/* 	display:block; */
+/* 	background:#000000; */
+/* 	content:'' */
+/* } */
+/* #cssmenu > ul > li.has-sub > a:before{ */
+/* 	position:absolute; */
+/* 	top:19px; */
+/* 	right:14px; */
+/* 	display:block; */
+/* 	width:2px; */
+/* 	height:8px; */
+/* 	background:#000000; */
+/* 	content:''; */
+/* 	-webkit-transition:all .25s ease; */
+/* 	-ms-transition:all .25s ease; */
+/* 	transition:all .25s ease */
+/* 	} */
+/* #cssmenu > ul > li.has-sub:hover > a:before{top:23px;height:0} */
 
 /* Submenu */
-#cssmenu ul ul{position:absolute;left:-9999px}
-#cssmenu ul ul li{height:0;-webkit-transition:all .25s ease;-ms-transition:all .25s ease;background:#C9C9C9;transition:all .25s ease; webkit-box-shadow: 2px 3px 7px rgba(0,0,0,0.12); -moz-box-shadow: 2px 3px 7px rgba(0,0,0,0.12); box-shadow: 2px 3px 7px rgba(0,0,0,0.12);}
+#cssmenu ul ul{
+	position:absolute;
+	left:-9999px;
+	}
+#cssmenu ul ul li{
+	height:0;
+	-webkit-transition:all .25s ease;
+	-ms-transition:all .25s ease;
+	background:#343b43;
+	opacity: 0.8;
+	transition:all .25s ease; 
+	webkit-box-shadow: 2px 3px 7px rgba(0,0,0,0.12); 
+	-moz-box-shadow: 2px 3px 7px rgba(0,0,0,0.12); 
+	box-shadow: 2px 3px 7px rgba(0,0,0,0.12);
+	}
 #cssmenu ul ul li:hover{}
 #cssmenu li:hover > ul{ left: auto; }
 #cssmenu li:hover > ul > li{ height: 40px; }
@@ -118,12 +131,12 @@ nav{
 	padding: 11px 15px;
 	width: 170px;
 	text-decoration: none;
-	color: #000000;
+	color: #ffffff;
 	font-family: IBM; 
 	font-size: 15px;
 }
 #cssmenu ul ul li:last-child > a,#cssmenu ul ul li.last-item > a{border-bottom:0}
-#cssmenu ul ul li:hover > a,#cssmenu ul ul li a:hover{color:#FFFFFF; }
+#cssmenu ul ul li:hover > a,#cssmenu ul ul li a:hover{color:#00A6A0; }
 #cssmenu ul ul li.has-sub > a:after{
 	position:absolute;
 	top:16px;
