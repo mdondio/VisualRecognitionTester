@@ -110,62 +110,6 @@
 	/* per fare in modo che il bianco di sfondo diventi il grigio della pagina! */
 }
 
-<<<<<<< HEAD
-/* #graph1, #graph2 { */
-/* 	z-index: 10000; */
-/* 	webkit-box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.12); */
-/* 	-moz-box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.12); */
-/* 	box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.12); */
-/* } */
-
-/* img.center { */
-/* 	display: block; */
-/* 	margin: 0 auto; */
-/* 	margin-bottom: 8px; */
-/* 	margin-top: 8px; */
-/* } */
-
-/* img.inline { */
-/* 		display: inline; */
-/* 		margin: 0 auto; */
-/* 		margin-bottom: 8px; */
-/* 		margin-top: 8px; */
-/* 		margin-left: 18px; */
-/* 		margin-right: 18px; */
-/* 	} */
-	.icoreload {
-	display: inline;
-	margin: 0 auto;
-	margin-bottom: 8px;
-	margin-top: 8px;
-	margin-left: 18px;
-	margin-right: 18px;
-}
-
-
-.imglogin {
-	margin-left: auto;
-	margin-right: auto;
-	display: block;
-	width: 300px;
-}
-
-#testsetTitle {
-	text-align: center;
-	color: #343b43;
-	font-weight: bold;
-	font-size: 28px;
-	margin-bottom: 20px;
-}
-
-.titledataset {
-	border-top: 3px solid #343b43;
-	padding-top: 30px;
-	margin-bottom: 30px;
-}
-
-=======
->>>>>>> origin/frontend
 /* ============================================== */
 /* ====	NUOVE CLASSI PER FORMATTING =====*/
 /* ============================================== */
@@ -296,9 +240,6 @@ input.title{
 	font-size: 14px;
 	font-family: IBM;
 }
-<<<<<<< HEAD
-/*============ IMMAGINI ==========*/
-=======
 
 input[type=text], input[type=password] {
 	width: 100%;
@@ -319,7 +260,7 @@ input[type=text]:focus {
 input[type=password]:focus {
 	background-color: transparent;
 }
->>>>>>> origin/frontend
+
 
 /*============ IMMAGINI ==========*/
 img.icon {
@@ -345,9 +286,6 @@ img.icon.medium {
 	height: auto;
 }
 
-<<<<<<< HEAD
-img.centeralign{
-=======
 img.icon.large {
 	width: 200px;
 	height: auto;
@@ -359,7 +297,6 @@ img.icon.xlarge {
 }
 
 img.centeralign {
->>>>>>> origin/frontend
 	margin: auto;
 /* 	margin-bottom: 8px; */
 /* 	margin-top: 8px; */
@@ -379,78 +316,6 @@ img.centeralign {
 }
 
 .circumference {
-<<<<<<< HEAD
-		/* 	hape characteristcs */
-		background: transparent;
-		border: 3px solid #343b43;
-		position: relative;
-		/* 	test characteristics */
-		font-family: "IBM";
-		color: #343b43;
-		/* 	transform characteristics */
-		transition-duration: 0.3s;
-		-webkit-transition-duration: 0.3s;
-	}
-	.circumference:hover {
-		background: #343b43;
-		color: #ffffff;
-		transition-duration: 0.3s;
-		-webkit-transition-duration: 0.3s;
-	}
-	.circumference.medium {
-		/* 	shape characteristcs */
-		width: 100px;
-		height: 100px;
-		-webkit-border-radius: 50px;
-		-moz-border-radius: 50px;
-		border-radius: 50px;
-		/* 	test characteristics */
-		font-weight: bold;
-		font-size: 52px;
-		text-align: center;
-		line-height: 89px;
-	}
-	.circumference.large {
-		/* 	shape characteristcs */
-		width: 130px;
-		height: 130px;
-		-webkit-border-radius: 65px;
-		-moz-border-radius: 65px;
-		border-radius: 65px;
-		/* 	test characteristics */
-		font-weight: bold;
-		font-size: 52px;
-		text-align: center;
-		line-height: 119px;
-	}
-	
-.smoothrectangle {
-		width: 100%;
-		height: 50px;
-		margin-top: 10px;
-		margin-bottom: 10px;
-		padding: 12px;
-		background: #ECECEC;
-		font-family: IBM;
-		text-align: center;
-		font-size: 12pt;
-		color: #343b43;
-		-webkit-border-radius: 25px;
-		-moz-border-radius: 25px;
-		border-radius: 25px;
-		font-weight: bold;
-		border-style: solid;
-		border-color: #343b43;
-		border-width: 2px;
-		transition-duration: 0.3s;
-		-webkit-transition-duration: 0.3s;
-	}
-	.smoothrectangle:hover{
-transform: scale(1.1);
- -webkit-transform: scale(1.1);
-transition-duration: 0.3s;
--webkit-transition-duration: 0.3s;
-=======
 	/* 	hape characteristcs */
 	background: transparent;
 	border: 3px solid #343b43;
@@ -555,7 +420,6 @@ transition-duration: 0.3s;
 	transition-duration: 0.3s;
 	-webkit-transition-duration: 0.3s;
 	-moz-transition-duration: 0.3s;
->>>>>>> origin/frontend
 }
 
 .smoothrectangle.ready {
