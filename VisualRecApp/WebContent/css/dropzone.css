@@ -25,10 +25,10 @@
 .dropzone, .dropzone * { box-sizing: border-box; }
 
 .dropzone {
-height: 200px;
-width: 500px;
-border: dashed 1px red;
-background-color: lightblue;
+ min-height: 150px; 
+ border: 2px solid rgba(0, 0, 0, 0.3); 
+ background: white; 
+ padding: 54px 54px;
 }   
 .dropzone.dz-clickable { cursor: pointer; }
 .dropzone.dz-clickable * { cursor: default; }
