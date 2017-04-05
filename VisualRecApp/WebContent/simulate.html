@@ -2,6 +2,7 @@
 <html>
 <head></head>
 
+
 <!-- LIBRERIE GENERICHE PER JQUERY -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -67,10 +68,10 @@
 					<hr class="lineseparator">
 					
 					<div style="text-align:center;">
-					<button>
-					<img id="addicon" class="icon medium" src="ico/addDARK.png">
+					<input type="button" id="addicon">
+					<img  class="icon medium" src="ico/addDARK.png">
 					</button>
-					<button>
+					<button type="button">
 					<img id="uploadicon" class="icon medium" src="ico/uploadDARK.png">
 					</button>
 					<button type="submit">
@@ -99,11 +100,11 @@
 							</select>
 						</div>
 						<div class="column fourth">
-							<button>
+							<button type="button">
 								<img id="reload1" class="icon verysmall"
 									data-alt-src="ico/reload.png" src="ico/reloadDARK.png">
 							</button>
-							<button>
+							<button type="button">
 								<img id="garbage1" class="icon verysmall"
 									data-alt-src="ico/garbage.png" src="ico/garbageDARK.png">
 							</button>
@@ -328,6 +329,7 @@ $('#addicon').mouseleave(function(){
 
 var TOTALROWSFILLED = 1;
 $('#addicon').click(function(){
+console.log("FIREFOX MERDA")
 if(TOTALROWSFILLED < 10){
       var $div = $('div[id^="moltiplicandum"]:last'); // seleziono l'ultimo moltiplicandum
       var nextrow = parseInt( $div.prop("id").match(/\d+/g), 10 ) +1; // estraggo il numero identificativo e lo incremento

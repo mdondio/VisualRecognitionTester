@@ -11,7 +11,7 @@
  * @returns Restituisce l'head delle pagine: inclusione di utilities, pagine css e titolo tab browser
  */
 function createHead(){
-	var start = ["<meta http-equiv='X-UA-Compatible' content='IE=edge'><meta name='viewport' content='width=device-width, initial-scale=1.0'><meta name='ROBOTS' content='INDEX,FOLLOW'><meta name='GOOGLEBOT' content='ARCHIVE'><link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'>"];
+	var start = ["<meta name='viewport' content='width=device-width, initial-scale=1.0'><meta charset='utf-8'/>"];
 	var fon = ["<link rel='stylesheet' type='text/css' href='css/fonts.css'/>"]; //css fonts
 	var def = ["<link rel='stylesheet' type='text/css' href='css/default.css'/>"]; //css per le pagine
 	var str = ["<link rel='stylesheet' type='text/css' href='css/structure.css'/>"]; //css per le pagine
