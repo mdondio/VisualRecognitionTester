@@ -91,13 +91,60 @@ Dropzone.autoDiscover = false;
 var myDropzoneTheFirst = new Dropzone('#pos-element', {       
     parallelUploads: 10000,
     uploadMultiple: true,
-    autoProcessQueue: false
+    autoProcessQueue: false,
+    init: function() {
+
+      		this.on("addedfile", function(file) {
+
+	        var removeButton = Dropzone.createElement("<img class='center' src='ico/garbageDARK.png' style='width:30px; height:auto;'>");
+	        var _this = this;
+
+	        removeButton.addEventListener("click", function(e) {
+	        
+	          	e.preventDefault();
+	          	e.stopPropagation();
+
+		      	_this.removeFile(file);
+		        
+	        });
+
+	        file.previewElement.appendChild(removeButton);
+
+     		});
+
+
+   		 }
+
+    
 });
+
 
 var myDropzoneTheSecond = new Dropzone('#neg-element', {       
     parallelUploads: 10000,
     uploadMultiple: true,
-    autoProcessQueue: false
+    autoProcessQueue: false,
+    init: function() {
+
+      		this.on("addedfile", function(file) {
+
+	        var removeButton = Dropzone.createElement("<img class='center' src='ico/garbageDARK.png' style='width:30px; height:auto;'>");
+	        var _this = this;
+
+	        removeButton.addEventListener("click", function(e) {
+	        
+	          	e.preventDefault();
+	          	e.stopPropagation();
+
+		      	_this.removeFile(file);
+		        
+	        });
+
+	        file.previewElement.appendChild(removeButton);
+
+     		});
+
+
+   		 }
 });
 
 
@@ -129,6 +176,7 @@ $('#submit-every-dropzone').on('click', function () {
     text-align: center;
     text-decoration: none;
     display: inline-block;
+    margin-left: 50%;
     font-size: 16px;
     }
 </style>
