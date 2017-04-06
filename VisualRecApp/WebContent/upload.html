@@ -86,16 +86,23 @@
 
 <script>
 
-Dropzone.autoDiscover = false;
+var countP = 0;
+var countN = 0;
+
+//Dropzone.autoDiscover = false;
 
 var myDropzoneTheFirst = new Dropzone(
         '#pos-element',
         {
             //url : "upload",
             maxFiles: 20,
+//             parallelUploads: 20,
             autoProcessQueue: false,
             init: function() {
+            
       			this.on("addedfile", function(file) {
+      			
+      			countP++;
 
 		        // Create the remove button
 		        var removeButton = Dropzone.createElement("<img class='center' src='ico/garbageDARK.png' style='width:30px; height:auto;'>");
@@ -140,7 +147,10 @@ var myDropzoneTheSecond = new Dropzone(
             maxFiles: 20,
             autoProcessQueue: false,
             init: function() {
+       
       			this.on("addedfile", function(file) {
+      			
+      			countN++;
 
 		        // Create the remove button
 		        var removeButton = Dropzone.createElement("<img class='center' src='ico/garbageDARK.png' style='width:30px; height:auto;'>");
@@ -177,9 +187,11 @@ var myDropzoneTheSecond = new Dropzone(
      }//Closing element
 );//Closing dropzone item
 
-$('#submit-every-dropzone').click(function(){           
-  myDropzoneTheFirst.processQueue();
-  myDropzoneTheSecond.processQueue();
+$('#submit-every-dropzone').click(function(){  
+	
+	myDropzoneTheFirst.processQueue();
+	myDropzoneTheSecond.processQueue();
+
 });
 
   $('#backicon').mouseover(function(){
