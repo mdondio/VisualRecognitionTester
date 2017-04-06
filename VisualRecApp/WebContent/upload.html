@@ -35,6 +35,10 @@
 	<h3> Upload </h3>	
 	
 	<div class="row clearfix">
+		<button id="submit-every-dropzone">Submit all files</button>
+	</div>
+	
+	<div class="row clearfix">
 
 			<div class="column fourth">
 				<p class="title right"><br>positive<br>images</p>
@@ -42,7 +46,7 @@
 			</div>
 			<div class="column three-fourths">
 			<br>
-				<form action="/" class="dropzone" id="a-form-element"></form>
+				<form action="/file-upload" class="dropzone" id="pos-element"></form>
 			</div>
 	</div>
 	
@@ -54,10 +58,9 @@
 			</div>
 			<div class="column three-fourths">
 			<br>
-				<form action="/" class="dropzone" id="an-other-form-element"></form>
+				<form action="/file-upload" class="dropzone" id="neg-element"></form>
 			</div>
 	</div>
-	
 
 </div>
 
@@ -83,11 +86,14 @@
 
 <script>
 
+Dropzone.autoDiscover = false;
+
 var myDropzoneTheFirst = new Dropzone(
-        '#a-form-element', //id of drop zone element 1
+        '#pos-element',
         {
             //url : "upload",
             maxFiles: 20,
+            autoProcessQueue: false,
             init: function() {
       			this.on("addedfile", function(file) {
 
@@ -115,10 +121,10 @@ var myDropzoneTheFirst = new Dropzone(
       			});
 
 
-		      this.on("sending", function(file) {
-		    	file.myCustomName = "testName_" + file.name;
-		    	console.log(file.myCustomName);
-			});
+// 		      this.on("sending", function(file) {
+// 		    	file.myCustomName = "testName_" + file.name;
+// 		    	console.log(file.myCustomName);
+// 			});
 
    		
    		 }//Closing init function
@@ -128,10 +134,11 @@ var myDropzoneTheFirst = new Dropzone(
 );//Closing dropzone item
 
 var myDropzoneTheSecond = new Dropzone(
-        '#an-other-form-element', //id of drop zone element 1
+        '#neg-element',
         {
             //url : "upload1",
             maxFiles: 20,
+            autoProcessQueue: false,
             init: function() {
       			this.on("addedfile", function(file) {
 
@@ -159,16 +166,21 @@ var myDropzoneTheSecond = new Dropzone(
       			});
 
 
-		      this.on("sending", function(file) {
-		    	file.myCustomName = "testName_" + file.name;
-		    	console.log(file.myCustomName);
-			});
+// 		      this.on("sending", function(file) {
+// 		    	file.myCustomName = "testName_" + file.name;
+// 		    	console.log(file.myCustomName);
+// 			});
 
    		
    		 }//Closing init function
         
      }//Closing element
 );//Closing dropzone item
+
+$('#submit-every-dropzone').click(function(){           
+  myDropzoneTheFirst.processQueue();
+  myDropzoneTheSecond.processQueue();
+});
 
   $('#backicon').mouseover(function(){
 	$(this).attr('src','ico/back.png');
@@ -183,5 +195,18 @@ var myDropzoneTheSecond = new Dropzone(
 	});
 
 </script>
+
+<style>
+#submit-every-dropzone{
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    }
+</style>
 
 </html>

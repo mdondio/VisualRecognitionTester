@@ -302,6 +302,12 @@ img.centeralign {
 /* 	margin-top: 8px; */
 }
 
+img.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+} 
+
 /*============ OGGETTI GRAFICI ==========*/
 .lineseparator {
 	margin: auto;
