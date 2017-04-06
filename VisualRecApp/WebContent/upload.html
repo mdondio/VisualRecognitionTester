@@ -35,7 +35,7 @@
 	<h3> Upload </h3>	
 	
 	<div class="row clearfix">
-		<button id="submit-every-dropzone">Submit all files</button>
+		<button type="submit" id="submit-every-dropzone">Submit all files</button>
 	</div>
 	
 	<div class="row clearfix">
@@ -86,112 +86,71 @@
 
 <script>
 
-var countP = 0;
-var countN = 0;
+Dropzone.autoDiscover = false;
 
-//Dropzone.autoDiscover = false;
+var myDropzoneTheFirst = new Dropzone('#pos-element', {       
+    parallelUploads: 10000,
+    uploadMultiple: true,
+    autoProcessQueue: false,
+    init: function() {
 
-var myDropzoneTheFirst = new Dropzone(
-        '#pos-element',
-        {
-            //url : "upload",
-            maxFiles: 20,
-//             parallelUploads: 20,
-            autoProcessQueue: false,
-            init: function() {
-            
-      			this.on("addedfile", function(file) {
-      			
-      			countP++;
+      		this.on("addedfile", function(file) {
 
-		        // Create the remove button
-		        var removeButton = Dropzone.createElement("<img class='center' src='ico/garbageDARK.png' style='width:30px; height:auto;'>");
-		
-		        // Capture the Dropzone instance as closure.
-		        var _this = this;
+	        var removeButton = Dropzone.createElement("<img class='center' src='ico/garbageDARK.png' style='width:30px; height:auto;'>");
+	        var _this = this;
 
-		        // Listen to the click event
-		        removeButton.addEventListener("click", function(e) {
-			          // Make sure the button click doesn't submit the form:
-			          e.preventDefault();
-			          e.stopPropagation();
-		
-			          // Remove the file preview.
-			          _this.removeFile(file);
-			          // If you want to the delete the file on the server as well,
-			          // you can do the AJAX request here.
-		        });
+	        removeButton.addEventListener("click", function(e) {
+	        
+	          	e.preventDefault();
+	          	e.stopPropagation();
 
-		        // Add the button to the file preview element.
-		        file.previewElement.appendChild(removeButton);
-      			
-      			});
+		      	_this.removeFile(file);
+		        
+	        });
+
+	        file.previewElement.appendChild(removeButton);
+
+     		});
 
 
-// 		      this.on("sending", function(file) {
-// 		    	file.myCustomName = "testName_" + file.name;
-// 		    	console.log(file.myCustomName);
-// 			});
+   		 }
 
-   		
-   		 }//Closing init function
-        
-     }//Closing element
-        
-);//Closing dropzone item
-
-var myDropzoneTheSecond = new Dropzone(
-        '#neg-element',
-        {
-            //url : "upload1",
-            maxFiles: 20,
-            autoProcessQueue: false,
-            init: function() {
-       
-      			this.on("addedfile", function(file) {
-      			
-      			countN++;
-
-		        // Create the remove button
-		        var removeButton = Dropzone.createElement("<img class='center' src='ico/garbageDARK.png' style='width:30px; height:auto;'>");
-		
-		        // Capture the Dropzone instance as closure.
-		        var _this = this;
-
-		        // Listen to the click event
-		        removeButton.addEventListener("click", function(e) {
-			          // Make sure the button click doesn't submit the form:
-			          e.preventDefault();
-			          e.stopPropagation();
-		
-			          // Remove the file preview.
-			          _this.removeFile(file);
-			          // If you want to the delete the file on the server as well,
-			          // you can do the AJAX request here.
-		        });
-
-		        // Add the button to the file preview element.
-		        file.previewElement.appendChild(removeButton);
-      			
-      			});
+    
+});
 
 
-// 		      this.on("sending", function(file) {
-// 		    	file.myCustomName = "testName_" + file.name;
-// 		    	console.log(file.myCustomName);
-// 			});
+var myDropzoneTheSecond = new Dropzone('#neg-element', {       
+    parallelUploads: 10000,
+    uploadMultiple: true,
+    autoProcessQueue: false,
+    init: function() {
 
-   		
-   		 }//Closing init function
-        
-     }//Closing element
-);//Closing dropzone item
+      		this.on("addedfile", function(file) {
 
-$('#submit-every-dropzone').click(function(){  
-	
-	myDropzoneTheFirst.processQueue();
-	myDropzoneTheSecond.processQueue();
+	        var removeButton = Dropzone.createElement("<img class='center' src='ico/garbageDARK.png' style='width:30px; height:auto;'>");
+	        var _this = this;
 
+	        removeButton.addEventListener("click", function(e) {
+	        
+	          	e.preventDefault();
+	          	e.stopPropagation();
+
+		      	_this.removeFile(file);
+		        
+	        });
+
+	        file.previewElement.appendChild(removeButton);
+
+     		});
+
+
+   		 }
+});
+
+
+$('#submit-every-dropzone').on('click', function () {
+    myDropzoneTheFirst.processQueue();
+    myDropzoneTheSecond.processQueue();
 });
 
   $('#backicon').mouseover(function(){
@@ -217,6 +176,7 @@ $('#submit-every-dropzone').click(function(){
     text-align: center;
     text-decoration: none;
     display: inline-block;
+    margin-left: 50%;
     font-size: 16px;
     }
 </style>
