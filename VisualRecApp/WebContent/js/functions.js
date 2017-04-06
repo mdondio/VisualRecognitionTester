@@ -786,8 +786,9 @@ function addTableColumn(IDelement,table,trainingsize){
 				{
 					var block = document.createElement('div');
 					
-					if(table[i][j][k]=="ready") block.className = 'smoothrectangle ready'; 
-					else block.className = 'smoothrectangle training';
+					if(table[i][j][k]=="ready") block.className = 'smoothrectangle ready';
+					if(table[i][j][k]=="training") block.className = 'smoothrectangle training';
+					if(table[i][j][k]=="zombie") block.className = 'smoothrectangle zombie';
 					
 					block.appendChild(document.createTextNode(trainingsize[j-1]+"_"+"v"+k));
 					td.appendChild(block);
@@ -861,7 +862,7 @@ function generateHome(){
 	$.ajax({
 		contentType: "application/json",
 		dataType: "json",
-		//url: "json/classifier.json",
+//		url: "json/classifier2.json",
 		url: 'GetClassifier',
 		async: false,
 		success: function(result){
@@ -869,12 +870,14 @@ function generateHome(){
 			//COMPUTE NUMBER FOR READY AND TRAINING
 			var ready = 0;
 			var training = 0;
+			var zombie = 0;
 
 			for(var i in result)
 			{
 				var obj = result[i];
 				if(obj.status == "ready") ready++;
-				else training++
+				if(obj.status == "training") training++;
+				if(obj.status == "zombie") zombie++;
 			}
 			$('#readyclass').html(ready);
 			$('#trainingclass').html(training);
@@ -938,7 +941,7 @@ function generateHome(){
 	$.ajax({
 		contentType : "application/json",
 		dataType : "json",
-		// url: "json/dataset.json",
+//		 url: "json/dataset.json",
 		url : 'GetDataset',
 		data : 'sub_type=test_set',
 		async : false,

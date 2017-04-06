@@ -30,7 +30,7 @@ function createHead(){
 function createHeader(){
 	
 	$('header').append("<nav id='cssmenu'>");	
-		$('#cssmenu').append("<div class='logo'><img src='img/Avatar_new.png' height='40px'><a href='/'>Watson VR ROC Tester</a></div>");
+		$('#cssmenu').append("<div class='logo'><img src='img/Avatar_new.png' height='40px'><a href='/'>Bellosguardo</a></div>");
 		$('#cssmenu').append("<div id='head-mobile'></div><div class='button'></div>");
 		$('#cssmenu').append("<ul id='begin'>");
 			$('#begin').append("<li><a href='home.html'>dashboard");
@@ -47,7 +47,7 @@ function createHeader(){
 function createHeaderforLogin(){
 	
 	$('header').append("<nav id='cssmenu'>");	
-		$('#cssmenu').append("<div class='logo'><img src='img/Avatar_new.png' height='40px'><a href='/'>Watson VR ROC Tester</a></div>");
+		$('#cssmenu').append("<div class='logo'><img src='img/Avatar_new.png' height='40px'><a href='/'>Bellosguardo</a></div>");
 		$('#cssmenu').append("<div id='head-mobile'></div><div class='button'></div>");
 		$('#cssmenu').append("<ul id='begin'>");
 		$('#begin').append("<li><a href='doc.html'>docs");

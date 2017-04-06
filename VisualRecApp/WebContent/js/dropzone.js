@@ -1148,13 +1148,24 @@
       if (this.options.uploadMultiple) {
         return this.processFiles(queuedFiles.slice(0, parallelUploads - processingLength));
       } else {
-        while (i < parallelUploads) {
-          if (!queuedFiles.length) {
-            return;
-          }
-          this.processFile(queuedFiles.shift());
-          i++;
-        }
+    	  while (queuedFiles.length>0)
+    	  {
+    	      i=0;
+    	      while (i < parallelUploads) {
+    	          if (!queuedFiles.length) {
+    	              return;
+    	          }
+    	          this.processFile(queuedFiles.shift());
+    	          i++;
+    	      }
+    	  }
+//        while (i < parallelUploads) {
+//          if (!queuedFiles.length) {
+//            return;
+//          }
+//          this.processFile(queuedFiles.shift());
+//          i++;
+//        }
       }
     };
 

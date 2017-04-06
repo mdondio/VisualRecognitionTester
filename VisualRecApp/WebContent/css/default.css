@@ -317,6 +317,12 @@ img.centeralign {
 /* 	margin-top: 8px; */
 }
 
+img.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+} 
+
 /*============ OGGETTI GRAFICI ==========*/
 .lineseparator {
 	margin: auto;
@@ -439,11 +445,11 @@ img.centeralign {
 
 .smoothrectangle.ready {
 	background: #ECECEC;
+	cursor: pointer;
 }
 
-.smoothrectangle.training {
-	background: #d9d9d9;
-}
+
+
 
 
 /* ============= USO NON STANDARDIZZATO =============== */
@@ -516,3 +522,18 @@ img.centeralign {
     margin: auto;
     /* height: 50%; */
 	}
+	
+	.smoothrectangle.training {
+	background: #ECECEC;
+	color: #d9d9d9;
+	border-color: #d9d9d9;
+	cursor: wait;
+}
+
+.smoothrectangle.zombie {
+	background: #ffffff;
+	color: #d9d9d9;
+	border-color: #d9d9d9;
+	cursor: wait;
+}
+
