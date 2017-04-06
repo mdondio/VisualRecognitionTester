@@ -13,13 +13,15 @@ public class Configs {
 
 	///////////////////////////////////////////////////////////
 	// Marco Cloudant DB Instance
-	public static final String CLOUDANT_USER = "12aa609a-c692-42aa-b848-c46ea9dfe117-bluemix";
-	public static final String CLOUDANT_PASS = "b3cb397d32d9e4860f9d14406d221c02c707127e97f858b2191693b75e290350";
-	public static final String DATABASENAME = "visualrec_db_new";
+//	public static final String CLOUDANT_USER = "12aa609a-c692-42aa-b848-c46ea9dfe117-bluemix";
+//	public static final String CLOUDANT_PASS = "b3cb397d32d9e4860f9d14406d221c02c707127e97f858b2191693b75e290350";
+//	public static final String DATABASENAME = "visualrec_db_new";
 
-	// Andrea Cloudant DB Instance
-//	public static final String CLOUDANT_USER = "7315f6b8-f122-4a38-9826-14a7a92ec657-bluemix";
-//	public static final String CLOUDANT_PASS = "073981e7f21af8f6a95cf20848f274f329b693dd4db8afe30ba4085bf59d5bac";
+	// Gianvito Cloudant DB Instance
+	public static final String CLOUDANT_USER = "2dc3e7f2-72f3-4671-abee-f8fe4463f639-bluemix";
+	public static final String CLOUDANT_PASS = "e4e12c476026b63264aed5bfb997a0df8580a4997cb3d7b8af150b9f6b38f630";
+	public static final String DATABASENAME = "visualrec";
+		
 	
 	///////////////////////////////////////////////////////////
 	// Marco Object Storage UK
