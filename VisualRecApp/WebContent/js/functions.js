@@ -416,6 +416,20 @@ function closeModal() {
 	document.getElementById('myModal'+GALLERY).style.display = "none";
 }
 
+
+function openModal2() {
+	populateListTestResult();
+	$('#savetestmodal').show("slow");
+	$('#savetestmodalbackground').show("slow");
+	$('#savetestmodalcontent').show("slow");	
+}
+
+function closeModal2() {
+	$('#savetestmodal').hide("slow");
+	$('#savetestmodalbackground').hide("slow");
+	$('#savetestmodalcontent').hide("slow");
+}
+
 var slideIndex = 1;
 var GALLERY = "";
 function setGallery(galleryname){GALLERY=galleryname;};
@@ -537,9 +551,6 @@ function getDataShow(){
 							setParameters(result[j]);
 							showGallery(result[j].falseNegativeOpt, "FN");
 							showGallery(result[j].falsePositiveOpt, "FP");
-							console.log(cacheTestResult);
-							console.log(cacheTestResult[j].histogramNegative);
-							console.log(cacheTestResult[j].histogramPositive);
 							DrawHistogram(cacheTestResult[j].histogramNegative,
 									cacheTestResult[j].histogramPositive);
 						}
@@ -576,6 +587,55 @@ function startSimulation(){
 	 			function(){getDataShow()},
 	 			3000);
 	}
+
+function printTestResults(){
+	
+	var checkedValue = Array.prototype.map.call($(".formcheckbox:checked"),(function(el) {return el.value;}));
+	var parsedJSON = JSON.parse(finalJSON);
+	var count=0;
+	directJSON = [];
+
+    for(var i in cacheTestResult){
+    	var objtest = parsedJSON[i];
+    	var obj = cacheTestResult[i];
+    	if(objtest.name==checkedValue[count])
+    		{
+    		directJSON.push(obj); 
+    		count++;
+    		}
+    }
+
+    var json = JSON.stringify(directJSON);
+    var blob = new Blob([json], {type: "application/json"});
+    saveAs(blob, "TestResult.json");
+    closeModal2();
+}
+
+function populateListTestResult(){
+	$("#listatest").empty();
+	var parsedJSON = JSON.parse(finalJSON);
+	
+	for(var i in parsedJSON){
+		var obj = parsedJSON[i];
+		var label = document.createElement("label");
+		var input = document.createElement("input");
+		var linebreak = document.createElement("br");
+		
+		
+		input.value = obj.name;
+		input.type = "checkbox";
+		input.setAttribute("class","formcheckbox")
+		label.appendChild(input);
+		label.appendChild(document.createTextNode("  "+obj.name));
+
+		$("#listatest").append(label);
+		$("#listatest").append(linebreak);
+	}
+	
+	var input = document.createElement("input");
+	input.type = "submit";
+	$("#listatest").append(input);
+}
 
 
 

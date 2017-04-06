@@ -23,6 +23,10 @@
 <script src="js/dropzone.js"></script>
 <link rel="stylesheet" href="css/dropzone.css">
 
+<!-- LIBRERIA PER SALVARE I FILE -->
+<script src="js/FileSaver.js"></script>
+
+
 <script>createHead();</script>
 
 <body>
@@ -127,16 +131,14 @@
 			<div class="row clearfix">
 				<div class="column full">
 					<select id="show_test"></select>
-					<br>
-					<div class="post-preview">
-					<button class="rectangle" style="margin:auto;">Save to JSON file</button>
-					<button class="rectangle">Save to DB</button>
+					<br><br>
+					<div class="post-preview" style="text-align:center;">
+					<button class="rectangle" id="saveJSON">Save to JSON file</button>
+					<button class="rectangle" id="saveJSONDB">Save to DB</button>
 					</div>
 				</div>
 			</div>
-
-			<br> <br>
-
+<hr class="lineseparator">
 			<div class="row clearfix">
 
 				<div class="column half">
@@ -290,13 +292,27 @@
 	<!-- gestione della preview immagini -->
 
 	<div id="myModalFP" class="modal">
-		<span class="close cursor" onclick="closeModal()">&times;</span>
+		<span class="close cursor" onclick="closeModal()">&#10005;</span>
 		<div class="modal-content" id="modalcontentFP"></div>
 	</div>
 
 	<div id="myModalFN" class="modal">
-		<span class="close cursor" onclick="closeModal()">&times;</span>
+		<span class="close cursor" onclick="closeModal()">&#10005;</span>
 		<div class="modal-content" id="modalcontentFN"></div>
+	</div>
+	
+	<div id="savetestmodal" style="display:none;">
+		<div class="modal2" id="savetestmodalbackground"></div>
+		<div class="modal-content2" id="savetestmodalcontent">
+		
+		<span class="titlemodal">Select which test result save on your PC</span>
+		<span class="cursormodal" onclick="closeModal2()">&#10005;</span>
+		
+				<form id="listatest" action="javascript:printTestResults();" class="formmodal">
+</form>
+		</div> 
+		
+
 	</div>
 
 
@@ -419,6 +435,26 @@ $('body').on("click","img[id*=garbage]",function(){
 					}
 				}
 });   
+
+
+// inputOptions can be an object or Promise
+// function createTestList (){
+
+// }
+
+
+$('#saveJSON').click(function(){
+openModal2();
+				});
+
+$('#saveJSONDB').click(function(){
+ swal({
+				title: "Warning",
+				text: "We are working hard on this feature...just relax and run a new simulation.",
+				type: "warning"});
+				
+				});
+				
 </script>
 
 <script>
