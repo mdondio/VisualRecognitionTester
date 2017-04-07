@@ -93,22 +93,22 @@
 	*zoom: 1;
 }
 
-#logowait {
-	position: relative;
-	top: 20%;
-	left: 50%;
-	z-index: 10000;
-	height: 250px;
-	width: auto;
-}
+/* #logowait { */
+/* 	position: relative; */
+/* 	top: 20%; */
+/* 	left: 50%; */
+/* 	z-index: 10000; */
+/* 	height: 250px; */
+/* 	width: auto; */
+/* } */
 
-#loading { /* logo watson loading */
-	width: 150px;
-	height: auto;
-	position: relative;
-	filter: contrast(93.3%);
-	/* per fare in modo che il bianco di sfondo diventi il grigio della pagina! */
-}
+/* #loading { logo watson loading */
+/* 	width: 150px; */
+/* 	height: auto; */
+/* 	position: relative; */
+/* 	filter: contrast(93.3%); */
+/* 	/* per fare in modo che il bianco di sfondo diventi il grigio della pagina! */ */
+/* } */
 
 /* ============================================== */
 /* ====	NUOVE CLASSI PER FORMATTING =====*/
@@ -271,7 +271,7 @@ input.title{
 }
 
 input[type=text], input[type=password] {
-	width: 100%;
+  width: 100%;
   border: 0;
   outline: 0;
   background: transparent;
@@ -289,7 +289,8 @@ input[type=submit],input[type=file]{
   border-radius: 1px;
   padding: 12px 16px;
   text-decoration: none;
-  margin: 4px 2px;
+/*   margin: 4px 2px; */
+  margin-top: 20px;
   cursor: pointer;
   font-family: IBM;
 /*   margin-left:37%; */
@@ -357,6 +358,15 @@ img.center {
 } 
 
 
+img#waiting{
+	top: 35%;
+	left: 43%;
+	position: absolute;
+	margin: auto;
+	width: 15%;
+}
+
+
 /*============ OGGETTI GRAFICI ==========*/
 .lineseparator {
 	margin: auto;
@@ -421,7 +431,7 @@ img.center {
 }
 
 .rectangle {
-	width: 85%;
+	min-width: 300px;
 	height: 50px;
 	margin-top: 10px;
 	margin-bottom: 10px;
@@ -481,6 +491,8 @@ img.center {
 	background: #ECECEC;
 	cursor: pointer;
 }
+
+
 
 .blocktest{
 	width: 450px;
@@ -579,6 +591,75 @@ img.center {
 	cursor: wait;
 }
 
+
+
+
+/* ============= TOOLTIP ON HOVER =============== */
+
+/* Add this attribute to the element that needs a tooltip */
+[data-tooltip] {
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+}
+
+/* Hide the tooltip content by default */
+[data-tooltip]:before,
+[data-tooltip]:after {
+  visibility: hidden;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Position tooltip above the element */
+[data-tooltip]:before {
+  position: absolute;
+  bottom: 150%;
+  left: 50%;
+  margin-bottom: 5px;
+  margin-left: -80px;
+  padding: 7px;
+  width: 160px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #000;
+  background-color: hsla(0, 0%, 20%, 0.9);
+  color: #fff;
+  content: attr(data-tooltip);
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+/* Triangle hack to make tooltip look like a speech bubble */
+[data-tooltip]:after {
+  position: absolute;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -5px;
+  width: 0;
+  border-top: 5px solid #000;
+  border-top: 5px solid hsla(0, 0%, 20%, 0.9);
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
+  content: " ";
+  font-size: 0;
+  line-height: 0;
+}
+
+/* Show tooltip content on hover */
+[data-tooltip]:hover:before,
+[data-tooltip]:hover:after {
+  visibility: visible;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+  filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1;
+}
+
+
 .blocktestattribute{
     width: 65%;
     line-height: 25px;
@@ -595,5 +676,4 @@ height:90%;
 display:inline-block;
 position:relative;
 }
-
 
