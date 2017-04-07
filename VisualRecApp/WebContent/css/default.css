@@ -115,7 +115,7 @@
 /* ============================================== */
 
 /* ========== FORMATTING BORDI ============== */
-p.topborder {
+.topborder {
 	border-top: 3px solid #343b43;
 	padding-top: 15px;
 	margin-bottom: 30px;
