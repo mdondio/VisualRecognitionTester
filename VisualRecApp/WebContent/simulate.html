@@ -327,50 +327,14 @@
 
 $( document ).ready(function() {
 
-// Retrieve
 if(localStorage.getItem("viewresult")=="history")
 {
-
+//mostro subito la parte di show
 $("#simulate").hide();
 $("#showtest").show("slow");
-cacheTestResult = localStorage.getItem("resultJSON");
-// parsedJSON = localStorage.getItem("listresultJSON");
-
-					parsedJSON = JSON.parse(finalJSON)
-					var testcount = 0;
-					for(var j in result)
-						{
-						var obj = result[j];
-						if(obj.ID==null) {
-							swal({
-							title: "Warning",
-							imageUrl: "img/tired.png",
-							text: "Classifier "+parsedJSON[testcount].classifier+" is exhausted. Wait 24h and you will regain your free API calls",
-							});	
-						}else{
-							$('#show_test').append($('<option>', {
-								value: parsedJSON[testcount].name,
-								text: parsedJSON[testcount].name
-							}));
-						}
-						testcount++;
-						}
-					
-					Draw(result);
-					
-					var testname = $("#show_test").val();
-					var parsedJSON = JSON.parse(finalJSON);
-					for ( var j in parsedJSON) {
-						if (parsedJSON[j].name == testname) {
-							setParameters(result[j]);
-							showGallery(result[j].falseNegativeOpt, "FN");
-							showGallery(result[j].falsePositiveOpt, "FP");
-							DrawHistogram(cacheTestResult[j].histogramNegative,
-									cacheTestResult[j].histogramPositive);
-						}
-					}
-
-}else{}
+printShowPage();
+localStorage.setItem("viewresult", "simulation");
+}
 
 });
 
@@ -473,17 +437,7 @@ $('body').on("click","img[id*=garbage]",function(){
 	$('#show_test').on(
 			'change',
 			function() {
-				var testname = $("#show_test").val();
-				var parsedJSON = JSON.parse(finalJSON);
-				for ( var j in parsedJSON) {
-					if (parsedJSON[j].name == testname) {
-						setParameters(cacheTestResult[j]);
-						showGallery(cacheTestResult[j].falseNegativeOpt, "FN");
-						showGallery(cacheTestResult[j].falsePositiveOpt, "FP");
-						console.log(cacheTestResult[j]);
-						DrawHistogram(cacheTestResult[j].histogramNegative,cacheTestResult[j].histogramPositive);
-					}
-				}
+		updateTestFields();
 });   
 
 

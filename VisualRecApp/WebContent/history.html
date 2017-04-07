@@ -55,23 +55,39 @@ $('#import').click(function() {
   var fr = new FileReader();
 
   fr.onload = function(e) { 
-  console.log(e);
     var result = JSON.parse(e.target.result);
-    
-    
-    
+    var testname = [];
+    var testset = [];
+    var testclassifier = [];
     
     //al momento stiamo assumendo di poter caricare solo un file JSON (senza comporre più file diversi)
     $("#caricatest").empty();
     for(var i in result)
     {
     var obj=result[i];
+    
+    //TODO recuperare anche il nome del test e gli ID dei test set
+    testname.push(obj.ID);
+    testset.push(obj.ID);
+    testclassifier.push(obj.ID);
+            
     createBlockTest("caricatest",obj.ID,"TBD","TBD");
     }
     
     //verrà spostato da qui perchè dobbiamo implementare la personalizzazione dei dati da caricare
     localStorage.setItem("resultJSON", e.target.result);
-	localStorage.setItem("listJSON",listJSON);
+    
+    // creazione del nuovo file JSON dei testname
+    directJSON = [];
+			    for( k = 0; k < testname.length; k++ ){
+			       	item = {}
+			    	item["name"] = testname[k];
+			    	item["test"] = testset[k];
+			    	item["classifier"] = testclassifier[k];
+			    	directJSON.push(item); 
+			    } 
+
+	localStorage.setItem("listJSON",JSON.stringify(directJSON));
   }
   fr.readAsText(files.item(0));
   
@@ -83,7 +99,6 @@ $('#viewresult').click(function() {
    
        // Store
 localStorage.setItem("viewresult", "history");
-
 window.location.href = 'simulate.html';
 	 			
 });

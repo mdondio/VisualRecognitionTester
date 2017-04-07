@@ -1,6 +1,3 @@
-var cacheTestResult;
-var finalJSON;
-
 //TODO commentare
 //RESET BROWSE FILE show (will be deprecated)
 function clearData(){
@@ -40,14 +37,14 @@ function Draw(result){
 			//CREAZIONE DELL'INPUT PER GRAFICO ROC -------------------------------------
 			var ROCcurves = []; //INPUT PER PLOT
 			var count = 0;
-			var parsedJSON = JSON.parse(finalJSON);
+			var testdetails = JSON.parse(localStorage.getItem("listJSON"));
 			for(var i in result){
 				var obj = result[i];
 				var x = [];
 				var y = [];
 				for(var j in obj.fprTrace) x.push(obj.fprTrace[j]);
 				for(var j in obj.tprTrace) y.push(obj.tprTrace[j]);
-				var objJSON = parsedJSON[count];
+				var objJSON = testdetails[count];
 				ROCcurves.push(
 						{
 							x: x,
@@ -507,58 +504,27 @@ function createGallery(idTOappend,images,idgallery)
 
 //TODO commentare
 //GET DATA TO SHOW: questa dovrebbe essere la funzione che lega la richiesta dei test da mostrare in show.html???
-function getDataShow(){
-
-	// ajax call to backend
-	$.ajax(
-			{
-				url: "json/helicopter_test.json",
-//				url: 'GetTestResult',
-				type: 'GET',
-				data:{ array: finalJSON },
-				dataType: 'json',
-				success: function(result)
-				{
-					$("#waiting").fadeOut(1000);
-					$("#showtest").fadeIn(2000);
-					cacheTestResult = result;
-					parsedJSON = JSON.parse(finalJSON)
-					var testcount = 0;
-					for(var j in result)
-						{
-						var obj = result[j];
-						if(obj.ID==null) {
-							swal({
-							title: "Warning",
-							imageUrl: "img/tired.png",
-							text: "Classifier "+parsedJSON[testcount].classifier+" is exhausted. Wait 24h and you will regain your free API calls",
-							});	
-						}else{
-							$('#show_test').append($('<option>', {
-								value: parsedJSON[testcount].name,
-								text: parsedJSON[testcount].name
-							}));
-						}
-						testcount++;
-						}
-					
-					Draw(result);
-					
-					var testname = $("#show_test").val();
-					var parsedJSON = JSON.parse(finalJSON);
-					for ( var j in parsedJSON) {
-						if (parsedJSON[j].name == testname) {
-							setParameters(result[j]);
-							showGallery(result[j].falseNegativeOpt, "FN");
-							showGallery(result[j].falsePositiveOpt, "FP");
-							DrawHistogram(cacheTestResult[j].histogramNegative,
-									cacheTestResult[j].histogramPositive);
-						}
-					}
-				}
-			});
-
-}
+//function getDataShow(){
+//
+//	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
+//	// ajax call to backend
+//	$.ajax(
+//			{
+//				url: "json/helicopter_test.json",
+////				url: 'GetTestResult',
+//				type: 'GET',
+//				data:{ array: finalJSON },
+//				dataType: 'json',
+//				success: function(result)
+//				{
+//					$("#waiting").fadeOut(1000);
+//					$("#showtest").fadeIn(2000);
+//					localStorage.setItem("resultJSON", JSON.stringify(result));
+//					printShowPage();
+//				}
+//			});
+//
+//}
 
 
 /**
@@ -566,7 +532,6 @@ function getDataShow(){
  */
 function startSimulation(){
 	
-			    
 			    var testName = Array.prototype.map.call($("[id*=testname]"),(function(el){return el.value;}));
 				var testDataset = Array.prototype.map.call($("[id*=testset]"),(function(el){return el.value;}));
 				var testClassifier = Array.prototype.map.call($("[id*=testclassifier]"),(function(el){return el.value;}));
@@ -580,25 +545,43 @@ function startSimulation(){
 			    	item["classifier"] = testClassifier[k];
 			    	directJSON.push(item); 
 			    }  
-			    finalJSON = JSON.stringify(directJSON);
+			    
+			    localStorage.setItem("listJSON",JSON.stringify(directJSON));
 			    
 			    $("#simulate").fadeOut(1000);
 			    setTimeout(function(){$("#waiting").fadeIn(1000)},1000);
-	 			setTimeout(
-	 			function(){getDataShow()},
-	 			3000);
+
+				var testdetails = JSON.parse(localStorage.getItem("listJSON"));
+				// ajax call to backend
+				$.ajax(
+						{
+							url: "json/helicopter_test.json",
+//							url: 'GetTestResult',
+							type: 'GET',
+							data:{ array: testdetails },
+							dataType: 'json',
+							success: function(result)
+							{
+								$("#waiting").fadeOut(1000);
+								$("#showtest").fadeIn(2000);
+								localStorage.setItem("resultJSON", JSON.stringify(result));
+								printShowPage();
+							}
+						});
 	}
 
 function printTestResults(){
 	
 	var checkedValue = Array.prototype.map.call($(".formcheckbox:checked"),(function(el) {return el.value;}));
-	var parsedJSON = JSON.parse(finalJSON);
+	var result = JSON.parse(localStorage.getItem("resultJSON"));
+	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
 	var count=0;
 	
+	//costruisco il JSON da stampare
 	directJSON = [];
-    for(var i in cacheTestResult){
-    	var objtest = parsedJSON[i];
-    	var obj = cacheTestResult[i];
+    for(var i in result){
+    	var objtest = testdetails[i];
+    	var obj = result[i];
     	if(objtest.name==checkedValue[count])
     		{
     		directJSON.push(obj); 
@@ -614,10 +597,10 @@ function printTestResults(){
 
 function populateListTestResult(){
 	$("#listatest").empty();
-	var parsedJSON = JSON.parse(finalJSON);
+	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
 	
-	for(var i in parsedJSON){
-		var obj = parsedJSON[i];
+	for(var i in testdetails){
+		var obj = testdetails[i];
 		var label = document.createElement("label");
 		var input = document.createElement("input");
 		var linebreak = document.createElement("br");
@@ -1112,3 +1095,62 @@ function createBlockTest(IDappend,testname,label,classifier){
 }
 
 
+function printShowPage() {
+	
+	//carica i file da local storage
+	var result = JSON.parse(localStorage.getItem("resultJSON"));
+	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
+
+	//verifica che non ci siano vuoti e costruisce il select test panel
+	var testcount = 0;
+	for ( var j in result) {
+		var obj = result[j];
+		if (obj.ID == null) {
+			swal({
+				title : "Warning",
+				imageUrl : "img/tired.png",
+				text : "Classifier "
+						+ testdetails[testcount].classifier
+						+ " is exhausted. Wait 24h and you will regain your free API calls",
+			});
+		} else {
+			$('#show_test').append($('<option>', {
+				value : testdetails[testcount].name,
+				text : testdetails[testcount].name
+			}));
+		}
+		testcount++;
+	}
+
+	//disegna i grafici comuni a più test
+	Draw(result);
+
+	//disegna gli oggetti dipendenti dal test selezionato
+	var testname = $("#show_test").val();
+	for ( var j in testdetails) {
+		if (testdetails[j].name == testname) {
+			setParameters(result[j]);
+			showGallery(result[j].falseNegativeOpt, "FN");
+			showGallery(result[j].falsePositiveOpt, "FP");
+			DrawHistogram(result[j].histogramNegative,result[j].histogramPositive);
+		}
+	}
+}
+
+function updateTestFields() {
+	
+	//carica i file da local storage
+	var result = JSON.parse(localStorage.getItem("resultJSON"));
+	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
+
+	//disegna gli oggetti dipendenti dal test selezionato
+	var testname = $("#show_test").val();
+	for ( var j in testdetails) {
+		if (testdetails[j].name == testname) {
+			setParameters(result[j]);
+			showGallery(result[j].falseNegativeOpt, "FN");
+			showGallery(result[j].falsePositiveOpt, "FP");
+			DrawHistogram(result[j].histogramNegative,result[j].histogramPositive);
+		}
+	}
+}
