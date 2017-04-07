@@ -551,12 +551,12 @@ function startSimulation(){
 			    $("#simulate").fadeOut(1000);
 			    setTimeout(function(){$("#waiting").fadeIn(1000)},1000);
 
-				var testdetails = JSON.parse(localStorage.getItem("listJSON"));
+				var testdetails = localStorage.getItem("listJSON");
 				// ajax call to backend
 				$.ajax(
 						{
-							url: "json/helicopter_test.json",
-//							url: 'GetTestResult',
+//							url: "json/helicopter_test.json",
+							url: 'GetTestResult',
 							type: 'GET',
 							data:{ array: testdetails },
 							dataType: 'json',
