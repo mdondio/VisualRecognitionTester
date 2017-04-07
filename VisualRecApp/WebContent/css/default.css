@@ -137,6 +137,13 @@ p.title {
 	font-family: IBM;
 }
 
+p.smalltitle {
+	color: #343b43;
+	font-weight: bold;
+	font-size: 18px;
+	font-family: IBM;
+}
+
 
 
 p.title.right {
@@ -157,6 +164,7 @@ p.paragraph {
 	font-family: IBM;
 }
 
+
 p.paragraph.right {
 	text-align: right;
 }
@@ -168,6 +176,7 @@ p.paragraph.center {
 p.paragraph.left {
 	text-align: left;
 }
+
 
 /* ================== GESTIONE TABELLE ============== */
 table, td, th {
@@ -201,11 +210,29 @@ th {
 }
 
 /*============ BOTTONI ==========*/
+
+
+
 button {
 	background: transparent;
 	border: transparent;
 	margin-left: 15px;
 	margin-right: 15px;
+}
+
+button.import{
+  background-color: #485a67;
+  border: none;
+  color: #ffffff;
+  border-radius: 1px;
+  padding: 12px 16px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+  font-size:16pt;
+  font-family: IBM;
+  font-weight:bold;
+/*   margin-left:37%; */
 }
 
 select.title {
@@ -255,7 +282,7 @@ input[type=text], input[type=password] {
   color: #343b43;
 }
 
-input[type=submit]{
+input[type=submit],input[type=file]{
   background-color: #485a67;
   border: none;
   color: #ffffff;
@@ -265,7 +292,7 @@ input[type=submit]{
   margin: 4px 2px;
   cursor: pointer;
   font-family: IBM;
-  margin-left:37%;
+/*   margin-left:37%; */
 }
 
 input[type=text]:focus {
@@ -296,6 +323,12 @@ img.icon.small {
 	height: auto;
 }
 
+img.blocktest{
+margin:auto;
+margin-top:25px;
+box-shadow: none;
+}
+
 img.icon.medium {
 	width: 100px;
 	height: auto;
@@ -322,6 +355,7 @@ img.center {
   margin-left: auto;
   margin-right: auto;
 } 
+
 
 /*============ OGGETTI GRAFICI ==========*/
 .lineseparator {
@@ -448,7 +482,15 @@ img.center {
 	cursor: pointer;
 }
 
-
+.blocktest{
+	width: 450px;
+	height: 88px;
+	margin:10px;
+	background: #ECECEC;
+	webkit-box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.12);
+	-moz-box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.12);
+	box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.12);
+}
 
 
 
@@ -536,4 +578,22 @@ img.center {
 	border-color: #d9d9d9;
 	cursor: wait;
 }
+
+.blocktestattribute{
+    width: 65%;
+    line-height: 25px;
+    display: inline-block;
+    position: relative;
+    vertical-align: super;
+    margin-left: 10px;
+    height:100%;
+}
+
+.blocktesticon{
+width:14%;
+height:90%;
+display:inline-block;
+position:relative;
+}
+
 

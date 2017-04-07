@@ -28,16 +28,66 @@
 <header></header><script>createHeader();</script>
 
 <div class="content">
-<br><br><br><br>
-<center>
-<img src="img/Work_In_Progress.png">
-</center>
+
+<div class="column two-thirds">
+<input type="file" id="selectFiles" value="Import">
+<button id="import" class="import">Import</button>
+<button id="viewresult" class="import">View results</button>
+<div id="caricatest"></div>
 </div>
+
 </div>
+
 
 </body>
 
 <script>
+
+
+//per caricare file
+$('#import').click(function() {
+    var files = document.getElementById('selectFiles').files;
+  console.log(files);
+  if (files.length <= 0) {
+    return false;
+  }
+
+  var fr = new FileReader();
+
+  fr.onload = function(e) { 
+  console.log(e);
+    var result = JSON.parse(e.target.result);
+    
+    
+    
+    
+    //al momento stiamo assumendo di poter caricare solo un file JSON (senza comporre più file diversi)
+    $("#caricatest").empty();
+    for(var i in result)
+    {
+    var obj=result[i];
+    createBlockTest("caricatest",obj.ID,"TBD","TBD");
+    }
+    
+    //verrà spostato da qui perchè dobbiamo implementare la personalizzazione dei dati da caricare
+    localStorage.setItem("resultJSON", e.target.result);
+	localStorage.setItem("listJSON",listJSON);
+  }
+  fr.readAsText(files.item(0));
+  
+  
+});
+
+//cambio pagina
+$('#viewresult').click(function() {
+   
+       // Store
+localStorage.setItem("viewresult", "history");
+
+window.location.href = 'simulate.html';
+	 			
+});
+
 </script>
 
 </html>

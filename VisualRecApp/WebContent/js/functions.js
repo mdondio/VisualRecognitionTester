@@ -565,22 +565,23 @@ function getDataShow(){
  * @returns prepara il file JSON con gli input e richiama la funzione getDataShow() per ottenere i risultati dal backend
  */
 function startSimulation(){
-	directJSON = [];
+	
 			    
 			    var testName = Array.prototype.map.call($("[id*=testname]"),(function(el){return el.value;}));
 				var testDataset = Array.prototype.map.call($("[id*=testset]"),(function(el){return el.value;}));
 				var testClassifier = Array.prototype.map.call($("[id*=testclassifier]"),(function(el){return el.value;}));
 			    var testname;
 			    
+			    directJSON = [];
 			    for( k = 0; k < TOTALROWSFILLED; k++ ){
 			       	item = {}
 			    	item["name"] = testName[k];
 			    	item["test"] = testDataset[k];
 			    	item["classifier"] = testClassifier[k];
 			    	directJSON.push(item); 
-			    }
-			    
+			    }  
 			    finalJSON = JSON.stringify(directJSON);
+			    
 			    $("#simulate").fadeOut(1000);
 			    setTimeout(function(){$("#waiting").fadeIn(1000)},1000);
 	 			setTimeout(
@@ -593,8 +594,8 @@ function printTestResults(){
 	var checkedValue = Array.prototype.map.call($(".formcheckbox:checked"),(function(el) {return el.value;}));
 	var parsedJSON = JSON.parse(finalJSON);
 	var count=0;
+	
 	directJSON = [];
-
     for(var i in cacheTestResult){
     	var objtest = parsedJSON[i];
     	var obj = cacheTestResult[i];
@@ -1056,3 +1057,58 @@ function checkSelectedInput() {
 	}
 	return check;
 }
+
+
+function createBlockTest(IDappend,testname,label,classifier){
+	
+	var block = document.createElement("div");
+	block.setAttribute("class","blocktest");
+	
+//	======================
+	var blocktest = document.createElement("div");
+	blocktest.setAttribute("class","blocktestattribute");
+	
+	var pblockT1 = document.createElement("p");
+	pblockT1.setAttribute("class","smalltitle");
+	pblockT1.appendChild(document.createTextNode(testname));
+	
+	var pblockP1 = document.createElement("p");
+	pblockP1.setAttribute("class","paragraph");
+	pblockP1.appendChild(document.createTextNode("LABEL: "+label));
+	
+	var pblockP2 = document.createElement("p");
+	pblockP2.setAttribute("class","paragraph");	
+	pblockP2.appendChild(document.createTextNode("CLASSIFIER: "+classifier));
+	
+	blocktest.appendChild(pblockT1);
+	blocktest.appendChild(pblockP1);
+	blocktest.appendChild(pblockP2);
+//	===========================
+	var blockicon1 = document.createElement("div");
+	blockicon1.setAttribute("class","blocktesticon");
+	
+	var icon1 = document.createElement("img");
+	icon1.setAttribute("class","icon verysmall blocktest");
+	icon1.setAttribute("src","ico/garbageDARK.png");
+	icon1.setAttribute("id","garbage"+testname);
+	
+	blockicon1.appendChild(icon1);
+	
+	var blockicon2 = document.createElement("div");
+	blockicon2.setAttribute("class","blocktesticon");
+	
+	var icon2 = document.createElement("img");
+	icon2.setAttribute("class","icon verysmall blocktest");
+	icon2.setAttribute("src","ico/plus-symbol.png");
+	icon2.setAttribute("id","plus"+testname);
+	
+	blockicon2.appendChild(icon2);
+//	===========================
+	block.appendChild(blocktest);
+	block.appendChild(blockicon1);
+	block.appendChild(blockicon2);
+	
+	$("#"+IDappend+"").append(block);
+}
+
+
