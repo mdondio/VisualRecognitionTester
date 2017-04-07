@@ -789,6 +789,8 @@ function addTableColumn(IDelement,table,trainingsize){
 					if(table[i][j][k]=="ready") block.className = 'smoothrectangle ready';
 					if(table[i][j][k]=="training") block.className = 'smoothrectangle training';
 					if(table[i][j][k]=="zombie") block.className = 'smoothrectangle zombie';
+
+//					$(".ready").attr("data-tooltip", "Classifier ready");					
 					
 					block.appendChild(document.createTextNode(trainingsize[j-1]+"_"+"v"+k));
 					td.appendChild(block);
