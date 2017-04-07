@@ -761,7 +761,7 @@ function addTableColumn(IDelement,table,trainingsize){
 				var block = document.createElement('div');
 				block.appendChild(txt);
 				th.appendChild(block);
-				row.appendChild(th);
+				row.appendChild(th); 
 			}
 			else{
 				var td = document.createElement('td');
