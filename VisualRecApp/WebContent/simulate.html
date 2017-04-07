@@ -326,6 +326,20 @@
 
 <script>
 
+$( document ).ready(function() {
+
+if(localStorage.getItem("viewresult")=="history")
+{
+//mostro subito la parte di show
+$("#simulate").hide();
+$("#showtest").show("slow");
+printShowPage();
+localStorage.setItem("viewresult", "simulation");
+}
+
+});
+
+
 //ADD button actions
 $('#addicon').mouseover(function(){
 	$(this).attr('src','ico/addicon.png');
@@ -424,17 +438,7 @@ $('body').on("click","img[id*=garbage]",function(){
 	$('#show_test').on(
 			'change',
 			function() {
-				var testname = $("#show_test").val();
-				var parsedJSON = JSON.parse(finalJSON);
-				for ( var j in parsedJSON) {
-					if (parsedJSON[j].name == testname) {
-						setParameters(cacheTestResult[j]);
-						showGallery(cacheTestResult[j].falseNegativeOpt, "FN");
-						showGallery(cacheTestResult[j].falsePositiveOpt, "FP");
-						console.log(cacheTestResult[j]);
-						DrawHistogram(cacheTestResult[j].histogramNegative,cacheTestResult[j].histogramPositive);
-					}
-				}
+		updateTestFields();
 });   
 
 

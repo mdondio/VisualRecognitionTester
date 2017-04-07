@@ -137,6 +137,13 @@ p.title {
 	font-family: IBM;
 }
 
+p.smalltitle {
+	color: #343b43;
+	font-weight: bold;
+	font-size: 18px;
+	font-family: IBM;
+}
+
 
 
 p.title.right {
@@ -157,6 +164,7 @@ p.paragraph {
 	font-family: IBM;
 }
 
+
 p.paragraph.right {
 	text-align: right;
 }
@@ -168,6 +176,7 @@ p.paragraph.center {
 p.paragraph.left {
 	text-align: left;
 }
+
 
 /* ================== GESTIONE TABELLE ============== */
 table, td, th {
@@ -201,11 +210,29 @@ th {
 }
 
 /*============ BOTTONI ==========*/
+
+
+
 button {
 	background: transparent;
 	border: transparent;
 	margin-left: 15px;
 	margin-right: 15px;
+}
+
+button.import{
+  background-color: #485a67;
+  border: none;
+  color: #ffffff;
+  border-radius: 1px;
+  padding: 12px 16px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+  font-size:16pt;
+  font-family: IBM;
+  font-weight:bold;
+/*   margin-left:37%; */
 }
 
 select.title {
@@ -255,7 +282,7 @@ input[type=text], input[type=password] {
   color: #343b43;
 }
 
-input[type=submit]{
+input[type=submit],input[type=file]{
   background-color: #485a67;
   border: none;
   color: #ffffff;
@@ -297,6 +324,12 @@ img.icon.small {
 	height: auto;
 }
 
+img.blocktest{
+margin:auto;
+margin-top:25px;
+box-shadow: none;
+}
+
 img.icon.medium {
 	width: 100px;
 	height: auto;
@@ -324,6 +357,7 @@ img.center {
   margin-right: auto;
 } 
 
+
 img#waiting{
 	top: 35%;
 	left: 43%;
@@ -331,6 +365,7 @@ img#waiting{
 	margin: auto;
 	width: 15%;
 }
+
 
 /*============ OGGETTI GRAFICI ==========*/
 .lineseparator {
@@ -457,10 +492,18 @@ img#waiting{
 	cursor: pointer;
 }
 
-#waiting {
-	display: none;
-	position: absolute;
+
+
+.blocktest{
+	width: 450px;
+	height: 88px;
+	margin:10px;
+	background: #ECECEC;
+	webkit-box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.12);
+	-moz-box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.12);
+	box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.12);
 }
+
 
 
 /* ============= USO NON STANDARDIZZATO =============== */
@@ -551,46 +594,6 @@ img#waiting{
 
 
 
-
-/* /** */
-/*  * Demo styles */
-/*  * Not needed for tooltips to work */
-/*  */ */
-
-/* /* `border-box`... ALL THE THINGS! */ */
-/* html { */
-/*   box-sizing: border-box; */
-/* } */
-
-/* *, */
-/* *:before, */
-/* *:after { */
-/*   box-sizing: inherit; */
-/* } */
-
-/* body { */
-/*   margin: 64px auto; */
-/*   text-align: center; */
-/*   font-size: 100%; */
-/*   max-width: 640px; */
-/*   width: 94%; */
-/* } */
-
-/* a:hover { */
-/*   text-decoration: none; */
-/* } */
-
-/* header, */
-/* .demo, */
-/* .demo p { */
-/*   margin: 4em 0; */
-/*   text-align: center; */
-/* } */
-
-/**
- * Tooltip Styles
- */
-
 /* ============= TOOLTIP ON HOVER =============== */
 
 /* Add this attribute to the element that needs a tooltip */
@@ -655,3 +658,22 @@ img#waiting{
   filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
   opacity: 1;
 }
+
+
+.blocktestattribute{
+    width: 65%;
+    line-height: 25px;
+    display: inline-block;
+    position: relative;
+    vertical-align: super;
+    margin-left: 10px;
+    height:100%;
+}
+
+.blocktesticon{
+width:14%;
+height:90%;
+display:inline-block;
+position:relative;
+}
+
