@@ -84,11 +84,19 @@ public class WatsonBinaryClassifier {
 	public void setClassifierId(String classifier_id) {
 		this.classifierId = classifier_id;
 	}
+	
+	public String getClassifierId(){
+		return classifierId;
+	}
 
 	// XXX per test
 	public void setLabel(String label) {
 		this.label = label;
 
+	}
+	
+	public String getLabel(){
+		return label;
 	}
 
 	/**

@@ -29,6 +29,10 @@ public class Classifier {
 	private String status;
 	private String training_set;
 
+	public void setId(String id){
+		this._id = id;
+	}
+	
 	public String getID() {
 		return _id;
 	}
@@ -55,6 +59,26 @@ public class Classifier {
 
 	public String toString(){
 		return _id;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public void setInstance(String instance) {
+		this.instance = instance;
+	}
+
+	public void setLabel(String label) {
+this.label = label;		
+	}
+
+	public void setTrainingSize(int size) {
+		this.training_size = size;
+	}
+
+	public void setTrainingSet(String training_set) {
+		this.training_set = training_set;
 	}
 
 }

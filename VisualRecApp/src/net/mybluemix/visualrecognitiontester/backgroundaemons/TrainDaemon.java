@@ -1,17 +1,12 @@
 package net.mybluemix.visualrecognitiontester.backgroundaemons;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletContext;
 
 import com.cloudant.client.api.Database;
-import com.cloudant.client.api.model.FindByIndexOptions;
 import com.cloudant.client.api.model.Response;
-import com.google.gson.JsonObject;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassifier;
-import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassifier.Status;
 
 import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.Job;
 import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.JobQueue;
@@ -67,8 +62,7 @@ public class TrainDaemon implements Runnable {
 
 			Instance vr_instance = trainingJob.getObj().getInstance();
 			Dataset d = trainingJob.getObj().getDataset();
-			
-			
+
 			System.out.println("[TrainDaemon] Classifier received = " + trainingJob + ". Processing...");
 
 			// 1 - Retrieve image from object storage and build zips
@@ -102,8 +96,8 @@ public class TrainDaemon implements Runnable {
 			// non funzioni
 			WatsonBinaryClassifier wbc = null;
 			try {
-				wbc = new WatsonBinaryClassifier(vr_instance.getApiKey(),
-						trainingJob.getObj().getLabel(), positiveClassZip, negativeClassZip);
+				wbc = new WatsonBinaryClassifier(vr_instance.getApiKey(), trainingJob.getObj().getLabel(),
+						positiveClassZip, negativeClassZip);
 			} catch (IOException e) {
 				// XXX idealmente non è da skippare, ma da riprovare dopo un po'
 				e.printStackTrace();
@@ -118,37 +112,67 @@ public class TrainDaemon implements Runnable {
 			}
 
 			// If im here, training was succesfull!
-			// TODO need to update cloudant!
 
-			// TODO attenzione, se ho degli errori qui sotto cosa faccio?
+			// Now update cloudant...
+			// XXX ATTENZIONE
+			// potenzialmente rischio di non atomicità nell'operazione
+			// inconsistenze!
+			// attenzione, se ho degli errori qui sotto cosa faccio?
 			// converrebbe fare un delete model nel dubbio cosi api key diventa
 			// "free"
-			
-			// XXX potenzialmente rischio di non atomicità nell'operazione
-			// inconsistenze!
-			updateCloudant(vr_instance, wbc);
+			updateCloudant(trainingJob.getObj(), wbc);
 
 			// se non ho avuto errori sopra.. tutto ok!
-			
+
 			System.out.println("[TrainDaemon] Job completed!");
 		}
 	}
 
-	// XXX attenzione: potenzialmente non atomico.. occhio ad inconsistenza possibili
+	// XXX attenzione: potenzialmente non atomico.. occhio ad inconsistenza
+	// possibili
 	// meglio avere primo documento classificatore, poi inserirlo in instance
-	private void updateCloudant(Instance vr_instance, WatsonBinaryClassifier wbc) {
-		classifierInsert(vr_instance, wbc);
-		instanceUpdate(vr_instance, wbc);
+	private void updateCloudant(TrainingInfo info, WatsonBinaryClassifier wbc) {
+		classifierInsert(info, wbc);
+		instanceUpdate(info, wbc);
 	}
 
-	private void instanceUpdate(Instance vr_instance, WatsonBinaryClassifier wbc) {
-		// TODO Auto-generated method stub
+	private void instanceUpdate(TrainingInfo info, WatsonBinaryClassifier wbc) {
 
+		// get db connection
+		Database db = CloudantClientMgr.getCloudantDB();
+
+		// Get the instance from db
+		Instance i = db.find(Instance.class, info.getInstance().getId());
+
+		// add this classifier
+		i.addClassifier(wbc.getClassifierId());
+
+		// now update the remote classifier
+		Response responseUpdate = db.update(i);
+
+		System.out.println("[TrainDaemon] Updated Instance, response: " + responseUpdate);
 	}
 
-	private void classifierInsert(Instance vr_instance, WatsonBinaryClassifier wbc) {
-		// TODO Auto-generated method stub
+	private void classifierInsert(TrainingInfo info, WatsonBinaryClassifier wbc) {
 
+		// TODO build classifier from wbc
+		// XXX capire se ho problemi a mettere un costruttore
+		Classifier c = new Classifier();
+		c.setId(wbc.getClassifierId());
+		c.setType("classifier");
+		c.setInstance(info.getInstance().getApiKey());
+		c.setLabel(wbc.getLabel());
+		c.setTrainingSize(info.getDataset().getSize());
+		c.setStatus("training");
+		c.setTrainingSet(info.getDataset().getId());
+
+		// get db connection
+		Database db = CloudantClientMgr.getCloudantDB();
+
+		// Insert obj
+		Response responsePost = db.post(c);
+
+		System.out.println("[TrainDaemon] Inserted classifier, response: " + responsePost);
 	}
 
 }

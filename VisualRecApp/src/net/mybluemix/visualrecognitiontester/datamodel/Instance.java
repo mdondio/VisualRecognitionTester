@@ -30,7 +30,15 @@ public class Instance {
 
 	private List<String> classifiers;
 	
+	public String getId(){
+		return _id;
+	}
 	public String getApiKey(){
 		return api_key;
+	}
+	
+	public void addClassifier(String classifierId){
+		if(!classifiers.contains(classifierId))
+			classifiers.add(classifierId);
 	}
 }
