@@ -82,7 +82,7 @@ public class BackgroundDaemonManager implements ServletContextListener {
 		
 		// Finally, schedule my timer to check 
 		// periodically for zombie classifiers
-		TimerTask timerTask = new ZombieTimer(ctx);
+		TimerTask timerTask = new ReadyTimer(ctx);
         Timer timer = new Timer(true);
         // every 30 mins, check classifiers!
         timer.scheduleAtFixedRate(timerTask, 0, 30*60*1000);

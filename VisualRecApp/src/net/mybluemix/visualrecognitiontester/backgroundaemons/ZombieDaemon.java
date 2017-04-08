@@ -13,8 +13,7 @@ import net.mybluemix.visualrecognitiontester.datamodel.Classifier;
 /**
  * This daemon will run in background, blocking and waiting for a job passed by
  * JobQueue object.
- * Each job is a classifier that needs to be set as zombie
- * in cloudant, and passed to monitor for future reactivation
+ * Each job is a classifier that needs to be set as zombie in cloudant
  * 
  * @author Marco Dondio
  *

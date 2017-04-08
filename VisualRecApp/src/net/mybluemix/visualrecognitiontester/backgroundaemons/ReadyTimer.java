@@ -24,32 +24,34 @@ import net.mybluemix.visualrecognitiontester.blmxservices.marcovisualreclibrary.
 import net.mybluemix.visualrecognitiontester.blmxservices.marcovisualreclibrary.exceptions.VisualClassifierException;
 import net.mybluemix.visualrecognitiontester.datamodel.Classifier;
 
-public class ZombieTimer extends TimerTask {
+/**
+ * This daemon runs periodically to test all non ready classifiers.
+ * @author Marco Dondio
+ *
+ */
+public class ReadyTimer extends TimerTask {
 
 
-	public ZombieTimer(ServletContext ctx) {
+	public ReadyTimer(ServletContext ctx) {
 	}
 
 	@Override
 	public void run() {
-		System.out.println("[ZombieTimer] Checking all classifiers: " + new Date());
+		System.out.println("[ReadyTimer] Checking all classifiers: " + new Date());
 		try {
 			checkClassifiers();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println("[ZombieTimer] Sleeping: " + new Date());
+		System.out.println("[ReadyTimer] Sleeping: " + new Date());
 	}
 
 	private void checkClassifiers() throws IOException {
 
-
 		Database db = CloudantClientMgr.getCloudantDB();
-
 		
-		// retrieve all zombie classifiers
-		String selector = "{\"selector\": {\"type\":\"classifier\", \"status\":\"zombie\"}}";
-
+		// retrieve all non ready classifiers
+		String selector = "{\"selector\": {\"type\":\"classifier\", \"status\":{\"$ne\":\"ready\"}}}";
 
         // Limita i campi
         FindByIndexOptions o = new FindByIndexOptions()
@@ -59,14 +61,14 @@ public class ZombieTimer extends TimerTask {
         List<Classifier> classifiers = db.findByIndex(selector, Classifier.class, o);
     
         for(Classifier c : classifiers){
-			System.out.println("[ZombieTimer] Checking zombie classifierId " + c.getID() + "...");
+			System.out.println("[ReadyTimer] Checking zombie classifierId " + c.getID() + "...");
 
 			// if ready, set to ready in cloudant
-			// and remove from queue
+			// and remove from queueù
 			if (isClassifierReadyAgain(c)) {
 				//if (isClassifierReadyAgain(classifier)) {
-				System.out.println("[ZombieTimer] " + c.getID()
-						+ " became ready! Removing from zombieTimerQueue and set ready in cloudant!");
+				System.out.println("[ReadyTimer] " + c.getID()
+						+ " became ready! Setting ready in cloudant!");
 				setReady(c.getID());
 			}
 		}
@@ -140,7 +142,7 @@ public class ZombieTimer extends TimerTask {
 		// now update the remote classifier
 		Response responseUpdate = db.update(c);
 
-		System.out.println("[ZombieTimer] Updated cloudant db, response: " + responseUpdate);
+		System.out.println("[ReadyTimer] Updated cloudant db, response: " + responseUpdate);
 
 	}
 
