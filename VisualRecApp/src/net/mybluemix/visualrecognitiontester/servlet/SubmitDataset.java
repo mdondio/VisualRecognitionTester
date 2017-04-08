@@ -1,6 +1,10 @@
 package net.mybluemix.visualrecognitiontester.servlet;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.Deque;
 
 import javax.servlet.ServletException;
@@ -73,15 +77,24 @@ public class SubmitDataset extends HttpServlet {
 	// https://ursaj.com/upload-files-in-java-with-servlet-api
 	private void parseRequest(HttpServletRequest req) throws IOException, ServletException{
 	//	Deque<FileInfo> files = new LinkedList<>();
+//		int i = 0;
 	    for (Part part : req.getParts()) {
 	        long fileSize = part.getSize();
 	        String name = part.getName();
 	        	String contentDisposition = part.getHeader("content-disposition");
 	        String contentType = part.getContentType();
-
-
-        	System.out.println("[SubmitDataset parseRequest()] Received: " + name + " - (" + contentDisposition + ") - " + contentType + " - " + fileSize);
 	        
+        	System.out.println("[SubmitDataset parseRequest()] Received: " + name + " - (" + contentDisposition + ") - " + contentType + " - " + fileSize);
+
+//        	buildImage(i++, part.getInputStream());
+
+        	// punto aperto: conviene usare un byte[] brutale e salvarlo nel db
+        	// oppure trasformarlo in image
+        	// http://stackoverflow.com/questions/3211156/how-to-convert-image-to-byte-array-in-java
+        	
+        	
+        	// preprocessing
+        	// poi salva in oo
 	        
 	        
 //	        if (fileSize == 0 && (fileName == null || fileName.isEmpty())) {
@@ -99,5 +112,27 @@ public class SubmitDataset extends HttpServlet {
 		
 		
 	}
+	
+	// http://stackoverflow.com/questions/25669874/opening-an-image-file-from-java-inputstream
+//	private void buildImage(int i, InputStream imageStream){
+//		
+//    	System.out.println("[SubmitDataset buildImage()] start");
+//
+//		    try (FileOutputStream out = new FileOutputStream(new File(getServletContext().getRealPath("/")+"test_"+i+".jpg"))) {
+//		        byte[] buffer = new byte[1024]; 
+//		        int len; 
+//		        while ((len = imageStream.read(buffer)) != -1) { 
+//
+//		            out.write(buffer, 0, len); 
+//		        	System.out.println(buffer);
+//		            
+//		        }
+//	        	System.out.println("[SubmitDataset buildImage()] close");
+//		        
+//		        out.close();
+//		    } catch (Exception e) {
+//		    	e.printStackTrace();
+//		    }
+//	}
 
 }
