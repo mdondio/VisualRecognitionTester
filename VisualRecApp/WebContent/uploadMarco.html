@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head></head>
+
+<!-- LIBRERIE GENERICHE PER JQUERY -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script> 
+
+<!-- FUNZIONI CREATE DA NOI -->
+<script src="js/genericFunctions.js"></script>
+<script src="js/functions.js"></script>
+
+<!-- LIBRERIA PER DISEGNARE GRAFICI -->
+<script src ="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+<!-- LIBRERIA PER PERSONALIZZAZIONE DEGLI ALERT -->
+<script src="js/sweetalert2_mine.js"></script>
+<link rel="stylesheet" href="css/sweetalert2_mine.css">
+
+<!-- LIBRERIA PER CARICARE I FILE -->
+<script src="js/dropzone.js"></script>
+<link rel="stylesheet" href="css/dropzone.css">
+
+<script>createHead();</script>
+
+<body>
+
+<header></header><script>createHeader();</script>
+
+<div class="content">
+
+
+<form method="post" action="SubmitDataset" enctype="multipart/form-data">
+  <input name='positives[]' type="file" multiple>
+  <input name='negatives[]' type="file" multiple>
+  <input type="submit" value="Send">
+</form>
+
+
+</div>
+
+</body>
+
+
+<script>
+
+Dropzone.autoDiscover = false;
+
+var myDropzoneTheFirst = new Dropzone('#pos-element', {       
+    parallelUploads: 10000,
+    uploadMultiple: true,
+    autoProcessQueue: false,
+    init: function() {
+
+      		this.on("addedfile", function(file) {
+
+	        var removeButton = Dropzone.createElement("<img class='center' src='ico/garbageDARK.png' style='width:30px; height:auto;'>");
+	        var _this = this;
+
+	        removeButton.addEventListener("click", function(e) {
+	        
+	          	e.preventDefault();
+	          	e.stopPropagation();
+
+		      	_this.removeFile(file);
+		        
+	        });
+
+	        file.previewElement.appendChild(removeButton);
+
+     		});
+
+
+   		 }
+
+    
+});
+
+
+var myDropzoneTheSecond = new Dropzone('#neg-element', {       
+    parallelUploads: 10000,
+    uploadMultiple: true,
+    autoProcessQueue: false,
+    init: function() {
+
+      		this.on("addedfile", function(file) {
+
+	        var removeButton = Dropzone.createElement("<img class='center' src='ico/garbageDARK.png' style='width:30px; height:auto;'>");
+	        var _this = this;
+
+	        removeButton.addEventListener("click", function(e) {
+	        
+	          	e.preventDefault();
+	          	e.stopPropagation();
+
+		      	_this.removeFile(file);
+		        
+	        });
+
+	        file.previewElement.appendChild(removeButton);
+
+     		});
+
+
+   		 }
+});
+
+
+$('#submit-every-dropzone').on('click', function () {
+    myDropzoneTheFirst.processQueue();
+    myDropzoneTheSecond.processQueue();
+});
+
+  $('#backicon').mouseover(function(){
+	$(this).attr('src','ico/back.png');
+	});
+
+	$('#backicon').mouseleave(function(){
+		$(this).attr('src',"ico/backDARK.png" );
+	});
+
+	$('#backicon').click(function(){
+		window.history.back();
+	});
+
+</script>
+
+<style>
+#submit-every-dropzone{
+    background-color: #343b43; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin-left: 50%;
+    font-size: 16px;
+    }
+    
+.dropzone {  
+ width: 900px; 
+ border: dashed 2px #343b43; 
+ background-color: white; 
+}  
+    
+</style>
+
+</html>
