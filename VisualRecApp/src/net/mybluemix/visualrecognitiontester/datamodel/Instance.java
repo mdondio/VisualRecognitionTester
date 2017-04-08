@@ -23,6 +23,7 @@ public class Instance {
 //		}
 
 	private String _id;
+	private String _rev;
 	private String type;
 	private String account;
 	private String region;

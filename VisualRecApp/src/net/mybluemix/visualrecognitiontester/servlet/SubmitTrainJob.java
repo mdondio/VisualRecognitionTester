@@ -26,6 +26,8 @@ import net.mybluemix.visualrecognitiontester.datamodel.Instance;
  * feedback to user. Actual job will be done asynchronously in background
  * 
  * @author Marco Dondio
+ * Test with:
+ * http://localhost:9080/VisualRecognitionTester/SubmitTrainJob?datasetId=watch_training_100&label=watch
  */
 @WebServlet("/SubmitTrainJob")
 public class SubmitTrainJob extends HttpServlet {
@@ -45,6 +47,9 @@ public class SubmitTrainJob extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		
+//		temp("vr_instance_0b915860705c066d9bd0166ac4850eefc8717438", "watch_classifier_1508232015");
+		
 		// First, parse args
 		String datasetId = request.getParameter("datasetId");
 		String label = request.getParameter("label");
@@ -61,7 +66,7 @@ public class SubmitTrainJob extends HttpServlet {
 			response.getWriter().println(o);
 			return;
 		}
-		System.out.println("[SubmitTrainJob] Selected Instance with apiKey: " + vr_instance.getApiKey());
+		System.out.println("[SubmitTrainJob] Selected Instance with id: " + vr_instance.getId());
 
 		// Then, retrieve resources: dataset
 		Dataset dataset = retrieveTrainingSet(datasetId);
@@ -91,7 +96,6 @@ public class SubmitTrainJob extends HttpServlet {
 		o.addProperty("message", "Training job submitted for processing!");
 		response.getWriter().println(o);
 
-		return;
 	}
 
 	/**
@@ -127,8 +131,10 @@ public class SubmitTrainJob extends HttpServlet {
 		Database db = CloudantClientMgr.getCloudantDB();
 
 		// retrieve all available instances (empty classifiers)
-		String selector = "{\"selector\": {\"type\":\": \"visual recognition instance\", \"classifiers\":[]}}";
+		String selector = "{\"selector\": {\"type\": \"visual recognition instance\", \"classifiers\":[]}}";
 
+		//System.out.println(selector);
+		
 		// Limita i campi
 		FindByIndexOptions o = new FindByIndexOptions().fields("_id").fields("api_key");
 
@@ -141,5 +147,4 @@ public class SubmitTrainJob extends HttpServlet {
 		// select fist
 		return vr_instances.get(0);
 	}
-
 }
