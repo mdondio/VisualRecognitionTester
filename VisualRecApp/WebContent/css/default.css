@@ -618,7 +618,7 @@ img#waiting{
   position: absolute;
   bottom: 150%;
   left: 50%;
-  margin-bottom: 5px;
+  margin-bottom: -10px; /* tooltip container position */
   margin-left: -80px;
   padding: 7px;
   width: 160px;
@@ -637,7 +637,7 @@ img#waiting{
 /* Triangle hack to make tooltip look like a speech bubble */
 [data-tooltip]:after {
   position: absolute;
-  bottom: 150%;
+  bottom: 119%; /* down arrow position */
   left: 50%;
   margin-left: -5px;
   width: 0;

@@ -761,7 +761,7 @@ function addTableColumn(IDelement,table,trainingsize){
 				var block = document.createElement('div');
 				block.appendChild(txt);
 				th.appendChild(block);
-				row.appendChild(th);
+				row.appendChild(th); 
 			}
 			else{
 				var td = document.createElement('td');
@@ -772,9 +772,7 @@ function addTableColumn(IDelement,table,trainingsize){
 					
 					if(table[i][j][k]=="ready") block.className = 'smoothrectangle ready';
 					if(table[i][j][k]=="training") block.className = 'smoothrectangle training';
-					if(table[i][j][k]=="zombie") block.className = 'smoothrectangle zombie';
-
-//					$(".ready").attr("data-tooltip", "Classifier ready");					
+					if(table[i][j][k]=="zombie") block.className = 'smoothrectangle zombie';			
 					
 					block.appendChild(document.createTextNode(trainingsize[j-1]+"_"+"v"+k));
 					td.appendChild(block);
@@ -786,6 +784,10 @@ function addTableColumn(IDelement,table,trainingsize){
 		tableElement.appendChild(row);
 	}
 	document.getElementById(IDelement).appendChild(tableElement);
+	
+	$('.ready').attr("data-tooltip", "Classifier ready");	
+	$('.training').attr("data-tooltip", "Classifier training");
+	$('.zombie').attr("data-tooltip", "Classifier zombie");
 }
 
 
