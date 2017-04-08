@@ -37,9 +37,13 @@ public class CheckId extends HttpServlet {
 
 		Database db = CloudantClientMgr.getCloudantDB();
 
-		if(db.contains(id))
-			response.getWriter().println(true);;
-			response.getWriter().println(false);;
+		response.getWriter().println(db.contains(id));
+		
+//		
+//		if(db.contains(id))
+//			response.getWriter().println(true);
+//		else
+//			response.getWriter().println(false);
 	}
 
 	/**
