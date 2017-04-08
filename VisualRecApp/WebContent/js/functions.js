@@ -555,7 +555,6 @@ function startSimulation(){
 				// ajax call to backend
 				$.ajax(
 						{
-//							url: "json/helicopter_test.json",
 							url: 'GetTestResult',
 							type: 'GET',
 							data:{ array: testdetails },

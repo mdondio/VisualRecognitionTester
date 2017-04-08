@@ -9,21 +9,26 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.mybluemix.visualrecognitiontester.backgroundaemons.Job;
 import net.mybluemix.visualrecognitiontester.backgroundaemons.JobQueue;
+import net.mybluemix.visualrecognitiontester.datamodel.Classifier;
+
 
 /**
- * Servlet implementation class SubmitJob
+ * This endpoint is used to submit a dataset, analyze it and gives a feedback to
+ * user. Actual job will be done asynchronously in background
+ * 
+ * @author Marco Dondio
  */
-@WebServlet("/SubmitJob")
-public class SubmitJob extends HttpServlet {
+@WebServlet("/SubmitDataset")
+public class SubmitDataset extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public SubmitJob() {
+	public SubmitDataset() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -32,17 +37,7 @@ public class SubmitJob extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		// Add a job to queue
-		ServletContext ctx = getServletContext();
-
-		JobQueue mqttQueue = (JobQueue) ctx.getAttribute("jobQueue");
-		Long id = Math.round(Math.random() * 100);
-		mqttQueue.addJob(id);
-
-		// Get job counter
-		Integer jobCounter = (Integer) ctx.getAttribute("jobCounter");
-		response.getWriter().append("Submitted a new job (id = " + id + "). Job executed so far: " + jobCounter);
+		return;
 	}
 
 	/**
@@ -51,7 +46,21 @@ public class SubmitJob extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		doGet(request, response);
+
+		// TODO
+		// 0 - recupera tutte le immagini posotive e negative
+		// 1 - processa tutte le img positive e negative
+		// 2 - controllo di vario tipo, filtro
+		// 3 - normalizza
+		// 4 - produce gli zip
+
+		// 5 - add to queue!
+		// Now we add this classifier to the zombie queue...
+//		ServletContext ctx = getServletContext();
+//		@SuppressWarnings("unchecked")
+//		JobQueue<Job<Classifier>> datasetQueue = (JobQueue<Job<Classifier>>) ctx.getAttribute("datasetQueue");
+//		datasetQueue.addJob(new Job<Classifier>(classifierJson));
+
 	}
 
 }

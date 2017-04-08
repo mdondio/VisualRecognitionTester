@@ -1,8 +1,6 @@
 package net.mybluemix.visualrecognitiontester.servlet;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,21 +12,19 @@ import com.cloudant.client.api.Database;
 
 import net.mybluemix.visualrecognitiontester.blmxservices.CloudantClientMgr;
 
-
 /**
- * Old endpoint to test cloudant DB.
+ * This servlet will check cloudant DB for the presence of an id
  * @author Marco Dondio
  */
-@WebServlet("/TestDb")
-public class TestDb extends HttpServlet {
+@WebServlet("/CheckId")
+public class CheckId extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public TestDb() {
+    public CheckId() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -36,47 +32,25 @@ public class TestDb extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		
-//		db.fin
-		System.out.println("[TestDb doGet()] - Function called");
-		
+		// Query cloudant to check whether this id exist
+		String id = request.getParameter("id");
 
-
-		 //----------------
-		// da qui test list
-
-		 int readBufferSize = 8192;
-		// TODO remove me
 		Database db = CloudantClientMgr.getCloudantDB();
 
+		response.getWriter().println(db.contains(id));
 		
-		// Get an ExampleDocument out of the database and deserialize the JSON into a Java type
-//		ExampleDocument doc = db.find(ExampleDocument.class,"example_id");
-		
-		
-//		System.out.println(doc);
 //		
-//		https://github.com/cloudant/java-cloudant#getting-started
-		
-		InputStream dbResponse = db.find("a40fce6329c185129d0d6ac72f4a4b22d23ffba1-watch_classifier_195755765");
-		OutputStream output = response.getOutputStream();
-
-		try {
-			int readBytes = 0;
-			byte[] buffer = new byte[readBufferSize];
-			while ((readBytes = dbResponse.read(buffer)) >= 0) {
-				output.write(buffer, 0, readBytes);
-			}
-		} finally {
-			dbResponse.close();
-		}
+//		if(db.contains(id))
+//			response.getWriter().println(true);
+//		else
+//			response.getWriter().println(false);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		doGet(request, response);
 	}
-
 }

@@ -45,6 +45,7 @@ import net.mybluemix.visualrecognitiontester.datamodel.Dataset;
 @WebServlet("/GetTestResult")
 public class GetTestResult extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -259,7 +260,7 @@ public class GetTestResult extends HttpServlet {
 		String id = testSet.getLabel() + " " + testSet.getSize() + " - " + classifierJson.getLabel() + " "
 				+ classifierJson.getTrainingSize();
 
-		JsonObject result = buildJsonResult(id, optResult, tprTrace, fprTrace, computeAUCMarco(tprTrace, fprTrace));
+		JsonObject result = buildJsonResult(id, optResult, tprTrace, fprTrace, computeAuc(tprTrace, fprTrace));
 
 		return result;
 	}
@@ -288,8 +289,6 @@ public class GetTestResult extends HttpServlet {
 		result.add("histogramPositive", buildArrayFromList(optResult.getHistogramPositive()));
 		result.add("histogramNegative", buildArrayFromList(optResult.getHistogramNegative()));
 
-		
-		
 		return result;
 	}
 
@@ -309,9 +308,7 @@ public class GetTestResult extends HttpServlet {
 	}
 
 	// Computes AUC from a given tprTrace and fprTrace
-	// TODO controllare con andrea
-	@SuppressWarnings("unused")
-	private double computeAndrea(List<Double> tprTrace, List<Double> fprTrace) {
+	private double computeAuc(List<Double> tprTrace, List<Double> fprTrace) {
 
 		double auc = 0.0;
 
@@ -323,25 +320,4 @@ public class GetTestResult extends HttpServlet {
 
 		return auc;
 	}
-
-	// https://it.wikipedia.org/wiki/Regola_del_trapezio
-	private double computeAUCMarco(List<Double> tprTrace, List<Double> fprTrace) {
-
-		// System.out.println("[GetTestResult computeAUCTrapezio()]");
-
-		double auc = 0.0;
-
-		int n = fprTrace.size();
-		double b = fprTrace.get(n - 1);
-		double a = fprTrace.get(0);
-
-		for (int k = 0; k < n - 1; k++)
-			auc += (tprTrace.get(k) + tprTrace.get(k + 1)) / 2;
-		auc *= (b - a) / n;
-
-		System.out.println("[GetTestResult computeAUCMarco()] auc = " + auc);
-
-		return auc;
-	}
-
 }
