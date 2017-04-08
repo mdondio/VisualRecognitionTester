@@ -13,6 +13,7 @@ import com.ibm.watson.developer_cloud.visual_recognition.v3.model.ClassifierOpti
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.ClassifyImagesOptions;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassification;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassifier;
+import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassifier.Status;
 
 import net.mybluemix.visualrecognitiontester.blmxservices.marcovisualreclibrary.exceptions.VisualClassifierException;
 
@@ -116,12 +117,13 @@ public class WatsonBinaryClassifier {
 		FileOutputStream negZip = new FileOutputStream(negFile);
 		negZip.write(negativeClassZip);
 		negZip.close();
-
+		
 		// CHE PALLE
 		// non posso dare lo zip on the fly.. sembra mancare il metodo in
 		// addclass...
 		// c'era solo images, ok per classificare!
-
+//		http://stackoverflow.com/questions/17595091/how-to-create-new-java-io-file-in-memory
+		
 		System.out.println("[WatsonBinaryClassifier] Creating a classifier with positive and negative images...");
 		lastClassifierName = label + "_classifier";
 		ClassifierOptions createOptions = new ClassifierOptions.Builder().classifierName(lastClassifierName)
@@ -130,7 +132,7 @@ public class WatsonBinaryClassifier {
 
 		// store id
 		classifierId = classifier.getId();
-
+		
 		System.out.println(classifier);
 
 		System.out.println(classifier.getExplanation());
@@ -271,4 +273,10 @@ public class WatsonBinaryClassifier {
 		VisualClassifier result = service.getClassifier(classifierId).execute();
 		return result;
 	}
+	
+	public Status getLastStatus() {
+		return classifier.getStatus();
+	}
+
+
 }

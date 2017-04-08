@@ -28,6 +28,9 @@ public class TrainingInfo {
 	public Dataset getDataset() {
 		return dataset;
 	}
+	public String getLabel() {
+		return label;
+	}
 
 	public String toString(){
 		return "Instance apiKey: " + vr_instance.getApiKey() + " - dataset: " + dataset.getId() + " label: " + label;
