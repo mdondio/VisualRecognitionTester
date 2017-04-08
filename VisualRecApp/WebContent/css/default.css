@@ -93,22 +93,22 @@
 	*zoom: 1;
 }
 
-#logowait {
-	position: relative;
-	top: 20%;
-	left: 50%;
-	z-index: 10000;
-	height: 250px;
-	width: auto;
-}
+/* #logowait { */
+/* 	position: relative; */
+/* 	top: 20%; */
+/* 	left: 50%; */
+/* 	z-index: 10000; */
+/* 	height: 250px; */
+/* 	width: auto; */
+/* } */
 
-#loading { /* logo watson loading */
-	width: 150px;
-	height: auto;
-	position: relative;
-	filter: contrast(93.3%);
-	/* per fare in modo che il bianco di sfondo diventi il grigio della pagina! */
-}
+/* #loading { logo watson loading */
+/* 	width: 150px; */
+/* 	height: auto; */
+/* 	position: relative; */
+/* 	filter: contrast(93.3%); */
+/* 	/* per fare in modo che il bianco di sfondo diventi il grigio della pagina! */ */
+/* } */
 
 /* ============================================== */
 /* ====	NUOVE CLASSI PER FORMATTING =====*/
@@ -137,6 +137,15 @@ p.title {
 	font-family: IBM;
 }
 
+p.smalltitle {
+	color: #343b43;
+	font-weight: bold;
+	font-size: 18px;
+	font-family: IBM;
+}
+
+
+
 p.title.right {
 	text-align: right;
 }
@@ -155,6 +164,7 @@ p.paragraph {
 	font-family: IBM;
 }
 
+
 p.paragraph.right {
 	text-align: right;
 }
@@ -166,6 +176,7 @@ p.paragraph.center {
 p.paragraph.left {
 	text-align: left;
 }
+
 
 /* ================== GESTIONE TABELLE ============== */
 table, td, th {
@@ -199,11 +210,29 @@ th {
 }
 
 /*============ BOTTONI ==========*/
+
+
+
 button {
 	background: transparent;
 	border: transparent;
 	margin-left: 15px;
 	margin-right: 15px;
+}
+
+button.import{
+  background-color: #485a67;
+  border: none;
+  color: #ffffff;
+  border-radius: 1px;
+  padding: 12px 16px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+  font-size:16pt;
+  font-family: IBM;
+  font-weight:bold;
+/*   margin-left:37%; */
 }
 
 select.title {
@@ -242,7 +271,7 @@ input.title{
 }
 
 input[type=text], input[type=password] {
-	width: 100%;
+  width: 100%;
   border: 0;
   outline: 0;
   background: transparent;
@@ -251,6 +280,20 @@ input[type=text], input[type=password] {
   font-family: "IBM"; 
   font-size: 15px; 
   color: #343b43;
+}
+
+input[type=submit],input[type=file]{
+  background-color: #485a67;
+  border: none;
+  color: #ffffff;
+  border-radius: 1px;
+  padding: 12px 16px;
+  text-decoration: none;
+/*   margin: 4px 2px; */
+  margin-top: 20px;
+  cursor: pointer;
+  font-family: IBM;
+/*   margin-left:37%; */
 }
 
 input[type=text]:focus {
@@ -281,6 +324,12 @@ img.icon.small {
 	height: auto;
 }
 
+img.blocktest{
+margin:auto;
+margin-top:25px;
+box-shadow: none;
+}
+
 img.icon.medium {
 	width: 100px;
 	height: auto;
@@ -307,6 +356,16 @@ img.center {
   margin-left: auto;
   margin-right: auto;
 } 
+
+
+img#waiting{
+	top: 35%;
+	left: 43%;
+	position: absolute;
+	margin: auto;
+	width: 15%;
+}
+
 
 /*============ OGGETTI GRAFICI ==========*/
 .lineseparator {
@@ -372,7 +431,7 @@ img.center {
 }
 
 .rectangle {
-	width: 85%;
+	min-width: 300px;
 	height: 50px;
 	margin-top: 10px;
 	margin-bottom: 10px;
@@ -430,8 +489,191 @@ img.center {
 
 .smoothrectangle.ready {
 	background: #ECECEC;
+	cursor: pointer;
 }
 
-.smoothrectangle.training {
-	background: #d9d9d9;
+
+
+.blocktest{
+	width: 450px;
+	height: 88px;
+	margin:10px;
+	background: #ECECEC;
+	webkit-box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.12);
+	-moz-box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.12);
+	box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.12);
 }
+
+
+
+/* ============= USO NON STANDARDIZZATO =============== */
+.modal2 {
+  display: none;
+  position: fixed;
+  margin:auto;
+  z-index: 40000000;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  opacity:0.7;
+  background-color: rgba(0, 0, 0, 0.99);
+}
+
+.modal-content2 {
+	display: none;
+  position: fixed;
+  z-index: 40000010;
+  background: #343b43;
+  margin-top: 5%;
+  margin-left: 38%;
+  padding: 0;
+  width: 30%;
+  height: 50%;
+  max-width: 1200px;
+}
+
+.titlemodal {
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 18px;
+    font-family: IBM;
+    text-align: center;
+    padding: 20px;
+    width: 85%;
+   	display:inline-block;
+   	border-bottom:3px solid #485a67;
+}
+
+.cursormodal { 
+	color: #ffffff;
+	background:#485a67;
+	font-weight: bold;
+	cursor: pointer; 
+	font-family: IBM;
+	font-size: 18px;
+	padding: 20px;
+	width:14.37%;
+    text-align: center;
+	display:inline-block;
+	border-bottom:3px solid #485a67;
+	}
+	
+	
+	.formmodal { 
+    color: #ffffff;
+    /* background: #485a67; */
+    /* font-weight: bold; */
+/*     cursor: pointer; */
+    font-size: 18px;
+    padding: 20px;
+    width: 80%;
+    text-align: left;
+    /* display: inline-block; */
+    /* border-bottom: 3px solid #485a67; */
+    margin: auto;
+    /* height: 50%; */
+	}
+	
+	.smoothrectangle.training {
+	background: #ECECEC;
+	color: #d9d9d9;
+	border-color: #d9d9d9;
+	cursor: wait;
+}
+
+.smoothrectangle.zombie {
+	background: #ffffff;
+	color: #d9d9d9;
+	border-color: #d9d9d9;
+	cursor: wait;
+}
+
+
+
+
+/* ============= TOOLTIP ON HOVER =============== */
+
+/* Add this attribute to the element that needs a tooltip */
+[data-tooltip] {
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+}
+
+/* Hide the tooltip content by default */
+[data-tooltip]:before,
+[data-tooltip]:after {
+  visibility: hidden;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Position tooltip above the element */
+[data-tooltip]:before {
+  position: absolute;
+  bottom: 150%;
+  left: 50%;
+  margin-bottom: -10px; /* tooltip container position */
+  margin-left: -80px;
+  padding: 7px;
+  width: 160px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #000;
+  background-color: hsla(0, 0%, 20%, 0.9);
+  color: #fff;
+  content: attr(data-tooltip);
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+/* Triangle hack to make tooltip look like a speech bubble */
+[data-tooltip]:after {
+  position: absolute;
+  bottom: 119%; /* down arrow position */
+  left: 50%;
+  margin-left: -5px;
+  width: 0;
+  border-top: 5px solid #000;
+  border-top: 5px solid hsla(0, 0%, 20%, 0.9);
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
+  content: " ";
+  font-size: 0;
+  line-height: 0;
+}
+
+/* Show tooltip content on hover */
+[data-tooltip]:hover:before,
+[data-tooltip]:hover:after {
+  visibility: visible;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+  filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1;
+}
+
+
+.blocktestattribute{
+    width: 65%;
+    line-height: 25px;
+    display: inline-block;
+    position: relative;
+    vertical-align: super;
+    margin-left: 10px;
+    height:100%;
+}
+
+.blocktesticon{
+width:14%;
+height:90%;
+display:inline-block;
+position:relative;
+}
+

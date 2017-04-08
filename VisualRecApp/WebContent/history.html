@@ -28,16 +28,81 @@
 <header></header><script>createHeader();</script>
 
 <div class="content">
-<br><br><br><br>
-<center>
-<img src="img/Work_In_Progress.png">
-</center>
+
+<div class="column two-thirds">
+<input type="file" id="selectFiles" value="Import">
+<button id="import" class="import">Import</button>
+<button id="viewresult" class="import">View results</button>
+<div id="caricatest"></div>
 </div>
+
 </div>
+
 
 </body>
 
 <script>
+
+
+//per caricare file
+$('#import').click(function() {
+    var files = document.getElementById('selectFiles').files;
+  console.log(files);
+  if (files.length <= 0) {
+    return false;
+  }
+
+  var fr = new FileReader();
+
+  fr.onload = function(e) { 
+    var result = JSON.parse(e.target.result);
+    var testname = [];
+    var testset = [];
+    var testclassifier = [];
+    
+    //al momento stiamo assumendo di poter caricare solo un file JSON (senza comporre più file diversi)
+    $("#caricatest").empty();
+    for(var i in result)
+    {
+    var obj=result[i];
+    
+    //TODO recuperare anche il nome del test e gli ID dei test set
+    testname.push(obj.ID);
+    testset.push(obj.ID);
+    testclassifier.push(obj.ID);
+            
+    createBlockTest("caricatest",obj.ID,"TBD","TBD");
+    }
+    
+    //verrà spostato da qui perchè dobbiamo implementare la personalizzazione dei dati da caricare
+    localStorage.setItem("resultJSON", e.target.result);
+    
+    // creazione del nuovo file JSON dei testname
+    directJSON = [];
+			    for( k = 0; k < testname.length; k++ ){
+			       	item = {}
+			    	item["name"] = testname[k];
+			    	item["test"] = testset[k];
+			    	item["classifier"] = testclassifier[k];
+			    	directJSON.push(item); 
+			    } 
+
+	localStorage.setItem("listJSON",JSON.stringify(directJSON));
+  }
+  fr.readAsText(files.item(0));
+  
+  
+});
+
+//cambio pagina
+$('#viewresult').click(function() {
+   
+       // Store
+localStorage.setItem("viewresult", "history");
+window.location.href = 'simulate.html';
+	 			
+});
+
 </script>
 
 </html>
