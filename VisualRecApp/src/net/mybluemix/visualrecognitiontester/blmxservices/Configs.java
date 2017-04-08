@@ -25,6 +25,8 @@ public class Configs {
 	
 	///////////////////////////////////////////////////////////
 	// Marco Object Storage UK
+	public static final String OO_DEFAULTCONTAINER = "images_london";
+
 	public static final String oo_userId = "c406748da68f49a3b2f57b3395ce6844";
 	public static final String oo_username = "admin_57d22f04b7848bcedfe8b13bf4a453d587490247";
 	public static final String oo_password = "Wkd#/kd,8&SKOsU3";
@@ -35,4 +37,9 @@ public class Configs {
 	public static final String oo_project = "object_storage_4df0655d_7096_4a90_b734_00079ecb5f78";
 	public static final String oo_projectId = "4ad8f0290e654ae9beadac2d807426be";
 	public static final String oo_region = "london";
+
+	
+
+	
+	
 }

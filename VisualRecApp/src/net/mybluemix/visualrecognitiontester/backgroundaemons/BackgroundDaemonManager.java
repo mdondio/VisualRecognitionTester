@@ -15,6 +15,9 @@ import javax.servlet.annotation.WebListener;
 
 import org.eclipse.paho.client.mqttv3.MqttException;
 
+import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.Job;
+import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.JobQueue;
+import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.TrainingInfo;
 import net.mybluemix.visualrecognitiontester.datamodel.Classifier;
 
 
@@ -53,14 +56,13 @@ public class BackgroundDaemonManager implements ServletContextListener {
 		// Setup context info: add all info
 		ctx = event.getServletContext();
 		ctx.setAttribute("zombieQueue", new JobQueue<Job<Classifier>>());
+		ctx.setAttribute("trainQueue", new JobQueue<Job<TrainingInfo>>());
 
 		////////////////////////////////////////////
 		// Prepare all daemons for execution
 		List<Runnable> daemons = new ArrayList<Runnable>();
 		daemons.add(new ZombieDaemon(ctx));
-//		daemons.add(new ZombieMonitorDaemon(ctx));
-		
-		
+		daemons.add(new TrainDaemon(ctx));
 		
 		
 		////////////////////////////////////////////
@@ -81,7 +83,7 @@ public class BackgroundDaemonManager implements ServletContextListener {
 			executor.execute(daemon);
 		
 		// Finally, schedule my timer to check 
-		// periodically for zombie classifiers
+		// periodically for not ready classifiers
 		TimerTask timerTask = new ReadyTimer(ctx);
         Timer timer = new Timer(true);
         // every 30 mins, check classifiers!

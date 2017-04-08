@@ -11,18 +11,26 @@ import java.util.List;
 public class Instance {
 	
 //	{
-//		  "_id": "instance_a40fce6329c185129d0d6ac72f4a4b22d23ffba1",
-//		  "_rev": "2-d51d67211abc5eaba515357772d389b1",
-//		  "type": "instance",
-//		  "type_of_service": "visual recognition",
+//		  "_id": "vr_instance_41c64cf664cff4d4f998f5228e59a4743aed81b5",
+//		  "_rev": "4-f380cee808afbaae95242c7b92a05d69",
+//		  "type": "visual recognition instance",
+//		  "account": "account_Alessandro_Pogliaghi",
+//		  "region": "Sydney",
+//		  "api_key": "41c64cf664cff4d4f998f5228e59a4743aed81b5",
 //		  "classifiers": [
-//		    "helicopter_a40fce6329c185129d0d6ac72f4a4b22d23ffba1"
+//		    "watch_classifier_763371965"
 //		  ]
 //		}
 
 	private String _id;
 	private String type;
-	private String type_of_service;
-	
+	private String account;
+	private String region;
+	private String api_key;
+
 	private List<String> classifiers;
+	
+	public String getApiKey(){
+		return api_key;
+	}
 }

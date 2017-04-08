@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.mybluemix.visualrecognitiontester.blmxservices.Configs;
 import net.mybluemix.visualrecognitiontester.blmxservices.ObjectStorage;
 import net.mybluemix.visualrecognitiontester.blmxservices.ObjectStorageClientMgr;
 
@@ -20,8 +21,6 @@ import net.mybluemix.visualrecognitiontester.blmxservices.ObjectStorageClientMgr
 @WebServlet("/GetImage")
 public class GetImage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	private static final String containerName = "images_london";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -63,7 +62,7 @@ public class GetImage extends HttpServlet {
 		BufferedOutputStream output = null;
 
 		try {
-			con = oo.doGet("/" + containerName, "/" + imageID + ".jpg");
+			con = oo.doGet("/" + Configs.OO_DEFAULTCONTAINER, "/" + imageID + ".jpg");
 			imageStream = new BufferedInputStream(con.getInputStream(), 2048);
 
 			// skip non images

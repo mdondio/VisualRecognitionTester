@@ -7,6 +7,8 @@ import javax.servlet.ServletContext;
 import com.cloudant.client.api.Database;
 import com.cloudant.client.api.model.Response;
 
+import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.Job;
+import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.JobQueue;
 import net.mybluemix.visualrecognitiontester.blmxservices.CloudantClientMgr;
 import net.mybluemix.visualrecognitiontester.datamodel.Classifier;
 
@@ -69,7 +71,7 @@ public class ZombieDaemon implements Runnable {
 		
 		// Update classifier
 		 c.setStatus("zombie");
-		 c.setZombieSince(classifier.getDate());
+		 c.setZombieSince(classifier.getCreationDate());
 		 
 		 // now update the remote classifier
 		  Response responseUpdate = db.update(c);

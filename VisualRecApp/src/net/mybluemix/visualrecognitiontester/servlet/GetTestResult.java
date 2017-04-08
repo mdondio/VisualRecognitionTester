@@ -25,9 +25,10 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassification;
 
-import net.mybluemix.visualrecognitiontester.backgroundaemons.Job;
-import net.mybluemix.visualrecognitiontester.backgroundaemons.JobQueue;
+import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.JobQueue;
+import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.Job;
 import net.mybluemix.visualrecognitiontester.blmxservices.CloudantClientMgr;
+import net.mybluemix.visualrecognitiontester.blmxservices.Configs;
 import net.mybluemix.visualrecognitiontester.blmxservices.ObjectStorage;
 import net.mybluemix.visualrecognitiontester.blmxservices.ObjectStorageClientMgr;
 import net.mybluemix.visualrecognitiontester.blmxservices.marcovisualreclibrary.exceptions.VisualClassifierException;
@@ -171,7 +172,7 @@ public class GetTestResult extends HttpServlet {
 		images.addAll(d.getImages().getNegatives());
 
 		// return list of zips: each zip contains 20 images (max per call)
-		return Utils.buildCompressedStreamBlocks(oo, "images_london", images);
+		return Utils.buildCompressedStreamBlocks(oo, Configs.OO_DEFAULTCONTAINER, images);
 	}
 
 	// This method runs a classification on watson

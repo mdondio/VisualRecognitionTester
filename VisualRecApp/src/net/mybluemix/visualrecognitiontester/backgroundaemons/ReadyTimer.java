@@ -17,6 +17,7 @@ import com.cloudant.client.api.model.FindByIndexOptions;
 import com.cloudant.client.api.model.Response;
 
 import net.mybluemix.visualrecognitiontester.blmxservices.CloudantClientMgr;
+import net.mybluemix.visualrecognitiontester.blmxservices.Configs;
 import net.mybluemix.visualrecognitiontester.blmxservices.ObjectStorage;
 import net.mybluemix.visualrecognitiontester.blmxservices.ObjectStorageClientMgr;
 import net.mybluemix.visualrecognitiontester.blmxservices.marcovisualreclibrary.Utils;
@@ -110,7 +111,7 @@ public class ReadyTimer extends TimerTask {
 		ObjectStorage oo = ObjectStorageClientMgr.getObjectStorage();
 
 		// build a small zip just to check classifier
-		byte[] zip = buildDummyZip(oo, "images_london", "zombie_test.jpg");
+		byte[] zip = buildDummyZip(oo, Configs.OO_DEFAULTCONTAINER, "zombie_test.jpg");
 
 		// Try classification
 		WatsonBinaryClassifier classifier = new WatsonBinaryClassifier(c.getApiKey());
