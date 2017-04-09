@@ -36,8 +36,8 @@ public class GitHubEventHandler extends HttpServlet {
 	// "visualrecognitiontester_token";
 
 	// All these chatID will be notified via telegram
-	// io, andrea
-	private static final String[] subscribers = { "45847711", "317680622" };
+	// io, andrea, crippa
+	private static final String[] subscribers = { "45847711", "317680622", "295439414" };
 
 	/**
 	 * @see HttpServlet#HttpServlet()
