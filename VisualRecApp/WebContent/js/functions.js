@@ -754,7 +754,7 @@ function addTableColumn(IDelement,table,trainingsize){
 		for (var j = 0; j < columnCount; j++) {
 
 			if(j==0){
-				var txt = document.createTextNode(table[i][j][0]);
+				var txt = document.createTextNode(table[i][j][0].label);
 				var th = document.createElement('th');
 				th.style.width = "30px";
 				var block = document.createElement('div');
@@ -768,10 +768,10 @@ function addTableColumn(IDelement,table,trainingsize){
 				for(var k=0;k<3 & table[i][j][k]!="";k++)
 				{
 					var block = document.createElement('div');
-					block.setAttribute("id","classifierReady"+trainingsize[j-1]+"_"+"v"+k)
-					if(table[i][j][k]=="ready") block.className = 'smoothrectangle ready';
-					if(table[i][j][k]=="training") block.className = 'smoothrectangle training';
-					if(table[i][j][k]=="zombie") block.className = 'smoothrectangle zombie';			
+					block.setAttribute("id","classifierReady"+table[i][j][k]._id)
+					if(table[i][j][k].status=="ready") block.className = 'smoothrectangle ready';
+					if(table[i][j][k].status=="training") block.className = 'smoothrectangle training';
+					if(table[i][j][k].status=="zombie") block.className = 'smoothrectangle zombie';			
 					
 					block.appendChild(document.createTextNode(trainingsize[j-1]+"_"+"v"+k));
 					td.appendChild(block);
@@ -907,7 +907,7 @@ function generateHome(){
 				var n = label.indexOf(obj.label); //row
 				var m = n_img.indexOf(obj.training_size); //col
 				var k = matrix[n][m].indexOf("");
-				matrix[n][m][k]=obj.status;
+				matrix[n][m][k]=obj;
 			}
 			//inizializza header delle label
 			for(var i = 0; i < sizeRow; i++)	print_table[i][0][0] = label[i];
