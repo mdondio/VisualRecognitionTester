@@ -122,7 +122,7 @@ public class SubmitTrainJob extends HttpServlet {
 		// execute query
 		List<Dataset> datasets = db.findByIndex(selector, Dataset.class, opt);
 
-		return datasets == null ? null : datasets.get(0);
+		return datasets.isEmpty() ? null : datasets.get(0);
 	}
 
 	// Gets a free instance to use from cloudant

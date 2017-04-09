@@ -42,4 +42,7 @@ public class Instance {
 		if(!classifiers.contains(classifierId))
 			classifiers.add(classifierId);
 	}
+	public void removeClassifier(String classifierId) {
+		classifiers.remove(classifierId);
+	}
 }
