@@ -147,6 +147,22 @@
 <script>
 	generateHome();
 
+//per lanciare la servlet di delete del classificatore
+$('body').on("click","div[id*=classifierReady]",function(){
+	var $this = $(this);
+
+	$.ajax({
+		contentType: "application/json",
+		dataType: "json",
+		url: 'GetDeleteClassifier',
+		async: false,
+		success: function(result){
+			
+		}
+	});      
+});
+
+//per vedere la galleria di immagini di un certo testset clickato
 	$('body').on("click", "[id*=showdatasetID]", function() {
 
 		window.location.href = 'showgallery.html';

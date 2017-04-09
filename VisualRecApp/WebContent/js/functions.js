@@ -768,7 +768,7 @@ function addTableColumn(IDelement,table,trainingsize){
 				for(var k=0;k<3 & table[i][j][k]!="";k++)
 				{
 					var block = document.createElement('div');
-					
+					block.setAttribute("id","classifierReady"+trainingsize[j-1]+"_"+"v"+k)
 					if(table[i][j][k]=="ready") block.className = 'smoothrectangle ready';
 					if(table[i][j][k]=="training") block.className = 'smoothrectangle training';
 					if(table[i][j][k]=="zombie") block.className = 'smoothrectangle zombie';			
@@ -854,6 +854,8 @@ function generateHome(){
 		async: false,
 		success: function(result){
 
+			console.log("*****************")
+			console.log(result)
 			//COMPUTE NUMBER FOR READY AND TRAINING
 			var ready = 0;
 			var training = 0;
@@ -908,7 +910,6 @@ function generateHome(){
 				matrix[n][m][k]=obj.status;
 			}
 			//inizializza header delle label
-			//print_table[0][0][0] = "Cardinality";
 			for(var i = 0; i < sizeRow; i++)	print_table[i][0][0] = label[i];
 			//for(var i = 0; i < sizeCol; i++) print_table[0][i+1][0] = n_img[i];
 			//imposta la matrice dei contenuti da stampare
