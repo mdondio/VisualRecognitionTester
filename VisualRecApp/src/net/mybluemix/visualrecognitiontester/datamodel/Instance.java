@@ -45,4 +45,11 @@ public class Instance {
 	public void removeClassifier(String classifierId) {
 		classifiers.remove(classifierId);
 	}
+	
+	
+	public List<String> getClassifiers(){
+		return classifiers;
+	}
 }
+
+
