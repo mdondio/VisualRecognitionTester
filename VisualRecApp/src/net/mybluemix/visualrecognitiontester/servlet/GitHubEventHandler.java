@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -19,6 +20,7 @@ import net.mybluemix.visualrecognitiontester.telegram.TelegramBot;
 /**
  * This class handles all POSTs request sent by github:
  * https://github.com/mdondio/VisualRecognitionTester.git
+ * https://developer.github.com/webhooks/
  * 
  * webhook will be:
  * GitHubEventHandler
@@ -33,7 +35,8 @@ public class GitHubEventHandler extends HttpServlet {
 //	private static final String secretToken = "visualrecognitiontester_token";
 
 	// All these chatID will be notified via telegram
-	private static final String[] subscribers ={"45847711"};
+	// io, andrea
+	private static final String[] subscribers ={"45847711", "317680622"};
 	
     /**
      * @see HttpServlet#HttpServlet()
@@ -85,6 +88,18 @@ public class GitHubEventHandler extends HttpServlet {
 		if(event.matches("push")){
 			String text = "Push event received! Branch name: " + update.get("ref").getAsString();
 
+			JsonArray commits = update.get("commits").getAsJsonArray();
+			
+			
+			for(int i = 0; i < commits.size(); i++){
+				JsonObject c = commits.get(i).getAsJsonObject();
+				JsonObject committer = c.get("committer").getAsJsonObject();
+				
+				text += "\n" + c.get("id").getAsString() + " ("+c.get("timestamp").getAsString()+") ";
+				text +=" -> committer: "+ committer.get("name").getAsString();
+			}
+			
+			
 			// Send all contacts!
 			for(String subscriber : subscribers){
 				System.out.println("[GitHubEventHandler] Sending notification to subscriber: " + subscriber);

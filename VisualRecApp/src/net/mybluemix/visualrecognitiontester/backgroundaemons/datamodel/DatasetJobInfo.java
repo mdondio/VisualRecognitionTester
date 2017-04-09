@@ -23,11 +23,13 @@ public class DatasetJobInfo {
 		return datasetId;
 	}
 
-	public String toString(){
-		return "DatasetInfo datasetId: " + datasetId;
-	}
 
 	public TYPE getType() {
 return type;		
 	}
+	
+	public String toString(){
+		return "DatasetInfo datasetId: " + datasetId;
+	}
+
 }

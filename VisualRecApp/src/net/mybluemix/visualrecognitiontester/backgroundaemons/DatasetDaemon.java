@@ -66,20 +66,47 @@ public class DatasetDaemon implements Runnable {
 
 			switch (datasetJob.getObj().getType()) {
 			case INSERT:
-				System.out.println("[TrainDaemon] Insert Job");
-				handleInsert();
+				System.out.println("[DatasetDaemon] Insert Job");
+				handleInsert(datasetJob, oo);
 				break;
 			case DELETE:
-				System.out.println("[TrainDaemon] Delete Job");
-				handleDelete();
+				System.out.println("[DatasetDaemon] Delete Job");
+				handleDelete(datasetJob, oo);
 				break;
 			default:
-				System.out.println("[TrainDaemon] No Job recognized");
+				System.out.println("[DatasetDaemon] No Job recognized");
 				break;
 			}
 
-			System.out.println("[TrainDaemon] Job completed!");
+			System.out.println("[DatasetDaemon] Job completed!");
 		}
 	}
+	
+	private void handleInsert(Job<DatasetJobInfo> insertJob, ObjectStorage oo) {
+		// TODO Auto-generated method stub
+		
+		// processa tutte le immagini, normalizza
+		// part -> bufferedimage
+		// normalizza
+		// scrivi in oo
+		
+		// nel mentre costruisci json dataset
+		// scrivi in cloudant
+		
+		
+	}
+
+
+	private void handleDelete(Job<DatasetJobInfo> deleteJob, ObjectStorage oo) {
+		// TODO Auto-generated method stub
+
+		// deleta in cloudant
+
+		// deleta tutte le immagini (mi basta lista ID)
+		// conviene passare un json dataset nella info
+		
+
+	}
+
 
 }
