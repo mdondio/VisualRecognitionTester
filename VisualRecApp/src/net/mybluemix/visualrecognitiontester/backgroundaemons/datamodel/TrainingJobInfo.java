@@ -9,13 +9,13 @@ import net.mybluemix.visualrecognitiontester.datamodel.Instance;
  * @author Marco Dondio
  *
  */
-public class TrainingInfo {
+public class TrainingJobInfo {
 
 	Instance vr_instance;
 	Dataset dataset;
 	String label;
 
-	public TrainingInfo(Instance vr_instance, Dataset dataset, String label) {
+	public TrainingJobInfo(Instance vr_instance, Dataset dataset, String label) {
 		this.vr_instance = vr_instance;
 		this.dataset = dataset;
 		this.label = label;

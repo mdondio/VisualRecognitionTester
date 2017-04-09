@@ -10,7 +10,7 @@ import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassifi
 
 import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.Job;
 import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.JobQueue;
-import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.TrainingInfo;
+import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.TrainingJobInfo;
 import net.mybluemix.visualrecognitiontester.blmxservices.CloudantClientMgr;
 import net.mybluemix.visualrecognitiontester.blmxservices.Configs;
 import net.mybluemix.visualrecognitiontester.blmxservices.ObjectStorage;
@@ -32,7 +32,7 @@ public class TrainDaemon implements Runnable {
 
 	// Setup context info
 	private ServletContext ctx;
-	private JobQueue<Job<TrainingInfo>> trainQueue;
+	private JobQueue<Job<TrainingJobInfo>> trainQueue;
 
 	public TrainDaemon(ServletContext ctx) {
 
@@ -43,7 +43,7 @@ public class TrainDaemon implements Runnable {
 
 	@SuppressWarnings("unchecked")
 	public void initialize() {
-		trainQueue = (JobQueue<Job<TrainingInfo>>) ctx.getAttribute("trainQueue");
+		trainQueue = (JobQueue<Job<TrainingJobInfo>>) ctx.getAttribute("trainQueue");
 	}
 
 	public void run() {
@@ -54,7 +54,7 @@ public class TrainDaemon implements Runnable {
 		while (true) {
 
 			// wait for a new job
-			Job<TrainingInfo> trainingJob = null;
+			Job<TrainingJobInfo> trainingJob = null;
 			try {
 				trainingJob = trainQueue.getJob();
 			} catch (InterruptedException e) {
@@ -63,7 +63,7 @@ public class TrainDaemon implements Runnable {
 			Instance vr_instance = trainingJob.getObj().getInstance();
 			Dataset d = trainingJob.getObj().getDataset();
 
-			System.out.println("[TrainDaemon] Classifier received = " + trainingJob + ". Processing...");
+			System.out.println("[TrainDaemon] Received = " + trainingJob + ". Processing...");
 
 			// 1 - Retrieve image from object storage and build zips
 			ObjectStorage oo = null;
@@ -131,12 +131,12 @@ public class TrainDaemon implements Runnable {
 	// XXX attenzione: potenzialmente non atomico.. occhio ad inconsistenza
 	// possibili
 	// meglio avere primo documento classificatore, poi inserirlo in instance
-	private void updateCloudant(TrainingInfo info, WatsonBinaryClassifier wbc) {
+	private void updateCloudant(TrainingJobInfo info, WatsonBinaryClassifier wbc) {
 		classifierInsert(info, wbc);
 		instanceUpdate(info, wbc);
 	}
 
-	private void instanceUpdate(TrainingInfo info, WatsonBinaryClassifier wbc) {
+	private void instanceUpdate(TrainingJobInfo info, WatsonBinaryClassifier wbc) {
 
 		// get db connection
 		Database db = CloudantClientMgr.getCloudantDB();
@@ -153,7 +153,7 @@ public class TrainDaemon implements Runnable {
 		System.out.println("[TrainDaemon] Updated Instance, response: " + responseUpdate);
 	}
 
-	private void classifierInsert(TrainingInfo info, WatsonBinaryClassifier wbc) {
+	private void classifierInsert(TrainingJobInfo info, WatsonBinaryClassifier wbc) {
 
 		// TODO build classifier from wbc
 		// XXX capire se ho problemi a mettere un costruttore

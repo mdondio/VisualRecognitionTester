@@ -16,7 +16,7 @@ import com.google.gson.JsonObject;
 
 import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.Job;
 import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.JobQueue;
-import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.TrainingInfo;
+import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.TrainingJobInfo;
 import net.mybluemix.visualrecognitiontester.blmxservices.CloudantClientMgr;
 import net.mybluemix.visualrecognitiontester.datamodel.Dataset;
 import net.mybluemix.visualrecognitiontester.datamodel.Instance;
@@ -85,9 +85,9 @@ public class SubmitTrainJob extends HttpServlet {
 		// Valid dataset and valid instance: we can pass to daemon!
 		ServletContext ctx = getServletContext();
 		@SuppressWarnings("unchecked")
-		JobQueue<Job<TrainingInfo>> trainQueue = (JobQueue<Job<TrainingInfo>>) ctx.getAttribute("trainQueue");
+		JobQueue<Job<TrainingJobInfo>> trainQueue = (JobQueue<Job<TrainingJobInfo>>) ctx.getAttribute("trainQueue");
 
-		trainQueue.addJob(new Job<TrainingInfo>(new TrainingInfo(vr_instance, dataset, label)));
+		trainQueue.addJob(new Job<TrainingJobInfo>(new TrainingJobInfo(vr_instance, dataset, label)));
 
 		// return answer
 		System.out.println("[SubmitTrainJob] Passed training job to daemon, returning asnwer to client");

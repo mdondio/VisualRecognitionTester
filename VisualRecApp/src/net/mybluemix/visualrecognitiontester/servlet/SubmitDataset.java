@@ -23,6 +23,9 @@ import javax.servlet.http.Part;
  * 
  * @author Marco Dondio
  */
+// https://css-tricks.com/snippets/html/multiple-file-input/
+// http://docs.oracle.com/javaee/6/tutorial/doc/glraq.html
+
 @WebServlet("/SubmitDataset")
 @MultipartConfig
 public class SubmitDataset extends HttpServlet {
@@ -53,7 +56,6 @@ public class SubmitDataset extends HttpServlet {
 
 		// TODO
 		// 0 - recupera tutte le immagini posotive e negative
-		// http://docs.oracle.com/javaee/6/tutorial/doc/glraq.html
 		parseRequest(request);
 		
 		// capire cosa conviene costruire... images?
