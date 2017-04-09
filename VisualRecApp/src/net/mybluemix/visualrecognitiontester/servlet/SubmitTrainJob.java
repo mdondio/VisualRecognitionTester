@@ -56,8 +56,10 @@ public class SubmitTrainJob extends HttpServlet {
 
 		// XXX promemoria: occhio a label in classifier e in dataset..
 
+		
+		
 		// Then, retrieve resources: instance
-		Instance vr_instance = selectTargetInstance();
+		Instance vr_instance = checkFreeVRInstance();
 
 		if (vr_instance == null) {
 			System.out.println("[SubmitTrainJob] No vr_instances left to use!");
@@ -87,7 +89,7 @@ public class SubmitTrainJob extends HttpServlet {
 		@SuppressWarnings("unchecked")
 		JobQueue<Job<TrainingJobInfo>> trainQueue = (JobQueue<Job<TrainingJobInfo>>) ctx.getAttribute("trainQueue");
 
-		trainQueue.addJob(new Job<TrainingJobInfo>(new TrainingJobInfo(vr_instance, dataset, label)));
+		trainQueue.addJob(new Job<TrainingJobInfo>(new TrainingJobInfo(dataset, label)));
 
 		// return answer
 		System.out.println("[SubmitTrainJob] Passed training job to daemon, returning asnwer to client");
@@ -125,8 +127,9 @@ public class SubmitTrainJob extends HttpServlet {
 		return datasets.isEmpty() ? null : datasets.get(0);
 	}
 
+
 	// Gets a free instance to use from cloudant
-	private Instance selectTargetInstance() {
+	private Instance checkFreeVRInstance() {
 
 		Database db = CloudantClientMgr.getCloudantDB();
 
