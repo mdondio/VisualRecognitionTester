@@ -500,11 +500,9 @@ function createGallery(idTOappend,images,idgallery)
 	
 	showGallery(images,gallery);
 	}
-//--------------------------------------------------------------------------
-
 
 /**
- * @returns prepara il file JSON con gli input e richiama la funzione getDataShow() per ottenere i risultati dal backend
+ * @returns set-up JSON file with simulate.html inputs, calls GetTestResult servlet and print results
  */
 function startSimulation(){
 	
@@ -545,6 +543,10 @@ function startSimulation(){
 						});
 	}
 
+
+/**
+ * @returns save locally the result file depending on the checkboxes selected
+ */
 function printTestResults(){
 	
 	var checkedValue = Array.prototype.map.call($(".formcheckbox:checked"),(function(el) {return el.value;}));
