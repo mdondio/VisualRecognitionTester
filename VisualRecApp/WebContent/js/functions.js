@@ -713,36 +713,13 @@ function addTable(IDelement,table){
 	document.getElementById(IDelement).appendChild(tableElement);
 }
 
-
-function addMatrixTable(IDelement,table){
-	var tableElement = document.createElement('table');
-	var columnCount = table[0].length;
-	var rowCount = table.length;
-	for (var i = 0; i < rowCount; i++) {
-		var row = document.createElement('tr');
-		for (var j = 0; j < columnCount; j++) {
-			if(i==0){
-				var txt = document.createTextNode(table[i][j]);
-				var th = document.createElement('th');
-				th.appendChild(txt);
-				row.appendChild(th);
-			}
-			else{
-				var td = document.createElement('td');
-				var block = document.createElement('div');
-				//block.className = 'block';
-				block.appendChild(document.createTextNode(table[i][j]));
-				td.appendChild(block);
-				row.appendChild(td);
-			}
-		}
-		tableElement.appendChild(row);
-	}
-	document.getElementById(IDelement).appendChild(tableElement);
-	}
-
 // variante tabella con solo la prima colonna evidenziata
-function addTableColumn(IDelement,table,trainingsize){
+/**
+ * @param IDelement div id where append the table
+ * @param table expected structure of classifier {ID/label/training_size/status},
+ * @returns
+ */
+function addClassifierTable(IDelement,table){
 	//Create a HTML Table element.
 	var tableElement = document.createElement('table');
 	var columnCount = table[0].length;
@@ -764,13 +741,17 @@ function addTableColumn(IDelement,table,trainingsize){
 			}
 			else{
 				var td = document.createElement('td');
+				
 				td.style.width = "30px";
+				
 				for(var k=0;k<3 & table[i][j][k]!="";k++)
 				{
 					var block = document.createElement('div');
-					block.setAttribute("id","classifierReady"+table[i][j][k]._id)
+					
+					block.setAttribute("id",table[i][j][k]._id)
+					
 					block.addEventListener("click", function(){
-						var IDstring = $(this).prop("id").substring(15);
+						var IDstring = $(this).prop("id");
 						swal({
 							  title: 'Are you sure?',
 							  text: 'You are deleting this classifier (ID: '+IDstring +"). You won't be able to revert this!",
@@ -801,7 +782,7 @@ function addTableColumn(IDelement,table,trainingsize){
 					if(table[i][j][k].status=="training") block.className = 'smoothrectangle training';
 					if(table[i][j][k].status=="zombie") block.className = 'smoothrectangle zombie';			
 					
-					block.appendChild(document.createTextNode(trainingsize[j-1]+"_"+"v"+k));
+					block.appendChild(document.createTextNode(table[i][j][k].training_size+"_"+"v"+k));
 					td.appendChild(block);
 				}
 				if(table[i][j][0]=="") td.appendChild(document.createTextNode(""));
@@ -816,34 +797,6 @@ function addTableColumn(IDelement,table,trainingsize){
 	$('.training').attr("data-tooltip", "Classifier training");
 	$('.zombie').attr("data-tooltip", "Classifier zombie");
 }
-
-
-function addMatrixTable(IDelement,table){
-	var tableElement = document.createElement('table');
-	var columnCount = table[0].length;
-	var rowCount = table.length;
-	for (var i = 0; i < rowCount; i++) {
-		var row = document.createElement('tr');
-		for (var j = 0; j < columnCount; j++) {
-			if(i==0){
-				var txt = document.createTextNode(table[i][j]);
-				var th = document.createElement('th');
-				th.appendChild(txt);
-				row.appendChild(th);
-			}
-			else{
-				var td = document.createElement('td');
-				var block = document.createElement('div');
-				//block.className = 'block';
-				block.appendChild(document.createTextNode(table[i][j]));
-				td.appendChild(block);
-				row.appendChild(td);
-			}
-		}
-		tableElement.appendChild(row);
-	}
-	document.getElementById(IDelement).appendChild(tableElement);
-	}
 
 /**
  * @returns unica funzione che permette la costruzione della pagina home.html grazie a tre chiamate ajax
@@ -943,7 +896,7 @@ function generateHome(){
 						print_table[i][j+1][k] = matrix[i][j][k];
 
 			//add a table (idelement and table to print)
-			addTableColumn("dvTable",print_table,n_img);
+			addClassifierTable("dvTable",print_table);
 		}
 	});
 
