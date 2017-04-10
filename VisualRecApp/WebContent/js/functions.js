@@ -1,18 +1,3 @@
-//TODO commentare
-//RESET BROWSE FILE show (will be deprecated)
-function clearData(){
-	var control = $("#dataset"),
-	clearBn = $("#clear");
-	clearBn.on("click", function(){
-		control.replaceWith( control.val('').clone( true ) );
-	});
-	control.on({
-		change: function(){ console.log("Changed") },
-		focus: function(){ console.log("Focus") }
-	});
-}
-
-
 /**
  * @param filename nome del file json dove raccogliere le info per disegnare la ROC curves e la AUC
  * @returns disegna i grafici dentro gli elementi html con ID graph1 e graph2
@@ -190,6 +175,7 @@ function Draw(result){
 			Plotly.newPlot('graph2', data2, layout2);
 }
 
+
 function DrawHistogram(histogramNegative,histogramPositive){
 		
 	var negative = [];
@@ -240,7 +226,6 @@ function DrawHistogram(histogramNegative,histogramPositive){
 	
 	var data = [negativeTrace , positiveTrace];
 
-
 		var layout = {
 //		showlegend : true,
 		legend : {
@@ -277,19 +262,44 @@ function DrawHistogram(histogramNegative,histogramPositive){
 	Plotly.newPlot('graph_histogram', data, layout);
 }
 
-//append images from json files
+
 /**
- * @param filename nome del file json dove raccogliere le info per i parametri di accuracy e threshold
- * @returns permette di impostare i parametri accuracy e threshold al variare del menù a tendina
+ * @param object including all the information of a single test
  */
 function setParameters(result) {
-
 			$("#accuracy").empty();
 			$("#threshold").empty();
 			$("#accuracy").html(result.accuracyOpt.toFixed(2));
 			$("#threshold").html(result.thresholdOpt.toFixed(2));
-
 }
+
+function openModal2() {
+	populateListTestResult();
+//	$('#savetestmodal').show("slow");
+//	$('#savetestmodalbackground').show("slow");
+//	$('#savetestmodalcontent').show("slow");
+	$('#savetestmodal').fadeIn(100);
+	$('#savetestmodalbackground').fadeIn(100);
+	$('#savetestmodalcontent').fadeIn(100);
+}
+
+function closeModal2() {
+//	$('#savetestmodal').hide("slow");
+//	$('#savetestmodalbackground').hide("slow");
+//	$('#savetestmodalcontent').hide("slow");
+	$('#savetestmodal').fadeOut(100);
+	$('#savetestmodalbackground').fadeOut(100);
+	$('#savetestmodalcontent').fadeOut(100);
+}
+
+/*
+ * =======================================================================
+ * ============== FUNCTIONS FOR GALLERY MANAGEMENT =======================
+ * =======================================================================
+*/
+
+var SLIDEINDEX = 1;
+var GALLERY = "";
 
 /**
  * @param filename nome del file json dove raccogliere le info per le immagini da caricare (falsipositivi e falsinegativi)
@@ -375,8 +385,6 @@ function showGallery(result,inputgallery) {
 
 function newImgZoom(inputgallery,slidenumber){
 	setGallery(inputgallery);
-	console.log("DENTRO ZOOM**********"+GALLERY);
-	console.log("DENTRO ZOOM**********"+slidenumber);
 	console.log("id "+ $(this).attr("id"));
 	console.log("class "+ $(this).attr("class"));
 	console.log("name "+ $(this).attr("name"));
@@ -385,65 +393,38 @@ function newImgZoom(inputgallery,slidenumber){
 
 function newImg(inputgallery,slidenumber){
 	setGallery(inputgallery);
-	console.log("DENTRO**********"+GALLERY);
-	console.log("DENTRO**********"+slidenumber);
 	openModal();
 	currentSlide(slidenumber);
 	}
 
 function prevImg(inputgallery){
 	setGallery(inputgallery);
-	console.log("DENTRO tasto freccia PREV**********"+GALLERY);
 	plusSlides(-1);
 }
 
 function nextImg(inputgallery){
 	setGallery(inputgallery);
-	console.log("DENTRO tasto freccia NEXT**********"+GALLERY);
 	plusSlides(1);
 }
 
-//Le seguenti funzioni sono a supporto della funzione addimages() ----------------
 function openModal() {
 	document.getElementById('myModal'+GALLERY).style.display = "block";
 }
-
 
 function closeModal() {
 	document.getElementById('myModal'+GALLERY).style.display = "none";
 }
 
-
-function openModal2() {
-	populateListTestResult();
-//	$('#savetestmodal').show("slow");
-//	$('#savetestmodalbackground').show("slow");
-//	$('#savetestmodalcontent').show("slow");
-	$('#savetestmodal').fadeIn(100);
-	$('#savetestmodalbackground').fadeIn(100);
-	$('#savetestmodalcontent').fadeIn(100);
-}
-
-function closeModal2() {
-//	$('#savetestmodal').hide("slow");
-//	$('#savetestmodalbackground').hide("slow");
-//	$('#savetestmodalcontent').hide("slow");
-	$('#savetestmodal').fadeOut(100);
-	$('#savetestmodalbackground').fadeOut(100);
-	$('#savetestmodalcontent').fadeOut(100);
-}
-
-var slideIndex = 1;
-var GALLERY = "";
 function setGallery(galleryname){GALLERY=galleryname;};
-showSlides(slideIndex);
+
+showSlides(SLIDEINDEX);
 
 function plusSlides(n) {
-	showSlides(slideIndex += n);
+	showSlides(SLIDEINDEX += n);
 }
 
 function currentSlide(n) {
-	showSlides(slideIndex = n);
+	showSlides(SLIDEINDEX = n);
 }
 
 function showSlides(n) {
@@ -458,10 +439,10 @@ function showSlides(n) {
 		var dots = document.getElementsByClassName("demo" + GALLERY);
 		var captionText = document.getElementById("caption" + GALLERY);
 		if (n > slides.length) {
-			slideIndex = 1
+			SLIDEINDEX = 1
 		}
 		if (n < 1) {
-			slideIndex = slides.length
+			SLIDEINDEX = slides.length
 		}
 		for (i = 0; i < slides.length; i++) {
 			slides[i].style.display = "none";
@@ -469,9 +450,9 @@ function showSlides(n) {
 		for (i = 0; i < dots.length; i++) {
 			dots[i].className = dots[i].className.replace(" active", "");
 		}
-		slides[slideIndex - 1].style.display = "block";
-		dots[slideIndex - 1].className += " active";
-		captionText.innerHTML = dots[slideIndex - 1].alt;
+		slides[SLIDEINDEX - 1].style.display = "block";
+		dots[SLIDEINDEX - 1].className += " active";
+		captionText.innerHTML = dots[SLIDEINDEX - 1].alt;
 	}
 }
 
@@ -506,6 +487,20 @@ function createGallery(idTOappend,images,idgallery)
 	
 	showGallery(images,gallery);
 	}
+/*
+ * ==============================================================================
+ * ============== END OF FUNCTIONS FOR GALLERY MANAGEMENT =======================
+ * ==============================================================================
+*/
+
+
+
+
+/*
+ * ==============================================================================
+ * ========================= AJAX CALLS =================================
+ * ==============================================================================
+*/
 
 /**
  * @returns set-up JSON file with simulate.html inputs, calls GetTestResult servlet and print results
@@ -549,65 +544,6 @@ function startSimulation(){
 						});
 	}
 
-
-/**
- * @returns save locally the result file depending on the checkboxes selected
- */
-function printTestResults(){
-	
-	var checkedValue = Array.prototype.map.call($(".formcheckbox:checked"),(function(el) {return el.value;}));
-	var result = JSON.parse(localStorage.getItem("resultJSON"));
-	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
-	var count=0;
-	
-	//costruisco il JSON da stampare
-	directJSON = [];
-    for(var i in result){
-    	var objtest = testdetails[i];
-    	var obj = result[i];
-    	if(objtest.name==checkedValue[count])
-    		{
-    		directJSON.push(obj); 
-    		count++;
-    		}
-    }
-
-    var json = JSON.stringify(directJSON);
-    var blob = new Blob([json], {type: "application/json"});
-    saveAs(blob, "TestResult.json");
-    closeModal2();
-}
-
-function populateListTestResult(){
-	$("#listatest").empty();
-	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
-	
-	for(var i in testdetails){
-		var obj = testdetails[i];
-		var label = document.createElement("label");
-		var input = document.createElement("input");
-		var linebreak = document.createElement("br");
-		
-		
-		input.value = obj.name;
-		input.type = "checkbox";
-		input.setAttribute("class","formcheckbox")
-		label.appendChild(input);
-		label.appendChild(document.createTextNode("  "+obj.name));
-
-		$("#listatest").append(label);
-		$("#listatest").append(linebreak);
-	}
-	
-	var input = document.createElement("input");
-	input.type = "submit";
-	$("#listatest").append(input);
-	$("input[type='submit']").attr("class", "submitmodal2");
-	
-}
-
-
-
 function populateSelectDataSet(IDselect){
 	
 	// chiamata per popolare il menu a tendina dei testset nella pagina simulate.html
@@ -633,6 +569,7 @@ function populateSelectDataSet(IDselect){
 	});
 	
 }
+
 /**
  * @returns popola i menu a tendina della pagine di set-up
  */
@@ -682,85 +619,6 @@ function populateSelectSim(){
 		}
 	});
 	
-}
-
-/**
- * @param IDelement div id where append the table
- * @param table expected structure of classifier {_id/label/training_size/status} and first column of label
- * @returns build the table
- */
-function addClassifierTable(IDelement,table){
-	//Create a HTML Table element.
-	var tableElement = document.createElement('table');
-	var columnCount = table[0].length;
-	var rowCount = table.length;
-	//Add the data rows.
-	for (var i = 0; i < rowCount; i++) {
-		//row = tableElement.insertRow(-1);
-		var row = document.createElement('tr');
-		for (var j = 0; j < columnCount; j++) {
-
-			if(j==0){
-				var txt = document.createTextNode(table[i][j][0]);
-				var th = document.createElement('th');
-				th.style.width = "30px";
-				var block = document.createElement('div');
-				block.appendChild(txt);
-				th.appendChild(block);
-				row.appendChild(th); 
-			}
-			else{
-				var td = document.createElement('td');
-				
-				td.style.width = "30px";
-				
-				for(var k=0;k<(table[i][j]).length;k++)
-				{
-					var block = document.createElement('div');
-					block.setAttribute("id",table[i][j][k]._id)
-					
-					block.addEventListener("click", function(){
-						var IDstring = $(this).prop("id");
-						swal({
-							  title: 'Are you sure?',
-							  text: 'You are deleting this classifier (ID: '+IDstring +"). You won't be able to revert this!",
-							  type: 'warning',
-							  showCancelButton: true,
-							  confirmButtonColor: '#3085d6',
-							  cancelButtonColor: '#d33',
-							  confirmButtonText: 'Yes, delete it!',
-							  cancelButtonText: 'No, cancel!'
-							}).then(function (isConfirm) {
-							  
-								if(isConfirm)
-									{
-									$.ajax({
-										   		contentType : "application/json",
-										   		dataType : "json",
-										   		data : "classifierId=" + IDstring + "",
-										   		url : 'DeleteClassifier',
-										   		async : false,
-										   		success : function(result) {
-						   									swal('Deleted!','Classifier (ID: '+IDstring+') has been deleted.','success').then(function(){location.reload();})
-							   								}
-				   							});
-									}
-							})
-					});
-
-							block.setAttribute("class",'smoothrectangle '+table[i][j][k].status+'');
-							block.setAttribute("data-tooltip","ID: "+table[i][j][k]._id+" status:"+table[i][j][k].status+" - label:"+table[i][j][k].label);
-					
-					block.appendChild(document.createTextNode(table[i][j][k].training_size+"_"+"v"+k));
-					td.appendChild(block);
-				}
-				if((table[i][j]).length==0) td.appendChild(document.createTextNode(""));
-				row.appendChild(td);
-			}
-		}
-		tableElement.appendChild(row);
-	}
-	document.getElementById(IDelement).appendChild(tableElement);
 }
 
 /**
@@ -883,6 +741,178 @@ function generateHome(){
 		}
 	});
 }
+
+/**
+ * @returns call the SubmitTrainJob servlet to start training of e new classifier (a datasetid and a label must be already selected)
+ */
+function startTrain(){
+	
+	var datasetId = $("#labelselected").val();
+	var label = $("#labelselected").html();
+	if(datasetId & label)
+		{
+ 	$.ajax({
+		contentType : "application/json",
+		dataType : "json",
+		data : "datasetId=" + datasetId + "&label="+label,
+		url : 'SubmitTrainJob',
+		async : false,
+		success : function(result) {
+			swal('Trained!',
+					'Your classifier has been trained!',
+					'success').then(function(){window.location.href="home.html"})
+		}
+	});
+		}else{
+			swal({
+				title: 'Warning',
+				text: 'You have to select a valid dataset of images!',
+				type: 'warning',});
+		} 	
+}
+
+/*
+ * ==============================================================================
+ * ========================= END OF AJAX CALLS =================================
+ * ==============================================================================
+*/
+
+/**
+ * @returns save locally the result file depending on the checkboxes selected
+ */
+function printTestResults(){
+	
+	var checkedValue = Array.prototype.map.call($(".formcheckbox:checked"),(function(el) {return el.value;}));
+	var result = JSON.parse(localStorage.getItem("resultJSON"));
+	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
+	var count=0;
+	
+	//costruisco il JSON da stampare
+	directJSON = [];
+    for(var i in result){
+    	var objtest = testdetails[i];
+    	var obj = result[i];
+    	if(objtest.name==checkedValue[count])
+    		{
+    		directJSON.push(obj); 
+    		count++;
+    		}
+    }
+
+    var json = JSON.stringify(directJSON);
+    var blob = new Blob([json], {type: "application/json"});
+    saveAs(blob, "TestResult.json");
+    closeModal2();
+}
+
+function populateListTestResult(){
+	$("#listatest").empty();
+	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
+	
+	for(var i in testdetails){
+		var obj = testdetails[i];
+		var label = document.createElement("label");
+		var input = document.createElement("input");
+		var linebreak = document.createElement("br");
+		
+		
+		input.value = obj.name;
+		input.type = "checkbox";
+		input.setAttribute("class","formcheckbox")
+		label.appendChild(input);
+		label.appendChild(document.createTextNode("  "+obj.name));
+
+		$("#listatest").append(label);
+		$("#listatest").append(linebreak);
+	}
+	
+	var input = document.createElement("input");
+	input.type = "submit";
+	$("#listatest").append(input);
+	$("input[type='submit']").attr("class", "submitmodal2");
+	
+}
+
+/**
+ * @param IDelement div id where append the table
+ * @param table expected structure of classifier {_id/label/training_size/status} and first column of label
+ * @returns build the table
+ */
+function addClassifierTable(IDelement,table){
+	//Create a HTML Table element.
+	var tableElement = document.createElement('table');
+	var columnCount = table[0].length;
+	var rowCount = table.length;
+	//Add the data rows.
+	for (var i = 0; i < rowCount; i++) {
+		//row = tableElement.insertRow(-1);
+		var row = document.createElement('tr');
+		for (var j = 0; j < columnCount; j++) {
+
+			if(j==0){
+				var txt = document.createTextNode(table[i][j][0]);
+				var th = document.createElement('th');
+				th.style.width = "30px";
+				var block = document.createElement('div');
+				block.appendChild(txt);
+				th.appendChild(block);
+				row.appendChild(th); 
+			}
+			else{
+				var td = document.createElement('td');
+				
+				td.style.width = "30px";
+				
+				for(var k=0;k<(table[i][j]).length;k++)
+				{
+					var block = document.createElement('div');
+					block.setAttribute("id",table[i][j][k]._id)
+					
+					block.addEventListener("click", function(){
+						var IDstring = $(this).prop("id");
+						swal({
+							  title: 'Are you sure?',
+							  text: 'You are deleting this classifier (ID: '+IDstring +"). You won't be able to revert this!",
+							  type: 'warning',
+							  showCancelButton: true,
+							  confirmButtonColor: '#3085d6',
+							  cancelButtonColor: '#d33',
+							  confirmButtonText: 'Yes, delete it!',
+							  cancelButtonText: 'No, cancel!'
+							}).then(function (isConfirm) {
+							  
+								if(isConfirm)
+									{
+									$.ajax({
+										   		contentType : "application/json",
+										   		dataType : "json",
+										   		data : "classifierId=" + IDstring + "",
+										   		url : 'DeleteClassifier',
+										   		async : false,
+										   		success : function(result) {
+						   									swal('Deleted!','Classifier (ID: '+IDstring+') has been deleted.','success').then(function(){location.reload();})
+							   								}
+				   							});
+									}
+							})
+					});
+
+							block.setAttribute("class",'smoothrectangle '+table[i][j][k].status+'');
+							block.setAttribute("data-tooltip","ID: "+table[i][j][k]._id+" status:"+table[i][j][k].status+" - label:"+table[i][j][k].label);
+					
+					block.appendChild(document.createTextNode(table[i][j][k].training_size+"_"+"v"+k));
+					td.appendChild(block);
+				}
+				if((table[i][j]).length==0) td.appendChild(document.createTextNode(""));
+				row.appendChild(td);
+			}
+		}
+		tableElement.appendChild(row);
+	}
+	document.getElementById(IDelement).appendChild(tableElement);
+}
+
+
 
 /**
  * @param IDappend div element where append the descriptive rectangle
@@ -1010,34 +1040,4 @@ function updateTestFields() {
 			DrawHistogram(result[j].histogramNegative,result[j].histogramPositive);
 		}
 	}
-}
-
-
-/**
- * @returns call the SubmitTrainJob servlet to start training of e new classifier (a datasetid and a label must be already selected)
- */
-function startTrain(){
-	
-	var datasetId = $("#labelselected").val();
-	var label = $("#labelselected").html();
-	if(datasetId & label)
-		{
- 	$.ajax({
-		contentType : "application/json",
-		dataType : "json",
-		data : "datasetId=" + datasetId + "&label="+label,
-		url : 'SubmitTrainJob',
-		async : false,
-		success : function(result) {
-			swal('Trained!',
-					'Your classifier has been trained!',
-					'success').then(function(){window.location.href="home.html"})
-		}
-	});
-		}else{
-			swal({
-				title: 'Warning',
-				text: 'You have to select a valid dataset of images!',
-				type: 'warning',});
-		} 	
 }
