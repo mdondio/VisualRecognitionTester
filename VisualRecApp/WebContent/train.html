@@ -70,12 +70,14 @@
 </body>
 
 <script>
-	populateSelectDataSet("trainingdataset")
+
+buildSelectDataSet("all",'#trainingdataset')
 
 	$('#trainingdataset').on(
 			'change',
 			function() {
 				var testsetID = $(this).val();
+				
 				$.ajax({
 					contentType : "application/json",
 					dataType : "json",
@@ -101,6 +103,31 @@
 					}
 				});
 
+				$.ajax({
+					contentType : "application/json",
+					dataType : "json",
+					url : 'GetDataset',
+					data : 'sub_type=training_set',
+					async : false,
+					success : function(result) {
+// 						$("#negativeTrainingGallery").empty();
+// 						$("#positiveTrainingGallery").empty();
+						for ( var i in result) {
+							if (result[i]._id == testsetID) {
+								createGallery('negativeTrainingGallery',
+										result[i].images.negative,
+										result[i]._id + "NEG");
+								createGallery('positiveTrainingGallery',
+										result[i].images.positive,
+										result[i]._id + "POS");
+								$("#labelselected").html(result[i].label)
+								$("#labelselected").val(result[i]._id)
+							}
+						}
+
+					}
+				});
+				
 			});
 </script>
 

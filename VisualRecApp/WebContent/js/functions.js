@@ -810,6 +810,54 @@ function startSimulation(){
 						});
 	}
 
+/*
+ * @param dataset_type (test_set,training_set,all)
+ * @param IDselector selector of the select object (or objects)
+ * @returns
+ */
+function buildSelectDataSet(dataset_type,IDselector){
+
+	$.ajax({													
+		dataType: "json",
+		url: 'GetDataset',
+		data: 'sub_type=test_set',
+		async: false,
+		success: function(result)
+		{
+
+			for(var i in result){
+				var obj = result[i];
+
+					$(IDselector).append($('<option>', {
+						value: obj._id,
+						text: obj.label+" "+ (obj.images.positive.length + obj.images.negative.length)+" "+obj._id
+					}));
+			}
+		}
+	});
+	
+	$.ajax({													
+		dataType: "json",
+		url: 'GetDataset',
+		data: 'sub_type=training_set',
+		async: false,
+		success: function(result)
+		{
+			for(var i in result){
+				var obj = result[i];
+				
+	if((obj.images.positive.length + obj.images.negative.length)*(dataset_type=="test_set")<200)
+		{
+					$(IDselector).append($('<option>', {
+						value: obj._id,
+						text: obj.label+" "+ (obj.images.positive.length + obj.images.negative.length)+" "+obj._id
+					}));
+		}
+			}
+		}
+	});
+}
+
 function populateSelectDataSet(IDselect){
 	
 	// chiamata per popolare il menu a tendina dei testset nella pagina simulate.html
