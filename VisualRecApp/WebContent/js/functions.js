@@ -416,15 +416,21 @@ function closeModal() {
 
 function openModal2() {
 	populateListTestResult();
-	$('#savetestmodal').show("slow");
-	$('#savetestmodalbackground').show("slow");
-	$('#savetestmodalcontent').show("slow");	
+//	$('#savetestmodal').show("slow");
+//	$('#savetestmodalbackground').show("slow");
+//	$('#savetestmodalcontent').show("slow");
+	$('#savetestmodal').fadeIn(100);
+	$('#savetestmodalbackground').fadeIn(100);
+	$('#savetestmodalcontent').fadeIn(100);
 }
 
 function closeModal2() {
-	$('#savetestmodal').hide("slow");
-	$('#savetestmodalbackground').hide("slow");
-	$('#savetestmodalcontent').hide("slow");
+//	$('#savetestmodal').hide("slow");
+//	$('#savetestmodalbackground').hide("slow");
+//	$('#savetestmodalcontent').hide("slow");
+	$('#savetestmodal').fadeOut(100);
+	$('#savetestmodalbackground').fadeOut(100);
+	$('#savetestmodalcontent').fadeOut(100);
 }
 
 var slideIndex = 1;
@@ -596,7 +602,10 @@ function populateListTestResult(){
 	var input = document.createElement("input");
 	input.type = "submit";
 	$("#listatest").append(input);
+	$("input[type='submit']").attr("class", "submitmodal2");
+	
 }
+
 
 
 function populateSelectDataSet(IDselect){
