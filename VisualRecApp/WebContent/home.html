@@ -161,86 +161,68 @@ swal({
   cancelButtonColor: '#d33',
   confirmButtonText: 'Yes, delete it!',
   cancelButtonText: 'No, cancel!',
-  confirmButtonClass: 'btn btn-success',
-  cancelButtonClass: 'btn btn-danger',
+  confirmButtonClass: 'import',
+  cancelButtonClass: 'import',
+  allowOutsideClick: false,
   buttonsStyling: false
 }).then(function () {
 
- swal(
-    'Deleted!',
-    'Your file has been deleted.',
-    'success'
-  )
-  
-//   dismiss="cancel";
-//   return dismiss;
-// 	$.ajax({
-// 		contentType: "application/json",
-// 		dataType: "json",
-// 		url: 'GetDeleteClassifier',
-// 		async: false,
-// 		success: function(result){
-			
-//   swal(
-//     'Deleted!',
-//     'Your file has been deleted.',
-//     'success'
-//   )
-  
-// 		}
-// 	});
-  
-}, function (dismiss) {
-  // dismiss can be 'cancel', 'overlay',
-  // 'close', and 'timer'
-  if (dismiss === 'overlay') {
-    swal(
-      'Cancelled',
-      'Your imaginary file is safe :)',
-      'error'
-    )
-  }
-})
+	$.ajax({
+								contentType : "application/json",
+								dataType : "json",
+								data : "classifierId=" + IDstring + "",
+								url : 'DeleteClassifier',
+								async : false,
+								success : function(result) {
+									swal('Deleted!',
+											'Your file has been deleted.',
+											'success')
+location.reload();
+								}
+							});
 
+						},
+						function(dismiss) {
+							// dismiss can be 'cancel', 'overlay',
+							// 'close', and 'timer'
+							if (dismiss === 'overlay') {
+								swal('Cancelled',
+										'Your imaginary file is safe :)',
+										'error')
+							}
+						})
 
+				// swal({
+				//   title: 'Are you sure?',
+				//   text: 'You are deleting classifier '+$(this).prop("id").substring(15) +". You won't be able to revert this!",
+				//   type: 'info',
+				//   showCancelButton: true,
+				//   confirmButtonColor: '#3085d6',
+				//   cancelButtonColor: '#d33',
+				//   confirmButtonText: 'Yes, delete it!'
+				// }).then(function () {
 
+				// 	$.ajax({
+				// 		contentType: "application/json",
+				// 		dataType: "json",
+				// 		url: 'GetDeleteClassifier',
+				// 		async: false,
+				// 		success: function(result){
 
+				//   swal(
+				//     'Deleted!',
+				//     'Your file has been deleted.',
+				//     'success'
+				//   )
 
+				// 		}
+				// 	}); 
 
+				// })
 
-// swal({
-//   title: 'Are you sure?',
-//   text: 'You are deleting classifier '+$(this).prop("id").substring(15) +". You won't be able to revert this!",
-//   type: 'info',
-//   showCancelButton: true,
-//   confirmButtonColor: '#3085d6',
-//   cancelButtonColor: '#d33',
-//   confirmButtonText: 'Yes, delete it!'
-// }).then(function () {
+			});
 
-// 	$.ajax({
-// 		contentType: "application/json",
-// 		dataType: "json",
-// 		url: 'GetDeleteClassifier',
-// 		async: false,
-// 		success: function(result){
-			
-//   swal(
-//     'Deleted!',
-//     'Your file has been deleted.',
-//     'success'
-//   )
-  
-// 		}
-// 	}); 
-
-
-// })
-
-     
-});
-
-//per vedere la galleria di immagini di un certo testset clickato
+	//per vedere la galleria di immagini di un certo testset clickato
 	$('body').on("click", "[id*=showdatasetID]", function() {
 
 		window.location.href = 'showgallery.html';
