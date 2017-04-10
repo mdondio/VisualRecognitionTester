@@ -881,9 +881,6 @@ function generateHome(){
 		url: 'GetClassifier',
 		async: false,
 		success: function(result){
-
-			console.log("*****************")
-			console.log(result)
 			//COMPUTE NUMBER FOR READY AND TRAINING
 			var ready = 0;
 			var training = 0;
@@ -898,7 +895,7 @@ function generateHome(){
 			}
 			$('#readyclass').html(ready);
 			$('#trainingclass').html(training);
-
+			$('#zombieclass').html(zombie);
 			//PRINT TABLE OF CLASSIFIERS
 			var label = [];
 			var n_img = [];
