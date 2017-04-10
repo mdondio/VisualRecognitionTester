@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
@@ -141,7 +142,7 @@ public class TelegramBot extends HttpServlet {
 
 		// https://api.telegram.org/bot000000000:AAAAa0aAA_aaA-Aaaa0A0Aa_a0aa0A0AAAA/sendmessage?text=Happy%20Little%20Clouds&chat_id=1111111111
 
-		URL u = new URL("https://api.telegram.org/" + apikey + "/sendmessage?chat_id=" + chat_id + "&text=" + text);
+		URL u = new URL("https://api.telegram.org/" + apikey + "/sendmessage?chat_id=" + chat_id + "&text=" + URLEncoder.encode(text, "UTF-8"));
 
 		HttpURLConnection con = (HttpURLConnection) u.openConnection();
 		con.setRequestMethod("GET");

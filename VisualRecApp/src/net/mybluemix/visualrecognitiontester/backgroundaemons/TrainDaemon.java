@@ -1,16 +1,18 @@
 package net.mybluemix.visualrecognitiontester.backgroundaemons;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 
 import com.cloudant.client.api.Database;
+import com.cloudant.client.api.model.FindByIndexOptions;
 import com.cloudant.client.api.model.Response;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassifier;
 
 import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.Job;
 import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.JobQueue;
-import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.TrainingInfo;
+import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.TrainingJobInfo;
 import net.mybluemix.visualrecognitiontester.blmxservices.CloudantClientMgr;
 import net.mybluemix.visualrecognitiontester.blmxservices.Configs;
 import net.mybluemix.visualrecognitiontester.blmxservices.ObjectStorage;
@@ -32,7 +34,7 @@ public class TrainDaemon implements Runnable {
 
 	// Setup context info
 	private ServletContext ctx;
-	private JobQueue<Job<TrainingInfo>> trainQueue;
+	private JobQueue<Job<TrainingJobInfo>> trainQueue;
 
 	public TrainDaemon(ServletContext ctx) {
 
@@ -43,7 +45,7 @@ public class TrainDaemon implements Runnable {
 
 	@SuppressWarnings("unchecked")
 	public void initialize() {
-		trainQueue = (JobQueue<Job<TrainingInfo>>) ctx.getAttribute("trainQueue");
+		trainQueue = (JobQueue<Job<TrainingJobInfo>>) ctx.getAttribute("trainQueue");
 	}
 
 	public void run() {
@@ -54,17 +56,25 @@ public class TrainDaemon implements Runnable {
 		while (true) {
 
 			// wait for a new job
-			Job<TrainingInfo> trainingJob = null;
+			Job<TrainingJobInfo> trainingJob = null;
 			try {
 				trainingJob = trainQueue.getJob();
 			} catch (InterruptedException e) {
 			}
 
-			Instance vr_instance = trainingJob.getObj().getInstance();
 			Dataset d = trainingJob.getObj().getDataset();
 
-			System.out.println("[TrainDaemon] Classifier received = " + trainingJob + ". Processing...");
+			System.out.println("[TrainDaemon] Received = " + trainingJob + ". Processing...");
 
+			// retrieve instance
+			Instance vr_instance = selectTargetInstance();
+
+			if (vr_instance == null) {
+				System.out.println("[TrainDaemon] Error: No vr_instances left to use!");
+				continue;
+			}
+			
+			
 			// 1 - Retrieve image from object storage and build zips
 			ObjectStorage oo = null;
 			try {
@@ -120,7 +130,7 @@ public class TrainDaemon implements Runnable {
 			// attenzione, se ho degli errori qui sotto cosa faccio?
 			// converrebbe fare un delete model nel dubbio cosi api key diventa
 			// "free"
-			updateCloudant(trainingJob.getObj(), wbc);
+			updateCloudant(vr_instance, trainingJob.getObj(), wbc);
 
 			// se non ho avuto errori sopra.. tutto ok!
 
@@ -128,21 +138,43 @@ public class TrainDaemon implements Runnable {
 		}
 	}
 
+	// Gets a free instance to use from cloudant
+	private Instance selectTargetInstance() {
+
+		Database db = CloudantClientMgr.getCloudantDB();
+
+		// retrieve all available instances (empty classifiers)
+		String selector = "{\"selector\": {\"type\": \"visual recognition instance\", \"classifiers\":[]}}";
+
+		//System.out.println(selector);
+		
+		// Limita i campi
+		FindByIndexOptions o = new FindByIndexOptions().fields("_id").fields("api_key");
+
+		// execute query
+		List<Instance> vr_instances = db.findByIndex(selector, Instance.class, o);
+
+		if (vr_instances.isEmpty())
+			return null;
+
+		// select fist
+		return vr_instances.get(0);
+	}
 	// XXX attenzione: potenzialmente non atomico.. occhio ad inconsistenza
 	// possibili
 	// meglio avere primo documento classificatore, poi inserirlo in instance
-	private void updateCloudant(TrainingInfo info, WatsonBinaryClassifier wbc) {
-		classifierInsert(info, wbc);
-		instanceUpdate(info, wbc);
+	private void updateCloudant(Instance instance, TrainingJobInfo info, WatsonBinaryClassifier wbc) {
+		classifierInsert(instance, info, wbc);
+		instanceUpdate(instance, info, wbc);
 	}
 
-	private void instanceUpdate(TrainingInfo info, WatsonBinaryClassifier wbc) {
+	private void instanceUpdate(Instance instance, TrainingJobInfo info, WatsonBinaryClassifier wbc) {
 
 		// get db connection
 		Database db = CloudantClientMgr.getCloudantDB();
 
 		// Get the instance from db
-		Instance i = db.find(Instance.class, info.getInstance().getId());
+		Instance i = db.find(Instance.class, instance.getId());
 
 		// add this classifier
 		i.addClassifier(wbc.getClassifierId());
@@ -153,14 +185,14 @@ public class TrainDaemon implements Runnable {
 		System.out.println("[TrainDaemon] Updated Instance, response: " + responseUpdate);
 	}
 
-	private void classifierInsert(TrainingInfo info, WatsonBinaryClassifier wbc) {
+	private void classifierInsert(Instance instance, TrainingJobInfo info, WatsonBinaryClassifier wbc) {
 
 		// TODO build classifier from wbc
 		// XXX capire se ho problemi a mettere un costruttore
 		Classifier c = new Classifier();
 		c.setId(wbc.getClassifierId());
 		c.setType("classifier");
-		c.setInstance(info.getInstance().getApiKey());
+		c.setInstance(instance.getApiKey());
 		c.setLabel(wbc.getLabel());
 		c.setTrainingSize(info.getDataset().getSize());
 		c.setStatus("training");

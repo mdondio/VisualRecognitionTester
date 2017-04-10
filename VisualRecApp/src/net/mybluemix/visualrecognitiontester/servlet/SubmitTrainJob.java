@@ -16,7 +16,7 @@ import com.google.gson.JsonObject;
 
 import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.Job;
 import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.JobQueue;
-import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.TrainingInfo;
+import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.TrainingJobInfo;
 import net.mybluemix.visualrecognitiontester.blmxservices.CloudantClientMgr;
 import net.mybluemix.visualrecognitiontester.datamodel.Dataset;
 import net.mybluemix.visualrecognitiontester.datamodel.Instance;
@@ -56,8 +56,10 @@ public class SubmitTrainJob extends HttpServlet {
 
 		// XXX promemoria: occhio a label in classifier e in dataset..
 
+		
+		
 		// Then, retrieve resources: instance
-		Instance vr_instance = selectTargetInstance();
+		Instance vr_instance = checkFreeVRInstance();
 
 		if (vr_instance == null) {
 			System.out.println("[SubmitTrainJob] No vr_instances left to use!");
@@ -85,9 +87,9 @@ public class SubmitTrainJob extends HttpServlet {
 		// Valid dataset and valid instance: we can pass to daemon!
 		ServletContext ctx = getServletContext();
 		@SuppressWarnings("unchecked")
-		JobQueue<Job<TrainingInfo>> trainQueue = (JobQueue<Job<TrainingInfo>>) ctx.getAttribute("trainQueue");
+		JobQueue<Job<TrainingJobInfo>> trainQueue = (JobQueue<Job<TrainingJobInfo>>) ctx.getAttribute("trainQueue");
 
-		trainQueue.addJob(new Job<TrainingInfo>(new TrainingInfo(vr_instance, dataset, label)));
+		trainQueue.addJob(new Job<TrainingJobInfo>(new TrainingJobInfo(dataset, label)));
 
 		// return answer
 		System.out.println("[SubmitTrainJob] Passed training job to daemon, returning asnwer to client");
@@ -122,11 +124,12 @@ public class SubmitTrainJob extends HttpServlet {
 		// execute query
 		List<Dataset> datasets = db.findByIndex(selector, Dataset.class, opt);
 
-		return datasets == null ? null : datasets.get(0);
+		return datasets.isEmpty() ? null : datasets.get(0);
 	}
 
+
 	// Gets a free instance to use from cloudant
-	private Instance selectTargetInstance() {
+	private Instance checkFreeVRInstance() {
 
 		Database db = CloudantClientMgr.getCloudantDB();
 
