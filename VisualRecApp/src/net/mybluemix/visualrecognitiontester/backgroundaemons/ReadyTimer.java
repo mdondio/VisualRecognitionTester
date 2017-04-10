@@ -79,11 +79,11 @@ public class ReadyTimer extends TimerTask {
 			// if ready, set to ready in cloudant
 			// and remove from queueù
 
-			if (c.getStatus() == "zombie" && isZombieClassifierReadyAgain(c)) {
+			if (c.getStatus().toLowerCase() == "zombie" && isZombieClassifierReadyAgain(c)) {
 				// if (isClassifierReadyAgain(classifier)) {
 				System.out.println("[ReadyTimer] zombie " + c.getID() + " became ready! Setting ready in cloudant!");
 				setReady(c.getID());
-			} else if (c.getStatus() == "training" && isTrainingClassifierReadyAgain(c)) {
+			} else if (c.getStatus().toLowerCase() == "training" && isTrainingClassifierReadyAgain(c)) {
 				// if (isClassifierReadyAgain(classifier)) {
 				System.out.println("[ReadyTimer] training " + c.getID() + " became ready! Setting ready in cloudant!");
 				setReady(c.getID());
