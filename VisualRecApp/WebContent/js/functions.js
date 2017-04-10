@@ -716,7 +716,7 @@ function addTable(IDelement,table){
 // variante tabella con solo la prima colonna evidenziata
 /**
  * @param IDelement div id where append the table
- * @param table expected structure of classifier {ID/label/training_size/status},
+ * @param table expected structure of classifier {_id/label/training_size/status} and first column of label
  * @returns
  */
 function addClassifierTable(IDelement,table){
@@ -744,10 +744,9 @@ function addClassifierTable(IDelement,table){
 				
 				td.style.width = "30px";
 				
-				for(var k=0;k<3 & table[i][j][k]!="";k++)
+				for(var k=0;k<(table[i][j]).length;k++)
 				{
 					var block = document.createElement('div');
-					
 					block.setAttribute("id",table[i][j][k]._id)
 					
 					block.addEventListener("click", function(){
@@ -777,25 +776,21 @@ function addClassifierTable(IDelement,table){
 				   							});
 									}
 							})
-});
-					if(table[i][j][k].status=="ready") block.className = 'smoothrectangle ready';
-					if(table[i][j][k].status=="training") block.className = 'smoothrectangle training';
-					if(table[i][j][k].status=="zombie") block.className = 'smoothrectangle zombie';			
+					});
+
+							block.setAttribute("class",'smoothrectangle '+table[i][j][k].status+'');
+							block.setAttribute("data-tooltip","ID: "+table[i][j][k]._id+" status:"+table[i][j][k].status+" - label:"+table[i][j][k].label);
 					
 					block.appendChild(document.createTextNode(table[i][j][k].training_size+"_"+"v"+k));
 					td.appendChild(block);
 				}
-				if(table[i][j][0]=="") td.appendChild(document.createTextNode(""));
+				if((table[i][j]).length==0) td.appendChild(document.createTextNode(""));
 				row.appendChild(td);
 			}
 		}
 		tableElement.appendChild(row);
 	}
 	document.getElementById(IDelement).appendChild(tableElement);
-	
-	$('.ready').attr("data-tooltip", "Classifier ready");	
-	$('.training').attr("data-tooltip", "Classifier training");
-	$('.zombie').attr("data-tooltip", "Classifier zombie");
 }
 
 /**
@@ -866,8 +861,8 @@ function generateHome(){
 			for (var i = 0; i < sizeRow; i++) {
 				matrix[i] = new Array(sizeCol);
 				for(var j = 0; j < sizeCol; j++){
-					matrix[i][j] = new Array(3);
-					for(var k = 0; k < 3; k++) matrix[i][j][k] = "";
+					matrix[i][j] = [];
+//					for(var k = 0; k < 3; k++) matrix[i][j][k] = "";
 				}
 			}
 
@@ -875,7 +870,7 @@ function generateHome(){
 			var print_table = new Array(sizeRow);
 			for (var i = 0; i < sizeRow; i++) {
 				print_table[i] = new Array(sizeCol+1);
-				for(var j=0;j<(sizeCol+1);j++) print_table[i][j] = new Array(3);
+				for(var j=0;j<(sizeCol+1);j++) print_table[i][j] = [];
 			}
 			//Riempimento della matrice più interna
 			for(var i in result)
@@ -883,16 +878,15 @@ function generateHome(){
 				var obj = result[i];
 				var n = label.indexOf(obj.label); //row
 				var m = n_img.indexOf(obj.training_size); //col
-				var k = matrix[n][m].indexOf("");
-				matrix[n][m][k]=obj;
+				var k = (matrix[n][m]).push(obj);
 			}
 			//inizializza header delle label
-			for(var i = 0; i < sizeRow; i++)	print_table[i][0][0] = label[i];
+			for(var i = 0; i < sizeRow; i++)	(print_table[i][0]).push(label[i]);
 			//for(var i = 0; i < sizeCol; i++) print_table[0][i+1][0] = n_img[i];
 			//imposta la matrice dei contenuti da stampare
 			for(var i = 0; i < sizeRow; i++)
 				for(var j = 0; j < sizeCol; j++)
-					for(var k = 0; k < 3; k++)
+					for(var k = 0; k < (matrix[i][j]).length; k++)
 						print_table[i][j+1][k] = matrix[i][j][k];
 
 			//add a table (idelement and table to print)
