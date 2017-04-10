@@ -64,6 +64,15 @@ public class ReadyTimer extends TimerTask {
         for(Classifier c : classifiers){
 			System.out.println("[ReadyTimer] Checking zombie classifierId " + c.getID() + "...");
 
+
+			// TODO
+			// TODO
+			// TODO
+			// TODO
+			// TODO
+			// TODO controllo per quelli che sono in training.. dovrei leggere i detail...
+			// invece per gli zombie va bene attuale controllo
+			
 			// if ready, set to ready in cloudant
 			// and remove from queueù
 			if (isClassifierReadyAgain(c)) {
