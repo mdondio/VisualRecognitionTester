@@ -31,20 +31,102 @@
 <div class="content">
 
 
-<form method="post" action="SubmitDataset" enctype="multipart/form-data">
-  <input name='positives[]' type="file" multiple>
-  <input name='negatives[]' type="file" multiple>
-  <input type="submit" value="Send">
-</form>
+<!-- <form method="post" action="SubmitDataset" enctype="multipart/form-data"> -->
+<!--   <input name='positives[]' type="file" multiple> -->
+<!--   <input name='negatives[]' type="file" multiple> -->
+<!--   <input type="submit" value="Send"> -->
+<!-- </form> -->
+<!-- <br><br><br> -->
 
 
-</div>
+
+			<form method="post" action="SubmitDataset"
+				enctype="multipart/form-data">
+				<p class='title left'>positive images</p>
+				<input type='file' id="filesPos" name="positives[]" multiple="multiple" />
+				<div id='previewImgPos'></div>
+				<p class='title left'>	negative images</p>
+				<input type='file' id="filesNeg" name="negatives[]" multiple="multiple" />
+				<div id='previewImgNeg'></div>
+				<input type="submit" value="Send">
+			</form>
+		</div>
+
 
 </body>
 
 
 <script>
 
+function handleFileSelectPos(evt) {
+    var files = evt.target.files; // FileList object
+
+    // Loop through the FileList and render image files as thumbnails.
+    for (var i = 0, f; f = files[i]; i++) {
+
+        // Only process image files.
+        if (!f.type.match('image.*')) {
+            continue;
+        }
+
+        var reader = new FileReader();
+
+        // Closure to capture the file information.
+        reader.onload = (function (theFile) {
+            return function (e) {
+                // Render thumbnail.
+                var span = document.createElement('span');
+                span.innerHTML = ['<img class="galleryimg" src="', e.target.result,
+                    '" title="', escape(theFile.name), '"/>'].join('');
+                document.getElementById('previewImgPos').insertBefore(span, null);
+            };
+        })(f);
+
+        // Read in the image file as a data URL.
+        reader.readAsDataURL(f);
+    }
+}
+
+
+function handleFileSelectNeg(evt) {
+    var files = evt.target.files; // FileList object
+
+    // Loop through the FileList and render image files as thumbnails.
+    for (var i = 0, f; f = files[i]; i++) {
+
+        // Only process image files.
+        if (!f.type.match('image.*')) {
+            continue;
+        }
+
+        var reader = new FileReader();
+
+        // Closure to capture the file information.
+        reader.onload = (function (theFile) {
+            return function (e) {
+                // Render thumbnail.
+                var span = document.createElement('span');
+                span.innerHTML = ['<img class="galleryimg" src="', e.target.result,
+                    '" title="', escape(theFile.name), '"/>'].join('');
+                document.getElementById('previewImgNeg').insertBefore(span, null);
+            };
+        })(f);
+
+        // Read in the image file as a data URL.
+        reader.readAsDataURL(f);
+    }
+}
+
+document.getElementById('filesPos').addEventListener('change', handleFileSelectPos, false);
+document.getElementById('filesNeg').addEventListener('change', handleFileSelectNeg, false);
+    
+    
+    
+    
+    $("#imgInp").change(function(){
+        readURL(this);
+    });
+    
 Dropzone.autoDiscover = false;
 
 var myDropzoneTheFirst = new Dropzone('#pos-element', {       
