@@ -674,50 +674,9 @@ function populateSelectSim(){
 }
 
 /**
- * @param IDelement: id dell'elemento html dove esporre la tabella
- * @param table: array[row][col][elements] che verrà esposta in formato tabella (per ogni coordinata si possono stampare fino a 3 elementi)
- * @returns aggiunge una tabella ad un elemento div basandosi sull'input di un array di array
- */
-function addTable(IDelement,table){
-	//Create a HTML Table element.
-	var tableElement = document.createElement('table');
-	var columnCount = table[0].length;
-	var rowCount = table.length;
-	//Add the data rows.
-	for (var i = 0; i < rowCount; i++) {
-		//row = tableElement.insertRow(-1);
-		var row = document.createElement('tr');
-		for (var j = 0; j < columnCount; j++) {
-
-			if(i==0 || j==0){
-				var txt = document.createTextNode(table[i][j][0]);
-				var th = document.createElement('th');
-				th.appendChild(txt);
-				row.appendChild(th);
-			}
-			else{
-				var td = document.createElement('td');
-				for(var k=0;k<3 & table[i][j][k]!="";k++)
-				{
-					var block = document.createElement('div');
-					block.className = 'block';
-					block.appendChild(document.createTextNode(table[i][j][k]));
-					td.appendChild(block);
-				}
-				if(table[i][j][0]=="") td.appendChild(document.createTextNode(table[i][j][0]));
-				row.appendChild(td);
-			}
-		}
-		tableElement.appendChild(row);
-	}
-	document.getElementById(IDelement).appendChild(tableElement);
-}
-
-// variante tabella con solo la prima colonna evidenziata
-/**
  * @param IDelement div id where append the table
  * @param table expected structure of classifier {_id/label/training_size/status} and first column of label
- * @returns
+ * @returns build the table
  */
 function addClassifierTable(IDelement,table){
 	//Create a HTML Table element.
@@ -794,8 +753,8 @@ function addClassifierTable(IDelement,table){
 }
 
 /**
- * @returns unica funzione che permette la costruzione della pagina home.html grazie a tre chiamate ajax
- * @help servlet interrogate: GetInstance, GetClassifier, GetDataset
+ * @returns Build the dashboard page
+ * @help servlet used: GetInstance, GetClassifier, GetDataset
  */
 function generateHome(){
 
@@ -825,7 +784,6 @@ function generateHome(){
 	$.ajax({
 		contentType: "application/json",
 		dataType: "json",
-//		url: "json/classifier2.json",
 		url: 'GetClassifier',
 		async: false,
 		success: function(result){
@@ -862,7 +820,6 @@ function generateHome(){
 				matrix[i] = new Array(sizeCol);
 				for(var j = 0; j < sizeCol; j++){
 					matrix[i][j] = [];
-//					for(var k = 0; k < 3; k++) matrix[i][j][k] = "";
 				}
 			}
 
@@ -882,7 +839,6 @@ function generateHome(){
 			}
 			//inizializza header delle label
 			for(var i = 0; i < sizeRow; i++)	(print_table[i][0]).push(label[i]);
-			//for(var i = 0; i < sizeCol; i++) print_table[0][i+1][0] = n_img[i];
 			//imposta la matrice dei contenuti da stampare
 			for(var i = 0; i < sizeRow; i++)
 				for(var j = 0; j < sizeCol; j++)
@@ -900,7 +856,6 @@ function generateHome(){
 	$.ajax({
 		contentType : "application/json",
 		dataType : "json",
-//		 url: "json/dataset.json",
 		url : 'GetDataset',
 		data : 'sub_type=test_set',
 		async : false,
@@ -916,107 +871,15 @@ function generateHome(){
 			}
 		}
 	});
-	
-	// **************************************************************************
-	//********* GET FROM THE SERVER TESTSET ***************************
-	//**************************************************************************
-//	$.ajax({
-//		contentType: "application/json",
-//		dataType: "json",
-//		//url: "json/dataset.json",
-//		url: 'GetDataset',
-//		data: 'sub_type=test_set',
-//		async: false,
-//		success: function(result){
-//			
-//			console.log(result);
-//for(var i in result)
-//	{
-//			var gallery = "TestSetHome"+result[i]._id;
-//			var myGallery = document.createElement("div");
-//			myGallery.setAttribute("class","post-preview");
-//			myGallery.setAttribute("id","gallery"+gallery);
-//			
-//			var myModal = document.createElement("div");	
-//			myModal.setAttribute("class", "modal");
-//			myModal.setAttribute("id", "myModal"+gallery);
-//			
-//			var modalContent = document.createElement("div");
-//			modalContent.setAttribute("class","modal-content");
-//			modalContent.setAttribute("id","modalcontent"+gallery);
-//			
-//			var mySpan = document.createElement("span");
-//			mySpan.setAttribute("class","close cursor");
-//			mySpan.addEventListener("click", function(event) {
-//				closeModal();
-//				event.preventDefault();
-//			});
-//			mySpan.appendChild(document.createTextNode("CLOSE"));
-//
-//			myModal.appendChild(mySpan);
-//			myModal.appendChild(modalContent);
-//			
-//			$('#testSetGallery').append(myGallery);
-//			$('#testSetGallery').append(myModal);
-//			
-//			showGallery(result[i].images.negative,gallery);		
-//		}
-//
-//		}
-//	});
-
 }
 
-function checkTestName() {
-	selectArray = Array.prototype.map.call($(".moltiplicandum input"),(function(el) {return el.value;}));
-	var sizeinput = selectArray.length;
-	var check = 1;
-	var num = 0;
-	for (var i = 0; i < sizeinput & check==1; i++) {
-		var num1 = i + 1;
-		var pass = $('input[name=test' + num1 + ']').val();
-		if(pass=="")
-			{
-			alert("Test name cannot be empty!");
-			check = 0;
-			}
-		for (var j = 0; j < sizeinput & check==1; j++) {
-			if (j != i) {
-				var num2 = j+1;
-				var repass = $('input[name=test' + num2 + ']').val();
-				if (pass == repass) {
-					console.log("*************")
-					console.log(pass)
-					console.log(repass)
-				console.log("*************")
-					alert("Different tests cannot have the same name!");
-					check = 0;
-				} 
-			}
-		}
-	}
-	return check;
-}
-
-function checkSelectedInput() {
-
-	selectArray = Array.prototype.map.call($(".moltiplicandum select"),
-			(function(el) {
-				return el.value;
-			}));
-	var check = 1;
-	var sizeinput = selectArray.length;
-
-	for (var i = 0; i < sizeinput & check==1; i++) {
-		if (selectArray[i] == "") {
-			alert("Test Set and Classifier must be selected for each test!");
-			check = 0;
-		}
-	}
-	return check;
-}
-
-
+/**
+ * @param IDappend div element where append the descriptive rectangle
+ * @param testname
+ * @param label
+ * @param classifier
+ * @returns create and append a descriptive area of a testresult
+ */
 function createBlockTest(IDappend,testname,label,classifier){
 	
 	var block = document.createElement("div");
@@ -1070,6 +933,10 @@ function createBlockTest(IDappend,testname,label,classifier){
 }
 
 
+/**
+ * @returns update all the fields of the result section (simulate.html - div id=showtest) starting from the JSON file stored in
+ * the localStorage area (resultJSON and listJSON)
+ */
 function printShowPage() {
 	
 	//carica i file da local storage
@@ -1112,6 +979,10 @@ function printShowPage() {
 	}
 }
 
+/**
+ * @returns update only the fields related to the single test of the result section (simulate.html - div id=showtest) starting from the JSON file stored in
+ * the localStorage area (resultJSON and listJSON)
+ */
 function updateTestFields() {
 	
 	//carica i file da local storage
@@ -1131,15 +1002,15 @@ function updateTestFields() {
 }
 
 
+/**
+ * @returns call the SubmitTrainJob servlet to start training of e new classifier (a datasetid and a label must be already selected)
+ */
 function startTrain(){
 	
-	datasetId = $("#labelselected").val();
-	label = $("#labelselected").html();
-	console.log("**** dataset *****");
-	console.log(datasetId)
-	console.log("**** label *****");
-	console.log(label)
-	
+	var datasetId = $("#labelselected").val();
+	var label = $("#labelselected").html();
+	if(datasetId & label)
+		{
  	$.ajax({
 		contentType : "application/json",
 		dataType : "json",
@@ -1152,5 +1023,10 @@ function startTrain(){
 					'success').then(function(){window.location.href="home.html"})
 		}
 	});
- 	
+		}else{
+			swal({
+				title: 'Warning',
+				text: 'You have to select a valid dataset of images!',
+				type: 'warning',});
+		} 	
 }
