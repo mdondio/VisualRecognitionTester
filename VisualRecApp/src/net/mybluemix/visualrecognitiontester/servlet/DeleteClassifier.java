@@ -104,7 +104,6 @@ public class DeleteClassifier extends HttpServlet {
 	// retrieve api key of this classifier
 	private String retrieveInstanceApiKey(String classifierId) {
 
-		// Ricevi get con parametro sub_type
 		Database db = CloudantClientMgr.getCloudantDB();
 
 		// Condizione

@@ -127,7 +127,6 @@ public class GetTestResult extends HttpServlet {
 	// XXX ottimizza e recupera tutti i testSet indicati con una sola query
 	private Dataset retrieveTestSet(String id) {
 
-		// Ricevi get con parametro sub_type
 		Database db = CloudantClientMgr.getCloudantDB();
 
 		// Condizione
@@ -144,7 +143,6 @@ public class GetTestResult extends HttpServlet {
 
 	// Recupera il classificatore
 	private Classifier retrieveClassifier(String id) {
-		// Ricevi get con parametro sub_type
 		Database db = CloudantClientMgr.getCloudantDB();
 
 		// Condizione

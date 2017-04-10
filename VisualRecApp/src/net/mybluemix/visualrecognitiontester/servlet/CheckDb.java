@@ -51,7 +51,6 @@ public class CheckDb extends HttpServlet {
 	}
 
 	private void allClassifiersContained() {
-		// Ricevi get con parametro sub_type
 		Database db = CloudantClientMgr.getCloudantDB();
 
 		// Condizione
@@ -90,7 +89,6 @@ public class CheckDb extends HttpServlet {
 	
 	private void allInstancesMapped() {
 		
-		// Ricevi get con parametro sub_type
 		Database db = CloudantClientMgr.getCloudantDB();
 
 		// Condizione

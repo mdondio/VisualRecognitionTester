@@ -111,8 +111,6 @@ public class SubmitTrainJob extends HttpServlet {
 
 	// retrieve datsaset to use for training
 	private Dataset retrieveTrainingSet(String id) {
-
-		// Ricevi get con parametro sub_type
 		Database db = CloudantClientMgr.getCloudantDB();
 
 		// Condizione
