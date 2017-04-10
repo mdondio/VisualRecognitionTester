@@ -1,3 +1,269 @@
+
+/**
+ * @returns save locally the result file depending on the checkboxes selected
+ */
+function printTestResults(){
+	
+	var checkedValue = Array.prototype.map.call($(".formcheckbox:checked"),(function(el) {return el.value;}));
+	var result = JSON.parse(localStorage.getItem("resultJSON"));
+	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
+	var count=0;
+	
+	//costruisco il JSON da stampare
+	directJSON = [];
+    for(var i in result){
+    	var objtest = testdetails[i];
+    	var obj = result[i];
+    	if(objtest.name==checkedValue[count])
+    		{
+    		directJSON.push(obj); 
+    		count++;
+    		}
+    }
+
+    var json = JSON.stringify(directJSON);
+    var blob = new Blob([json], {type: "application/json"});
+    saveAs(blob, "TestResult.json");
+    closeModal2();
+}
+
+function populateListTestResult(){
+	$("#listatest").empty();
+	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
+	
+	for(var i in testdetails){
+		var obj = testdetails[i];
+		var label = document.createElement("label");
+		var input = document.createElement("input");
+		var linebreak = document.createElement("br");
+		
+		
+		input.value = obj.name;
+		input.type = "checkbox";
+		input.setAttribute("class","formcheckbox")
+		label.appendChild(input);
+		label.appendChild(document.createTextNode("  "+obj.name));
+
+		$("#listatest").append(label);
+		$("#listatest").append(linebreak);
+	}
+	
+	var input = document.createElement("input");
+	input.type = "submit";
+	$("#listatest").append(input);
+	$("input[type='submit']").attr("class", "submitmodal2");
+	
+}
+
+/**
+ * @param IDelement div id where append the table
+ * @param table expected structure of classifier {_id/label/training_size/status} and first column of label
+ * @returns build the table
+ */
+function addClassifierTable(IDelement,table){
+	//Create a HTML Table element.
+	var tableElement = document.createElement('table');
+	var columnCount = table[0].length;
+	var rowCount = table.length;
+	//Add the data rows.
+	for (var i = 0; i < rowCount; i++) {
+		//row = tableElement.insertRow(-1);
+		var row = document.createElement('tr');
+		for (var j = 0; j < columnCount; j++) {
+
+			if(j==0){
+				var txt = document.createTextNode(table[i][j][0]);
+				var th = document.createElement('th');
+				th.style.width = "30px";
+				var block = document.createElement('div');
+				block.appendChild(txt);
+				th.appendChild(block);
+				row.appendChild(th); 
+			}
+			else{
+				var td = document.createElement('td');
+				
+				td.style.width = "30px";
+				
+				for(var k=0;k<(table[i][j]).length;k++)
+				{
+					var block = document.createElement('div');
+					block.setAttribute("id",table[i][j][k]._id)
+					
+					block.addEventListener("click", function(){
+						var IDstring = $(this).prop("id");
+						swal({
+							  title: 'Are you sure?',
+							  text: 'You are deleting this classifier (ID: '+IDstring +"). You won't be able to revert this!",
+							  type: 'warning',
+							  showCancelButton: true,
+							  confirmButtonColor: '#3085d6',
+							  cancelButtonColor: '#d33',
+							  confirmButtonText: 'Yes, delete it!',
+							  cancelButtonText: 'No, cancel!'
+							}).then(function (isConfirm) {
+							  
+								if(isConfirm)
+									{
+									$.ajax({
+										   		contentType : "application/json",
+										   		dataType : "json",
+										   		data : "classifierId=" + IDstring + "",
+										   		url : 'DeleteClassifier',
+										   		async : false,
+										   		success : function(result) {
+						   									swal('Deleted!','Classifier (ID: '+IDstring+') has been deleted.','success').then(function(){location.reload();})
+							   								}
+				   							});
+									}
+							})
+					});
+
+							block.setAttribute("class",'smoothrectangle '+table[i][j][k].status+'');
+							block.setAttribute("data-tooltip","ID: "+table[i][j][k]._id+" status:"+table[i][j][k].status+" - label:"+table[i][j][k].label);
+					
+					block.appendChild(document.createTextNode(table[i][j][k].training_size+"_"+"v"+k));
+					td.appendChild(block);
+				}
+				if((table[i][j]).length==0) td.appendChild(document.createTextNode(""));
+				row.appendChild(td);
+			}
+		}
+		tableElement.appendChild(row);
+	}
+	document.getElementById(IDelement).appendChild(tableElement);
+}
+
+
+
+/**
+ * @param IDappend div element where append the descriptive rectangle
+ * @param testname
+ * @param label
+ * @param classifier
+ * @returns create and append a descriptive area of a testresult
+ */
+function createBlockTest(IDappend,testname,label,classifier){
+	
+	var block = document.createElement("div");
+	block.setAttribute("class","blocktest");
+	
+//	======================
+	var blocktest = document.createElement("div");
+	blocktest.setAttribute("class","blocktestattribute");
+	
+	var pblockT1 = document.createElement("p");
+	pblockT1.setAttribute("class","smalltitle");
+	pblockT1.appendChild(document.createTextNode(testname));
+	
+	var pblockP1 = document.createElement("p");
+	pblockP1.setAttribute("class","paragraph");
+	pblockP1.appendChild(document.createTextNode("LABEL: "+label));
+	
+	var pblockP2 = document.createElement("p");
+	pblockP2.setAttribute("class","paragraph");	
+	pblockP2.appendChild(document.createTextNode("CLASSIFIER: "+classifier));
+	
+	blocktest.appendChild(pblockT1);
+	blocktest.appendChild(pblockP1);
+	blocktest.appendChild(pblockP2);
+//	===========================
+	var blockicon1 = document.createElement("div");
+	blockicon1.setAttribute("class","blocktesticon");
+	
+	var icon1 = document.createElement("img");
+	icon1.setAttribute("class","icon verysmall blocktest");
+	icon1.setAttribute("src","ico/garbageDARK.png");
+	icon1.setAttribute("id","garbage"+testname);
+	
+	blockicon1.appendChild(icon1);
+	
+	var blockicon2 = document.createElement("div");
+	blockicon2.setAttribute("class","blocktesticon");
+	
+	var icon2 = document.createElement("img");
+	icon2.setAttribute("class","icon verysmall blocktest");
+	icon2.setAttribute("src","ico/plus-symbol.png");
+	icon2.setAttribute("id","plus"+testname);
+	
+	blockicon2.appendChild(icon2);
+//	===========================
+	block.appendChild(blocktest);
+	block.appendChild(blockicon1);
+	block.appendChild(blockicon2);
+	
+	$("#"+IDappend+"").append(block);
+}
+
+
+/**
+ * @returns update all the fields of the result section (simulate.html - div id=showtest) starting from the JSON file stored in
+ * the localStorage area (resultJSON and listJSON)
+ */
+function printShowPage() {
+	
+	//carica i file da local storage
+	var result = JSON.parse(localStorage.getItem("resultJSON"));
+	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
+
+	//verifica che non ci siano vuoti e costruisce il select test panel
+	var testcount = 0;
+	for ( var j in result) {
+		var obj = result[j];
+		if (obj.ID == null) {
+			swal({
+				title : "Warning",
+				imageUrl : "img/tired.png",
+				text : "Classifier "
+						+ testdetails[testcount].classifier
+						+ " is exhausted. Wait 24h and you will regain your free API calls",
+			});
+		} else {
+			$('#show_test').append($('<option>', {
+				value : testdetails[testcount].name,
+				text : testdetails[testcount].name
+			}));
+		}
+		testcount++;
+	}
+
+	//disegna i grafici comuni a più test
+	Draw(result);
+
+	//disegna gli oggetti dipendenti dal test selezionato
+	var testname = $("#show_test").val();
+	for ( var j in testdetails) {
+		if (testdetails[j].name == testname) {
+			setParameters(result[j]);
+			showGallery(result[j].falseNegativeOpt, "FN");
+			showGallery(result[j].falsePositiveOpt, "FP");
+			DrawHistogram(result[j].histogramNegative,result[j].histogramPositive);
+		}
+	}
+}
+
+/**
+ * @returns update only the fields related to the single test of the result section (simulate.html - div id=showtest) starting from the JSON file stored in
+ * the localStorage area (resultJSON and listJSON)
+ */
+function updateTestFields() {
+	
+	//carica i file da local storage
+	var result = JSON.parse(localStorage.getItem("resultJSON"));
+	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
+
+	//disegna gli oggetti dipendenti dal test selezionato
+	var testname = $("#show_test").val();
+	for ( var j in testdetails) {
+		if (testdetails[j].name == testname) {
+			setParameters(result[j]);
+			showGallery(result[j].falseNegativeOpt, "FN");
+			showGallery(result[j].falsePositiveOpt, "FP");
+			DrawHistogram(result[j].histogramNegative,result[j].histogramPositive);
+		}
+	}
+}
+
 /**
  * @param filename nome del file json dove raccogliere le info per disegnare la ROC curves e la AUC
  * @returns disegna i grafici dentro gli elementi html con ID graph1 e graph2
@@ -776,268 +1042,3 @@ function startTrain(){
  * ========================= END OF AJAX CALLS =================================
  * ==============================================================================
 */
-
-/**
- * @returns save locally the result file depending on the checkboxes selected
- */
-function printTestResults(){
-	
-	var checkedValue = Array.prototype.map.call($(".formcheckbox:checked"),(function(el) {return el.value;}));
-	var result = JSON.parse(localStorage.getItem("resultJSON"));
-	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
-	var count=0;
-	
-	//costruisco il JSON da stampare
-	directJSON = [];
-    for(var i in result){
-    	var objtest = testdetails[i];
-    	var obj = result[i];
-    	if(objtest.name==checkedValue[count])
-    		{
-    		directJSON.push(obj); 
-    		count++;
-    		}
-    }
-
-    var json = JSON.stringify(directJSON);
-    var blob = new Blob([json], {type: "application/json"});
-    saveAs(blob, "TestResult.json");
-    closeModal2();
-}
-
-function populateListTestResult(){
-	$("#listatest").empty();
-	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
-	
-	for(var i in testdetails){
-		var obj = testdetails[i];
-		var label = document.createElement("label");
-		var input = document.createElement("input");
-		var linebreak = document.createElement("br");
-		
-		
-		input.value = obj.name;
-		input.type = "checkbox";
-		input.setAttribute("class","formcheckbox")
-		label.appendChild(input);
-		label.appendChild(document.createTextNode("  "+obj.name));
-
-		$("#listatest").append(label);
-		$("#listatest").append(linebreak);
-	}
-	
-	var input = document.createElement("input");
-	input.type = "submit";
-	$("#listatest").append(input);
-	$("input[type='submit']").attr("class", "submitmodal2");
-	
-}
-
-/**
- * @param IDelement div id where append the table
- * @param table expected structure of classifier {_id/label/training_size/status} and first column of label
- * @returns build the table
- */
-function addClassifierTable(IDelement,table){
-	//Create a HTML Table element.
-	var tableElement = document.createElement('table');
-	var columnCount = table[0].length;
-	var rowCount = table.length;
-	//Add the data rows.
-	for (var i = 0; i < rowCount; i++) {
-		//row = tableElement.insertRow(-1);
-		var row = document.createElement('tr');
-		for (var j = 0; j < columnCount; j++) {
-
-			if(j==0){
-				var txt = document.createTextNode(table[i][j][0]);
-				var th = document.createElement('th');
-				th.style.width = "30px";
-				var block = document.createElement('div');
-				block.appendChild(txt);
-				th.appendChild(block);
-				row.appendChild(th); 
-			}
-			else{
-				var td = document.createElement('td');
-				
-				td.style.width = "30px";
-				
-				for(var k=0;k<(table[i][j]).length;k++)
-				{
-					var block = document.createElement('div');
-					block.setAttribute("id",table[i][j][k]._id)
-					
-					block.addEventListener("click", function(){
-						var IDstring = $(this).prop("id");
-						swal({
-							  title: 'Are you sure?',
-							  text: 'You are deleting this classifier (ID: '+IDstring +"). You won't be able to revert this!",
-							  type: 'warning',
-							  showCancelButton: true,
-							  confirmButtonColor: '#3085d6',
-							  cancelButtonColor: '#d33',
-							  confirmButtonText: 'Yes, delete it!',
-							  cancelButtonText: 'No, cancel!'
-							}).then(function (isConfirm) {
-							  
-								if(isConfirm)
-									{
-									$.ajax({
-										   		contentType : "application/json",
-										   		dataType : "json",
-										   		data : "classifierId=" + IDstring + "",
-										   		url : 'DeleteClassifier',
-										   		async : false,
-										   		success : function(result) {
-						   									swal('Deleted!','Classifier (ID: '+IDstring+') has been deleted.','success').then(function(){location.reload();})
-							   								}
-				   							});
-									}
-							})
-					});
-
-							block.setAttribute("class",'smoothrectangle '+table[i][j][k].status+'');
-							block.setAttribute("data-tooltip","ID: "+table[i][j][k]._id+" status:"+table[i][j][k].status+" - label:"+table[i][j][k].label);
-					
-					block.appendChild(document.createTextNode(table[i][j][k].training_size+"_"+"v"+k));
-					td.appendChild(block);
-				}
-				if((table[i][j]).length==0) td.appendChild(document.createTextNode(""));
-				row.appendChild(td);
-			}
-		}
-		tableElement.appendChild(row);
-	}
-	document.getElementById(IDelement).appendChild(tableElement);
-}
-
-
-
-/**
- * @param IDappend div element where append the descriptive rectangle
- * @param testname
- * @param label
- * @param classifier
- * @returns create and append a descriptive area of a testresult
- */
-function createBlockTest(IDappend,testname,label,classifier){
-	
-	var block = document.createElement("div");
-	block.setAttribute("class","blocktest");
-	
-//	======================
-	var blocktest = document.createElement("div");
-	blocktest.setAttribute("class","blocktestattribute");
-	
-	var pblockT1 = document.createElement("p");
-	pblockT1.setAttribute("class","smalltitle");
-	pblockT1.appendChild(document.createTextNode(testname));
-	
-	var pblockP1 = document.createElement("p");
-	pblockP1.setAttribute("class","paragraph");
-	pblockP1.appendChild(document.createTextNode("LABEL: "+label));
-	
-	var pblockP2 = document.createElement("p");
-	pblockP2.setAttribute("class","paragraph");	
-	pblockP2.appendChild(document.createTextNode("CLASSIFIER: "+classifier));
-	
-	blocktest.appendChild(pblockT1);
-	blocktest.appendChild(pblockP1);
-	blocktest.appendChild(pblockP2);
-//	===========================
-	var blockicon1 = document.createElement("div");
-	blockicon1.setAttribute("class","blocktesticon");
-	
-	var icon1 = document.createElement("img");
-	icon1.setAttribute("class","icon verysmall blocktest");
-	icon1.setAttribute("src","ico/garbageDARK.png");
-	icon1.setAttribute("id","garbage"+testname);
-	
-	blockicon1.appendChild(icon1);
-	
-	var blockicon2 = document.createElement("div");
-	blockicon2.setAttribute("class","blocktesticon");
-	
-	var icon2 = document.createElement("img");
-	icon2.setAttribute("class","icon verysmall blocktest");
-	icon2.setAttribute("src","ico/plus-symbol.png");
-	icon2.setAttribute("id","plus"+testname);
-	
-	blockicon2.appendChild(icon2);
-//	===========================
-	block.appendChild(blocktest);
-	block.appendChild(blockicon1);
-	block.appendChild(blockicon2);
-	
-	$("#"+IDappend+"").append(block);
-}
-
-
-/**
- * @returns update all the fields of the result section (simulate.html - div id=showtest) starting from the JSON file stored in
- * the localStorage area (resultJSON and listJSON)
- */
-function printShowPage() {
-	
-	//carica i file da local storage
-	var result = JSON.parse(localStorage.getItem("resultJSON"));
-	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
-
-	//verifica che non ci siano vuoti e costruisce il select test panel
-	var testcount = 0;
-	for ( var j in result) {
-		var obj = result[j];
-		if (obj.ID == null) {
-			swal({
-				title : "Warning",
-				imageUrl : "img/tired.png",
-				text : "Classifier "
-						+ testdetails[testcount].classifier
-						+ " is exhausted. Wait 24h and you will regain your free API calls",
-			});
-		} else {
-			$('#show_test').append($('<option>', {
-				value : testdetails[testcount].name,
-				text : testdetails[testcount].name
-			}));
-		}
-		testcount++;
-	}
-
-	//disegna i grafici comuni a più test
-	Draw(result);
-
-	//disegna gli oggetti dipendenti dal test selezionato
-	var testname = $("#show_test").val();
-	for ( var j in testdetails) {
-		if (testdetails[j].name == testname) {
-			setParameters(result[j]);
-			showGallery(result[j].falseNegativeOpt, "FN");
-			showGallery(result[j].falsePositiveOpt, "FP");
-			DrawHistogram(result[j].histogramNegative,result[j].histogramPositive);
-		}
-	}
-}
-
-/**
- * @returns update only the fields related to the single test of the result section (simulate.html - div id=showtest) starting from the JSON file stored in
- * the localStorage area (resultJSON and listJSON)
- */
-function updateTestFields() {
-	
-	//carica i file da local storage
-	var result = JSON.parse(localStorage.getItem("resultJSON"));
-	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
-
-	//disegna gli oggetti dipendenti dal test selezionato
-	var testname = $("#show_test").val();
-	for ( var j in testdetails) {
-		if (testdetails[j].name == testname) {
-			setParameters(result[j]);
-			showGallery(result[j].falseNegativeOpt, "FN");
-			showGallery(result[j].falsePositiveOpt, "FP");
-			DrawHistogram(result[j].histogramNegative,result[j].histogramPositive);
-		}
-	}
-}
