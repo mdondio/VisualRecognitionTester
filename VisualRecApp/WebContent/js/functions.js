@@ -502,30 +502,6 @@ function createGallery(idTOappend,images,idgallery)
 	}
 //--------------------------------------------------------------------------
 
-//TODO commentare
-//GET DATA TO SHOW: questa dovrebbe essere la funzione che lega la richiesta dei test da mostrare in show.html???
-//function getDataShow(){
-//
-//	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
-//	// ajax call to backend
-//	$.ajax(
-//			{
-//				url: "json/helicopter_test.json",
-////				url: 'GetTestResult',
-//				type: 'GET',
-//				data:{ array: finalJSON },
-//				dataType: 'json',
-//				success: function(result)
-//				{
-//					$("#waiting").fadeOut(1000);
-//					$("#showtest").fadeIn(2000);
-//					localStorage.setItem("resultJSON", JSON.stringify(result));
-//					printShowPage();
-//				}
-//			});
-//
-//}
-
 
 /**
  * @returns prepara il file JSON con gli input e richiama la funzione getDataShow() per ottenere i risultati dal backend
@@ -621,7 +597,31 @@ function populateListTestResult(){
 }
 
 
+function populateSelectDataSet(IDselect){
+	
+	// chiamata per popolare il menu a tendina dei testset nella pagina simulate.html
+	$.ajax({													
+		dataType: "json",
+		//url: "json/testset.json",
+		url: 'GetDataset',
+		data: 'sub_type=test_set',
+		async: false,
+		success: function(result)
+		{
+			// fill test set and cathegory drop down menu (only if status: ready)
+			for(var i in result){
+				var obj = result[i];
+	
+					$("#"+IDselect).append($('<option>', {
+						value: obj._id,
+						text: obj.label+" "+ (obj.images.positive.length + obj.images.negative.length)
+					}));
+			}
 
+		}
+	});
+	
+}
 /**
  * @returns popola i menu a tendina della pagine di set-up
  */
@@ -1187,18 +1187,25 @@ function updateTestFields() {
 }
 
 
-function deleteClassifierAjax(IDstring){
+function startTrain(){
+	
+	datasetId = $("#labelselected").val();
+	label = $("#labelselected").html();
+	console.log("**** dataset *****");
+	console.log(datasetId)
+	console.log("**** label *****");
+	console.log(label)
 	
  	$.ajax({
 		contentType : "application/json",
 		dataType : "json",
-		data : "classifierId=" + IDstring + "",
-		url : 'DeleteClassifier',
+		data : "datasetId=" + datasetId + "&label="+label,
+		url : 'SubmitTrainJob',
 		async : false,
 		success : function(result) {
-//			swal('Deleted!',
-//					'Your file has been deleted.',
-//					'success')
+			swal('Trained!',
+					'Your classifier has been trained!',
+					'success').then(function(){window.location.href="home.html"})
 		}
 	});
  	
