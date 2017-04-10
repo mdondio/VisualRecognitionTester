@@ -754,7 +754,7 @@ function addTableColumn(IDelement,table,trainingsize){
 		for (var j = 0; j < columnCount; j++) {
 
 			if(j==0){
-				var txt = document.createTextNode(table[i][j][0].label);
+				var txt = document.createTextNode(table[i][j][0]);
 				var th = document.createElement('th');
 				th.style.width = "30px";
 				var block = document.createElement('div');
@@ -769,6 +769,34 @@ function addTableColumn(IDelement,table,trainingsize){
 				{
 					var block = document.createElement('div');
 					block.setAttribute("id","classifierReady"+table[i][j][k]._id)
+					block.addEventListener("click", function(){
+						var IDstring = $(this).prop("id").substring(15);
+						swal({
+							  title: 'Are you sure?',
+							  text: 'You are deleting this classifier (ID: '+IDstring +"). You won't be able to revert this!",
+							  type: 'warning',
+							  showCancelButton: true,
+							  confirmButtonColor: '#3085d6',
+							  cancelButtonColor: '#d33',
+							  confirmButtonText: 'Yes, delete it!',
+							  cancelButtonText: 'No, cancel!'
+							}).then(function (isConfirm) {
+							  
+								if(isConfirm)
+									{
+									$.ajax({
+										   		contentType : "application/json",
+										   		dataType : "json",
+										   		data : "classifierId=" + IDstring + "",
+										   		url : 'DeleteClassifier',
+										   		async : false,
+										   		success : function(result) {
+						   									swal('Deleted!','Classifier (ID: '+IDstring+') has been deleted.','success').then(function(){location.reload();})
+							   								}
+				   							});
+									}
+							})
+});
 					if(table[i][j][k].status=="ready") block.className = 'smoothrectangle ready';
 					if(table[i][j][k].status=="training") block.className = 'smoothrectangle training';
 					if(table[i][j][k].status=="zombie") block.className = 'smoothrectangle zombie';			
@@ -881,7 +909,6 @@ function generateHome(){
 				if(n_img.indexOf(obj.training_size) == -1) n_img.push(obj.training_size);
 			}
 			n_img.sort(function(a, b){return a - b;});
-			
 			//Inizializzazione matrice dei classificatori
 			var sizeRow=label.length;
 			var sizeCol=n_img.length;
@@ -1157,4 +1184,22 @@ function updateTestFields() {
 			DrawHistogram(result[j].histogramNegative,result[j].histogramPositive);
 		}
 	}
+}
+
+
+function deleteClassifierAjax(IDstring){
+	
+ 	$.ajax({
+		contentType : "application/json",
+		dataType : "json",
+		data : "classifierId=" + IDstring + "",
+		url : 'DeleteClassifier',
+		async : false,
+		success : function(result) {
+//			swal('Deleted!',
+//					'Your file has been deleted.',
+//					'success')
+		}
+	});
+ 	
 }
