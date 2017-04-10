@@ -67,23 +67,15 @@ public class ReadyTimer extends TimerTask {
 		for (Classifier c : classifiers) {
 			System.out.println("[ReadyTimer] Checking classifierId " + c.getID() + "...");
 
-			// TODO
-			// TODO
-			// TODO
-			// TODO
-			// TODO
-			// TODO controllo per quelli che sono in training.. dovrei leggere i
-			// detail...
-			// invece per gli zombie va bene attuale controllo
-
+			String status = c.getStatus().toLowerCase();
+			
 			// if ready, set to ready in cloudant
 			// and remove from queueù
-
-			if (c.getStatus().toLowerCase() == "zombie" && isZombieClassifierReadyAgain(c)) {
+			if (status.equals("zombie") && isZombieClassifierReadyAgain(c)) {
 				// if (isClassifierReadyAgain(classifier)) {
 				System.out.println("[ReadyTimer] zombie " + c.getID() + " became ready! Setting ready in cloudant!");
 				setReady(c.getID());
-			} else if (c.getStatus().toLowerCase() == "training" && isTrainingClassifierReadyAgain(c)) {
+			} else if (status.equals("training") && isTrainingClassifierReadyAgain(c)) {
 				// if (isClassifierReadyAgain(classifier)) {
 				System.out.println("[ReadyTimer] training " + c.getID() + " became ready! Setting ready in cloudant!");
 				setReady(c.getID());
