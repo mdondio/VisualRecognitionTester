@@ -65,7 +65,7 @@ public class ReadyTimer extends TimerTask {
 		List<Classifier> classifiers = db.findByIndex(selector, Classifier.class, o);
 
 		for (Classifier c : classifiers) {
-			System.out.println("[ReadyTimer] Checking zombie classifierId " + c.getID() + "...");
+			System.out.println("[ReadyTimer] Checking classifierId " + c.getID() + "...");
 
 			// TODO
 			// TODO
