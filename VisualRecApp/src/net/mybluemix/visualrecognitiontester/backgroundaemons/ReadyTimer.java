@@ -15,6 +15,9 @@ import javax.servlet.ServletContext;
 import com.cloudant.client.api.Database;
 import com.cloudant.client.api.model.FindByIndexOptions;
 import com.cloudant.client.api.model.Response;
+import com.ibm.watson.developer_cloud.visual_recognition.v3.VisualRecognition;
+import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassifier;
+import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassifier.Status;
 
 import net.mybluemix.visualrecognitiontester.blmxservices.CloudantClientMgr;
 import net.mybluemix.visualrecognitiontester.blmxservices.Configs;
@@ -27,11 +30,11 @@ import net.mybluemix.visualrecognitiontester.datamodel.Classifier;
 
 /**
  * This daemon runs periodically to test all non ready classifiers.
+ * 
  * @author Marco Dondio
  *
  */
 public class ReadyTimer extends TimerTask {
-
 
 	public ReadyTimer(ServletContext ctx) {
 	}
@@ -50,37 +53,42 @@ public class ReadyTimer extends TimerTask {
 	private void checkClassifiers() throws IOException {
 
 		Database db = CloudantClientMgr.getCloudantDB();
-		
+
 		// retrieve all non ready classifiers
 		String selector = "{\"selector\": {\"type\":\"classifier\", \"status\":{\"$ne\":\"ready\"}}}";
 
-        // Limita i campi
-        FindByIndexOptions o = new FindByIndexOptions()
-        	 .fields("_id").fields("label").fields("instance").fields("zombie_since");
-        
-        // execute query
-        List<Classifier> classifiers = db.findByIndex(selector, Classifier.class, o);
-    
-        for(Classifier c : classifiers){
+		// Limita i campi
+		FindByIndexOptions o = new FindByIndexOptions().fields("_id").fields("label").fields("status")
+				.fields("instance").fields("zombie_since");
+
+		// execute query
+		List<Classifier> classifiers = db.findByIndex(selector, Classifier.class, o);
+
+		for (Classifier c : classifiers) {
 			System.out.println("[ReadyTimer] Checking zombie classifierId " + c.getID() + "...");
 
-
 			// TODO
 			// TODO
 			// TODO
 			// TODO
 			// TODO
-			// TODO controllo per quelli che sono in training.. dovrei leggere i detail...
+			// TODO controllo per quelli che sono in training.. dovrei leggere i
+			// detail...
 			// invece per gli zombie va bene attuale controllo
-			
+
 			// if ready, set to ready in cloudant
 			// and remove from queueù
-			if (isClassifierReadyAgain(c)) {
-				//if (isClassifierReadyAgain(classifier)) {
-				System.out.println("[ReadyTimer] " + c.getID()
-						+ " became ready! Setting ready in cloudant!");
+
+			if (c.getStatus() == "zombie" && isZombieClassifierReadyAgain(c)) {
+				// if (isClassifierReadyAgain(classifier)) {
+				System.out.println("[ReadyTimer] zombie " + c.getID() + " became ready! Setting ready in cloudant!");
+				setReady(c.getID());
+			} else if (c.getStatus() == "training" && isTrainingClassifierReadyAgain(c)) {
+				// if (isClassifierReadyAgain(classifier)) {
+				System.out.println("[ReadyTimer] training " + c.getID() + " became ready! Setting ready in cloudant!");
 				setReady(c.getID());
 			}
+
 		}
 
 	}
@@ -114,7 +122,7 @@ public class ReadyTimer extends TimerTask {
 		return bos.toByteArray();
 	}
 
-	private boolean isClassifierReadyAgain(Classifier c) throws IOException {
+	private boolean isZombieClassifierReadyAgain(Classifier c) throws IOException {
 
 		// Get instance
 		ObjectStorage oo = ObjectStorageClientMgr.getObjectStorage();
@@ -127,7 +135,7 @@ public class ReadyTimer extends TimerTask {
 		classifier.setClassifierId(c.getID());
 		classifier.setLabel(c.getLabel());
 		try {
-			 classifier.classify(zip, Utils.WATSONMINSCORE);
+			classifier.classify(zip, Utils.WATSONMINSCORE);
 		} catch (VisualClassifierException e) {
 
 			System.out.println("[ZombieTimer isClassifierReadyAgain()] VisualClassifierException: " + e.getMessage());
@@ -136,6 +144,16 @@ public class ReadyTimer extends TimerTask {
 		return true;
 	}
 
+	private boolean isTrainingClassifierReadyAgain(Classifier c) throws IOException {
+
+		// Instantiate service
+		VisualRecognition service = new VisualRecognition(VisualRecognition.VERSION_DATE_2016_05_20);
+		service.setApiKey(c.getApiKey());
+
+		VisualClassifier classifier = service.getClassifier(c.getID()).execute();
+
+		return classifier.getStatus() == Status.AVAILABLE;
+	}
 
 	private void setReady(String classifierId) {
 
@@ -147,7 +165,7 @@ public class ReadyTimer extends TimerTask {
 
 		// Update classifier
 		c.setStatus("ready");
-//		 c.setZombieSince(null);
+		// c.setZombieSince(null);
 
 		// now update the remote classifier
 		Response responseUpdate = db.update(c);

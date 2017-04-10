@@ -89,8 +89,8 @@ public class BackgroundDaemonManager implements ServletContextListener {
 		// periodically for not ready classifiers
 		TimerTask timerTask = new ReadyTimer(ctx);
         Timer timer = new Timer(true);
-        // every 30 mins, check classifiers!
-        timer.scheduleAtFixedRate(timerTask, 0, 30*60*1000);
+        // every 5 mins, check classifiers!
+        timer.scheduleAtFixedRate(timerTask, 0, 5*60*1000);
 	}
 
 	/*
