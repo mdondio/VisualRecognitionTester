@@ -448,7 +448,7 @@ openModal2();
 $('#saveJSONDB').click(function(){
  swal({
 				title: "Warning",
-				text: "We are working hard on this feature...just relax and run a new simulation.",
+				text: "We are working hard on this feature... just relax and run a new simulation.",
 				type: "warning"});
 				
 				});
@@ -456,7 +456,8 @@ $('#saveJSONDB').click(function(){
 </script>
 
 <script>
-populateSelectSim();
+buildSelectDataSet("test_set",'[id*="testset"]')
+// populateSelectSim();
 </script>
 
 </html>

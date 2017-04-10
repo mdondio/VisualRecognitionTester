@@ -27,17 +27,108 @@
 <body>
 <header></header><script>createHeader();</script>
 
-<div class="content">
-<br><br><br><br>
-<center>
-<img src="img/Work_In_Progress.png">
-</center>
-</div>
-</div>
+	<div class="content">
+
+		<br>
+
+		<form id="myForm" action="javascript:startTrain();">
+			<div class="column third">
+				<select required class="title" id="trainingdataset">
+					<option selected disabled value="">Select training dataset</option>
+				</select>
+			</div>
+			<div class="column third">
+				<p class="title center" id="labelselected">dataset label</p>
+			</div>
+			<div class="column third">
+				<button type="submit" class="import">Start training</button>
+			</div>
+		</form>
+
+		<br> <br>
+<br> <br>
+
+		<div class="column half">
+			<p class='title center'>positive images</p>
+			<p class='paragraph center'>list of all the pictures containing
+				an object representing the category</p>
+			<hr class="lineseparator">
+			<div id=positiveTrainingGallery></div>
+		</div>
+
+		<div class="column half">
+			<p class='title center'>negative images</p>
+			<p class='paragraph center'>list of all the pictures not
+				containing any object representing the category, but similar ones</p>
+			<hr class="lineseparator">
+			<div id=negativeTrainingGallery></div>
+		</div>
+
+
+	</div>
 
 </body>
 
 <script>
+
+buildSelectDataSet("all",'#trainingdataset')
+
+	$('#trainingdataset').on(
+			'change',
+			function() {
+				var testsetID = $(this).val();
+				
+				$.ajax({
+					contentType : "application/json",
+					dataType : "json",
+					url : 'GetDataset',
+					data : 'sub_type=test_set',
+					async : false,
+					success : function(result) {
+						$("#negativeTrainingGallery").empty();
+						$("#positiveTrainingGallery").empty();
+						for ( var i in result) {
+							if (result[i]._id == testsetID) {
+								createGallery('negativeTrainingGallery',
+										result[i].images.negative,
+										result[i]._id + "NEG");
+								createGallery('positiveTrainingGallery',
+										result[i].images.positive,
+										result[i]._id + "POS");
+								$("#labelselected").html(result[i].label)
+								$("#labelselected").val(result[i]._id)
+							}
+						}
+
+					}
+				});
+
+				$.ajax({
+					contentType : "application/json",
+					dataType : "json",
+					url : 'GetDataset',
+					data : 'sub_type=training_set',
+					async : false,
+					success : function(result) {
+// 						$("#negativeTrainingGallery").empty();
+// 						$("#positiveTrainingGallery").empty();
+						for ( var i in result) {
+							if (result[i]._id == testsetID) {
+								createGallery('negativeTrainingGallery',
+										result[i].images.negative,
+										result[i]._id + "NEG");
+								createGallery('positiveTrainingGallery',
+										result[i].images.positive,
+										result[i]._id + "POS");
+								$("#labelselected").html(result[i].label)
+								$("#labelselected").val(result[i]._id)
+							}
+						}
+
+					}
+				});
+				
+			});
 </script>
 
 </html>
