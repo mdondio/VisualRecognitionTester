@@ -72,9 +72,7 @@
 	$.ajax({
 		contentType : "application/json",
 		dataType : "json",
-		//url: "json/dataset.json",
 		url : 'GetDataset',
-		data : 'sub_type=test_set',
 		async : false,
 		success : function(result) {
 			var idgallery = localStorage.getItem("idgallery");

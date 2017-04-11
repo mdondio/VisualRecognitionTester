@@ -134,15 +134,11 @@
 			<div class="column third">
 				<div class="row clearfix">
 				
-					<div class="column half">
-					<p class="title center topborder">Test sets</p>
+					<div class="column full">
+					<p class="title center topborder">Datasets available</p>
 						<div class="post-preview" id="listdataset"></div>
 					</div>
 
-					<div class="column half">
-					<p class="title center topborder">Training sets</p>
-					<div class="post-preview" id="listtrainingdataset"></div>
-					</div>
 				</div>
 				
 			</div>
@@ -174,7 +170,6 @@
 		window.location.href = 'showgallery.html';
 		console.log($(this).attr("id"));
 		var ID = $(this).attr("id").substring(13);
-		console.log(ID);
 		localStorage.setItem("idgallery", ID);
 
 		// 	console.log("num reload "+num);
