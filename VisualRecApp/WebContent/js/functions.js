@@ -297,6 +297,7 @@ function drawIndexes(){
 		singleObj['x'] = obj.trainingSize;
 		singleObj['AUC'] = obj.AUC;
 		singleObj['Accuracy'] = obj.accuracyOpt;
+		singleObj['th'] = obj.thresholdOpt;
 		listIndexes.push(singleObj);
 	};
 console.log(listIndexes)
@@ -308,14 +309,15 @@ console.log(listIndexes)
 	var xN = [];
 	var yAUC = [];
 	var yAccuracy = [];
+	var yTh = [];
 	for(var i in listIndexes)
 	{
 		xN.push(listIndexes[i].x);
 		yAUC.push(listIndexes[i].AUC);
 		yAccuracy.push(listIndexes[i].Accuracy);
+		yTh.push(listIndexes[i].th);
 	}
-console.log(xN)
-console.log(yAUC)
+
 	//ADD POINTS OF THE AUC CURVE
 	var Indexes = [];
 	
@@ -349,6 +351,19 @@ console.log(yAUC)
 						"color": "rgb("+colorpalette[i][0]+","+colorpalette[i][1]+","+colorpalette[i][2]+")"
 					}
 				});
+				
+				Indexes.push({
+					type: "scatter",
+					x: [xN[i]],
+					y: [yTh[i]],
+					mode: "markers",
+					name: "Threshold opt "+objJSON.name,
+					marker: {
+						"size": 12,
+						"symbol": "square",
+						"color": "rgb("+colorpalette[i][0]+","+colorpalette[i][1]+","+colorpalette[i][2]+")"
+					}
+				});
 		
 			}else{
 				
@@ -379,14 +394,30 @@ console.log(yAUC)
 					}
 				});
 				
+				Indexes.push({
+					type: "scatter",
+					x: [xN[i]],
+					y: [yTh[i]],
+					mode: "markers",
+					opacity: 0.4,
+					name: "Threshold opt "+objJSON.name,
+					marker: {
+						"size": 8,
+						"symbol": "square",
+						"color": "rgb("+colorpalette[i][0]+","+colorpalette[i][1]+","+colorpalette[i][2]+")"
+					}
+				});
+				
 			}
 
 	}
 	
 	var layout = {
+			showlegend: false,
 			legend: {
 				x: 0.1,
 				y: -1,
+				height: 20,
 			},
 //			title: 'AUC Curve',
 			xaxis: {
@@ -401,11 +432,11 @@ console.log(yAUC)
 			},
 			autosize: false,
 			  width: 450,
-			  height: 600,
+			  height: 550,
 			  margin: {
 			    l: 70,
 			    r: 50,
-			    b: 0,
+			    b: 80,
 			    t: 30,
 			    pad: 8
 			  },
@@ -459,12 +490,9 @@ function drawRocCurves(){
 					name: objJSON.name,
 					line: {
 						"width": 3,
-						"shape": "spline",
+//						"shape": "spline",
 						"color": "rgb("+colorpalette[count][0]+","+colorpalette[count][1]+","+colorpalette[count][2]+")"
 					},
-					marker:{
-						"color": "rgb("+colorpalette[count][0]+","+colorpalette[count][1]+","+colorpalette[count][2]+")"
-					}
 				}
 		);
 		
@@ -507,8 +535,8 @@ function drawRocCurves(){
 	//LAYOUT GRAFICO ROC
 	var layout = {
 			legend: {
-				x: 0.1,
-				y: -1,
+				x: 0.2,
+				y: -0.6,
 			},
 			xaxis: {
 				title: 'fpr',
@@ -522,7 +550,7 @@ function drawRocCurves(){
 			},
 			autosize: false,
 			  width: 450,
-			  height: 600,
+			  height: 550,
 			  margin: {
 			    l: 70,
 			    r: 50,
@@ -558,12 +586,12 @@ function DrawHistogram(histogramNegative,histogramPositive){
 		opacity: 0.5,
 		name: "Negative distribution",
 		marker: {
-			"color": "green",
+			"color": "rgb(130,127,178)",
 		},
 	xbins:{
 		start: 0,
 		end: 1,
-		size: 0.05		
+		size: 0.02		
 	}
 	};
 	
@@ -574,12 +602,12 @@ function DrawHistogram(histogramNegative,histogramPositive){
 		opacity: 0.6,
 		name: "Positive distribution",
 		marker: {
-			"color": "red",
+			"color": "rgb(0,166,160)",
 		},
 		xbins:{
 			start: 0,
 			end: 1,
-			size: 0.05		
+			size: 0.02		
 		}
 	};
 	
@@ -588,10 +616,8 @@ function DrawHistogram(histogramNegative,histogramPositive){
 		var layout = {
 //		showlegend : true,
 		legend : {
-			x : 0.5,
-			y : 20,
-			font: {size: 12},
-			yref: 'paper'
+			x : 0.2,
+			y : -0.6,
 		},
 //		title : 'Distribution',
 		barmode : "overlay",
@@ -602,11 +628,12 @@ function DrawHistogram(histogramNegative,histogramPositive){
 		},
 		yaxis : {
 			title : 'frequency',
-			autorange : true
+			range : [0,50],
+//			autorange : true
 		},
 		  autosize: false,
-		  width: 400,
-		  height: 400,
+		  width: 450,
+		  height: 550,
 		  margin: {
 		    l: 70,
 		    r: 50,
