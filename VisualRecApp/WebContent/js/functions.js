@@ -285,7 +285,7 @@ function drawIndexes(){
 		[217, 145, 196] //rosa
 		];
 
-	var count=0;
+
 	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
 	var result = JSON.parse(localStorage.getItem("resultJSON"));
 	var testname = $("#show_test").val();
@@ -299,7 +299,7 @@ function drawIndexes(){
 		singleObj['Accuracy'] = obj.accuracyOpt;
 		listIndexes.push(singleObj);
 	};
-
+console.log(listIndexes)
 	//sort to better interpolate AUC curve
 	listIndexes.sort(function(a, b) {						
 		return ((a.x < b.x) ? -1 : ((a.x == b.x) ? 0 : 1));
@@ -314,100 +314,106 @@ function drawIndexes(){
 		yAUC.push(listIndexes[i].AUC);
 		yAccuracy.push(listIndexes[i].Accuracy);
 	}
-
+console.log(xN)
+console.log(yAUC)
 	//ADD POINTS OF THE AUC CURVE
-	var AUCcurves = [];
+	var Indexes = [];
 	
-	for(var i in result){
-		var obj = result[i];
-		var x = [];
-		var y = [];
-		for(var j in obj.fprTrace) x.push(obj.fprTrace[j]);
-		for(var j in obj.tprTrace) y.push(obj.tprTrace[j]);
-		var objJSON = testdetails[count];
-		
-		
-			if (testdetails[count].name == testname) {
+	for(var i=0;i<xN.length;i++){
 
-				AUCcurves.push({
+		var objJSON = testdetails[i];
+		
+			if (objJSON.name == testname) {
+
+				Indexes.push({
 					type: "scatter",
-					x: xN,
-					y: yAUC,
-//					y: yAccuracy,
-//					mode: "splines",
-					name: "AUC curve",
+					x: [xN[i]],
+					y: [yAUC[i]],
+					mode: "markers",
+					name: "AUC "+objJSON.name,
 					marker: {
-						"color": "rgb("+colorpalette[count][0]+","+colorpalette[count][1]+","+colorpalette[count][2]+")"
+						"size": 12,
+						"color": "rgb("+colorpalette[i][0]+","+colorpalette[i][1]+","+colorpalette[i][2]+")"
+					}
+				});
+				
+				Indexes.push({
+					type: "scatter",
+					x: [xN[i]],
+					y: [yAccuracy[i]],
+					mode: "markers",
+					name: "Accuracy "+objJSON.name,
+					marker: {
+						"size": 12,
+						"symbol": "triangle-up",
+						"color": "rgb("+colorpalette[i][0]+","+colorpalette[i][1]+","+colorpalette[i][2]+")"
 					}
 				});
 		
 			}else{
 				
-				AUCcurves.push({
+				Indexes.push({
 					type: "scatter",
-					x: xN,
-					y: yAUC,
-//					y: yAccuracy,
-//					mode: "splines",
-					name: "AUC curve",
+					x: [xN[i]],
+					y: [yAUC[i]],
+					opacity: 0.4,
+					mode: "markers",
+					name: "AUC "+objJSON.name,
 					marker: {
-						"color": "rgb("+colorpalette[count][0]+","+colorpalette[count][1]+","+colorpalette[count][2]+")"
+						"size": 8,
+						"color": "rgb("+colorpalette[i][0]+","+colorpalette[i][1]+","+colorpalette[i][2]+")"
+					}
+				});
+				
+				Indexes.push({
+					type: "scatter",
+					x: [xN[i]],
+					y: [yAccuracy[i]],
+					opacity: 0.4,
+					mode: "markers",
+					name: "Accuracy "+objJSON.name,
+					marker: {
+						"size": 8,
+						"symbol": "triangle-up",
+						"color": "rgb("+colorpalette[i][0]+","+colorpalette[i][1]+","+colorpalette[i][2]+")"
 					}
 				});
 				
 			}
-		
-		count++;
+
 	}
 	
-	
-//	AUCcurves.push({
-//		x: xN,
-//		y: yAUC,
-////		y: yAccuracy,
-//		mode: "splines",
-//		name: "AUC curve",
-//		line: {
-//			"dash": "dot",
-//			"color": "rgb("+colorpalette[count][0]+","+colorpalette[count][1]+","+colorpalette[count][2]+")"
-//		}
-//	});
-
-	//LAYOUT GRAFICO AUC
 	var layout = {
-			showlegend: true,
 			legend: {
-				x: 0.5,
-				y: 20,
-//				traceorder: 'reversed',
-				font: {size: 12},
-				yref: 'paper',
+				x: 0.1,
+				y: -1,
 			},
 //			title: 'AUC Curve',
 			xaxis: {
 				title: 'N',
+				range: [xN[0],xN[xN.length-1]],
 				autorange: true
 			},
 			yaxis: {
-				title: 'AUC',
-				range: [0,1],
+				title: 'Indexes',
+				range: [0,1.1],
 				autorange: false
 			},
-			autosize: true,
-//			  width: 400,
-//			  height: 400,
+			autosize: false,
+			  width: 450,
+			  height: 600,
 			  margin: {
 			    l: 70,
 			    r: 50,
-			    b: 80,
-			    t: 50,
+			    b: 0,
+			    t: 30,
 			    pad: 8
 			  },
 			  paper_bgcolor: '#f2f2f2',
 			  plot_bgcolor: '#f2f2f2'
 	};
 
-	Plotly.newPlot('graph2',AUCcurves,layout);
+	Plotly.newPlot('graph2',Indexes,layout);
 	
 }
 
@@ -452,6 +458,7 @@ function drawRocCurves(){
 					mode: "lines",
 					name: objJSON.name,
 					line: {
+						"width": 3,
 						"shape": "spline",
 						"color": "rgb("+colorpalette[count][0]+","+colorpalette[count][1]+","+colorpalette[count][2]+")"
 					},
@@ -500,10 +507,8 @@ function drawRocCurves(){
 	//LAYOUT GRAFICO ROC
 	var layout = {
 			legend: {
-				x: 0.6,
-				y: 20,
-				font: {size: 12},
-				yref: 'paper',
+				x: 0.1,
+				y: -1,
 			},
 			xaxis: {
 				title: 'fpr',
@@ -512,229 +517,25 @@ function drawRocCurves(){
 			},
 			yaxis: {
 				title: 'tpr',
-				range: [0 , 1],
+				range: [0 , 1.1],
 //				autorange: true
 			},
-			autosize: true,
-//			  width: 400,
-//			  height: 400,
+			autosize: false,
+			  width: 450,
+			  height: 600,
 			  margin: {
 			    l: 70,
 			    r: 50,
-			    b: 80,
-			    t: 50,
-			    pad: 8
+			    b: 0,
+			    t: 30,
+			    pad: 0
 			  },
 			  paper_bgcolor: '#f2f2f2',
 			  plot_bgcolor: '#f2f2f2'
 	};
 
-	Plotly.newPlot('graph1', ROCcurves, layout);
+	Plotly.newPlot('graph1',ROCcurves,layout);
 }
-/**
- * @param filename nome del file json dove raccogliere le info per disegnare la ROC curves e la AUC
- * @returns disegna i grafici dentro gli elementi html con ID graph1 e graph2
- * @help al momento utilizzata solamente nella pagine show.html
- * @TODO integrare la lettura dei dati dei vari test da disegnare direttamente da DB (potrebbe essere conveniente salvarsi ogni volta i risultati dei test nel DB)
- */
-function Draw(result){
-
-			var colorpalette = [
-				[0, 166, 160], //verde acqua
-				[138, 196, 62], //verde pisello
-				[52, 59, 67], //grigio scuro
-				[196, 43, 19], //rosso scarlatto
-				[40, 71, 166], //blu scuro
-				[255, 186, 58], //arancione chiaro
-				[169, 52, 255], //lilla
-				[59, 175, 255], //azzurro
-				[79, 217, 21], //verde brillante
-				[217, 145, 196] //rosa
-				];
-
-			//CREAZIONE DELL'INPUT PER GRAFICO ROC -------------------------------------
-			var ROCcurves = []; //INPUT PER PLOT
-			var count = 0;
-			var testdetails = JSON.parse(localStorage.getItem("listJSON"));
-			var testname = $("#show_test").val();
-
-			for(var i in result){
-				var obj = result[i];
-				var x = [];
-				var y = [];
-				for(var j in obj.fprTrace) x.push(obj.fprTrace[j]);
-				for(var j in obj.tprTrace) y.push(obj.tprTrace[j]);
-				var objJSON = testdetails[count];
-				
-				
-					if (testdetails[count].name == testname) {
-
-				ROCcurves.push(
-						{
-							type: "scatter",
-							x: x,
-							y: y,
-							mode: "lines",
-							name: objJSON.name,
-							line: {
-								"shape": "spline",
-								"color": "rgb("+colorpalette[count][0]+","+colorpalette[count][1]+","+colorpalette[count][2]+")"
-							},
-							marker:{
-								"color": "rgb("+colorpalette[count][0]+","+colorpalette[count][1]+","+colorpalette[count][2]+")"
-							}
-						}
-				);
-				
-					}else{
-						
-						ROCcurves.push(
-								{
-									type: "scatter",
-									opacity: 0.1,
-									x: x,
-									y: y,
-									mode: "lines",
-									name: objJSON.name,
-									line: {
-										"shape": "spline",
-										"color": "rgb("+colorpalette[count][0]+","+colorpalette[count][1]+","+colorpalette[count][2]+")"
-									},
-									marker:{
-										"color": "rgb("+colorpalette[count][0]+","+colorpalette[count][1]+","+colorpalette[count][2]+")"
-									}
-								}
-						);
-						
-					}
-				
-				count++;
-			}
-
-			ROCcurves.push({
-				x: [0.0, 1.0],
-				y: [0.0, 1.0],
-				mode: "lines",
-				name: "tpf = fpr",
-				line: {
-					"dash": "dot",
-					"color": "rgb(168, 168, 168)"
-				}
-			});
-
-			//CREAZIONE DELL'INPUT PER GRAFICO AUC -------------------------------------
-
-			var listAUC = [];
-			for(var i in result) {
-				var obj = result[i];
-				var singleObj = {}
-				singleObj['x'] = obj.trainingSize;
-				singleObj['AUC'] = obj.AUC;
-				singleObj['Accuracy'] = obj.accuracyOpt;
-				listAUC.push(singleObj);
-			};
-
-			//sort to better interpolate AUC curve
-			listAUC.sort(function(a, b) {						
-				return ((a.x < b.x) ? -1 : ((a.x == b.x) ? 0 : 1));
-			});
-
-			var xN = [];
-			var yAUC = [];
-			var yAccuracy = [];
-			for(var i in listAUC)
-			{
-				xN.push(listAUC[i].x);
-				yAUC.push(listAUC[i].AUC);
-				yAccuracy.push(listAUC[i].Accuracy);
-			}
-
-			//ADD POINTS OF THE AUC CURVE
-			var AUCcurves = {
-				x: xN,
-				y: yAUC,
-				y: yAccuracy,
-				mode: "splines",
-				name: "AUC curve",
-				line: {
-					"dash": "dot",
-					"color": "rgb("+colorpalette[count][4]+","+colorpalette[count][4]+","+colorpalette[count][4]+")"
-				}
-			};
-
-			//LAYOUT GRAFICO ROC
-			var layout1 = {
-					legend: {
-						x: 0.6,
-						y: 20,
-						font: {size: 12},
-						yref: 'paper',
-					},
-					xaxis: {
-						title: 'fpr',
-						range: [0 , 1],
-//						autorange: true
-					},
-					yaxis: {
-						title: 'tpr',
-						range: [0 , 1],
-//						autorange: true
-					},
-					autosize: true,
-//					  width: 400,
-//					  height: 400,
-					  margin: {
-					    l: 70,
-					    r: 50,
-					    b: 80,
-					    t: 50,
-					    pad: 8
-					  },
-					  paper_bgcolor: '#f2f2f2',
-					  plot_bgcolor: '#f2f2f2'
-			};
-
-			//LAYOUT GRAFICO AUC
-			var layout2 = {
-					showlegend: true,
-					legend: {
-						x: 0.5,
-						y: 20,
-//						traceorder: 'reversed',
-						font: {size: 12},
-						yref: 'paper',
-					},
-//					title: 'AUC Curve',
-					xaxis: {
-						title: 'N',
-						autorange: true
-					},
-					yaxis: {
-						title: 'AUC',
-						range: [0,1],
-						autorange: false
-					},
-					autosize: true,
-//					  width: 400,
-//					  height: 400,
-					  margin: {
-					    l: 70,
-					    r: 50,
-					    b: 80,
-					    t: 50,
-					    pad: 8
-					  },
-					  paper_bgcolor: '#f2f2f2',
-					  plot_bgcolor: '#f2f2f2'
-			};
-
-			var data1 = [];
-			var data2 = [AUCcurves];
-			//PLOT GRAFICO ROC E AUC
-			Plotly.newPlot('graph1', ROCcurves, layout1);
-			Plotly.newPlot('graph2', data2, layout2);
-}
-
 
 function DrawHistogram(histogramNegative,histogramPositive){
 		
@@ -803,9 +604,9 @@ function DrawHistogram(histogramNegative,histogramPositive){
 			title : 'frequency',
 			autorange : true
 		},
-		  autosize: true,
-//		  width: 400,
-//		  height: 400,
+		  autosize: false,
+		  width: 400,
+		  height: 400,
 		  margin: {
 		    l: 70,
 		    r: 50,
