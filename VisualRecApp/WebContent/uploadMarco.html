@@ -47,17 +47,21 @@
 								<input type="submit" value="Send">
 								</div>
 
-				<br><br>
+				<br><br><br>
 				
 				<div class="column half">		
-				<p class='title left'>positive images</p>
+				<p class='title center'>positive images</p>
+				<br>
 				<input type='file' id="filesPos" name="positives[]" multiple="multiple" />
+				<hr class="lineseparator">
 				<div id='previewImgPos'></div>
 				</div>
 
 				<div class="column half">
-				<p class='title left'>	negative images</p>
+				<p class='title center'>negative images</p>
+				<br>
 				<input type='file' id="filesNeg" name="negatives[]" multiple="multiple" />
+				<hr class="lineseparator">
 				<div id='previewImgNeg'></div>
 				</div>
 				
@@ -74,6 +78,7 @@
 function handleFileSelectPos(evt) {
     var files = evt.target.files; // FileList object
 console.log(files);
+$("#previewImgPos").empty();
     // Loop through the FileList and render image files as thumbnails.
     for (var i = 0, f; f = files[i]; i++) {
 
@@ -105,8 +110,12 @@ console.log(files);
                 garbage.addEventListener("click", function(event) {
 					event.preventDefault();
 					//TODO trovare un modo per manipolare il vettore dei file
-				});
+						    swal({
+			title: 'Warning',
+			text: 'GARBAGE feature is not implemented yet"',
+			type: 'warning',});
 
+});
                 menu.appendChild(garbage);
                 
 				
@@ -116,6 +125,11 @@ console.log(files);
                 zoom.addEventListener("click", function(event) {
 					event.preventDefault();
 					//TODO aprire un modal per fare zoom sull'immagine
+											    swal({
+			title: 'Warning',
+			text: 'ZOOM feature is not implemented yet"',
+			type: 'warning',});
+			
 				});
 				 menu.appendChild(zoom);
 
@@ -133,7 +147,7 @@ console.log(files);
 
 function handleFileSelectNeg(evt) {
     var files = evt.target.files; // FileList object
-
+$("#previewImgNeg").empty();
     // Loop through the FileList and render image files as thumbnails.
     for (var i = 0, f; f = files[i]; i++) {
 
@@ -180,6 +194,7 @@ function handleFileSelectNeg(evt) {
 				 menu.appendChild(zoom);
 
                 block.appendChild(menu);
+                
                 
                 $("#previewImgNeg").append(block);
             };
