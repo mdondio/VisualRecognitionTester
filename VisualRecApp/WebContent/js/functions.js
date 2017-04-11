@@ -228,8 +228,11 @@ function printShowPage() {
 	}
 
 	//disegna i grafici comuni a più test
-	Draw(result);
-
+//	Draw(result);
+	
+	drawRocCurves();
+	drawIndexes();
+	
 	//disegna gli oggetti dipendenti dal test selezionato
 	var testname = $("#show_test").val();
 	for ( var j in testdetails) {
@@ -252,6 +255,9 @@ function updateTestFields() {
 	var result = JSON.parse(localStorage.getItem("resultJSON"));
 	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
 
+	drawRocCurves();
+	drawIndexes();
+	
 	//disegna gli oggetti dipendenti dal test selezionato
 	var testname = $("#show_test").val();
 	for ( var j in testdetails) {
@@ -264,6 +270,267 @@ function updateTestFields() {
 	}
 }
 
+function drawIndexes(){
+	
+	var colorpalette = [
+		[0, 166, 160], //verde acqua
+		[138, 196, 62], //verde pisello
+		[52, 59, 67], //grigio scuro
+		[196, 43, 19], //rosso scarlatto
+		[40, 71, 166], //blu scuro
+		[255, 186, 58], //arancione chiaro
+		[169, 52, 255], //lilla
+		[59, 175, 255], //azzurro
+		[79, 217, 21], //verde brillante
+		[217, 145, 196] //rosa
+		];
+
+	var count=0;
+	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
+	var result = JSON.parse(localStorage.getItem("resultJSON"));
+	var testname = $("#show_test").val();
+
+	var listIndexes = [];
+	for(var i in result) {
+		var obj = result[i];
+		var singleObj = {}
+		singleObj['x'] = obj.trainingSize;
+		singleObj['AUC'] = obj.AUC;
+		singleObj['Accuracy'] = obj.accuracyOpt;
+		listIndexes.push(singleObj);
+	};
+
+	//sort to better interpolate AUC curve
+	listIndexes.sort(function(a, b) {						
+		return ((a.x < b.x) ? -1 : ((a.x == b.x) ? 0 : 1));
+	});
+
+	var xN = [];
+	var yAUC = [];
+	var yAccuracy = [];
+	for(var i in listIndexes)
+	{
+		xN.push(listIndexes[i].x);
+		yAUC.push(listIndexes[i].AUC);
+		yAccuracy.push(listIndexes[i].Accuracy);
+	}
+
+	//ADD POINTS OF THE AUC CURVE
+	var AUCcurves = [];
+	
+	for(var i in result){
+		var obj = result[i];
+		var x = [];
+		var y = [];
+		for(var j in obj.fprTrace) x.push(obj.fprTrace[j]);
+		for(var j in obj.tprTrace) y.push(obj.tprTrace[j]);
+		var objJSON = testdetails[count];
+		
+		
+			if (testdetails[count].name == testname) {
+
+				AUCcurves.push({
+					type: "scatter",
+					x: xN,
+					y: yAUC,
+//					y: yAccuracy,
+//					mode: "splines",
+					name: "AUC curve",
+					marker: {
+						"color": "rgb("+colorpalette[count][0]+","+colorpalette[count][1]+","+colorpalette[count][2]+")"
+					}
+				});
+		
+			}else{
+				
+				AUCcurves.push({
+					type: "scatter",
+					x: xN,
+					y: yAUC,
+//					y: yAccuracy,
+//					mode: "splines",
+					name: "AUC curve",
+					marker: {
+						"color": "rgb("+colorpalette[count][0]+","+colorpalette[count][1]+","+colorpalette[count][2]+")"
+					}
+				});
+				
+			}
+		
+		count++;
+	}
+	
+	
+//	AUCcurves.push({
+//		x: xN,
+//		y: yAUC,
+////		y: yAccuracy,
+//		mode: "splines",
+//		name: "AUC curve",
+//		line: {
+//			"dash": "dot",
+//			"color": "rgb("+colorpalette[count][0]+","+colorpalette[count][1]+","+colorpalette[count][2]+")"
+//		}
+//	});
+
+	//LAYOUT GRAFICO AUC
+	var layout = {
+			showlegend: true,
+			legend: {
+				x: 0.5,
+				y: 20,
+//				traceorder: 'reversed',
+				font: {size: 12},
+				yref: 'paper',
+			},
+//			title: 'AUC Curve',
+			xaxis: {
+				title: 'N',
+				autorange: true
+			},
+			yaxis: {
+				title: 'AUC',
+				range: [0,1],
+				autorange: false
+			},
+			autosize: true,
+//			  width: 400,
+//			  height: 400,
+			  margin: {
+			    l: 70,
+			    r: 50,
+			    b: 80,
+			    t: 50,
+			    pad: 8
+			  },
+			  paper_bgcolor: '#f2f2f2',
+			  plot_bgcolor: '#f2f2f2'
+	};
+
+	Plotly.newPlot('graph2',AUCcurves,layout);
+	
+}
+
+function drawRocCurves(){
+	
+	var colorpalette = [
+		[0, 166, 160], //verde acqua
+		[138, 196, 62], //verde pisello
+		[52, 59, 67], //grigio scuro
+		[196, 43, 19], //rosso scarlatto
+		[40, 71, 166], //blu scuro
+		[255, 186, 58], //arancione chiaro
+		[169, 52, 255], //lilla
+		[59, 175, 255], //azzurro
+		[79, 217, 21], //verde brillante
+		[217, 145, 196] //rosa
+		];
+
+	//CREAZIONE DELL'INPUT PER GRAFICO ROC -------------------------------------
+	var ROCcurves = []; //INPUT PER PLOT
+	var count = 0;
+	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
+	var result = JSON.parse(localStorage.getItem("resultJSON"));
+	var testname = $("#show_test").val();
+
+	for(var i in result){
+		var obj = result[i];
+		var x = [];
+		var y = [];
+		for(var j in obj.fprTrace) x.push(obj.fprTrace[j]);
+		for(var j in obj.tprTrace) y.push(obj.tprTrace[j]);
+		var objJSON = testdetails[count];
+		
+		
+			if (testdetails[count].name == testname) {
+
+		ROCcurves.push(
+				{
+					type: "scatter",
+					x: x,
+					y: y,
+					mode: "lines",
+					name: objJSON.name,
+					line: {
+						"shape": "spline",
+						"color": "rgb("+colorpalette[count][0]+","+colorpalette[count][1]+","+colorpalette[count][2]+")"
+					},
+					marker:{
+						"color": "rgb("+colorpalette[count][0]+","+colorpalette[count][1]+","+colorpalette[count][2]+")"
+					}
+				}
+		);
+		
+			}else{
+				
+				ROCcurves.push(
+						{
+							type: "scatter",
+							opacity: 0.3,
+							x: x,
+							y: y,
+							mode: "lines",
+							name: objJSON.name,
+							line: {
+								"shape": "spline",
+								"color": "rgb("+colorpalette[count][0]+","+colorpalette[count][1]+","+colorpalette[count][2]+")"
+							},
+							marker:{
+								"color": "rgb("+colorpalette[count][0]+","+colorpalette[count][1]+","+colorpalette[count][2]+")"
+							}
+						}
+				);
+				
+			}
+		
+		count++;
+	}
+
+	ROCcurves.push({
+		x: [0.0, 1.0],
+		y: [0.0, 1.0],
+		mode: "lines",
+		name: "tpf = fpr",
+		line: {
+			"dash": "dot",
+			"color": "rgb(168, 168, 168)"
+		}
+	});
+
+	//LAYOUT GRAFICO ROC
+	var layout = {
+			legend: {
+				x: 0.6,
+				y: 20,
+				font: {size: 12},
+				yref: 'paper',
+			},
+			xaxis: {
+				title: 'fpr',
+				range: [0 , 1],
+//				autorange: true
+			},
+			yaxis: {
+				title: 'tpr',
+				range: [0 , 1],
+//				autorange: true
+			},
+			autosize: true,
+//			  width: 400,
+//			  height: 400,
+			  margin: {
+			    l: 70,
+			    r: 50,
+			    b: 80,
+			    t: 50,
+			    pad: 8
+			  },
+			  paper_bgcolor: '#f2f2f2',
+			  plot_bgcolor: '#f2f2f2'
+	};
+
+	Plotly.newPlot('graph1', ROCcurves, layout);
+}
 /**
  * @param filename nome del file json dove raccogliere le info per disegnare la ROC curves e la AUC
  * @returns disegna i grafici dentro gli elementi html con ID graph1 e graph2
@@ -289,6 +556,8 @@ function Draw(result){
 			var ROCcurves = []; //INPUT PER PLOT
 			var count = 0;
 			var testdetails = JSON.parse(localStorage.getItem("listJSON"));
+			var testname = $("#show_test").val();
+
 			for(var i in result){
 				var obj = result[i];
 				var x = [];
@@ -297,6 +566,8 @@ function Draw(result){
 				for(var j in obj.tprTrace) y.push(obj.tprTrace[j]);
 				var objJSON = testdetails[count];
 				
+				
+					if (testdetails[count].name == testname) {
 
 				ROCcurves.push(
 						{
@@ -315,7 +586,27 @@ function Draw(result){
 						}
 				);
 				
-				
+					}else{
+						
+						ROCcurves.push(
+								{
+									type: "scatter",
+									opacity: 0.1,
+									x: x,
+									y: y,
+									mode: "lines",
+									name: objJSON.name,
+									line: {
+										"shape": "spline",
+										"color": "rgb("+colorpalette[count][0]+","+colorpalette[count][1]+","+colorpalette[count][2]+")"
+									},
+									marker:{
+										"color": "rgb("+colorpalette[count][0]+","+colorpalette[count][1]+","+colorpalette[count][2]+")"
+									}
+								}
+						);
+						
+					}
 				
 				count++;
 			}
@@ -995,7 +1286,9 @@ function startTrain(){
 	
 	var datasetId = $("#labelselected").val();
 	var label = $("#labelselected").html();
-	if(datasetId & label)
+	console.log(datasetId)
+	console.log(label)
+	if(datasetId && label)
 		{
  	$.ajax({
 		contentType : "application/json",
