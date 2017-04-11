@@ -334,6 +334,12 @@ img.icon {
 	display: block;
 }
 
+img.galleryimg {
+	height: 40px;
+	width:auto;
+}
+
+
 img.icon.inline {
 	display: inline;
 }
@@ -706,3 +712,6 @@ display:inline-block;
 position:relative;
 }
 
+.blockgallery{
+	display: inline-block;
+}
