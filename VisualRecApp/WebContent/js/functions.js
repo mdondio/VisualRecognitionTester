@@ -820,26 +820,6 @@ function buildSelectDataSet(dataset_type,IDselector){
 	$.ajax({													
 		dataType: "json",
 		url: 'GetDataset',
-		data: 'sub_type=test_set',
-		async: false,
-		success: function(result)
-		{
-
-			for(var i in result){
-				var obj = result[i];
-
-					$(IDselector).append($('<option>', {
-						value: obj._id,
-						text: obj.label+" "+ (obj.images.positive.length + obj.images.negative.length)+" "+obj._id
-					}));
-			}
-		}
-	});
-	
-	$.ajax({													
-		dataType: "json",
-		url: 'GetDataset',
-		data: 'sub_type=training_set',
 		async: false,
 		success: function(result)
 		{
@@ -850,12 +830,40 @@ function buildSelectDataSet(dataset_type,IDselector){
 		{
 					$(IDselector).append($('<option>', {
 						value: obj._id,
-						text: obj.label+" "+ (obj.images.positive.length + obj.images.negative.length)+" "+obj._id
+						text: obj._id
 					}));
 		}
 			}
 		}
 	});
+}
+
+/**
+ * @param status (ready,training,zombie)
+ * @param IDselector
+ * @returns build a select element with the classifier of the status selected
+ */
+function buildSelectClassifier(status,IDselector){
+	
+	$.ajax({												
+		contentType: "application/json",
+		dataType: "json",
+		url: 'GetClassifier',
+		async: false,
+		success: function(result)
+		{
+			for(var j in result){
+				var obj = result[j];
+				if(obj.status == status){
+					$(IDselector).append($('<option>', {
+						value: obj._id,
+						text: obj._id
+					}));
+				}
+			}
+		}
+	});
+	
 }
 
 function populateSelectDataSet(IDselect){

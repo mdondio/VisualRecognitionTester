@@ -712,3 +712,6 @@ display:inline-block;
 position:relative;
 }
 
+.blockgallery{
+	display: inline-block;
+}

@@ -75,10 +75,26 @@ function handleFileSelectPos(evt) {
         reader.onload = (function (theFile) {
             return function (e) {
                 // Render thumbnail.
-                var span = document.createElement('span');
-                span.innerHTML = ['<img class="galleryimg" src="', e.target.result,
-                    '" title="', escape(theFile.name), '"/>'].join('');
-                document.getElementById('previewImgPos').insertBefore(span, null);
+//                 var span = document.createElement('span');
+                
+//                                 var image = document.createElement("img");
+//                 image.setAttribute("class","galleryimg");
+//                 image.setAttribute("src",e.target.result)
+//                 span.appendChild(image);
+                
+//                 span.innerHTML = ['<img class="galleryimg" src="', e.target.result,
+//                     '" title="', escape(theFile.name), '"/>'].join('');
+//                 document.getElementById('previewImgPos').insertBefore(span, null);
+                
+                
+                var block = document.createElement("div");
+                block.setAttribute("class","blockgallery")
+                
+                var image = document.createElement("img");
+                image.setAttribute("class","galleryimg");
+                image.setAttribute("src",e.target.result)
+                block.appendChild(image);
+                $("#previewImgPos").append(block);
             };
         })(f);
 
