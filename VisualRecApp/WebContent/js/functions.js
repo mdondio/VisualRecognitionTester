@@ -296,8 +296,11 @@ function Draw(result){
 				for(var j in obj.fprTrace) x.push(obj.fprTrace[j]);
 				for(var j in obj.tprTrace) y.push(obj.tprTrace[j]);
 				var objJSON = testdetails[count];
+				
+
 				ROCcurves.push(
 						{
+							type: "scatter",
 							x: x,
 							y: y,
 							mode: "lines",
@@ -305,9 +308,15 @@ function Draw(result){
 							line: {
 								"shape": "spline",
 								"color": "rgb("+colorpalette[count][0]+","+colorpalette[count][1]+","+colorpalette[count][2]+")"
+							},
+							marker:{
+								"color": "rgb("+colorpalette[count][0]+","+colorpalette[count][1]+","+colorpalette[count][2]+")"
 							}
 						}
 				);
+				
+				
+				
 				count++;
 			}
 
