@@ -50,7 +50,8 @@ public class GetDataset extends HttpServlet {
 
 		
 		// Condizione
-		String selector = "{\"selector\": {\"sub_type\":\"" + datasetType + "\"}}";
+		// temporaneo, poi verrà rimosso
+		String selector = "{\"selector\": {\"type\":\"dataset\"" + (datasetType == null ? "" : ", \"sub_type\":\"" + datasetType + "\"")+"}}";
 
 		// debug, query
 //		System.out.println("Query:  -> " + selector);

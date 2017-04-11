@@ -41,11 +41,8 @@ public class GetClassifier extends HttpServlet {
 
 		System.out.println("[GetClassifier doGet()] Function called");
 		
-
-		// Ricevi get con parametro sub_type
 		Database db = CloudantClientMgr.getCloudantDB();
 
-		
 		// Condizione
 		String selector = "{\"selector\": {\"type\":\"classifier\"}}";
 

@@ -81,4 +81,8 @@ this.label = label;
 		this.training_set = training_set;
 	}
 
+	public String getStatus() {
+		return status;
+	}
+
 }

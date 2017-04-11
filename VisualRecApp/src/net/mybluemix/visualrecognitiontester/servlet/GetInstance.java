@@ -39,8 +39,6 @@ public class GetInstance extends HttpServlet {
 
 		System.out.println("[GetInstance doGet()] Function called");
 		
-
-		// Ricevi get con parametro sub_type
 		Database db = CloudantClientMgr.getCloudantDB();
 
 		// Condizione
