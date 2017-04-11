@@ -857,87 +857,10 @@ function buildSelectClassifier(status,IDselector){
 				if(obj.status == status){
 					$(IDselector).append($('<option>', {
 						value: obj._id,
-						text: obj._id
+						text: obj._id+" ("+obj.training_size+")"
 					}));
 				}
 			}
-		}
-	});
-	
-}
-
-function populateSelectDataSet(IDselect){
-	
-	// chiamata per popolare il menu a tendina dei testset nella pagina simulate.html
-	$.ajax({													
-		dataType: "json",
-		//url: "json/testset.json",
-		url: 'GetDataset',
-		data: 'sub_type=test_set',
-		async: false,
-		success: function(result)
-		{
-			// fill test set and cathegory drop down menu (only if status: ready)
-			for(var i in result){
-				var obj = result[i];
-	
-					$("#"+IDselect).append($('<option>', {
-						value: obj._id,
-						text: obj.label+" "+ (obj.images.positive.length + obj.images.negative.length)
-					}));
-			}
-
-		}
-	});
-	
-}
-
-/**
- * @returns popola i menu a tendina della pagine di set-up
- */
-function populateSelectSim(){
-
-	// chiamata per popolare il menu a tendina dei classificatori ready nella pagina simulate.html
-	$.ajax({												
-		contentType: "application/json",
-		dataType: "json",
-		//url: "json/classifier.json",
-		url: 'GetClassifier',
-		async: false,
-		success: function(result)
-		{
-			// fill classifier drop down menu (only if status: ready)
-			for(var j in result){
-				var obj = result[j];
-				if(obj.status == "ready"){
-					$('[id*="testclassifier"]').append($('<option>', {
-						value: obj._id,
-						text: obj.label+" "+obj.training_size
-					}));
-				}
-			}
-		}
-	});
-	
-	// chiamata per popolare il menu a tendina dei testset nella pagina simulate.html
-	$.ajax({													
-		dataType: "json",
-		//url: "json/testset.json",
-		url: 'GetDataset',
-		data: 'sub_type=test_set',
-		async: false,
-		success: function(result)
-		{
-			// fill test set and cathegory drop down menu (only if status: ready)
-			for(var i in result){
-				var obj = result[i];
-	
-					$('[id*="testset"]').append($('<option>', {
-						value: obj._id,
-						text: obj.label+" "+ (obj.images.positive.length + obj.images.negative.length)
-					}));
-			}
-
 		}
 	});
 	
