@@ -296,8 +296,11 @@ function Draw(result){
 				for(var j in obj.fprTrace) x.push(obj.fprTrace[j]);
 				for(var j in obj.tprTrace) y.push(obj.tprTrace[j]);
 				var objJSON = testdetails[count];
+				
+
 				ROCcurves.push(
 						{
+							type: "scatter",
 							x: x,
 							y: y,
 							mode: "lines",
@@ -305,9 +308,15 @@ function Draw(result){
 							line: {
 								"shape": "spline",
 								"color": "rgb("+colorpalette[count][0]+","+colorpalette[count][1]+","+colorpalette[count][2]+")"
+							},
+							marker:{
+								"color": "rgb("+colorpalette[count][0]+","+colorpalette[count][1]+","+colorpalette[count][2]+")"
 							}
 						}
 				);
+				
+				
+				
 				count++;
 			}
 
@@ -323,13 +332,14 @@ function Draw(result){
 			});
 
 			//CREAZIONE DELL'INPUT PER GRAFICO AUC -------------------------------------
-//			var AUCcurves = []; //INPUT PER PLOT
+
 			var listAUC = [];
 			for(var i in result) {
 				var obj = result[i];
 				var singleObj = {}
 				singleObj['x'] = obj.trainingSize;
-				singleObj['y'] = obj.AUC;
+				singleObj['AUC'] = obj.AUC;
+				singleObj['Accuracy'] = obj.accuracyOpt;
 				listAUC.push(singleObj);
 			};
 
@@ -338,28 +348,21 @@ function Draw(result){
 				return ((a.x < b.x) ? -1 : ((a.x == b.x) ? 0 : 1));
 			});
 
-			var xAUC = [];
+			var xN = [];
 			var yAUC = [];
+			var yAccuracy = [];
 			for(var i in listAUC)
 			{
-				xAUC.push(listAUC[i].x);
-				yAUC.push(listAUC[i].y);
+				xN.push(listAUC[i].x);
+				yAUC.push(listAUC[i].AUC);
+				yAccuracy.push(listAUC[i].Accuracy);
 			}
-			//ADD HORIZONTAL AXIS AT 1
-//			AUCcurves.push({
-//				"x": [0.0, 3500],
-//				"y": [1.0, 1.0],
-//				"mode": "lines",
-//				"name": "AUC = 1",
-//				"line": {
-//					"dash": "dot",
-//					"color": "rgb(168, 168, 168)"
-//				}
-//			});
+
 			//ADD POINTS OF THE AUC CURVE
 			var AUCcurves = {
-				x: xAUC,
+				x: xN,
 				y: yAUC,
+				y: yAccuracy,
 				mode: "splines",
 				name: "AUC curve",
 				line: {
@@ -446,13 +449,11 @@ function DrawHistogram(histogramNegative,histogramPositive){
 		
 	var negative = [];
 	var positive = [];
-	console.log(histogramNegative)
 	for(var i=0;i<histogramNegative.length;i++)
 		{
 		negative.push(histogramNegative[i]);
 		}
 	
-	console.log(histogramPositive)
 	for(var i=0;i<histogramPositive.length;i++)
 	{
 	positive.push(histogramPositive[i]);
@@ -537,6 +538,7 @@ function setParameters(result) {
 			$("#threshold").empty();
 			$("#accuracy").html(result.accuracyOpt.toFixed(2));
 			$("#threshold").html(result.thresholdOpt.toFixed(2));
+			$("#auctest").html(result.AUC.toFixed(2));
 }
 
 function openModal2() {
@@ -793,13 +795,14 @@ function startSimulation(){
 			    setTimeout(function(){$("#waiting").fadeIn(1000)},1000);
 
 				var testdetails = localStorage.getItem("listJSON");
-				// ajax call to backend
+
 				$.ajax(
 						{
 							url: 'GetTestResult',
 							type: 'GET',
 							data:{ array: testdetails },
 							dataType: 'json',
+							async: true,
 							success: function(result)
 							{
 								$("#waiting").fadeOut(1000);
@@ -820,13 +823,13 @@ function buildSelectDataSet(dataset_type,IDselector){
 	$.ajax({													
 		dataType: "json",
 		url: 'GetDataset',
-		async: false,
+		async: true,
 		success: function(result)
 		{
 			for(var i in result){
 				var obj = result[i];
 				
-	if((obj.images.positive.length + obj.images.negative.length)*(dataset_type=="test_set")<200)
+	if((obj.images.positive.length + obj.images.negative.length)*(dataset_type=="test_set")<250)
 		{
 					$(IDselector).append($('<option>', {
 						value: obj._id,
@@ -849,7 +852,7 @@ function buildSelectClassifier(status,IDselector){
 		contentType: "application/json",
 		dataType: "json",
 		url: 'GetClassifier',
-		async: false,
+		async: true,
 		success: function(result)
 		{
 			for(var j in result){
@@ -879,10 +882,9 @@ function generateHome(){
 		contentType: "application/json",
 		dataType: "json",
 		url: 'GetInstance',
-		async: false,
+		async: true,
 		success: function(result){
 			var free = 0;
-			console.log(result);
 			for(var i in result)
 			{
 				var obj = result[i].classifiers;
@@ -899,7 +901,7 @@ function generateHome(){
 		contentType: "application/json",
 		dataType: "json",
 		url: 'GetClassifier',
-		async: false,
+		async: true,
 		success: function(result){
 			//COMPUTE NUMBER FOR READY AND TRAINING
 			var ready = 0;
@@ -965,14 +967,13 @@ function generateHome(){
 	});
 
 	//**************************************************************************
-	//********* GET FROM THE SERVER TRAININGDATASETS ***************************
+	//********* GET FROM THE SERVER DATASETS ***************************
 	//**************************************************************************
 	$.ajax({
 		contentType : "application/json",
 		dataType : "json",
 		url : 'GetDataset',
-		data : 'sub_type=test_set',
-		async : false,
+		async : true,
 		success : function(result) {
 			for ( var i in result) {
 				
@@ -1001,7 +1002,7 @@ function startTrain(){
 		dataType : "json",
 		data : "datasetId=" + datasetId + "&label="+label,
 		url : 'SubmitTrainJob',
-		async : false,
+		async : true,
 		success : function(result) {
 			swal('Trained!',
 					'Your classifier has been trained!',

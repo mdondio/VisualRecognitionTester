@@ -42,13 +42,30 @@
 
 			<form method="post" action="SubmitDataset"
 				enctype="multipart/form-data">
-				<p class='title left'>positive images</p>
+				
+				<div class="column full">
+								<input type="submit" value="Send">
+								</div>
+
+				<br><br><br>
+				
+				<div class="column half">		
+				<p class='title center'>positive images</p>
+				<br>
 				<input type='file' id="filesPos" name="positives[]" multiple="multiple" />
+				<hr class="lineseparator">
 				<div id='previewImgPos'></div>
-				<p class='title left'>	negative images</p>
+				</div>
+
+				<div class="column half">
+				<p class='title center'>negative images</p>
+				<br>
 				<input type='file' id="filesNeg" name="negatives[]" multiple="multiple" />
+				<hr class="lineseparator">
 				<div id='previewImgNeg'></div>
-				<input type="submit" value="Send">
+				</div>
+				
+				
 			</form>
 		</div>
 
@@ -60,7 +77,8 @@
 
 function handleFileSelectPos(evt) {
     var files = evt.target.files; // FileList object
-
+console.log(files);
+$("#previewImgPos").empty();
     // Loop through the FileList and render image files as thumbnails.
     for (var i = 0, f; f = files[i]; i++) {
 
@@ -74,18 +92,6 @@ function handleFileSelectPos(evt) {
         // Closure to capture the file information.
         reader.onload = (function (theFile) {
             return function (e) {
-                // Render thumbnail.
-//                 var span = document.createElement('span');
-                
-//                                 var image = document.createElement("img");
-//                 image.setAttribute("class","galleryimg");
-//                 image.setAttribute("src",e.target.result)
-//                 span.appendChild(image);
-                
-//                 span.innerHTML = ['<img class="galleryimg" src="', e.target.result,
-//                     '" title="', escape(theFile.name), '"/>'].join('');
-//                 document.getElementById('previewImgPos').insertBefore(span, null);
-                
                 
                 var block = document.createElement("div");
                 block.setAttribute("class","blockgallery")
@@ -94,6 +100,41 @@ function handleFileSelectPos(evt) {
                 image.setAttribute("class","galleryimg");
                 image.setAttribute("src",e.target.result)
                 block.appendChild(image);
+                
+                
+                var menu = document.createElement("div");
+                
+                var garbage = document.createElement("img");
+                garbage.setAttribute("class","icon veryverysmall inline");
+                garbage.setAttribute("src","ico/garbageDARK.png")
+                garbage.addEventListener("click", function(event) {
+					event.preventDefault();
+					//TODO trovare un modo per manipolare il vettore dei file
+						    swal({
+			title: 'Warning',
+			text: 'GARBAGE feature is not implemented yet"',
+			type: 'warning',});
+
+});
+                menu.appendChild(garbage);
+                
+				
+				var zoom = document.createElement("img");
+                zoom.setAttribute("class","icon veryverysmall inline");
+                zoom.setAttribute("src","ico/search.png")
+                zoom.addEventListener("click", function(event) {
+					event.preventDefault();
+					//TODO aprire un modal per fare zoom sull'immagine
+											    swal({
+			title: 'Warning',
+			text: 'ZOOM feature is not implemented yet"',
+			type: 'warning',});
+			
+				});
+				 menu.appendChild(zoom);
+
+                block.appendChild(menu);
+                
                 $("#previewImgPos").append(block);
             };
         })(f);
@@ -106,7 +147,7 @@ function handleFileSelectPos(evt) {
 
 function handleFileSelectNeg(evt) {
     var files = evt.target.files; // FileList object
-
+$("#previewImgNeg").empty();
     // Loop through the FileList and render image files as thumbnails.
     for (var i = 0, f; f = files[i]; i++) {
 
@@ -120,11 +161,42 @@ function handleFileSelectNeg(evt) {
         // Closure to capture the file information.
         reader.onload = (function (theFile) {
             return function (e) {
-                // Render thumbnail.
-                var span = document.createElement('span');
-                span.innerHTML = ['<img class="galleryimg" src="', e.target.result,
-                    '" title="', escape(theFile.name), '"/>'].join('');
-                document.getElementById('previewImgNeg').insertBefore(span, null);
+            
+                var block = document.createElement("div");
+                block.setAttribute("class","blockgallery")
+                
+                var image = document.createElement("img");
+                image.setAttribute("class","galleryimg");
+                image.setAttribute("src",e.target.result)
+                block.appendChild(image);
+                
+                
+                var menu = document.createElement("div");
+                
+                var garbage = document.createElement("img");
+                garbage.setAttribute("class","icon veryverysmall inline");
+                garbage.setAttribute("src","ico/garbageDARK.png")
+                garbage.addEventListener("click", function(event) {
+					event.preventDefault();
+					//TODO trovare un modo per manipolare il vettore dei file
+				});
+
+                menu.appendChild(garbage);
+                
+				
+				var zoom = document.createElement("img");
+                zoom.setAttribute("class","icon veryverysmall inline");
+                zoom.setAttribute("src","ico/search.png")
+                zoom.addEventListener("click", function(event) {
+					event.preventDefault();
+					//TODO aprire un modal per fare zoom sull'immagine
+				});
+				 menu.appendChild(zoom);
+
+                block.appendChild(menu);
+                
+                
+                $("#previewImgNeg").append(block);
             };
         })(f);
 
