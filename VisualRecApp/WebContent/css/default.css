@@ -661,7 +661,7 @@ img#waiting{
 /* Add this attribute to the element that needs a tooltip */
 [data-tooltip] {
   position: relative;
-  z-index: 200000;
+/*   z-index: 2000000; */
   cursor: pointer;
 }
 
@@ -683,7 +683,7 @@ img#waiting{
   margin-bottom: -10px; /* tooltip container position */
   margin-left: -80px;
   padding: 7px;
-  width: 260px;
+  width: 210px; /* width of tooltip */
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
