@@ -305,12 +305,12 @@ $( document ).ready(function() {
 
 if(localStorage.getItem("viewresult")=="history")
 {
+localStorage.setItem("viewresult", "simulation");
 //mostro subito la parte di show
 $("#simulate").hide();
 $("#showtest").show("slow");
 buildSelectTestResult('#show_test');
 updateTestFields('#show_test');
-localStorage.setItem("viewresult", "simulation");
 }
 
 });
