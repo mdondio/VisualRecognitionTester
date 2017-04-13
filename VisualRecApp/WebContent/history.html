@@ -15,10 +15,10 @@
 <div class="content">
 
 <div class="column two-thirds">
-<input type="file" id="selectFiles" value="Import">
-<button id="import" class="import">Import</button>
-<button id="viewresult" class="import">View results</button>
-<div id="caricatest"></div>
+	<input type="file" id="selectFiles" value="Import">
+	<button id="import" class="import">Import</button>
+	<button id="viewresult" class="import">View results</button>
+	<div id="caricatest"></div>
 </div>
 
 </div>
@@ -82,9 +82,9 @@ $('#import').click(function() {
 //cambio pagina
 $('#viewresult').click(function() {
    
-       // Store
-localStorage.setItem("viewresult", "history");
-window.location.href = 'simulate.html';
+    // Store
+	localStorage.setItem("viewresult", "history");
+	window.location.href = 'simulate.html';
 	 			
 });
 
