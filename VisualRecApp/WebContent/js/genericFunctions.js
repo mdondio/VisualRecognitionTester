@@ -21,13 +21,13 @@ function createHead(){
 	var css_dro = ["<link rel='stylesheet' type='text/css' href='css/dropzone.css'/>"]; //css per sweetalert2
 	var css_jui = ["<link rel='stylesheet' type='text/css' href='css/jquery-ui.css'/>"]; //css per sweetalert2
 	var js_form = ["<script src='//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js'>"];
-//	var js_plot = ["<script src='https://cdn.plot.ly/plotly-latest.min.js'>"];
+	var js_save = ["<script src='js/FileSaver.min.js'>"];
 	var js_swal = ["<script src='js/sweetalert2_mine.js'>"];
 	var js_drop = ["<script src='js/dropzone.js'>"];
 	
 	var title = ["<title>Bellosguardo</title>"];
 
-	var headfull = met_sta.concat(css_fon, css_def, css_str, css_nav, css_uti, css_swa, css_dro, css_jui, js_form, js_swal, js_drop, title);
+	var headfull = met_sta.concat(css_fon, css_def, css_str, css_nav, css_uti, css_swa, css_dro, css_jui, js_form, js_save, js_swal, js_drop, title);
 	$('head').append(headfull);
 }
 
