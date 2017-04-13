@@ -2,9 +2,25 @@
 <html>
 <head></head>
 
+<!-- LIBRERIE GENERICHE PER JQUERY -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+
+<!-- FUNZIONI CREATE DA NOI -->
 <script src="js/genericFunctions.js"></script>
 <script src="js/functions.js"></script>
+
+<!-- LIBRERIA PER DISEGNARE GRAFICI -->
+<script src ="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+<!-- LIBRERIA PER PERSONALIZZAZIONE DEGLI ALERT -->
+<script src="js/sweetalert2_mine.js"></script>
+<link rel="stylesheet" href="css/sweetalert2_mine.css">
+
+<!-- LIBRERIA PER CARICARE I FILE -->
+<script src="js/dropzone.js"></script>
+<link rel="stylesheet" href="css/dropzone.css">
 
 <script>createHead();</script>
 
@@ -14,111 +30,110 @@
 
 <div class="content">
 
-	<input type=image id="backicon" class="inline" src="ico/backDARK.png" style="width:60px;height:auto;">
+		<div class="container">
 
-	<h3> Upload a new test set</h3>	
-	
-	<div class="row clearfix" style="text-align: center;">
-		<input type="submit" value="Upload all files" class="rectangle"></input>
-	</div>
-	
-	<div class="row clearfix">
+			<form id="myForm" method="post" enctype="multipart/form-data">
 
-			<div class="column fourth">
-				<p class="title right"><br>positive<br>images</p>
-				<p class="paragraph right">Upload positive images</p>	
-			</div>
-			<div class="column three-fourths">
-			<br>
-				<form action="/file-upload" class="dropzone" id="pos-element"></form>
-			</div>
-	</div>
-	
-	<div class="row clearfix">
+	        <!--   Files: <input type="file" id="files" name="files" multiple><br/> -->
 
-			<div class="column fourth">
-				<p class="title right"><br>negative<br>images</p>
-				<p class="paragraph right">Upload negative images</p>	
-			</div>
-			<div class="column three-fourths">
-			<br>
-				<form action="/file-upload" class="dropzone" id="neg-element"></form>
-			</div>
-	</div>
+	        <input name='positives' name="positive" id="files" type="file" multiple>
+  			<input name='negatives' id="files2" type="file" multiple>
 
-</div>
+	        <div id="selectedFiles"></div>
+
+	        <input type="submit">
+
+    		</form>
+
+		</div>
+
 
 </body>
 
-
 <script>
 
-Dropzone.autoDiscover = false;
+	var selDiv = "";
+    var storedFiles = [];
+    var nameFilesP = "positive";
+    var nameFilesN = "negative";
 
-var myDropzoneTheFirst = new Dropzone('#pos-element', {       
-    parallelUploads: 10000,
-    uploadMultiple: true,
-    autoProcessQueue: false,
-    init: function() {
+    var flag = false;
 
-      		this.on("addedfile", function(file) {
+    $(document).ready(function() {
 
-	        var removeButton = Dropzone.createElement("<img class='center' src='ico/garbageDARK.png' style='width:30px; height:auto;'>");
-	        var _this = this;
+        	$("#files").on("change", handleFileSelect);
 
-	        removeButton.addEventListener("click", function(e) {
-	        
-	          	e.preventDefault();
-	          	e.stopPropagation();
+        	$("#files2").on("change", handleFileSelect);
 
-		      	_this.removeFile(file);
-		        
-	        });
+        selDiv = $("#selectedFiles");
+        $("#myForm").on("submit", handleForm);
 
-	        file.previewElement.appendChild(removeButton);
+        $("body").on("click", ".selFile", removeFile);
+    });
 
-     		});
+    function handleFileSelect(e) {
+        var files = e.target.files;
+        var filesArr = Array.prototype.slice.call(files);
+        filesArr.forEach(function(f) {
 
+            if(!f.type.match("image.*")) {
+                return;
+            }
+            storedFiles.push(f);
 
-   		 }
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var html = "<div><img src=\"" + e.target.result + "\" data-file='"+f.name+"' class='selFile' title='Click to remove'>" + f.name + "<br clear=\"left\"/></div>";
+                selDiv.append(html);
 
-    
-});
+            }
+            reader.readAsDataURL(f);
+        });
 
+    }
 
-var myDropzoneTheSecond = new Dropzone('#neg-element', {       
-    parallelUploads: 10000,
-    uploadMultiple: true,
-    autoProcessQueue: false,
-    init: function() {
+    function handleForm(e) {
+        e.preventDefault();
+        var data = new FormData();
 
-      		this.on("addedfile", function(file) {
+        for(var i=0, len=storedFiles.length; i<len; i++) {
 
-	        var removeButton = Dropzone.createElement("<img class='center' src='ico/garbageDARK.png' style='width:30px; height:auto;'>");
-	        var _this = this;
+        	if(len == 0)
+        		flag = true;
 
-	        removeButton.addEventListener("click", function(e) {
-	        
-	          	e.preventDefault();
-	          	e.stopPropagation();
+        	if(!flag){
+            	data.append(nameFilesP, storedFiles[i]);
+            	flag = true;
+            }else{
+            	data.append(nameFilesN, storedFiles[i]);
+            }
 
-		      	_this.removeFile(file);
-		        
-	        });
+            flag = true;
+        }
 
-	        file.previewElement.appendChild(removeButton);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'SubmitDataset', true);
 
-     		});
+        xhr.onload = function(e) {
+            if(this.status == 200) {
+                console.log(e.currentTarget.responseText);
+                alert(e.currentTarget.responseText + ' items uploaded.');
+            }
+        }
 
+        xhr.send(data);
+    }
 
-   		 }
-});
-
-
-$('#submit-every-dropzone').on('click', function () {
-    myDropzoneTheFirst.processQueue();
-    myDropzoneTheSecond.processQueue();
-});
+    function removeFile(e) {
+        var file = $(this).data("file");
+        for(var i=0;i<storedFiles.length;i++) {
+            if(storedFiles[i].name === file) {
+                storedFiles.splice(i,1);
+                break;
+            }
+        }
+        $(this).parent().remove();
+    }
 
   $('#backicon').mouseover(function(){
 	$(this).attr('src','ico/back.png');
@@ -133,26 +148,5 @@ $('#submit-every-dropzone').on('click', function () {
 	});
 
 </script>
-
-<style>
-#submit-every-dropzone{
-    background-color: #343b43; /* Green */
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    margin-left: 50%;
-    font-size: 16px;
-    }
-    
-.dropzone {  
- width: 900px; 
- border: dashed 2px #343b43; 
- background-color: white; 
-}  
-    
-</style>
 
 </html>
