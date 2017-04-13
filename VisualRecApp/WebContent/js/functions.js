@@ -213,10 +213,12 @@ function printShowPage() {
 		if (obj.ID == null) {
 			swal({
 				title : "Warning",
-				imageUrl : "img/tired.png",
+				imageUrl : "img/tired2.png",
+				imageWidth: 240,
+				imageHeight: 200,
 				text : "Classifier "
-						+ testdetails[testcount].classifier
-						+ " is exhausted. Wait 24h and you will regain your free API calls",
+					+ testdetails[testcount].classifier
+					+ " is exhausted. Wait 24h and you will regain your free API calls",
 			});
 		} else {
 			$('#show_test').append($('<option>', {

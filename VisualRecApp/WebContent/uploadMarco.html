@@ -67,6 +67,9 @@
 				
 				
 			</form>
+			
+			<br><br>
+			<button id="testswal">Test Swal Message</button>
 		</div>
 
 
@@ -74,6 +77,16 @@
 
 
 <script>
+
+$("#testswal").click(function(){
+swal({
+				title : "Warning",
+				imageUrl : "img/tired2.png",
+				imageWidth: 240,
+				imageHeight: 200,
+				text : "Classifier is exhausted. Wait 24h and you will regain your free API calls",
+			});
+});
 
 function handleFileSelectPos(evt) {
     var files = evt.target.files; // FileList object
