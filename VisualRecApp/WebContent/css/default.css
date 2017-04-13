@@ -423,6 +423,15 @@ img#waiting{
 	width: 15%;
 }
 
+.column > img.waiting2{
+	display: block;
+	position: relative;
+	margin: auto;
+	top: 60px;
+	left: 0%;
+	width: 40px;
+}
+
 
 /*============ OGGETTI GRAFICI ==========*/
 .lineseparator {
@@ -742,3 +751,6 @@ position:relative;
 .blockgallery{
 	display: inline-block;
 }
+
+#negativetestSetGallery{ overflow: scroll; overflow-x: hidden; height: 400px; }
+#positivetestSetGallery{ overflow: scroll; overflow-x: hidden; height: 400px; }

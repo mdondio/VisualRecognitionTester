@@ -33,7 +33,8 @@
 			<p class='paragraph center'>list of all the pictures containing
 				an object representing the category</p>
 			<hr class="lineseparator">
-			<div id="positivetestSetGallery"></div>
+<!-- 			<img src='ico/spin.svg' class="waiting2"> -->
+			<div id="positivetestSetGallery" style=""></div>
 		</div>
 
 		<div class="column half">
@@ -41,14 +42,12 @@
 			<p class='paragraph center'>list of all the pictures not
 				containing any object representing the category, but similar ones</p>
 			<hr class="lineseparator">
-			<div id="negativetestSetGallery"></div>
+<!-- 			<img src='ico/spin.svg' class="waiting2"> -->
+			<div id="negativetestSetGallery" style=""></div>
 		</div>
 
 
 	</div>
-
-
-
 
 
 </body>
@@ -58,6 +57,11 @@
 	//**************************************************************************
 	//********* GET FROM THE SERVER TESTSET ***************************
 	//**************************************************************************
+
+// 	var loading_status = false;
+	
+// 	$('#negativetestSetGallery').display("none");
+// 	$('#positivetestSetGallery').display("none");
 
 	$.ajax({
 		contentType : "application/json",
@@ -79,13 +83,22 @@
 					
 					createGallery('negativetestSetGallery',negative_images, result[i]._id + "NEG");
 					createGallery('positivetestSetGallery',positive_images, result[i]._id + "POS");
-
+					
 				}
-			}
-
+			}		
+		
 		}
+
 	});
 	
+	
+// 	loading_status = true;
+	
+// 	if(loading_status){
+// 		$('.waiting2').fadeOut("slow");
+// 		$('#negativetestSetGallery').fadeIn("slow");
+// 		$('#positivetestSetGallery').fadeIn("slow");
+// 	}
 	
 	//ADD button actions
 	$('#backicon').mouseover(function(){
