@@ -197,10 +197,9 @@ function createBlockTest(IDappend,testname,label,classifier){
 
 
 /**
- * @returns update all the fields of the result section (simulate.html - div id=showtest) starting from the JSON file stored in
- * the localStorage area (resultJSON and listJSON)
+ * @returns build the select menu base on good testresults object
  */
-function printShowPage() {
+function buildSelectTestResult(IDselector) {
 	
 	//carica i file da local storage
 	var result = JSON.parse(localStorage.getItem("resultJSON"));
@@ -221,29 +220,12 @@ function printShowPage() {
 					+ " is exhausted. Wait 24h and you will regain your free API calls",
 			});
 		} else {
-			$('#show_test').append($('<option>', {
+			$(IDselector).append($('<option>', {
 				value : testdetails[testcount].name,
 				text : testdetails[testcount].name
 			}));
 		}
 		testcount++;
-	}
-
-	//disegna i grafici comuni a più test
-//	Draw(result);
-	
-	drawRocCurves();
-	drawIndexes();
-	
-	//disegna gli oggetti dipendenti dal test selezionato
-	var testname = $("#show_test").val();
-	for ( var j in testdetails) {
-		if (testdetails[j].name == testname) {
-			setParameters(result[j]);
-			showGallery(result[j].falseNegativeOpt, "FN");
-			showGallery(result[j].falsePositiveOpt, "FP");
-			DrawHistogram(result[j].histogramNegative,result[j].histogramPositive);
-		}
 	}
 }
 
@@ -251,28 +233,38 @@ function printShowPage() {
  * @returns update only the fields related to the single test of the result section (simulate.html - div id=showtest) starting from the JSON file stored in
  * the localStorage area (resultJSON and listJSON)
  */
-function updateTestFields() {
+function updateTestFields(IDselector) {
 	
 	//carica i file da local storage
 	var result = JSON.parse(localStorage.getItem("resultJSON"));
 	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
 
-	drawRocCurves();
-	drawIndexes();
-	
 	//disegna gli oggetti dipendenti dal test selezionato
-	var testname = $("#show_test").val();
+	var testname = $(IDselector).val();
+	console.log(testname)
+	drawRocCurves(testname);
+	drawIndexes(testname);
+	
 	for ( var j in testdetails) {
 		if (testdetails[j].name == testname) {
 			setParameters(result[j]);
-			showGallery(result[j].falseNegativeOpt, "FN");
-			showGallery(result[j].falsePositiveOpt, "FP");
+			
+			var negative_images = [];
+			for(var i=0;i<result[j].falseNegativeOpt.length;i++) negative_images.push("GetImage?image_id="+result[j].falseNegativeOpt[i]);
+			$("#galleryFN").empty()
+			createGallery('galleryFN',negative_images,"showtestNEG");
+			
+			var positive_images = [];
+			for(var i=0;i<result[j].falsePositiveOpt.length;i++) positive_images.push("GetImage?image_id="+result[j].falsePositiveOpt[i]);
+			$("#galleryFP").empty()
+			createGallery('galleryFP',positive_images,"showtestPOS");
+			
 			DrawHistogram(result[j].histogramNegative,result[j].histogramPositive);
 		}
 	}
 }
 
-function drawIndexes(){
+function drawIndexes(testname){
 	
 	var colorpalette = [
 		[0, 166, 160], //verde acqua
@@ -287,10 +279,8 @@ function drawIndexes(){
 		[217, 145, 196] //rosa
 		];
 
-
 	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
 	var result = JSON.parse(localStorage.getItem("resultJSON"));
-	var testname = $("#show_test").val();
 
 	var listIndexes = [];
 	for(var i in result) {
@@ -302,7 +292,7 @@ function drawIndexes(){
 		singleObj['th'] = obj.thresholdOpt;
 		listIndexes.push(singleObj);
 	};
-console.log(listIndexes)
+
 	//sort to better interpolate AUC curve
 	listIndexes.sort(function(a, b) {						
 		return ((a.x < b.x) ? -1 : ((a.x == b.x) ? 0 : 1));
@@ -421,7 +411,6 @@ console.log(listIndexes)
 				y: -1,
 				height: 20,
 			},
-//			title: 'AUC Curve',
 			xaxis: {
 				title: 'N',
 				range: [xN[0],xN[xN.length-1]],
@@ -450,7 +439,7 @@ console.log(listIndexes)
 	
 }
 
-function drawRocCurves(){
+function drawRocCurves(testname){
 	
 	var colorpalette = [
 		[0, 166, 160], //verde acqua
@@ -470,7 +459,7 @@ function drawRocCurves(){
 	var count = 0;
 	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
 	var result = JSON.parse(localStorage.getItem("resultJSON"));
-	var testname = $("#show_test").val();
+//	var testname = $("#show_test").val();
 
 	for(var i in result){
 		var obj = result[i];
@@ -697,7 +686,8 @@ var GALLERY = "";
  */
 function showGallery(result,inputgallery) {
 
-	var img_path = "GetImage?image_id=";
+//	var img_path = "GetImage?image_id=";
+	var img_path = "";
 			setGallery(inputgallery);
 			
 			$("#modalcontent" + GALLERY).empty();
@@ -774,9 +764,6 @@ function showGallery(result,inputgallery) {
 
 function newImgZoom(inputgallery,slidenumber){
 	setGallery(inputgallery);
-	console.log("id "+ $(this).attr("id"));
-	console.log("class "+ $(this).attr("class"));
-	console.log("name "+ $(this).attr("name"));
 	currentSlide(slidenumber);
 	}
 
@@ -825,6 +812,7 @@ function showSlides(n) {
 	} else {
 		var i;
 		var slides = document.getElementsByClassName("mySlides" + GALLERY);
+		console.log(GALLERY);
 		var dots = document.getElementsByClassName("demo" + GALLERY);
 		var captionText = document.getElementById("caption" + GALLERY);
 		if (n > slides.length) {
@@ -929,7 +917,10 @@ function startSimulation(){
 								$("#waiting").fadeOut(1000);
 								$("#showtest").fadeIn(2000);
 								localStorage.setItem("resultJSON", JSON.stringify(result));
-								printShowPage();
+								
+								buildSelectTestResult('#show_test');
+								updateTestFields('#show_test');
+
 							}
 						});
 	}

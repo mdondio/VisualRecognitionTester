@@ -80,8 +80,16 @@
 				if (result[i]._id == idgallery) {
 // 					var testname = idgallery.replace("_", " ");
 					$("#testsetTitle").append(document.createTextNode(idgallery)); /*sostituire idgallery con testname se si vuole parsare il titolo*/
-					createGallery('negativetestSetGallery',result[i].images.negative, result[i]._id + "NEG");
-					createGallery('positivetestSetGallery',result[i].images.positive, result[i]._id + "POS");
+					
+					var negative_images = [];
+					for(var j=0;j<result[i].images.negative.length;j++) negative_images.push("GetImage?image_id="+result[i].images.negative[j]);
+
+					var positive_images = [];
+					for(var j=0;j<result[i].images.positive.length;j++) positive_images.push("GetImage?image_id="+result[i].images.positive[j]);
+					
+					createGallery('negativetestSetGallery',negative_images, result[i]._id + "NEG");
+					createGallery('positivetestSetGallery',positive_images, result[i]._id + "POS");
+
 				}
 			}
 

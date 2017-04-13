@@ -289,15 +289,15 @@
 
 	<!-- gestione della preview immagini -->
 
-	<div id="myModalFP" class="modal">
-		<span class="close cursor" onclick="closeModal()">&#10005;</span>
-		<div class="modal-content" id="modalcontentFP"></div>
-	</div>
+<!-- 	<div id="myModalFP" class="modal"> -->
+<!-- 		<span class="close cursor" onclick="closeModal()">&#10005;</span> -->
+<!-- 		<div class="modal-content" id="modalcontentFP"></div> -->
+<!-- 	</div> -->
 
-	<div id="myModalFN" class="modal">
-		<span class="close cursor" onclick="closeModal()">&#10005;</span>
-		<div class="modal-content" id="modalcontentFN"></div>
-	</div>
+<!-- 	<div id="myModalFN" class="modal"> -->
+<!-- 		<span class="close cursor" onclick="closeModal()">&#10005;</span> -->
+<!-- 		<div class="modal-content" id="modalcontentFN"></div> -->
+<!-- 	</div> -->
 	
 <!-- 	SI POTREBBE GENERALIZZARE CREANDO L'INTERFACCIA MODAL PER POPUP WINDOWS -->
 	<div id="savetestmodal" style="display:none;">
@@ -329,7 +329,8 @@ if(localStorage.getItem("viewresult")=="history")
 //mostro subito la parte di show
 $("#simulate").hide();
 $("#showtest").show("slow");
-printShowPage();
+buildSelectTestResult('#show_test');
+updateTestFields('#show_test');
 localStorage.setItem("viewresult", "simulation");
 }
 
@@ -434,7 +435,7 @@ $('body').on("click","img[id*=garbage]",function(){
 	$('#show_test').on(
 			'change',
 			function() {
-		updateTestFields();
+		updateTestFields('#show_test');
 });   
 
 $('#saveJSON').click(function(){
