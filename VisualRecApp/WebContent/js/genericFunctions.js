@@ -11,16 +11,23 @@
  * @returns Restituisce l'head delle pagine: inclusione di utilities, pagine css e titolo tab browser
  */
 function createHead(){
-	var start = ["<meta http-equiv='X-UA-Compatible' content='IE=edge'><meta name='viewport' content='width=device-width, initial-scale=1.0'><meta name='ROBOTS' content='INDEX,FOLLOW'><meta name='GOOGLEBOT' content='ARCHIVE'><link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'>"];
-	var fon = ["<link rel='stylesheet' type='text/css' href='css/fonts.css'/>"]; //css fonts
-	var def = ["<link rel='stylesheet' type='text/css' href='css/default.css'/>"]; //css per le pagine
-	var str = ["<link rel='stylesheet' type='text/css' href='css/structure.css'/>"]; //css per le pagine
-	var nav = ["<link rel='stylesheet' type='text/css' href='css/navbar.css'/>"]; //css per il menu
-	var uti = ["<link rel='stylesheet' type='text/css' href='css/utilities.css'/>"]; //css per parti comuni della pagina
-	var swa = ["<link rel='stylesheet' type='text/css' href='css/sweetalert2_mine.css'/>"]; //css per sweetalert2
-	var title = ["<title>Watson VR Test</title>"];
+	var met_sta = ["<meta http-equiv='X-UA-Compatible' content='IE=edge'><meta name='viewport' content='width=device-width, initial-scale=1.0'><meta name='ROBOTS' content='INDEX,FOLLOW'><meta name='GOOGLEBOT' content='ARCHIVE'><link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'>"];
+	var css_fon = ["<link rel='stylesheet' type='text/css' href='css/fonts.css'/>"]; //css fonts
+	var css_def = ["<link rel='stylesheet' type='text/css' href='css/default.css'/>"]; //css per le pagine
+	var css_str = ["<link rel='stylesheet' type='text/css' href='css/structure.css'/>"]; //css per le pagine
+	var css_nav = ["<link rel='stylesheet' type='text/css' href='css/navbar.css'/>"]; //css per il menu
+	var css_uti = ["<link rel='stylesheet' type='text/css' href='css/utilities.css'/>"]; //css per parti comuni della pagina
+	var css_swa = ["<link rel='stylesheet' type='text/css' href='css/sweetalert2_mine.css'/>"]; //css per sweetalert2
+	var css_dro = ["<link rel='stylesheet' type='text/css' href='css/dropzone.css'/>"]; //css per sweetalert2
+	var css_jui = ["<link rel='stylesheet' type='text/css' href='css/jquery-ui.css'/>"]; //css per sweetalert2
+	var js_form = ["<script src='//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js'>"];
+	var js_plot = ["<script src='https://cdn.plot.ly/plotly-latest.min.js'>"];
+	var js_swal = ["<script src='js/sweetalert2_mine.js'>"];
+	var js_drop = ["<script src='js/dropzone.js'>"];
+	
+	var title = ["<title>Bellosguardo</title>"];
 
-	var headfull = start.concat(uti, fon, def, str, nav, uti, swa, title);
+	var headfull = met_sta.concat(css_fon, css_def, css_str, css_nav, css_uti, css_swa, css_dro, css_jui, js_form, js_plot, js_swal, js_drop, title);
 	$('head').append(headfull);
 }
 
