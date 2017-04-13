@@ -1,7 +1,10 @@
 package net.mybluemix.visualrecognitiontester.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import com.google.gson.JsonObject;
+
+import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.DatasetJobInfo;
+import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.Job;
+import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.JobQueue;
+import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.DatasetJobInfo.TYPE;
 
 /**
  * This endpoint is used to submit dataset job. A job can be insert or delete,
@@ -41,6 +50,8 @@ public class SubmitDatasetJob extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
+		// doPost(request, response);
 		return;
 	}
 
@@ -53,71 +64,91 @@ public class SubmitDatasetJob extends HttpServlet {
 
 		// insert o delete
 		String type = request.getParameter("type");
+		String datasetId = request.getParameter("datasetId");
 
-		// se 
-		
-		
-		// TODO
-		// 0 - recupera tutte le immagini posotive e negative
-		parseRequest(request);
+		////////////////////////////
+		// XXX remove me
+		datasetId = "prova";
+		type = "insert";
+		////////////////////////////
 
-		// TODO in realtà stesso endpoint per delete / insert va bene. midifica
-		// anche nime servlet
+		// prepare datasetjob info
+		DatasetJobInfo dji = null;
 
-		// capire cosa conviene costruire... images?
-		// accetto image/jpeg only?
+		if (type.equals("insert")) {
 
-		// 1 - processa tutte le img positive e negative
-		// 2 - controllo di vario tipo, filtro
-		// 3 - normalizza
-		// 4 - produce gli zip
+			System.out.println("[SubmitDatasetJob doPost()] Insert, parsing positive and negative.");
 
-		// 5 - add to queue!
-		// Now we add this classifier to the zombie queue...
-		// ServletContext ctx = getServletContext();
-		// @SuppressWarnings("unchecked")
-		// JobQueue<Job<Classifier>> datasetQueue = (JobQueue<Job<Classifier>>)
-		// ctx.getAttribute("datasetQueue");
-		// datasetQueue.addJob(new Job<Classifier>(classifierJson));
+			// Prepare the job info
+			dji = new DatasetJobInfo(datasetId, TYPE.INSERT);
+
+			// Extract images and add to dji
+			parseRequest(request, dji);
+		}
+
+		else if (type.equals("delete")) {
+
+			System.out.println("[SubmitDatasetJob doPost()] Delete, parsing positive and negative.");
+
+			dji = new DatasetJobInfo(datasetId, TYPE.DELETE);
+
+			System.out.println("[SubmitDatasetJob doPost()] Delete");
+		} else {
+			JsonObject o = new JsonObject();
+			o.addProperty("error", "SubmitDatasetJob expects type insert or delete!");
+			response.getWriter().println(o);
+			return;
+		}
+
+		// Finally prepare the job info and send to queue
+		ServletContext ctx = getServletContext();
+		@SuppressWarnings("unchecked")
+		JobQueue<Job<DatasetJobInfo>> datasetQueue = (JobQueue<Job<DatasetJobInfo>>) ctx.getAttribute("datasetQueue");
+
+		datasetQueue.addJob(new Job<DatasetJobInfo>(dji));
+
+		// return answer to client
+		System.out.println("[SubmitTrainJob] Passed dataset job to daemon, returning answer to client");
+
+		JsonObject o = new JsonObject();
+		o.addProperty("message", "DatasetJob submitted for processing!");
+		response.getWriter().println(o);
 
 	}
 
 	// https://ursaj.com/upload-files-in-java-with-servlet-api
-	private void parseRequest(HttpServletRequest req) throws IOException, ServletException {
-		// Deque<FileInfo> files = new LinkedList<>();
-		// int i = 0;
+	private void parseRequest(HttpServletRequest req, DatasetJobInfo dji) throws IOException, ServletException {
+
+		List<Part> positives = new ArrayList<Part>();
+		List<Part> negatives = new ArrayList<Part>();
+
 		for (Part part : req.getParts()) {
 			long fileSize = part.getSize();
 			String name = part.getName();
+			String imageClass = part.getHeader("class"); // positive | negative
+
 			String contentDisposition = part.getHeader("content-disposition");
 			String contentType = part.getContentType();
 
 			System.out.println("[SubmitDataset parseRequest()] Received: " + name + " - (" + contentDisposition + ") - "
 					+ contentType + " - " + fileSize);
 
-			// buildImage(i++, part.getInputStream());
+			// TODO generalizzare
+			if (!contentType.equals("image/jpeg")) {
+				System.out.println("[SubmitDataset parseRequest()] Skip part: content-type: " + contentType);
+				continue;
+			}
 
-			// punto aperto: conviene usare un byte[] brutale e salvarlo nel db
-			// oppure trasformarlo in image
-			// http://stackoverflow.com/questions/3211156/how-to-convert-image-to-byte-array-in-java
-
-			// preprocessing
-			// poi salva in oo
-
-			// if (fileSize == 0 && (fileName == null || fileName.isEmpty())) {
-			// System.out.println("[SubmitDataset parseRequest()] Not an
-			// image/jpeg file, skip.");
-			// continue; // Ignore part, if not a file.
-			// }
-
-			// files.add(info);
-			// Files.copy(part.getInputStream(), new File(uploads,
-			// info.getId().toString()).toPath());
+			if (imageClass.equals("positive")) {
+				positives.add(part);
+			} else if (imageClass.equals("negative")) {
+				negatives.add(part);
+			}
 		}
 
-		// req.getSession().setAttribute("uploadedFiles", files);
-		// resp.sendRedirect(applicationUrl + "/upload");
-
+		// Add to DatasetJobInfo
+		dji.setPositives(positives);
+		dji.setNegatives(negatives);
 	}
 
 	// http://stackoverflow.com/questions/25669874/opening-an-image-file-from-java-inputstream
