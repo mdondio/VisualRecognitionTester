@@ -2,25 +2,9 @@
 <html>
 <head></head>
 
-<!-- LIBRERIE GENERICHE PER JQUERY -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script> 
-
-<!-- FUNZIONI CREATE DA NOI -->
 <script src="js/genericFunctions.js"></script>
 <script src="js/functions.js"></script>
-
-<!-- LIBRERIA PER DISEGNARE GRAFICI -->
-<script src ="https://cdn.plot.ly/plotly-latest.min.js"></script>
-
-<!-- LIBRERIA PER PERSONALIZZAZIONE DEGLI ALERT -->
-<script src="js/sweetalert2_mine.js"></script>
-<link rel="stylesheet" href="css/sweetalert2_mine.css">
-
-<!-- LIBRERIA PER CARICARE I FILE -->
-<script src="js/dropzone.js"></script>
-<link rel="stylesheet" href="css/dropzone.css">
 
 <script>createHead();</script>
 
@@ -80,8 +64,16 @@
 				if (result[i]._id == idgallery) {
 // 					var testname = idgallery.replace("_", " ");
 					$("#testsetTitle").append(document.createTextNode(idgallery)); /*sostituire idgallery con testname se si vuole parsare il titolo*/
-					createGallery('negativetestSetGallery',result[i].images.negative, result[i]._id + "NEG");
-					createGallery('positivetestSetGallery',result[i].images.positive, result[i]._id + "POS");
+					
+					var negative_images = [];
+					for(var j=0;j<result[i].images.negative.length;j++) negative_images.push("GetImage?image_id="+result[i].images.negative[j]);
+
+					var positive_images = [];
+					for(var j=0;j<result[i].images.positive.length;j++) positive_images.push("GetImage?image_id="+result[i].images.positive[j]);
+					
+					createGallery('negativetestSetGallery',negative_images, result[i]._id + "NEG");
+					createGallery('positivetestSetGallery',positive_images, result[i]._id + "POS");
+
 				}
 			}
 

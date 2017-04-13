@@ -2,30 +2,9 @@
 <html>
 <head></head>
 
-
-<!-- LIBRERIE GENERICHE PER JQUERY -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script> 
-
-<!-- FUNZIONI CREATE DA NOI -->
 <script src="js/genericFunctions.js"></script>
 <script src="js/functions.js"></script>
-
-<!-- LIBRERIA PER DISEGNARE GRAFICI -->
-<script src ="https://cdn.plot.ly/plotly-latest.min.js"></script>
-
-<!-- LIBRERIA PER PERSONALIZZAZIONE DEGLI ALERT -->
-<script src="js/sweetalert2_mine.js"></script>
-<link rel="stylesheet" href="css/sweetalert2_mine.css">
-
-<!-- LIBRERIA PER CARICARE I FILE -->
-<script src="js/dropzone.js"></script>
-<link rel="stylesheet" href="css/dropzone.css">
-
-<!-- LIBRERIA PER SALVARE I FILE -->
-<script src="js/FileSaver.js"></script>
-
 
 <script>createHead();</script>
 
@@ -289,15 +268,15 @@
 
 	<!-- gestione della preview immagini -->
 
-	<div id="myModalFP" class="modal">
-		<span class="close cursor" onclick="closeModal()">&#10005;</span>
-		<div class="modal-content" id="modalcontentFP"></div>
-	</div>
+<!-- 	<div id="myModalFP" class="modal"> -->
+<!-- 		<span class="close cursor" onclick="closeModal()">&#10005;</span> -->
+<!-- 		<div class="modal-content" id="modalcontentFP"></div> -->
+<!-- 	</div> -->
 
-	<div id="myModalFN" class="modal">
-		<span class="close cursor" onclick="closeModal()">&#10005;</span>
-		<div class="modal-content" id="modalcontentFN"></div>
-	</div>
+<!-- 	<div id="myModalFN" class="modal"> -->
+<!-- 		<span class="close cursor" onclick="closeModal()">&#10005;</span> -->
+<!-- 		<div class="modal-content" id="modalcontentFN"></div> -->
+<!-- 	</div> -->
 	
 <!-- 	SI POTREBBE GENERALIZZARE CREANDO L'INTERFACCIA MODAL PER POPUP WINDOWS -->
 	<div id="savetestmodal" style="display:none;">
@@ -326,11 +305,12 @@ $( document ).ready(function() {
 
 if(localStorage.getItem("viewresult")=="history")
 {
+localStorage.setItem("viewresult", "simulation");
 //mostro subito la parte di show
 $("#simulate").hide();
 $("#showtest").show("slow");
-printShowPage();
-localStorage.setItem("viewresult", "simulation");
+buildSelectTestResult('#show_test');
+updateTestFields('#show_test');
 }
 
 });
@@ -434,7 +414,7 @@ $('body').on("click","img[id*=garbage]",function(){
 	$('#show_test').on(
 			'change',
 			function() {
-		updateTestFields();
+		updateTestFields('#show_test');
 });   
 
 $('#saveJSON').click(function(){
