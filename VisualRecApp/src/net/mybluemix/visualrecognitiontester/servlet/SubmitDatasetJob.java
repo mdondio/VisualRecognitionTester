@@ -148,6 +148,7 @@ public class SubmitDatasetJob extends HttpServlet {
 		// Finally check if we have valid request
 		String type = textParameters.get("type");
 		String datasetId = textParameters.get("datasetId");
+		String label = textParameters.get("label");
 
 		// Some checks
 		if (datasetId == null || type == null || datasetId.isEmpty() || type.isEmpty()
@@ -169,6 +170,7 @@ public class SubmitDatasetJob extends HttpServlet {
 			System.out.println("[SubmitDataset parseRequest()] Valid insert request!");
 
 			dji = new DatasetJobInfo(datasetId, TYPE.INSERT);
+			dji.setLabel(label);
 			dji.setPositives(positives);
 			dji.setNegatives(negatives);
 		} else {

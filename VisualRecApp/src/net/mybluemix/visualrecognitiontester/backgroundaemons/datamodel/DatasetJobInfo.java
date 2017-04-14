@@ -18,6 +18,7 @@ public class DatasetJobInfo {
 	};
 
 	String datasetId;
+	String label;
 	TYPE type;
 	List<Part> positives;
 	List<Part> negatives;
@@ -36,6 +37,15 @@ public class DatasetJobInfo {
 		this.negatives = negatives;
 	}
 	
+	public List<Part> getPositives(){
+		return positives;
+		
+	}
+	public List<Part> getNegatives(){
+		return negatives;
+	}
+	
+	
 	public String getDatasetId() {
 		return datasetId;
 	}
@@ -46,6 +56,16 @@ public class DatasetJobInfo {
 
 	public String toString() {
 		return "DatasetInfo datasetId: " + datasetId + " type: " + type;
+	}
+
+
+	public void setLabel(String label) {
+this.label = label;		
+	}
+
+
+	public String getLabel() {
+		return label;
 	}
 
 }

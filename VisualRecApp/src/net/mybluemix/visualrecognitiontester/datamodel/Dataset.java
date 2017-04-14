@@ -37,12 +37,24 @@ public class Dataset {
 	private String label;
 	private Images images;
 	
+	public void setId(String id) {
+		this._id = id;
+	}
+
 	public String getId(){
 		return _id;
 	}
 	
+	public void setImages(Images images) {
+		this.images = images;		
+	}
+	
 	public Images getImages(){
 		return images;
+	}
+	
+	public void setLabel(String label){
+		this.label = label;
 	}
 	
 	public String getLabel(){
@@ -61,7 +73,10 @@ public class Dataset {
 		return images.getNegatives().size();
 	}
 
-	
+
+	public void setType(String type){
+		this.type = type;
+	}
 	public String getType() {
 
 	return type;
@@ -71,4 +86,6 @@ public class Dataset {
 
 	return sub_type;
 	}
+
+
 }
