@@ -5,11 +5,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
-import javax.servlet.http.Part;
 
 import com.cloudant.client.api.Database;
+import com.cloudant.client.api.model.FindByIndexOptions;
 import com.cloudant.client.api.model.Response;
 import com.cloudant.client.api.views.Key;
 import com.cloudant.client.api.views.ViewRequest;
@@ -33,9 +32,10 @@ import net.mybluemix.visualrecognitiontester.datamodel.Images;
  * @author Marco Dondio
  *
  */
-//TODO punto di grossa attenzione: questo metodo è molto pesante per il
-//server.. confido che non venga usato massivamente contemporanemente.. altrimenti
-//dovrei studiare alternative scrivendo in una "area di staging" sul disco
+// TODO punto di grossa attenzione: questo metodo è molto pesante per il
+// server.. confido che non venga usato massivamente contemporanemente..
+// altrimenti
+// dovrei studiare alternative scrivendo in una "area di staging" sul disco
 
 public class DatasetDaemon implements Runnable {
 
@@ -93,7 +93,11 @@ public class DatasetDaemon implements Runnable {
 				break;
 			case DELETE:
 				System.out.println("[DatasetDaemon] Delete Job...");
-				handleDelete(datasetJob, oo);
+				try {
+					handleDelete(datasetJob, oo);
+				} catch (IOException e) {
+					System.out.println("[DatasetDaemon] handleDelete error. Skip job.");
+				}
 				break;
 			default:
 				System.out.println("[DatasetDaemon] No Job recognized");
@@ -113,6 +117,9 @@ public class DatasetDaemon implements Runnable {
 
 		// Retrieve the first Id go be used
 		Long firstId = getFirstId();
+		
+		System.out.println("[DatasetDaemon handleInsert()] firstId: " + firstId);
+
 
 		// Create and insert dataset into cloudant
 		insertDataset(datasetId, label, firstId, positives.size(), negatives.size());
@@ -122,26 +129,26 @@ public class DatasetDaemon implements Runnable {
 		storeImages(positives, firstId);
 		storeImages(negatives, firstId + positives.size());
 
-
 		// --------------------------
 
 	}
 
-	private void handleDelete(Job<DatasetJobInfo> deleteJob, ObjectStorage oo) {
+	private void handleDelete(Job<DatasetJobInfo> deleteJob, ObjectStorage oo) throws IOException {
 
-		
 		String datasetId = deleteJob.getObj().getDatasetId();
-		
+
 		// TODO read dataset images from cloudant
-		
 
-		
-		// delete images from object storage
-//		deleteImages();
-		
-		
-		// at the end, delete from cloudant datasetId
+		Dataset d = retrieveDataset(datasetId);
 
+//		System.out.println("[DatasetDaemon handleDelete()] Deleting images from object storage...");
+
+		if (d != null)
+			deleteImages(d);
+
+		// Delete from cloudant
+		System.out.println("[DatasetDaemon handleDelete()] Deleting dataset " + datasetId + " from cloudant");
+		deleteDataset(datasetId);
 	}
 
 	private Long getFirstId() throws IOException {
@@ -192,8 +199,8 @@ public class DatasetDaemon implements Runnable {
 		Database db = CloudantClientMgr.getCloudantDB();
 
 		// Insert dataset
-		 Response responsePost = db.post(d);
-		 System.out.println("[DatasetDaemon] Inserted dataset, response: " + responsePost);
+		Response responsePost = db.post(d);
+		System.out.println("[DatasetDaemon] Inserted dataset, response: " + responsePost);
 	}
 
 	private void storeImages(List<BufferedImage> images, Long firstImageId) throws IOException {
@@ -201,34 +208,71 @@ public class DatasetDaemon implements Runnable {
 		Long curId = firstImageId;
 		ObjectStorage oo = ObjectStorageClientMgr.getObjectStorage();
 
-		
-		for(BufferedImage image : images){
-			
+		for (BufferedImage image : images) {
+
 			// XXX da generalizzare!
 			// XXX test veloce: se salvo un png come jpg cosa succede?
 			String imgName = Long.toUnsignedString(curId++) + ".jpg";
 
 			// Normalize
 			// TODO
-			
+
 			// Store this image in object storage
-			
+
 			System.out.println("[DatasetDaemon storeImages()] Storing imgName: " + imgName);
-			oo.doPut("/" + Configs.OO_DEFAULTCONTAINER, "/" +imgName, image);
+			oo.doPut("/" + Configs.OO_DEFAULTCONTAINER, "/" + imgName, image);
 		}
 	}
-
 
 	private void normalizeImage(BufferedImage img) {
 
 		// TODO
 	}
-	
-	
-	private void deleteImages(){
-		
-//		oo.doDelete("/" + Configs.OO_DEFAULTCONTAINER, "/" +imgName);
 
+	private void deleteImages(Dataset d) throws IOException {
+		ObjectStorage oo = ObjectStorageClientMgr.getObjectStorage();
+
+		for (Long imgId : d.getImages().getPositives()) {
+			String imgName = Long.toUnsignedString(imgId) + ".jpg";
+			System.out.println("[DatasetDaemon deleteImages()] Deleting imgName: " + imgName);
+			oo.doDelete("/" + Configs.OO_DEFAULTCONTAINER, "/" + imgName);
+		}
+
+		for (Long imgId : d.getImages().getNegatives()) {
+			String imgName = Long.toUnsignedString(imgId) + ".jpg";
+			System.out.println("[DatasetDaemon deleteImages()] Deleting imgName: " + imgName);
+			oo.doDelete("/" + Configs.OO_DEFAULTCONTAINER, "/" + imgName);
+		}
+	}
+
+	private Dataset retrieveDataset(String datasetId) {
+
+		Database db = CloudantClientMgr.getCloudantDB();
+
+		// Condizione
+		String selector = "{\"selector\": {\"_id\" : \"" + datasetId + "\"}}";
+
+		// Limita i campi
+		FindByIndexOptions opt = new FindByIndexOptions().fields("_id").fields("label").fields("images");
+
+		// execute query
+		List<Dataset> datasets = db.findByIndex(selector, Dataset.class, opt);
+
+		return datasets == null ? null : datasets.get(0);
+	}
+
+	// delete dataset from cloudant
+	private void deleteDataset(String datasetId) {
+
+		// get db connection
+		Database db = CloudantClientMgr.getCloudantDB();
+
+		// Get the instance from db
+		Dataset d = db.find(Dataset.class, datasetId);
+
+		Response responseDelete = db.remove(d);
+
+		System.out.println("[DatasetDaemon deleteDataset()] Deleted dataset, response: " + responseDelete);
 	}
 
 	// http://stackoverflow.com/questions/25669874/opening-an-image-file-from-java-inputstream

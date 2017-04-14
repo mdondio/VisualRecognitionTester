@@ -80,7 +80,7 @@ public class GetTestResult extends HttpServlet {
 			String classifierId = test.get("classifier").getAsString();
 
 			// retrieve dataset and classifier object
-			Dataset testSet = retrieveTestSet(testSetId);
+			Dataset testSet = retrieveDataset(testSetId);
 
 			// -----------------------
 			// debug
@@ -124,8 +124,7 @@ public class GetTestResult extends HttpServlet {
 		doGet(request, response);
 	}
 
-	// XXX ottimizza e recupera tutti i testSet indicati con una sola query
-	private Dataset retrieveTestSet(String id) {
+	private Dataset retrieveDataset(String id) {
 
 		Database db = CloudantClientMgr.getCloudantDB();
 
