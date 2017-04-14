@@ -727,14 +727,37 @@ function showGallery(result,inputgallery) {
 			a_next.setAttribute("class", "next");
 			a_prev.appendChild(document.createTextNode("\u276C"));
 			a_next.appendChild(document.createTextNode("\u276D"));
-			a_prev.addEventListener("click", function(event) {
-				prevImg(inputgallery);
-				event.preventDefault();
-			});
-			a_next.addEventListener("click", function(event) {
-				nextImg(inputgallery);
-				event.preventDefault();
-			});
+			
+				// click sulle frecce
+				a_prev.addEventListener("click", function(event) {
+					prevImg(inputgallery);
+					event.preventDefault();
+				});
+				a_next.addEventListener("click", function(event) {
+					nextImg(inputgallery);
+					event.preventDefault();
+				});
+				
+				
+				
+//				// pressione tasti freccia della tastiera
+//				$(this).keydown(function(event) {
+//				  if(event.keyCode == 37) { // left
+//					  prevImg(inputgallery);
+//					  event.preventDefault();
+//					  console.log("left pressed!");
+//				  }
+//				  else if(event.keyCode == 39) { // right
+//					  nextImg(inputgallery);
+//					  event.preventDefault();
+//					  console.log("right pressed!");
+//				  }
+//				});	
+				
+				
+				
+				
+			
 			$('#modalcontent' + GALLERY).append(a_prev);
 			$('#modalcontent' + GALLERY).append(a_next);
 			
@@ -863,7 +886,7 @@ function createGallery(idTOappend,images,idgallery)
 	$("#"+idTOappend+"").append(myModal);
 	
 	showGallery(images,gallery);
-	}
+}
 /*
  * ==============================================================================
  * ============== END OF FUNCTIONS FOR GALLERY MANAGEMENT =======================
