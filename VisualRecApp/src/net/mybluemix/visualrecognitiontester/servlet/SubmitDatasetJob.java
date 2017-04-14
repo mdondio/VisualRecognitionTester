@@ -1,5 +1,6 @@
 package net.mybluemix.visualrecognitiontester.servlet;
 
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -39,6 +41,10 @@ import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.DatasetJ
 // http://docs.oracle.com/javaee/6/tutorial/doc/glraq.html
 // https://ursaj.com/upload-files-in-java-with-servlet-api
 // http://stackoverflow.com/questions/3337056/convenient-way-to-parse-incoming-multipart-form-data-parameters-in-a-servlet
+
+// TODO punto di grossa attenzione: questo metodo è molto pesante per il
+// server.. confido che non venga usato massivamente contemporanemente.. altrimenti
+// dovrei studiare alternative scrivendo in una "area di staging" sul disco
 
 @WebServlet("/SubmitDatasetJob")
 @MultipartConfig
@@ -106,8 +112,8 @@ public class SubmitDatasetJob extends HttpServlet {
 		DatasetJobInfo dji = null;
 
 		HashMap<String, String> textParameters = new HashMap<String, String>();
-		List<Part> positives = new ArrayList<Part>();
-		List<Part> negatives = new ArrayList<Part>();
+		List<BufferedImage> positives = new ArrayList<BufferedImage>();
+		List<BufferedImage> negatives = new ArrayList<BufferedImage>();
 
 		// parse all request
 		for (Part part : req.getParts()) {
@@ -132,9 +138,9 @@ public class SubmitDatasetJob extends HttpServlet {
 
 				// if im here, contenttype is image/jpeg
 				if (name.equals("positives[]")) {
-					positives.add(part);
+					positives.add(extractImage(part));
 				} else if (name.equals("negatives[]")) {
-					negatives.add(part);
+					negatives.add(extractImage(part));
 				}
 				continue;
 			}
@@ -194,4 +200,12 @@ public class SubmitDatasetJob extends HttpServlet {
 		}
 		return value.toString();
 	}
+
+	// Retrieves binary data from image Part
+	private BufferedImage extractImage(Part imagePart) throws IOException {
+
+		return ImageIO.read(imagePart.getInputStream());
+
+	}
+
 }

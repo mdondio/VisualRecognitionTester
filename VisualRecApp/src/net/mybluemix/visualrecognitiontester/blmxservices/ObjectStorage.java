@@ -1,11 +1,15 @@
 package net.mybluemix.visualrecognitiontester.blmxservices;
 
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+
+import javax.imageio.ImageIO;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -304,10 +308,66 @@ public class ObjectStorage {
 		// TODO
 
 	}
+	
+	
+	// https://www.mkyong.com/java/how-to-convert-byte-to-bufferedimage-in-java/
+	public void doPut(String containerName, String objectName, BufferedImage image) throws IOException{
+	// https://developer.openstack.org/api-ref/object-storage/index.html?expanded=create-or-update-object-metadata-detail,create-or-replace-object-detail#objects	
+//		curl -i $publicURL/janeausten/helloworld.txt -X PUT -d "Hello" -H "Content-Type: text/html; charset=UTF-8" -H "X-Auth-Token: $token"
 
-	public void doDelete() {
+
+		System.out.println("[ObjectStorage doPut()] Retrieving: "+ storageUrl + containerName + objectName);
+
+		URL u = new URL(storageUrl + containerName + objectName);
+
+		HttpURLConnection con = (HttpURLConnection) u.openConnection();
+
+		con.setRequestMethod("PUT");
+		con.setRequestProperty("X-Auth-Token", x_authToken);
+		con.setDoOutput(true);
+
+		
+		OutputStream out = con.getOutputStream();
+		ImageIO.write(image, "jpg", out);
+		out.close();
+		
+
+//		// If token expired, 401 error
+		//	con.getInputStream();
+		if(con.getResponseCode() == HttpURLConnection.HTTP_UNAUTHORIZED){
+			doAuthenticationV3();
+//			
+//			// do Put again with new token
+			 doPut(containerName, objectName, image);
+		}
+	}
+	
+
+	public void doDelete(String containerName, String objectName) throws IOException {
 		System.out.println("[ObjectStorage doDelete()] called");
-		// TODO
+		
+		
+		URL u = new URL(storageUrl + containerName + objectName);
+
+		HttpURLConnection con = (HttpURLConnection) u.openConnection();
+
+		con.setRequestMethod("DELETE");
+		con.setRequestProperty("X-Auth-Token", x_authToken);
+		con.setDoOutput(true);
+
+
+//		// If token expired, 401 error
+		//	con.getInputStream();
+		if(con.getResponseCode() == HttpURLConnection.HTTP_UNAUTHORIZED){
+			doAuthenticationV3();
+//			
+//			// do Put again with new token
+			 doDelete(containerName, objectName);
+		}
+		
+		
+		
+		
 
 	}
 

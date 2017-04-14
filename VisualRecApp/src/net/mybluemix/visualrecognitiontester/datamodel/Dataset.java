@@ -33,7 +33,7 @@ public class Dataset {
 	private String _id;
 	private String _rev;
 	private String type;
-	private String sub_type;
+//	private String sub_type;
 	private String label;
 	private Images images;
 	
@@ -82,10 +82,10 @@ public class Dataset {
 	return type;
 	}
 
-	public String getSubType() {
-
-	return sub_type;
-	}
+//	public String getSubType() {
+//
+//	return sub_type;
+//	}
 
 
 }

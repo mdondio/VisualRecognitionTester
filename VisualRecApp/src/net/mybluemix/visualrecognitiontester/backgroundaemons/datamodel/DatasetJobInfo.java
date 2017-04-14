@@ -1,8 +1,8 @@
 package net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel;
 
+import java.awt.image.BufferedImage;
 import java.util.List;
 
-import javax.servlet.http.Part;
 
 
 /**
@@ -20,8 +20,8 @@ public class DatasetJobInfo {
 	String datasetId;
 	String label;
 	TYPE type;
-	List<Part> positives;
-	List<Part> negatives;
+	List<BufferedImage> positives;
+	List<BufferedImage> negatives;
 
 	public DatasetJobInfo(String datasetId, TYPE type) {
 		this.datasetId = datasetId;
@@ -29,19 +29,19 @@ public class DatasetJobInfo {
 	}
 
 	
-	public void setPositives(List <Part> positives2){
-		this.positives = positives2;
+	public void setPositives(List<BufferedImage> positives){
+		this.positives = positives;
 		
 	}
-	public void setNegatives(List<Part> negatives){
+	public void setNegatives(List<BufferedImage> negatives){
 		this.negatives = negatives;
 	}
 	
-	public List<Part> getPositives(){
+	public List<BufferedImage> getPositives(){
 		return positives;
 		
 	}
-	public List<Part> getNegatives(){
+	public List<BufferedImage> getNegatives(){
 		return negatives;
 	}
 	

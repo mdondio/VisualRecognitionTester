@@ -5,10 +5,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Part;
 
 import com.cloudant.client.api.Database;
+import com.cloudant.client.api.model.Response;
 import com.cloudant.client.api.views.Key;
 import com.cloudant.client.api.views.ViewRequest;
 import com.cloudant.client.api.views.ViewRequestBuilder;
@@ -17,6 +19,7 @@ import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.DatasetJ
 import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.Job;
 import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.JobQueue;
 import net.mybluemix.visualrecognitiontester.blmxservices.CloudantClientMgr;
+import net.mybluemix.visualrecognitiontester.blmxservices.Configs;
 import net.mybluemix.visualrecognitiontester.blmxservices.ObjectStorage;
 import net.mybluemix.visualrecognitiontester.blmxservices.ObjectStorageClientMgr;
 import net.mybluemix.visualrecognitiontester.datamodel.Dataset;
@@ -30,6 +33,10 @@ import net.mybluemix.visualrecognitiontester.datamodel.Images;
  * @author Marco Dondio
  *
  */
+//TODO punto di grossa attenzione: questo metodo è molto pesante per il
+//server.. confido che non venga usato massivamente contemporanemente.. altrimenti
+//dovrei studiare alternative scrivendo in una "area di staging" sul disco
+
 public class DatasetDaemon implements Runnable {
 
 	// Setup context info
@@ -101,48 +108,60 @@ public class DatasetDaemon implements Runnable {
 
 		String datasetId = insertJob.getObj().getDatasetId();
 		String label = insertJob.getObj().getLabel();
-		List<Part> positives = insertJob.getObj().getPositives();
-		List<Part> negatives = insertJob.getObj().getNegatives();
+		List<BufferedImage> positives = insertJob.getObj().getPositives();
+		List<BufferedImage> negatives = insertJob.getObj().getNegatives();
 
-		// 1 - Build JSON and populate structure
+		// Retrieve the first Id go be used
 		Long firstId = getFirstId();
 
-		// build dataset object
-		Dataset newDataset = buildDatasetObject(datasetId, label, firstId, positives.size(), negatives.size());
+		// Create and insert dataset into cloudant
+		insertDataset(datasetId, label, firstId, positives.size(), negatives.size());
 
-		// 2- Write in cloudant DB
+		// Store all images into object storage
+		// an error is still ok: images wont be displayed correctly
+		storeImages(positives, firstId);
+		storeImages(negatives, firstId + positives.size());
+
 
 		// --------------------------
 
-		// Process images
-		// XXX occhio a non caricare troppo.. fai una cosa "streaming"
-		// Normalize all images
-
-		// 3 - normalizza tutte le immagini
-		// 4 - carica immagini in oo
-
-		// if (fileSize == 0 && (fileName == null || fileName.isEmpty())) {
-		// System.out.println("[SubmitDataset parseRequest()] Not an
-		// image/jpeg file, skip.");
-		// continue; // Ignore part, if not a file.
-		// }
-
-		// files.add(info);
-		// Files.copy(part.getInputStream(), new File(uploads,
-		// info.getId().toString()).toPath());
-
-		// processa tutte le immagini, normalizza
-		// part -> bufferedimage
-		// normalizza
-		// scrivi in oo
-
-		// nel mentre costruisci json dataset
-		// scrivi in cloudant
 	}
 
-	private Dataset buildDatasetObject(String datasetId, String label, Long firstId, int positiveSize,
-			int negativeSize) {
+	private void handleDelete(Job<DatasetJobInfo> deleteJob, ObjectStorage oo) {
 
+		
+		String datasetId = deleteJob.getObj().getDatasetId();
+		
+		// TODO read dataset images from cloudant
+		
+
+		
+		// delete images from object storage
+//		deleteImages();
+		
+		
+		// at the end, delete from cloudant datasetId
+
+	}
+
+	private Long getFirstId() throws IOException {
+
+		Database db = CloudantClientMgr.getCloudantDB();
+
+		ViewRequestBuilder builder = db.getViewRequestBuilder("maxID", "maxID");
+
+		ViewRequest<String, Long> result = builder.newRequest(Key.Type.STRING, Long.class).build();
+
+		// System.out.println(result.getResponse());
+		// System.out.println(result.getSingleValue());
+
+		Long firstId = result.getSingleValue() + 1;
+		return firstId;
+	}
+
+	private void insertDataset(String datasetId, String label, Long firstId, int positiveSize, int negativeSize) {
+
+		// First, build dataset
 		Dataset d = new Dataset();
 		d.setId(datasetId);
 		d.setType("dataset");
@@ -165,41 +184,51 @@ public class DatasetDaemon implements Runnable {
 		i.setNegatives(negatives);
 		d.setImages(i);
 
-		return d;
-	}
+		// debug
+		// System.out.println(CloudantClientMgr.getGsonBuilder().create().toJson(d));
 
-	private void handleDelete(Job<DatasetJobInfo> deleteJob, ObjectStorage oo) {
-
-		// !!!!!!!!
-		// delete immagini prima e cloudant poi
-		// XXX solito possibile problema di consistenza dati..
-
-	}
-
-	private Long getFirstId() throws IOException {
-
-		Long firstId = 0L;
-
+		// now store in cloudant
+		// get db connection
 		Database db = CloudantClientMgr.getCloudantDB();
 
-		ViewRequestBuilder builder = db.getViewRequestBuilder("maxID", "maxID");
-
-		ViewRequest<String, Long> result = builder.newRequest(Key.Type.STRING, Long.class).build();
-
-		// System.out.println(result.getResponse());
-		// System.out.println(result.getSingleValue());
-
-		firstId = result.getSingleValue() + 1;
-		return firstId;
+		// Insert dataset
+		 Response responsePost = db.post(d);
+		 System.out.println("[DatasetDaemon] Inserted dataset, response: " + responsePost);
 	}
 
-	private BufferedImage buildImageFromPart() {
-		return null;
+	private void storeImages(List<BufferedImage> images, Long firstImageId) throws IOException {
+
+		Long curId = firstImageId;
+		ObjectStorage oo = ObjectStorageClientMgr.getObjectStorage();
+
+		
+		for(BufferedImage image : images){
+			
+			// XXX da generalizzare!
+			// XXX test veloce: se salvo un png come jpg cosa succede?
+			String imgName = Long.toUnsignedString(curId++) + ".jpg";
+
+			// Normalize
+			// TODO
+			
+			// Store this image in object storage
+			
+			System.out.println("[DatasetDaemon storeImages()] Storing imgName: " + imgName);
+			oo.doPut("/" + Configs.OO_DEFAULTCONTAINER, "/" +imgName, image);
+		}
 	}
+
 
 	private void normalizeImage(BufferedImage img) {
 
 		// TODO
+	}
+	
+	
+	private void deleteImages(){
+		
+//		oo.doDelete("/" + Configs.OO_DEFAULTCONTAINER, "/" +imgName);
+
 	}
 
 	// http://stackoverflow.com/questions/25669874/opening-an-image-file-from-java-inputstream
