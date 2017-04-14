@@ -161,6 +161,30 @@ private void normalizeImage(BufferedImage img){
 	// TODO
 }
 	
+
+// http://stackoverflow.com/questions/25669874/opening-an-image-file-from-java-inputstream
+// private void buildImage(int i, InputStream imageStream){
+//
+// System.out.println("[SubmitDataset buildImage()] start");
+//
+// try (FileOutputStream out = new FileOutputStream(new
+// File(getServletContext().getRealPath("/")+"test_"+i+".jpg"))) {
+// byte[] buffer = new byte[1024];
+// int len;
+// while ((len = imageStream.read(buffer)) != -1) {
+//
+// out.write(buffer, 0, len);
+// System.out.println(buffer);
+//
+// }
+// System.out.println("[SubmitDataset buildImage()] close");
+//
+// out.close();
+// } catch (Exception e) {
+// e.printStackTrace();
+// }
+// }
+
 	
 	
 	

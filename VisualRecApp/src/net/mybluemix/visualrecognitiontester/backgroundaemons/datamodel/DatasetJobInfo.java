@@ -45,7 +45,7 @@ public class DatasetJobInfo {
 	}
 
 	public String toString() {
-		return "DatasetInfo datasetId: " + datasetId;
+		return "DatasetInfo datasetId: " + datasetId + " type: " + type;
 	}
 
 }
