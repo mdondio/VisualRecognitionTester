@@ -12,39 +12,44 @@
   <header id="header" style="animation-duration:2s"></header>
   <script>createHeader();</script>
 
+
 	<div class="content">
 	
 		<input type=image id="backicon" class="inline" src="ico/backDARK.png" style="width:60px;height:auto;">
-	
-		<h3 id="testsetTitle"></h3>
-			
-		<div class="row clearfix">
 
-			<div class="column fourth">
-				<p class='title right'>positive<br>images</p>
-				<p class='paragraph right'>list of all the pictures containing an object representing the category</p>	
+		<br>
+
+			<div class="column third">&ensp;</div>
+			<div class="column third">
+				<h3 id="testsetTitle"></h3>
 			</div>
-			<div class="column three-fourths"><br>
-				<div class="post-preview" id="positivetestSetGallery"></div>
-			</div>
+			<div class="column third">&ensp;</div>
+
+
+		<br> <br> <br> <br>
+
+		<div class="column half">
+			<p class='title center'>positive images</p>
+			<p class='paragraph center'>list of all the pictures containing
+				an object representing the category</p>
+			<hr class="lineseparator">
+<!-- 			<img src='ico/spin.svg' class="waiting2"> -->
+			<div id="positivetestSetGallery" style=""></div>
 		</div>
 
-		<br><br>
-
-		<div class="row clearfix">
-
-			<div class="column fourth">
-				<p class='title right'>negative<br>images</p>
-				<p class='paragraph right'>list of all the pictures not containing any object representing the category, but similar ones</p>	
-			</div>
-			<div class="column three-fourths"><br>
-				<div class="post-preview" id="negativetestSetGallery"></div>
-			</div>
+		<div class="column half">
+			<p class='title center'>negative images</p>
+			<p class='paragraph center'>list of all the pictures not
+				containing any object representing the category, but similar ones</p>
+			<hr class="lineseparator">
+<!-- 			<img src='ico/spin.svg' class="waiting2"> -->
+			<div id="negativetestSetGallery" style=""></div>
 		</div>
-		
-		<br><br>
-		
-</div>
+
+
+	</div>
+
+
 </body>
 
 <script>
@@ -52,6 +57,11 @@
 	//**************************************************************************
 	//********* GET FROM THE SERVER TESTSET ***************************
 	//**************************************************************************
+
+// 	var loading_status = false;
+	
+// 	$('#negativetestSetGallery').display("none");
+// 	$('#positivetestSetGallery').display("none");
 
 	$.ajax({
 		contentType : "application/json",
@@ -73,13 +83,22 @@
 					
 					createGallery('negativetestSetGallery',negative_images, result[i]._id + "NEG");
 					createGallery('positivetestSetGallery',positive_images, result[i]._id + "POS");
-
+					
 				}
-			}
-
+			}		
+		
 		}
+
 	});
 	
+	
+// 	loading_status = true;
+	
+// 	if(loading_status){
+// 		$('.waiting2').fadeOut("slow");
+// 		$('#negativetestSetGallery').fadeIn("slow");
+// 		$('#positivetestSetGallery').fadeIn("slow");
+// 	}
 	
 	//ADD button actions
 	$('#backicon').mouseover(function(){
