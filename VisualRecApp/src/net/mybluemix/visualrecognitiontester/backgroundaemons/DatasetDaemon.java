@@ -117,11 +117,17 @@ public class DatasetDaemon implements Runnable {
 
 		// Retrieve the first Id go be used
 		Long firstId = getFirstId();
-		
+
 		System.out.println("[DatasetDaemon handleInsert()] firstId: " + firstId);
 
-
 		// Create and insert dataset into cloudant
+		Database db = CloudantClientMgr.getCloudantDB();
+
+		if (db.contains(datasetId)) {
+			System.out.println("[DatasetDaemon handleInsert()] Id already used, skip job. DatasetId: " + datasetId);
+			return;
+		}
+
 		insertDataset(datasetId, label, firstId, positives.size(), negatives.size());
 
 		// Store all images into object storage
@@ -141,7 +147,8 @@ public class DatasetDaemon implements Runnable {
 
 		Dataset d = retrieveDataset(datasetId);
 
-//		System.out.println("[DatasetDaemon handleDelete()] Deleting images from object storage...");
+		// System.out.println("[DatasetDaemon handleDelete()] Deleting images
+		// from object storage...");
 
 		if (d != null)
 			deleteImages(d);
