@@ -20,12 +20,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import com.cloudant.client.api.Database;
 import com.google.gson.JsonObject;
 
 import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.DatasetJobInfo;
 import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.Job;
 import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.JobQueue;
 import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.DatasetJobInfo.TYPE;
+import net.mybluemix.visualrecognitiontester.blmxservices.CloudantClientMgr;
+import net.mybluemix.visualrecognitiontester.blmxservices.marcovisualreclibrary.exceptions.VisualClassifierException;
 
 /**
  * This endpoint is used to submit dataset job. A job can be insert or delete,
@@ -79,16 +82,17 @@ public class SubmitDatasetJob extends HttpServlet {
 			throws ServletException, IOException {
 
 		// First parse request
-		DatasetJobInfo dji = parseRequest(request, response);
-
-		// invalid request, return error
-		if (dji == null) {
+		DatasetJobInfo dji =null;
+		try {
+			dji = parseRequest(request, response);
+		} catch (VisualClassifierException e) {
 			JsonObject o = new JsonObject();
-			o.addProperty("error", "SubmitDatasetJob received invalid request");
+			o.addProperty("error", "SubmitDatasetJob invalid request: " + e.getMessage());
 			response.getWriter().println(o);
 			return;
 		}
-
+	
+		
 		// Valid request, pass to daemon
 		ServletContext ctx = getServletContext();
 		@SuppressWarnings("unchecked")
@@ -108,7 +112,7 @@ public class SubmitDatasetJob extends HttpServlet {
 	 * Returns null if request is not valid.
 	 */
 	private DatasetJobInfo parseRequest(HttpServletRequest req, HttpServletResponse response)
-			throws IOException, ServletException {
+			throws VisualClassifierException, IOException, ServletException {
 
 		DatasetJobInfo dji = null;
 
@@ -171,7 +175,8 @@ public class SubmitDatasetJob extends HttpServlet {
 				|| (!type.equals("insert") && !type.equals("delete"))) {
 			System.out.println("[SubmitDataset parseRequest()] Invalid request parameter, type: " + type
 					+ " datasetId: " + datasetId);
-			return null;
+			
+			throw new VisualClassifierException("Invalid request parameter, type: " + type+ " datasetId: " + datasetId);
 		}
 
 		// Valid request! Prepare the job info
@@ -180,9 +185,20 @@ public class SubmitDatasetJob extends HttpServlet {
 			if (positives.isEmpty() && negatives.isEmpty()) {
 
 				System.out.println("[SubmitDataset parseRequest()] Insert has zero images. Skip.");
-				return null;
+				throw new VisualClassifierException("Insert has zero valid images");
 			}
 
+			// Query cloudant to check whether this id exist
+			
+			Database db = CloudantClientMgr.getCloudantDB();
+	
+			if(db.contains(datasetId)){
+
+				System.out.println("[SubmitDataset parseRequest()] Id already used, skip. DatasetId: " + datasetId);
+				throw new VisualClassifierException("datasetId already used.");
+			}
+			
+			
 			System.out.println("[SubmitDataset parseRequest()] Valid insert request!");
 
 			dji = new DatasetJobInfo(datasetId, TYPE.INSERT);
