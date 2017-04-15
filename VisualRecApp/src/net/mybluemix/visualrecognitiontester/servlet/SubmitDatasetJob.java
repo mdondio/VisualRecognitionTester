@@ -1,5 +1,6 @@
 package net.mybluemix.visualrecognitiontester.servlet;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -129,22 +130,31 @@ public class SubmitDatasetJob extends HttpServlet {
 				textParameters.put(name, value);
 				continue;
 			}
-			// valid image
-			// XXX non solo jpg in futuro
-			else if (contentType.equals("image/jpeg")) {
+			// valid image: jpg or png
+			else if (contentType.equals("image/jpeg") || contentType.equals("image/jpg" )
+					|| contentType.equals("image/png") || contentType.equals("image/x-png") ) {
 
-				System.out.println("[SubmitDataset parseRequest()] Parsing valid image part, name: " + name
+				System.out.println("[SubmitDataset parseRequest()] Parsing image part, name: " + name
 						+ " content-type: " + contentType + " filesize: " + fileSize);
 
-				// if im here, contenttype is image/jpeg
+				
+				// Now extract image
+				BufferedImage img = extractImage(part);
+				
+				// If png, convert to jpg
+				if (contentType.contains("png")){
+					System.out.println("[SubmitDataset parseRequest()] Png image, converting to jpg");
+					img = convertPngToJpg(img);
+				}
+				
+				// Now check name (class)
 				if (name.equals("positives[]")) {
-					positives.add(extractImage(part));
+					positives.add(img);
 				} else if (name.equals("negatives[]")) {
-					negatives.add(extractImage(part));
+					negatives.add(img);
 				}
 				continue;
 			}
-
 			else {
 				System.out.println("[SubmitDataset parseRequest()] Invalid part, skip. content-type: " + contentType);
 				continue;
@@ -208,4 +218,34 @@ public class SubmitDatasetJob extends HttpServlet {
 
 	}
 
+	// converts an image to jpg
+	private BufferedImage convertPngToJpg(BufferedImage pngImage) throws IOException {
+
+
+//		try {
+
+
+		  // create a blank, RGB, same width and height, and a white background
+		  BufferedImage jpgImage = new BufferedImage(pngImage.getWidth(),
+				  pngImage.getHeight(), BufferedImage.TYPE_INT_RGB);
+		  jpgImage.createGraphics().drawImage(pngImage, 0, 0, Color.WHITE, null);
+
+		  
+		  return jpgImage;
+		  // write to jpeg file
+		  //ImageIO.write(newBufferedImage, "jpg", new File("output.jpg"));
+
+		 // System.out.println("Done");
+
+//		} catch (IOException e) {
+//
+//		  e.printStackTrace();
+//
+//		}
+//		
+		
+		
+		
+
+	}
 }
