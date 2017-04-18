@@ -738,9 +738,7 @@ function showGallery(result,inputgallery) {
 					event.preventDefault();
 				});
 				
-				
-				
-//				// pressione tasti freccia della tastiera
+				// pressione tasti freccia della tastiera
 //				$(this).keydown(function(event) {
 //				  if(event.keyCode == 37) { // left
 //					  prevImg(inputgallery);
@@ -753,10 +751,6 @@ function showGallery(result,inputgallery) {
 //					  console.log("right pressed!");
 //				  }
 //				});	
-				
-				
-				
-				
 			
 			$('#modalcontent' + GALLERY).append(a_prev);
 			$('#modalcontent' + GALLERY).append(a_next);
@@ -783,6 +777,7 @@ function showGallery(result,inputgallery) {
 				$('#modalcontent' + GALLERY).append(div);
 				slidenumber++;
 			}
+			
 }
 
 function newImgZoom(inputgallery,slidenumber){
@@ -1159,3 +1154,22 @@ function startTrain(){
  * ========================= END OF AJAX CALLS =================================
  * ==============================================================================
 */
+
+
+/*
+ * ==============================================================================
+ * ========================= UPLOAD FUNCTIONS ===================================
+ * ==============================================================================
+*/
+
+
+
+/*
+ * ==============================================================================
+ * ========================= UPLOAD FUNCTIONS {END} =============================
+ * ==============================================================================
+*/
+
+
+
+

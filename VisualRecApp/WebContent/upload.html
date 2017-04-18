@@ -15,12 +15,12 @@
 <script src ="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
 <!-- LIBRERIA PER PERSONALIZZAZIONE DEGLI ALERT -->
-<script src="js/sweetalert2_mine.js"></script>
-<link rel="stylesheet" href="css/sweetalert2_mine.css">
+<!-- <script src="js/sweetalert2_mine.js"></script> -->
+<!-- <link rel="stylesheet" href="css/sweetalert2_mine.css"> -->
 
 <!-- LIBRERIA PER CARICARE I FILE -->
-<script src="js/dropzone.js"></script>
-<link rel="stylesheet" href="css/dropzone.css">
+<!-- <script src="js/dropzone.js"></script> -->
+<!-- <link rel="stylesheet" href="css/dropzone.css"> -->
 
 <script>createHead();</script>
 
@@ -31,47 +31,152 @@
 <div class="content">
 
 		<div class="container">
+		
+		<button id="submit" class="btnUpload">Upload!</button>
 
-			<form id="myForm" method="post" enctype="multipart/form-data">
-
-	        <!--   Files: <input type="file" id="files" name="files" multiple><br/> -->
-
-	        <input name='positives' name="positive" id="files" type="file" multiple>
-  			<input name='negatives' id="files2" type="file" multiple>
-
-	        <div id="selectedFiles"></div>
-
-	        <input type="submit">
+			<form id="uploadForm" method="post" enctype="multipart/form-data">
+			
+				<div class="column half">
+					<p class='title center'>positive images</p>
+					<br> <input type='file' id="posFiles" name="positives[]" multiple />
+					<div id="chosenFilesPos"></div>
+				</div>
+	
+				<div class="column half">
+					<p class='title center'>negative images</p>
+					<br> <input type='file' id="negFiles" name="negatives[]" multiple />
+					<div id="chosenFilesNeg"></div>
+				</div>
 
     		</form>
 
 		</div>
 
+	</div>
 
 </body>
+
+<style>
+.btnUpload {
+  -webkit-border-radius: 7;
+  -moz-border-radius: 7;
+  border-radius: 7px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 20px;
+  background: #00ccff;
+  padding: 10px 20px 10px 20px;
+  border: solid #000000 2px;
+  text-decoration: none;
+}
+.btnUpload:hover {
+  background: #3cb0fd;
+  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+}
+</style>
 
 <script>
 
 	var selDiv = "";
     var storedFiles = [];
-    var nameFilesP = "positive";
-    var nameFilesN = "negative";
+    
+	var datasetID, datasetLabel;
+	var flag = false;
 
-    var flag = false;
+    $(document).ready(function(){
 
-    $(document).ready(function() {
+        $("#posFiles").on("change", handlerSelectedFiles);
 
-        	$("#files").on("change", handleFileSelect);
+        $("#negFiles").on("change", handlerSelectedFiles);
+        
+        $("#submit").click( function(e){ 
+        	executionFormInputFromUser(e);
+        });
 
-        	$("#files2").on("change", handleFileSelect);
-
-        selDiv = $("#selectedFiles");
-        $("#myForm").on("submit", handleForm);
-
-        $("body").on("click", ".selFile", removeFile);
+        $("body").on("click", ".selFile", handlerFileRemove);
+        
     });
 
-    function handleFileSelect(e) {
+	function executionFormInputFromUser(e){
+
+		var tmpDatasetID = null , tmpDatasetLabel = null;
+
+		swal({
+		  title: "Insert Dataset ID",
+		  text: "Give your Dataset an ID:",
+		  type: "info",
+		  input: "text",
+		  confirmButtonColor: '#5cb85c',
+		  confirmButtonText: 'Set!',
+		  showCancelButton: true,
+		  allowOutsideClick: false,
+		  allowEscapeKey: true,
+		  inputPlaceholder: "...ID..."
+		}).then( function (result) {
+
+			if( result == null || result == ""){
+
+				console.log("*** ERROR on ID ***")
+
+			}
+			//Confirm on first alert
+			else{
+
+				console.log("*** Dataset ID: " + result + " ***")
+
+				tmpDatasetID = result;
+
+				//Second alert for Dataset label
+				swal({
+				  title: "Insert Dataset Label",
+				  text: "Give your Dataset a Label:",
+				  type: "info",
+				  input: "text",
+				  confirmButtonColor: '#5cb85c',
+				  confirmButtonText: 'Set!',
+				  showCancelButton: true,
+				  allowOutsideClick: false,
+				  allowEscapeKey: true,
+				  inputPlaceholder: "...Label..."
+				}).then( function(result) {
+
+					if( result == null || result == "" )
+						console.log("*** ERROR on LABEL ***")
+					else{
+
+						flag = true;
+						console.log("*** Dataset LABEL: " + result + " ***")
+
+						tmpDatasetLabel = result;
+
+							//Final data protection
+							if( flag ){
+
+								datasetID = tmpDatasetID;
+								datasetLabel = tmpDatasetLabel;
+								flag = false;
+
+								handlerPostCall(e);
+
+							}
+
+					}
+
+
+					})
+
+			}//Closing confirm on first alert
+
+		})//Closing  response to ID alert
+
+	}
+
+    function handlerSelectedFiles(e){
+    
         var files = e.target.files;
         var filesArr = Array.prototype.slice.call(files);
         filesArr.forEach(function(f) {
@@ -79,11 +184,22 @@
             if(!f.type.match("image.*")) {
                 return;
             }
+            
+            //New Property
+            f.test = e.target.name;
+            
+            if( e.target.name == $('#posFiles').attr('name') )
+            	selDiv = $("#chosenFilesPos");
+            else
+            	selDiv = $("#chosenFilesNeg");
+            //New Property end
+            
             storedFiles.push(f);
-
+            
             var reader = new FileReader();
             reader.onload = function (e) {
-                var html = "<div><img src=\"" + e.target.result + "\" data-file='"+f.name+"' class='selFile' title='Click to remove'>" + f.name + "<br clear=\"left\"/></div>";
+            
+                var html = "<div class='blockgallery'><img border='1' width='100px' height='100px' src=\"" + e.target.result + "\" data-file='"+ f.name +"' class='selFile' title='Click to remove'>" + f.name + "<br clear=\"left\"/></div>";
                 selDiv.append(html);
 
             }
@@ -91,48 +207,124 @@
         });
 
     }
+	
+	function handlerPostCall(e){
+	   		
+	       e.preventDefault();
+	       var data = new FormData();
+	       
+	       data.append('type', 'insert');
+	       data.append('datasetId', datasetID);
+	       data.append('label', datasetLabel);
+	       
+	       filesNumber = storedFiles.length;
+	
+	       for( var i = 0; i < filesNumber; i++ )
+			data.append(storedFiles[i].test, storedFiles[i] );	
+	
+	       var xhr = new XMLHttpRequest();
+	       xhr.open('POST', 'SubmitDataset', true);
+	
+		   //Operation communication progress
+	       xhr.onload = function(e){
+	       	
+	       	//Everything seems to be OK
+	           if(this.status == 200) {
+	               
+	               swal({
+						  title: 'Succes!',
+						  text: 'Your upload process has concluded succesfully!',
+						  type: 'info',
+						  confirmButtonColor: '#5cb85c',
+						  confirmButtonText: 'Yeah!'
+						}).then(function (isConfirm) {
+						  
+							if(isConfirm)
+								location.reload();
+								
+					})
+	               
+	           }
+	           
+	           else{
+	           	
+		           	var err_type = this.status;
+		           	var alert_title, alert_text, alert_img = null;
+					
+					switch( err_type ){
+						
+						//BAD (cit. the Donald) request
+						case 400:
+							alert_title = "BAD REQUEST";
+							alert_text = "Our server could not understand the request...\nSorry about that.\n\n";
+							break;
+						case 401:
+							alert_title = "UNAUTHORIZED";
+							alert_text = "Authentication is needed to get requested response.\n\n";
+							break;
+						case 404:
+							alert_title = "NOT FOUND";
+							alert_text = "Our Server wasn't able to retrieve the requested resource. \n\nI know right?!\n";
+							break;
+						case 408:
+							alert_title = "REQUEST TIMEOUT";
+							alert_text = "Our server did not receive a complete request message within the time that it was prepared to wait.\nHe's impatient...\n\n";
+							break;
+						//This is serious
+						case 500:
+							alert_title = "INTERNAL ERROR";
+							alert_text = "This is on our side...sorry about that!\n\n";
+							alert_img = 'images/internal_error.jpg';
+							break;
+						case 503:
+							alert_title = "SERVICE'S OVERLOADED";
+							alert_text = "Our server is really busy at the moment, try again in a few minutes...\n\n";
+							break;
+						default:
+							alert_title = "GENERIC ERROR";
+							alert_text = "An error occured...try again please!\n";
+					
+					}
+		           	
+		           	swal({
+							  title: '*** ' + alert_title + ' ***',
+							  text: alert_text,
+							  type: 'error',
+							  imageUrl: alert_img,
+							  imageWidth: 800,
+		 						  imageHeight: 200,
+							  confirmButtonColor: '#f0ad4e',
+							  confirmButtonText: 'Ok :('
+							}).then(function (isConfirm) {
+							  
+								if(isConfirm)
+									location.reload();
+									
+							})
+		           	
+	           	}
+	           
+	       }//Operation communication progress END
+	
+	       xhr.send(data);
+       
+   }
 
-    function handleForm(e) {
-        e.preventDefault();
-        var data = new FormData();
-
-        for(var i=0, len=storedFiles.length; i<len; i++) {
-
-        	if(len == 0)
-        		flag = true;
-
-        	if(!flag){
-            	data.append(nameFilesP, storedFiles[i]);
-            	flag = true;
-            }else{
-            	data.append(nameFilesN, storedFiles[i]);
-            }
-
-            flag = true;
-        }
-
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'SubmitDataset', true);
-
-        xhr.onload = function(e) {
-            if(this.status == 200) {
-                console.log(e.currentTarget.responseText);
-                alert(e.currentTarget.responseText + ' items uploaded.');
-            }
-        }
-
-        xhr.send(data);
-    }
-
-    function removeFile(e) {
+    function handlerFileRemove(e) {
+    
         var file = $(this).data("file");
-        for(var i=0;i<storedFiles.length;i++) {
+        
+        for( var i = 0; i < storedFiles.length; i++ ){
+        
             if(storedFiles[i].name === file) {
                 storedFiles.splice(i,1);
                 break;
             }
+            
         }
+        
         $(this).parent().remove();
+        
     }
 
   $('#backicon').mouseover(function(){
