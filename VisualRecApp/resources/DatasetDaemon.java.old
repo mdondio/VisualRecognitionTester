@@ -1,12 +1,10 @@
 package net.mybluemix.visualrecognitiontester.backgroundaemons;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
 
 import com.cloudant.client.api.Database;
@@ -114,14 +112,13 @@ public class DatasetDaemon implements Runnable {
 
 		String datasetId = insertJob.getObj().getDatasetId();
 		String label = insertJob.getObj().getLabel();
-		// List<BufferedImage> positives = insertJob.getObj().getPositives();
-		// List<BufferedImage> negatives = insertJob.getObj().getNegatives();
-		File datasetStagingArea = insertJob.getObj().getStagingArea();
+		List<BufferedImage> positives = insertJob.getObj().getPositives();
+		List<BufferedImage> negatives = insertJob.getObj().getNegatives();
 
 		// Retrieve the first Id go be used
-		Long firstPosId = getFirstId();
+		Long firstId = getFirstId();
 
-		System.out.println("[DatasetDaemon handleInsert()] firstId: " + firstPosId);
+		System.out.println("[DatasetDaemon handleInsert()] firstId: " + firstId);
 
 		// Create and insert dataset into cloudant
 		Database db = CloudantClientMgr.getCloudantDB();
@@ -131,25 +128,15 @@ public class DatasetDaemon implements Runnable {
 			return;
 		}
 
-		insertDataset(datasetId, label, firstPosId, insertJob.getObj().getPosCounter(),
-				insertJob.getObj().getNegCounter());
+		insertDataset(datasetId, label, firstId, positives.size(), negatives.size());
 
 		// Store all images into object storage
 		// an error is still ok: images wont be displayed correctly
-		storeImages(datasetStagingArea, firstPosId, (firstPosId + insertJob.getObj().getPosCounter()));
+		storeImages(positives, firstId);
+		storeImages(negatives, firstId + positives.size());
 
-		// And finally delete staging area!
-		deleteStagingArea(datasetStagingArea);
+		// --------------------------
 
-	}
-
-	private void deleteStagingArea(File datasetStagingArea) {
-		
-		System.out.println("[DatasetDaemon deleteStagingArea()] Deleting " + datasetStagingArea);
-
-		for (File images : datasetStagingArea.listFiles())
-			images.delete();
-		datasetStagingArea.delete();
 	}
 
 	private void handleDelete(Job<DatasetJobInfo> deleteJob, ObjectStorage oo) throws IOException {
@@ -220,41 +207,33 @@ public class DatasetDaemon implements Runnable {
 
 		// Insert dataset
 		Response responsePost = db.post(d);
-		System.out.println("[DatasetDaemon insertDataset()] Inserted dataset, response: " + responsePost);
+		System.out.println("[DatasetDaemon] Inserted dataset, response: " + responsePost);
 	}
 
-	private void storeImages(File datasetStagingArea, Long firstPosId, Long firstNegId) throws IOException {
+	private void storeImages(List<BufferedImage> images, Long firstImageId) throws IOException {
 
-		// reads all images
-
+		Long curId = firstImageId;
 		ObjectStorage oo = ObjectStorageClientMgr.getObjectStorage();
 
-		Long curPosId = firstPosId;
-		Long curNegId = firstNegId;
+		for (BufferedImage image : images) {
 
-		// reads all images
+			// XXX da generalizzare!
+			// XXX test veloce: se salvo un png come jpg cosa succede?
+			String imgName = Long.toUnsignedString(curId++) + ".jpg";
 
-		for (File img : datasetStagingArea.listFiles()) {
+			// Normalize
+			// TODO
 
-			// build image
-			// TODO preprocessing, normalization
-			BufferedImage image = ImageIO.read(img);
-
-			// build image name
-			String imgName = Long.toUnsignedString((img.getName().startsWith("pos_") ? curPosId++ : curNegId++))
-					+ ".jpg";
+			// Store this image in object storage
 
 			System.out.println("[DatasetDaemon storeImages()] Storing imgName: " + imgName);
-			
 			oo.doPut("/" + Configs.OO_DEFAULTCONTAINER, "/" + imgName, image);
-
 		}
 	}
 
 	private void normalizeImage(BufferedImage img) {
 
 		// TODO
-		// dimensione standard per esempio
 	}
 
 	private void deleteImages(Dataset d) throws IOException {

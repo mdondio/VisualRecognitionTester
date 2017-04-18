@@ -1,7 +1,8 @@
 package net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel;
 
-import java.awt.image.BufferedImage;
-import java.util.List;
+//import java.awt.image.BufferedImage;
+import java.io.File;
+//import java.util.List;
 
 
 
@@ -20,8 +21,11 @@ public class DatasetJobInfo {
 	String datasetId;
 	String label;
 	TYPE type;
-	List<BufferedImage> positives;
-	List<BufferedImage> negatives;
+	File datasetStagingArea;
+	int posCounter;
+	int negCounter;
+//	List<BufferedImage> positives;
+//	List<BufferedImage> negatives;
 
 	public DatasetJobInfo(String datasetId, TYPE type) {
 		this.datasetId = datasetId;
@@ -29,22 +33,22 @@ public class DatasetJobInfo {
 	}
 
 	
-	public void setPositives(List<BufferedImage> positives){
-		this.positives = positives;
-		
-	}
-	public void setNegatives(List<BufferedImage> negatives){
-		this.negatives = negatives;
-	}
+//	public void setPositives(List<BufferedImage> positives){
+//		this.positives = positives;
+//		
+//	}
+//	public void setNegatives(List<BufferedImage> negatives){
+//		this.negatives = negatives;
+//	}
 	
-	public List<BufferedImage> getPositives(){
-		return positives;
-		
-	}
-	public List<BufferedImage> getNegatives(){
-		return negatives;
-	}
-	
+//	public List<BufferedImage> getPositives(){
+//		return positives;
+//		
+//	}
+//	public List<BufferedImage> getNegatives(){
+//		return negatives;
+//	}
+//	
 	
 	public String getDatasetId() {
 		return datasetId;
@@ -68,4 +72,30 @@ this.label = label;
 		return label;
 	}
 
+
+	public void setStagingFolder(File datasetStagingArea) {
+		this.datasetStagingArea = datasetStagingArea;
+	}
+
+	public File getStagingArea() {
+		return datasetStagingArea;
+	}
+
+
+	public void setPosCounter(int posCounter) {
+		this.posCounter = posCounter;
+		
+	}
+	public void setNegCounter(int negCounter) {
+		this.negCounter = negCounter;
+	}
+
+	public int getPosCounter(){
+		return posCounter;
+	}
+
+	public int getNegCounter(){
+		return negCounter;
+	}
+	
 }
