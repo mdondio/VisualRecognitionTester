@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.cloudant.client.api.Database;
 import com.cloudant.client.api.model.FindByIndexOptions;
+import com.cloudant.client.api.model.Response;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -25,8 +26,6 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassification;
 
-import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.JobQueue;
-import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.Job;
 import net.mybluemix.visualrecognitiontester.blmxservices.CloudantClientMgr;
 import net.mybluemix.visualrecognitiontester.blmxservices.Configs;
 import net.mybluemix.visualrecognitiontester.blmxservices.ObjectStorage;
@@ -177,8 +176,9 @@ public class GetTestResult extends HttpServlet {
 			throws IOException {
 
 		// Istantiate service on BlueMix
+		String classifierId = classifierJson.getID();
 		WatsonBinaryClassifier classifier = new WatsonBinaryClassifier(classifierJson.getApiKey());
-		classifier.setClassifierId(classifierJson.getID());
+		classifier.setClassifierId(classifierId);
 		classifier.setLabel(classifierJson.getLabel());
 
 		// Classify all zips against Watson instance
@@ -192,13 +192,9 @@ public class GetTestResult extends HttpServlet {
 			// TODO rendere più robusto
 			System.out.println("[GetTestResult runClassification()] VisualClassifierException: " + e.getMessage());
 
-			// Now we add this classifier to the zombie queue...
-			ServletContext ctx = getServletContext();
-			@SuppressWarnings("unchecked")
-			JobQueue<Job<Classifier>> zombieQueue = (JobQueue<Job<Classifier>>) ctx.getAttribute("zombieQueue");
-
-			zombieQueue.addJob(new Job<Classifier>(classifierJson));
-
+			System.out.println("[GetTestResult runClassification()] Setting classifierId: " + classifierId + " as zombie!");
+			setAsZombie(classifierId);
+			
 			// return an empty object to client
 			// TODO definire un formato di errore!
 			return new JsonObject();
@@ -317,5 +313,24 @@ public class GetTestResult extends HttpServlet {
 		// auc);
 
 		return auc;
+	}
+	
+	private void setAsZombie(String classifierId) {
+
+		// get db connection
+		Database db = CloudantClientMgr.getCloudantDB();
+
+		// Get classifier
+		 Classifier c = db.find(Classifier.class, classifierId);
+		
+		// Update classifier
+		 c.setStatus("zombie");
+		 c.setZombieSince(new Date());
+		 
+		 // now update the remote classifier
+		  Response responseUpdate = db.update(c);
+
+		  System.out.println("[ZombieDaemon] Updated cloudant db, response: " + responseUpdate);
+		  
 	}
 }

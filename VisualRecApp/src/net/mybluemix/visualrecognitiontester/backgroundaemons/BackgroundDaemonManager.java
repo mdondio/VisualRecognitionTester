@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -20,7 +19,6 @@ import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.DatasetJ
 import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.Job;
 import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.JobQueue;
 import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.TrainingJobInfo;
-import net.mybluemix.visualrecognitiontester.datamodel.Classifier;
 
 /**
  * This class is responsible to manage all background daemons that will be
@@ -62,14 +60,12 @@ public class BackgroundDaemonManager implements ServletContextListener {
 		////////////////////////////////////////////
 		// Setup context info: add all info
 		ctx = event.getServletContext();
-		ctx.setAttribute("zombieQueue", new JobQueue<Job<Classifier>>());
 		ctx.setAttribute("trainQueue", new JobQueue<Job<TrainingJobInfo>>());
 		ctx.setAttribute("datasetQueue", new JobQueue<Job<DatasetJobInfo>>());
 
 		////////////////////////////////////////////
 		// Prepare all daemons for execution
 		List<Runnable> daemons = new ArrayList<Runnable>();
-		daemons.add(new ZombieDaemon(ctx));
 		daemons.add(new TrainDaemon(ctx));
 		daemons.add(new DatasetDaemon(ctx));
 
