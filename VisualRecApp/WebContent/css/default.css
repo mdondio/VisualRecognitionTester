@@ -753,5 +753,18 @@ position:relative;
 	display: inline-block;
 }
 
-#negativetestSetGallery{ overflow: scroll; overflow-x: hidden; height: 400px; }
-#positivetestSetGallery{ overflow: scroll; overflow-x: hidden; height: 400px; }
+/* #positivetestSetGallery{ */
+	
+/* 	display: none; */
+/* 	visibility: hidden; */
+	
+/* } */
+/* #negativetestSetGallery{ */
+	
+/* 	display: none; */
+/* 	visibility: hidden; */
+	
+/* } */
+
+/* #negativetestSetGallery{ overflow: scroll; overflow-x: hidden; height: 400px; } */
+/* #positivetestSetGallery{ overflow: scroll; overflow-x: hidden; height: 400px; } */
