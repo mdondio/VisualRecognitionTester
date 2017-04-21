@@ -113,7 +113,6 @@
 
 	}
 	
-	
 	function handlerPostCall(e){
 	   		
 	       e.preventDefault();
@@ -123,7 +122,7 @@
 	       data.append('datasetId', idgallery);
 	
 	       var xhr = new XMLHttpRequest();
-	       xhr.open('POST', 'SubmitDataset', true);
+	       xhr.open('POST', 'SubmitDatasetJob', true);
 	       
 	       //Operation communication progress
 	       xhr.onload = function(e){
@@ -192,7 +191,7 @@
 							  type: 'error',
 							  imageUrl: alert_img,
 							  imageWidth: 800,
-		 						  imageHeight: 200,
+		 					  imageHeight: 200,
 							  confirmButtonColor: '#f0ad4e',
 							  confirmButtonText: 'Ok :('
 							}).then(function (isConfirm) {
