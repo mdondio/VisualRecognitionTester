@@ -1,11 +1,14 @@
 package net.mybluemix.visualrecognitiontester.blmxservices;
 
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import javax.imageio.ImageIO;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -33,17 +36,18 @@ public class ObjectStorage {
 	private String username = null;
 	private String password = null;
 	private String auth_url = null;// qui occhio aggiungi /v3
-	//private String domain = null;
-//	private String project = null; // penso sia anche il tenant
+	// private String domain = null;
+	// private String project = null; // penso sia anche il tenant
 	private String projectId = null; // penso sia anche il tenant
-//	private String region = null;
+	// private String region = null;
 
 	private String storageUrl = null;
-	
-//	Use the value of the X-Subject-Token field from the response header as the X-Auth-Token field when you make requests to the Object Storage service.
+
+	// Use the value of the X-Subject-Token field from the response header as
+	// the X-Auth-Token field when you make requests to the Object Storage
+	// service.
 	private String x_authToken = null;
-	
-		
+
 	// TODO immagino in pratica lo stato che mantiene la sessione siano i
 	// cookie?
 
@@ -57,12 +61,13 @@ public class ObjectStorage {
 		this.username = username;
 		this.password = password;
 		this.auth_url = auth_url;
-		//this.domain = domain;
+		// this.domain = domain;
 		this.projectId = projectId;
-		//this.project = project;
-		//this.region = region;
+		// this.project = project;
+		// this.region = region;
 
-		this.storageUrl = ("london".equals(region) ? "https://lon." : "https://dal.") + "objectstorage.open.softlayer.com/v1/AUTH_" + projectId;
+		this.storageUrl = ("london".equals(region) ? "https://lon." : "https://dal.")
+				+ "objectstorage.open.softlayer.com/v1/AUTH_" + projectId;
 		// doAuthenticationV1();
 		// doAuthenticationV2();
 		doAuthenticationV3();
@@ -228,14 +233,16 @@ public class ObjectStorage {
 		os.write(parent.toString().getBytes("UTF-8"));
 		os.close();
 
-		 x_authToken = con.getHeaderField("X-Subject-Token");
+		x_authToken = con.getHeaderField("X-Subject-Token");
 		System.out.println("X-Subject-Token: " + x_authToken);
-		
-//		Use the value of the X-Subject-Token field from the response header as the X-Auth-Token field when you make requests to the Object Storage service.
-		
+
+		// Use the value of the X-Subject-Token field from the response header
+		// as the X-Auth-Token field when you make requests to the Object
+		// Storage service.
+
 		// display what returns the POST request
 		StringBuilder sb = new StringBuilder();
-		//int HttpResult = con.getResponseCode();
+		// int HttpResult = con.getResponseCode();
 		BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"));
 		String line = null;
 		while ((line = br.readLine()) != null) {
@@ -246,9 +253,11 @@ public class ObjectStorage {
 	}
 
 	public HttpURLConnection doGet(String containerName, String objectName) throws IOException {
-//		Use the value of the X-Subject-Token field from the response header as the X-Auth-Token field when you make requests to the Object Storage service.
+		// Use the value of the X-Subject-Token field from the response header
+		// as the X-Auth-Token field when you make requests to the Object
+		// Storage service.
 
-		System.out.println("[ObjectStorage doGet()] Retrieving: "+ storageUrl + containerName + objectName);
+		System.out.println("[ObjectStorage doGet()] Retrieving: " + storageUrl + containerName + objectName);
 
 		URL u = new URL(storageUrl + containerName + objectName);
 
@@ -257,46 +266,41 @@ public class ObjectStorage {
 		con.setRequestProperty("X-Auth-Token", x_authToken);
 		con.setRequestProperty("Accept", "application/json");
 
-		
 		// If token expired, 401 error
-		if(con.getResponseCode() == HttpURLConnection.HTTP_UNAUTHORIZED){
+		if (con.getResponseCode() == HttpURLConnection.HTTP_UNAUTHORIZED) {
 			doAuthenticationV3();
-			
+
 			// do get again with new token
 			return doGet(containerName, objectName);
 		}
-		
+
 		// token ok, return con
 		return con;
 		/*
-		// XXX
-		// Se ho un 404, la riga sotto da eccezione filenotfound
-		int responseCode = con.getResponseCode();
-		System.out.println("Response Code : " + responseCode);
-//
-		
-		System.out.println("Content-Length: " + con.getHeaderField("Content-Length"));
-		System.out.println("Content-Type: " + con.getHeaderField("Content-Type"));
-
-		
-		
-		// Se ho un 404, la riga sotto da eccezione filenotfound
-		
-		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-		String inputLine;
-		StringBuffer response = new StringBuffer();
-
-		while ((inputLine = in.readLine()) != null) {
-			response.append(inputLine);
-		}
-		in.close();
-
-		// print result
-		System.out.println(response.toString());
-//
-//		*/
-//		
-//		
+		 * // XXX // Se ho un 404, la riga sotto da eccezione filenotfound int
+		 * responseCode = con.getResponseCode();
+		 * System.out.println("Response Code : " + responseCode); //
+		 * 
+		 * System.out.println("Content-Length: " +
+		 * con.getHeaderField("Content-Length"));
+		 * System.out.println("Content-Type: " +
+		 * con.getHeaderField("Content-Type"));
+		 * 
+		 * 
+		 * 
+		 * // Se ho un 404, la riga sotto da eccezione filenotfound
+		 * 
+		 * BufferedReader in = new BufferedReader(new
+		 * InputStreamReader(con.getInputStream())); String inputLine;
+		 * StringBuffer response = new StringBuffer();
+		 * 
+		 * while ((inputLine = in.readLine()) != null) {
+		 * response.append(inputLine); } in.close();
+		 * 
+		 * // print result System.out.println(response.toString()); // //
+		 */
+		//
+		//
 	}
 
 	public void doPost() {
@@ -305,51 +309,93 @@ public class ObjectStorage {
 
 	}
 
-	public void doDelete() {
+	// https://www.mkyong.com/java/how-to-convert-byte-to-bufferedimage-in-java/
+	public void doPut(String containerName, String objectName, BufferedImage image) throws IOException {
+		// https://developer.openstack.org/api-ref/object-storage/index.html?expanded=create-or-update-object-metadata-detail,create-or-replace-object-detail#objects
+		// curl -i $publicURL/janeausten/helloworld.txt -X PUT -d "Hello" -H
+		// "Content-Type: text/html; charset=UTF-8" -H "X-Auth-Token: $token"
+
+		System.out.println("[ObjectStorage doPut()] Retrieving: " + storageUrl + containerName + objectName);
+
+		URL u = new URL(storageUrl + containerName + objectName);
+
+		HttpURLConnection con = (HttpURLConnection) u.openConnection();
+
+		con.setRequestMethod("PUT");
+		con.setRequestProperty("X-Auth-Token", x_authToken);
+		con.setDoOutput(true);
+
+		OutputStream out = con.getOutputStream();
+		ImageIO.write(image, "jpg", out);
+		out.close();
+
+		// // If token expired, 401 error
+		// con.getInputStream();
+		if (con.getResponseCode() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+			doAuthenticationV3();
+			//
+			// // do Put again with new token
+			doPut(containerName, objectName, image);
+		}
+	}
+
+	public void doDelete(String containerName, String objectName) throws IOException {
 		System.out.println("[ObjectStorage doDelete()] called");
-		// TODO
+
+		URL u = new URL(storageUrl + containerName + objectName);
+
+		HttpURLConnection con = (HttpURLConnection) u.openConnection();
+
+		con.setRequestMethod("DELETE");
+		con.setRequestProperty("X-Auth-Token", x_authToken);
+		con.setDoOutput(true);
+
+		// // If token expired, 401 error
+		// con.getInputStream();
+		if (con.getResponseCode() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+			doAuthenticationV3();
+			//
+			// // do Put again with new token
+			doDelete(containerName, objectName);
+		}
+	}
+
+	// http://developer.openstack.org/api-ref/object-storage/?expanded=list-activated-capabilities-detail,show-container-details-and-list-objects-detail,show-account-metadata-detail,create-container-detail
+	public void createContainer(String containerName) throws IOException {
+
+		System.out.println("[ObjectStorage createContainer()] Creating...");
+		System.out.println(storageUrl);
+
+		URL u = new URL(storageUrl);
+
+		HttpURLConnection con = (HttpURLConnection) u.openConnection();
+		con.setRequestMethod("PUT");
+		con.setRequestProperty("X-Auth-Token", x_authToken);
+		con.setRequestProperty("Accept", "application/json");
+
+		// XXX
+		// Se ho un 404, la riga sotto da eccezione filenotfound
+		int responseCode = con.getResponseCode();
+		System.out.println("Response Code : " + responseCode);
+
+		// 201 vuol dire successo, creato correttamente
+		// XXX 202 vuol dire che già esisteva.. capire cosa fa
+
+		// Se ho un 404, la riga sotto da eccezione filenotfound
+		//
+		// BufferedReader in = new BufferedReader(new
+		// InputStreamReader(con.getInputStream()));
+		// String inputLine;
+		// StringBuffer response = new StringBuffer();
+		//
+		// while ((inputLine = in.readLine()) != null) {
+		// response.append(inputLine);
+		// }
+		// in.close();
+		//
+		// // print result
+		// System.out.println(response.toString());
 
 	}
 
-
-	// http://developer.openstack.org/api-ref/object-storage/?expanded=list-activated-capabilities-detail,show-container-details-and-list-objects-detail,show-account-metadata-detail,create-container-detail
-public void createContainer(String containerName) throws IOException{
-
-	System.out.println("[ObjectStorage createContainer()] Creating...");
-	System.out.println(storageUrl);
-	
-
-	URL u = new URL(storageUrl);
-
-	HttpURLConnection con = (HttpURLConnection) u.openConnection();
-	con.setRequestMethod("PUT");
-	con.setRequestProperty("X-Auth-Token", x_authToken);
-	con.setRequestProperty("Accept", "application/json");
-
-
-	// XXX
-	// Se ho un 404, la riga sotto da eccezione filenotfound
-	int responseCode = con.getResponseCode();
-	System.out.println("Response Code : " + responseCode);
-
-	// 201 vuol dire successo, creato correttamente
-	// XXX 202 vuol dire che già esisteva.. capire cosa fa
-	
-	
-	// Se ho un 404, la riga sotto da eccezione filenotfound
-//	
-//	BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-//	String inputLine;
-//	StringBuffer response = new StringBuffer();
-//
-//	while ((inputLine = in.readLine()) != null) {
-//		response.append(inputLine);
-//	}
-//	in.close();
-//
-//	// print result
-//	System.out.println(response.toString());
-
-}
-	
 }

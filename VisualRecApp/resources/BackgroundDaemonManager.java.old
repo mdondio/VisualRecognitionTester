@@ -1,10 +1,10 @@
 package net.mybluemix.visualrecognitiontester.backgroundaemons;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -19,6 +19,8 @@ import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.DatasetJ
 import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.Job;
 import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.JobQueue;
 import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.TrainingJobInfo;
+import net.mybluemix.visualrecognitiontester.datamodel.Classifier;
+
 
 /**
  * This class is responsible to manage all background daemons that will be
@@ -33,8 +35,6 @@ import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.Training
 
 @WebListener
 public class BackgroundDaemonManager implements ServletContextListener {
-
-	public static final String STAGING_AREA = "staging";
 
 	private ServletContext ctx;
 	private ExecutorService executor;
@@ -52,30 +52,34 @@ public class BackgroundDaemonManager implements ServletContextListener {
 
 		System.out.println("[BackgroundDaemonManager] contextInitialized");
 		System.out.println("[BackgroundDaemonManager] java vm name: " + System.getProperty("java.vm.name"));
-
 		
-		// First clean all files from staging area
-		cleanDisk();
 
+		// First, clean staging area at startup
+		
+		
+		
 		////////////////////////////////////////////
 		// Setup context info: add all info
 		ctx = event.getServletContext();
+		ctx.setAttribute("zombieQueue", new JobQueue<Job<Classifier>>());
 		ctx.setAttribute("trainQueue", new JobQueue<Job<TrainingJobInfo>>());
 		ctx.setAttribute("datasetQueue", new JobQueue<Job<DatasetJobInfo>>());
 
 		////////////////////////////////////////////
 		// Prepare all daemons for execution
 		List<Runnable> daemons = new ArrayList<Runnable>();
+		daemons.add(new ZombieDaemon(ctx));
 		daemons.add(new TrainDaemon(ctx));
 		daemons.add(new DatasetDaemon(ctx));
-
+		
+		
 		////////////////////////////////////////////
-		// System.out.println("[BackgroundDaemonManager] mqtt enabled");
-		// try {
-		// daemons.add(new MqttClientDaemon(ctx));
-		// } catch (MqttException e) {
-		// e.printStackTrace();
-		// }
+//		System.out.println("[BackgroundDaemonManager] mqtt enabled");
+//		try {
+//			daemons.add(new MqttClientDaemon(ctx));
+//		} catch (MqttException e) {
+//			e.printStackTrace();
+//		}
 		////////////////////////////////////////////
 
 		// Initialize executor: one thread per daemon
@@ -85,44 +89,13 @@ public class BackgroundDaemonManager implements ServletContextListener {
 		// XXX: metodo execute potrebbe usare il current thread?
 		for (Runnable daemon : daemons)
 			executor.execute(daemon);
-
-		// Finally, schedule my timer to check
+		
+		// Finally, schedule my timer to check 
 		// periodically for not ready classifiers
 		TimerTask timerTask = new ReadyTimer(ctx);
-		Timer timer = new Timer(true);
-		// every 5 mins, check classifiers!
-		timer.scheduleAtFixedRate(timerTask, 0, 5 * 60 * 1000);
-	}
-
-	private void cleanDisk() {
-		
-		// First, clean staging area at startup
-		File stagingDir = new File(STAGING_AREA);
-
-		// if it exists, delete everything
-		if (stagingDir.exists()) {
-
-			System.out.println("[BackgroundDaemonManager] Staging area exists: cleaning");
-
-			// if existing, each file is a directory
-			for (File datasetDir : stagingDir.listFiles()) {
-				System.out.println("[BackgroundDaemonManager] Cleaning " + datasetDir);
-
-
-				for (File images : datasetDir.listFiles())
-					images.delete();
-				datasetDir.delete();
-			}
-		} else{
-			System.out.println("[BackgroundDaemonManager] Staging area exists: cleaning");
-			stagingDir.mkdir();
-		}
-		
-		// Delete other files
-		File f = new File("temp_pos.zip");
-		f.delete();
-		f = new File("temp_neg.zip");
-		f.delete();
+        Timer timer = new Timer(true);
+        // every 5 mins, check classifiers!
+        timer.scheduleAtFixedRate(timerTask, 0, 5*60*1000);
 	}
 
 	/*

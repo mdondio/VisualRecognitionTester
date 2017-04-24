@@ -3,16 +3,19 @@
 <head></head>
 
 <!-- LIBRERIE GENERICHE PER JQUERY -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script> 
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script
+	src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script
+	src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
 
 <!-- FUNZIONI CREATE DA NOI -->
 <script src="js/genericFunctions.js"></script>
 <script src="js/functions.js"></script>
 
 <!-- LIBRERIA PER DISEGNARE GRAFICI -->
-<script src ="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
 <!-- LIBRERIA PER PERSONALIZZAZIONE DEGLI ALERT -->
 <script src="js/sweetalert2_mine.js"></script>
@@ -26,51 +29,60 @@
 
 <body>
 
-<header></header><script>createHeader();</script>
+	<header></header>
+	<script>createHeader();</script>
 
-<div class="content">
-
-
-<!-- <form method="post" action="SubmitDataset" enctype="multipart/form-data"> -->
-<!--   <input name='positives[]' type="file" multiple> -->
-<!--   <input name='negatives[]' type="file" multiple> -->
-<!--   <input type="submit" value="Send"> -->
-<!-- </form> -->
-<!-- <br><br><br> -->
+	<div class="content">
 
 
+		<!-- <form method="post" action="SubmitDataset" enctype="multipart/form-data"> -->
+		<!--   <input name='positives[]' type="file" multiple> -->
+		<!--   <input name='negatives[]' type="file" multiple> -->
+		<!--   <input type="submit" value="Send"> -->
+		<!-- </form> -->
+		<!-- <br><br><br> -->
 
-			<form method="post" action="SubmitDataset"
-				enctype="multipart/form-data">
-				
-				<div class="column full">
-								<input type="submit" value="Send">
-								</div>
 
-				<br><br><br>
-				
-				<div class="column half">		
+
+		<form method="post" action="SubmitDatasetJob"
+			enctype="multipart/form-data">
+
+
+
+			<div class="column full">
+				<input type="submit" value="Send">
+			</div>
+<input type="text" name="type" value="insert">
+<input type="text" name="datasetId" value="myDatasetId">
+<input type="text" name="label" value="label">
+
+			<br>
+			<br>
+			<br>
+
+			<div class="column half">
 				<p class='title center'>positive images</p>
-				<br>
-				<input type='file' id="filesPos" name="positives[]" multiple="multiple" />
+				<br> <input type='file' id="filesPos" name="positives[]"
+					multiple="multiple" />
 				<hr class="lineseparator">
 				<div id='previewImgPos'></div>
-				</div>
+			</div>
 
-				<div class="column half">
+			<div class="column half">
 				<p class='title center'>negative images</p>
-				<br>
-				<input type='file' id="filesNeg" name="negatives[]" multiple="multiple" />
+				<br> <input type='file' id="filesNeg" name="negatives[]"
+					multiple="multiple" />
 				<hr class="lineseparator">
 				<div id='previewImgNeg'></div>
-				</div>
-				
-				
-			</form>
-			
-			<br><br>
-			<button id="testswal">Test Swal Message</button>
-		</div>
+			</div>
+
+
+		</form>
+
+		<br>
+		<br>
+		<button id="testswal">Test Swal Message</button>
+	</div>
 
 
 </body>
@@ -310,24 +322,23 @@ $('#submit-every-dropzone').on('click', function () {
 </script>
 
 <style>
-#submit-every-dropzone{
-    background-color: #343b43; /* Green */
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    margin-left: 50%;
-    font-size: 16px;
-    }
-    
-.dropzone {  
- width: 900px; 
- border: dashed 2px #343b43; 
- background-color: white; 
-}  
-    
+#submit-every-dropzone {
+	background-color: #343b43; /* Green */
+	border: none;
+	color: white;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	margin-left: 50%;
+	font-size: 16px;
+}
+
+.dropzone {
+	width: 900px;
+	border: dashed 2px #343b43;
+	background-color: white;
+}
 </style>
 
 </html>

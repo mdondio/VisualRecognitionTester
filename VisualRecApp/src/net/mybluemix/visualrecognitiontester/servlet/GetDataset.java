@@ -40,10 +40,7 @@ public class GetDataset extends HttpServlet {
 
 		System.out.println("[GetDataset doGet()] Function called");
 
-		// Valori possibile:
-		// training_set
-		// test_set
-		String datasetType = request.getParameter("sub_type");
+	//	String datasetType = request.getParameter("sub_type");
 
 		// Ricevi get con parametro sub_type
 		Database db = CloudantClientMgr.getCloudantDB();
@@ -51,7 +48,10 @@ public class GetDataset extends HttpServlet {
 		
 		// Condizione
 		// temporaneo, poi verrà rimosso
-		String selector = "{\"selector\": {\"type\":\"dataset\"" + (datasetType == null ? "" : ", \"sub_type\":\"" + datasetType + "\"")+"}}";
+	//	String selector = "{\"selector\": {\"type\":\"dataset\"" + (datasetType == null ? "" : ", \"sub_type\":\"" + datasetType + "\"")+"}}";
+
+		// temporaneo, poi verrà rimosso
+		String selector = "{\"selector\": {\"type\":\"dataset\"}}";
 
 		// debug, query
 //		System.out.println("Query:  -> " + selector);
