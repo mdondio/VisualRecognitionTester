@@ -54,64 +54,51 @@
 
 <script>
 
-buildSelectDataSet("all",'#trainingdataset')
+buildSelectDataSet("all",'#trainingdataset');
 
 	$('#trainingdataset').on(
 			'change',
 			function() {
+			
 				var testsetID = $(this).val();
 				
 				$.ajax({
 					contentType : "application/json",
 					dataType : "json",
 					url : 'GetDataset',
-					data : 'sub_type=test_set',
-					async : false,
+					async : true,
 					success : function(result) {
+					
 						$("#negativeTrainingGallery").empty();
 						$("#positiveTrainingGallery").empty();
-						for ( var i in result) {
-							if (result[i]._id == testsetID) {
-								createGallery('negativeTrainingGallery',
-										result[i].images.negative,
-										result[i]._id + "NEG");
-								createGallery('positiveTrainingGallery',
-										result[i].images.positive,
-										result[i]._id + "POS");
-								$("#labelselected").html(result[i].label)
-								$("#labelselected").val(result[i]._id)
-							}
-						}
 
-					}
-				});
+						for ( var i in result ){
 
-				$.ajax({
-					contentType : "application/json",
-					dataType : "json",
-					url : 'GetDataset',
-					data : 'sub_type=training_set',
-					async : false,
-					success : function(result) {
-// 						$("#negativeTrainingGallery").empty();
-// 						$("#positiveTrainingGallery").empty();
-						for ( var i in result) {
 							if (result[i]._id == testsetID) {
-								createGallery('negativeTrainingGallery',
-										result[i].images.negative,
-										result[i]._id + "NEG");
-								createGallery('positiveTrainingGallery',
-										result[i].images.positive,
-										result[i]._id + "POS");
-								$("#labelselected").html(result[i].label)
-								$("#labelselected").val(result[i]._id)
+								
+								var positive_images = [];
+								for( var k = 0; k < result[i].images.positive.length; k++ )								
+									positive_images.push("GetImage?image_id="+result[i].images.positive[k]);
+									
+								var negative_images = [];
+								for( var j = 0; j < result[i].images.negative.length; j++ )
+									negative_images.push("GetImage?image_id="+result[i].images.negative[j]);
+								
+								createGallery('negativeTrainingGallery', negative_images, result[i]._id + "NEG");
+								createGallery('positiveTrainingGallery', positive_images, result[i]._id + "POS");
+								$("#labelselected").html(result[i].label);
+								$("#labelselected").val(result[i]._id);
+
 							}
+
+
 						}
 
 					}
 				});
 				
 			});
+			
 </script>
 
 </html>

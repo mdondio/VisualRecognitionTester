@@ -686,7 +686,7 @@ var GALLERY = "";
  */
 function showGallery(result,inputgallery) {
 
-//	var img_path = "GetImage?image_id=";
+	//var img_path = "GetImage?image_id=";
 	var img_path = "";
 			setGallery(inputgallery);
 			
@@ -698,9 +698,16 @@ function showGallery(result,inputgallery) {
 
 			//Aggiungo le immagini nella modalità preview (elemento div con id gallery)
 			for ( var i in result) {
+				
+//				var li = document.createElement("li");
+				
 				var x = document.createElement("IMG");
 				var obj = result[i];
 				x.setAttribute("src", img_path + obj);
+				
+//				x.setAttribute("src", "images/internal_error.jpg");
+//				x.setAttribute("data-src", img_path + obj);
+				
 				x.setAttribute("onclick", 'openModal();currentSlide('+slidenumber+')');
 				// TODO approfondire addEventListener anche per pezzo successivo
 				x.addEventListener("click", function(event) {
@@ -954,21 +961,26 @@ function buildSelectDataSet(dataset_type,IDselector){
 		dataType: "json",
 		url: 'GetDataset',
 		async: true,
-		success: function(result)
-		{
+		success: function(result){
+			
 			for(var i in result){
 				var obj = result[i];
 				
-	if((obj.images.positive.length + obj.images.negative.length)*(dataset_type=="test_set")<250)
-		{
+				if((obj.images.positive.length + obj.images.negative.length)*(dataset_type=="test_set")<250){
+						
 					$(IDselector).append($('<option>', {
-						value: obj._id,
-						text: obj._id
+							value: obj._id,
+							text: obj._id
 					}));
-		}
+					
+				}
+			
 			}
+			
 		}
+	
 	});
+	
 }
 
 /**

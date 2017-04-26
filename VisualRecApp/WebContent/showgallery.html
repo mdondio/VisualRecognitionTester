@@ -5,6 +5,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="js/genericFunctions.js"></script>
 <script src="js/functions.js"></script>
+<script src="js/unveil.js"></script>
 
 <script>createHead();</script>
 
@@ -35,7 +36,7 @@
 				an object representing the category</p>
 			<hr class="lineseparator">
 <!-- 			<img src='ico/spin.svg' class="waiting2"> -->
-				<div id="positivetestSetGallery"></div>
+				<div id="positivetestSetGallery"><ul></ul></div>
 		</div>
 
 		<div class="column half">
@@ -219,6 +220,8 @@
 // 	$('#negativetestSetGallery').display("none");
 // 	$('#positivetestSetGallery').display("none");
 
+	$("#testsetTitle").append(document.createTextNode(localStorage.getItem("idgallery")));
+
 	var j = 0;
 	var k = 0;
 	var flag = false;
@@ -227,13 +230,11 @@
 				contentType : "application/json",
 				dataType : "json",
 				url : 'GetDataset',
-				async : false, //better true...but why?
+				async : true,
 				success : function(result) {
-					idgallery = localStorage.getItem("idgallery");
+					
 					for ( var i in result) {
 						if (result[i]._id == idgallery) {
-		// 					var testname = idgallery.replace("_", " ");
-							$("#testsetTitle").append(document.createTextNode(idgallery)); /*sostituire idgallery con testname se si vuole parsare il titolo*/
 							
 							var negative_images = [];
 							for(j=0;j<result[i].images.negative.length;j++) 
@@ -262,6 +263,12 @@
 // 		$('#negativetestSetGallery').fadeIn("slow");
 // 		$('#positivetestSetGallery').fadeIn("slow");
 // 	}
+	
+	$(document).ready(function() {
+	
+  		setTimeout(function(){ $("img").unveil(200); },5000);
+  		
+	});
 	
 	//ADD button actions
 	$('#backicon').mouseover(function(){
