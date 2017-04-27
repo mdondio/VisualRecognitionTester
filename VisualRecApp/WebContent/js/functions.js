@@ -686,8 +686,8 @@ var GALLERY = "";
  */
 function showGallery(result,inputgallery) {
 
-	//var img_path = "GetImage?image_id=";
-	var img_path = "";
+			//var img_path = "GetImage?image_id=";
+			var img_path = "";
 			setGallery(inputgallery);
 			
 			$("#modalcontent" + GALLERY).empty();
@@ -699,33 +699,29 @@ function showGallery(result,inputgallery) {
 			//Aggiungo le immagini nella modalità preview (elemento div con id gallery)
 			for ( var i in result) {
 				
-//				var li = document.createElement("li");
-				
 				var x = document.createElement("IMG");
-				var obj = result[i];
-				x.setAttribute("src", img_path + obj);
 				
-//				x.setAttribute("src", "images/internal_error.jpg");
-//				x.setAttribute("data-src", img_path + obj);
+				x.setAttribute("data-src", img_path + result[i]);
 				
 				x.setAttribute("onclick", 'openModal();currentSlide('+slidenumber+')');
 				// TODO approfondire addEventListener anche per pezzo successivo
 				x.addEventListener("click", function(event) {
 					newImg(inputgallery, slidenumber);
 					event.preventDefault();
+//					callTestFunction();
 				});
-				x.setAttribute("class", "hover-shadow cursor");
+				x.setAttribute("class", "test hover-shadow cursor");
 				x.setAttribute("onclick", 'currentSlide('+slidenumber+')');
 				document.getElementById("gallery" + GALLERY).appendChild(x);
 				$('#modalcontent' + GALLERY).append(
 						"<div class='mySlides" + GALLERY
 								+ "'><div class='numbertext'>" + slidenumber
 								+ " / " + totalslide
-								+ "</div><img class='modal-img' src="
-								+ img_path + obj + "></div>");
+								+ "</div><img class='modal-img' data-src="
+								+ img_path + result[i] + " id='here'></div>");
 				slidenumber++;
 			}
-
+			
 			//inserisco le frecce per scorrere la galleria in modalità ZOOM (elemento div con id modalcontent)
 			var a_prev = document.createElement("a");
 			var a_next = document.createElement("a");
@@ -769,10 +765,11 @@ function showGallery(result,inputgallery) {
 				var obj = result[i];
 
 				var x = document.createElement("IMG");
-				x.setAttribute("src", img_path + obj);
+				x.setAttribute("data-src", img_path + obj);
 				x.addEventListener("click", function(event) {
 					newImgZoom(inputgallery, slidenumber);
 					event.preventDefault();
+//					callTestFunction();
 				});
 				x.setAttribute("class", "demo" + GALLERY + " cursor");
 				x.setAttribute("onclick", 'currentSlide('+slidenumber+')');
@@ -785,6 +782,19 @@ function showGallery(result,inputgallery) {
 				slidenumber++;
 			}
 			
+			
+			
+}
+
+function callTestFunction(){
+	
+	var here = document.getElementById("here");
+	
+	var test = here.getAttribute("data-src");
+	
+	here.setAttribute("data-src", null);
+	here.setAttribute("src", test);
+	
 }
 
 function newImgZoom(inputgallery,slidenumber){
@@ -895,6 +905,14 @@ function createGallery(idTOappend,images,idgallery)
  * ==============================================================================
 */
 
+function testingLoading(){
+	
+	$('.test').lazy({
+        enableThrottle: true,
+        throttle: 250
+    });
+	
+}
 
 
 

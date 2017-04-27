@@ -6,7 +6,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="js/genericFunctions.js"></script>
 <script src="js/functions.js"></script>
-<!-- <script src="js/unveil.js"></script> -->
+<script src="js/jquery.lazy.min.js"></script>
 
 <script>
     createHead();
@@ -51,9 +51,31 @@
             <!-- 			<img src='ico/spin.svg' class="waiting2"> -->
             <div id="negativetestSetGallery"></div>
         </div>
-
+<!--         <br><br><br><br><br> -->
+<!-- 	<div class="column third"> -->
+	    
+<!-- 	    <img class="test" data-src="GetImage?image_id=1" /> -->
+<!--         <img class="test" data-src="GetImage?image_id=2" /> -->
+<!--         <img class="test" data-src="GetImage?image_id=3" /> -->
+<!--         <img class="test" data-src="GetImage?image_id=4"  /> -->
+<!--         <img class="test" data-src="GetImage?image_id=5"  /> -->
+<!--         <img class="test" data-src="GetImage?image_id=6"  /> -->
+<!--         <img class="test" data-src="GetImage?image_id=7"  /> -->
+<!--         <img class="test" data-src="GetImage?image_id=8"  /> -->
+<!--         <img class="test" data-src="GetImage?image_id=9"  /> -->
+<!--         <img class="test" data-src="GetImage?image_id=10"  /> -->
+<!--         <img class="test" data-src="GetImage?image_id=11"  /> -->
+<!--         <img class="test" data-src="GetImage?image_id=12"  /> -->
+<!--         <img class="test" data-src="GetImage?image_id=13"  /> -->
+<!--         <img class="test" data-src="GetImage?image_id=14"  /> -->
+<!--         <img class="test" data-src="GetImage?image_id=15"  /> -->
+<!--         <img class="test" data-src="GetImage?image_id=16"  /> -->
+<!-- 	</div> -->
+	
     </div>
 
+	
+	
 </body>
 
 <style>
@@ -78,9 +100,23 @@
         background-image: -o-linear-gradient(top, #d00000, #d00000);
         background-image: linear-gradient(to bottom, #d00000, #d00000);
     }
+    
+    img.test {
+        width: 100px; 
+        height: 100px; 
+        display: block;
+        
+    }
+    
 </style>
 
 <script>
+// 	jQuery(document).ready(function ($) {
+	
+// 	     testingLoading();
+
+// 	});
+	
     var idgallery; //needs to be globally accessible (atm)
     $("#submit").click(function(e) {
         executionFormInputFromUser(e);
@@ -216,37 +252,41 @@
     var flag = false;
 
 	idgallery = localStorage.getItem("idgallery");
-
-    $.ajax({
-        contentType: "application/json",
-        dataType: "json",
-        url: 'GetDataset',
-        async: true,
-        success: function(result) {
-
-            for (var i in result) {
-                if (result[i]._id == idgallery) {
-
-                    $("#testsetTitle").append(document.createTextNode(idgallery)); /*sostituire idgallery con testname se si vuole parsare il titolo*/
-
-                    var negative_images = [];
-                    for (j = 0; j < result[i].images.negative.length; j++)
-                        negative_images.push("GetImage?image_id=" + result[i].images.negative[j]);
-
-                    var positive_images = [];
-                    for (k = 0; k < result[i].images.positive.length; k++)
-                        positive_images.push("GetImage?image_id=" + result[i].images.positive[k]);
-
-                    createGallery('negativetestSetGallery', negative_images, result[i]._id + "NEG");
-                    createGallery('positivetestSetGallery', positive_images, result[i]._id + "POS");
-
-                }
-                
-            }
-
-        }
-
-    });
+	
+	   $.ajax({
+	        contentType: "application/json",
+	        dataType: "json",
+	        url: 'GetDataset',
+	        async: true,
+	        success: function(result) {
+	
+	            for (var i in result) {
+	                if (result[i]._id == idgallery) {
+	
+	                    $("#testsetTitle").append(document.createTextNode(idgallery)); /*sostituire idgallery con testname se si vuole parsare il titolo*/
+	
+	                    var negative_images = [];
+	                    for (j = 0; j < result[i].images.negative.length; j++)
+	                        negative_images.push("GetImage?image_id=" + result[i].images.negative[j]);
+	
+	                    var positive_images = [];
+	                    for (k = 0; k < result[i].images.positive.length; k++)
+	                        positive_images.push("GetImage?image_id=" + result[i].images.positive[k]);
+	
+	                    createGallery('negativetestSetGallery', negative_images, result[i]._id + "NEG");
+	                    createGallery('positivetestSetGallery', positive_images, result[i]._id + "POS");
+	
+	                }
+	                
+	            }
+				
+	        }
+	
+	    });
+	 
+	$(document).ajaxStop(function () {
+      testingLoading();
+  	});
 
     //ADD button actions
     $('#backicon').mouseover(function() {
