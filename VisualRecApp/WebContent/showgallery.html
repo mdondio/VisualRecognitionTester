@@ -1,288 +1,265 @@
 <!DOCTYPE html>
 <html>
+
 <head></head>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="js/genericFunctions.js"></script>
 <script src="js/functions.js"></script>
-<script src="js/unveil.js"></script>
+<!-- <script src="js/unveil.js"></script> -->
 
-<script>createHead();</script>
+<script>
+    createHead();
+</script>
 
 <body>
-  <header id="header" style="animation-duration:2s"></header>
-  <script>createHeader();</script>
+    <header id="header" style="animation-duration:2s"></header>
+    <script>
+        createHeader();
+    </script>
 
+    <div class="content">
 
-	<div class="content">
-		
-		<input type=image id="backicon" class="inline" src="ico/backDARK.png" style="width:60px;height:auto;">
-		<button id="submit" class="btnUpload">Delete!</button>
-		
-		<br>
+        <input type=image id="backicon" class="inline" src="ico/backDARK.png" style="width:60px;height:auto;">
+        <button id="submit" class="btnUpload">Delete!</button>
 
-			<div class="column third">&ensp;</div>
-			<div class="column third">
-				<h3 id="testsetTitle"></h3>
-			</div>
-			<div class="column third">&ensp;</div>
+        <br>
 
-		
-		<br> <br> <br> <br>
+        <div class="column third">&ensp;</div>
+        <div class="column third">
+            <h3 id="testsetTitle"></h3>
+        </div>
+        <div class="column third">&ensp;</div>
 
-		<div class="column half">
-			<p class='title center'>positive images</p>
-			<p class='paragraph center'>list of all the pictures containing
-				an object representing the category</p>
-			<hr class="lineseparator">
-<!-- 			<img src='ico/spin.svg' class="waiting2"> -->
-				<div id="positivetestSetGallery"><ul></ul></div>
-		</div>
+        <br>
+        <br>
+        <br>
+        <br>
 
-		<div class="column half">
-			<p class='title center'>negative images</p>
-			<p class='paragraph center'>list of all the pictures not
-				containing any object representing the category, but similar ones</p>
-			<hr class="lineseparator">
-<!-- 			<img src='ico/spin.svg' class="waiting2"> -->
-			<div id="negativetestSetGallery"></div>
-		</div>
+        <div class="column half">
+            <p class='title center'>positive images</p>
+            <p class='paragraph center'>list of all the pictures containing an object representing the category</p>
+            <hr class="lineseparator">
+            <!-- 			<img src='ico/spin.svg' class="waiting2"> -->
+            <div id="positivetestSetGallery"></div>
+        </div>
 
+        <div class="column half">
+            <p class='title center'>negative images</p>
+            <p class='paragraph center'>list of all the pictures not containing any object representing the category, but similar ones</p>
+            <hr class="lineseparator">
+            <!-- 			<img src='ico/spin.svg' class="waiting2"> -->
+            <div id="negativetestSetGallery"></div>
+        </div>
 
-	</div>
-
+    </div>
 
 </body>
 
 <style>
-.btnUpload {
-  -webkit-border-radius: 7;
-  -moz-border-radius: 7;
-  border-radius: 7px;
-  font-family: Arial;
-  color: #ffffff;
-  font-size: 20px;
-  background: #f90000;
-  padding: 10px 20px 10px 20px;
-  border: solid #000000 2px;
-  text-decoration: none;
-}
-.btnUpload:hover {
-  background: #d00000;
-  background-image: -webkit-linear-gradient(top, #d00000, #d00000);
-  background-image: -moz-linear-gradient(top, #d00000, #d00000);
-  background-image: -ms-linear-gradient(top, #d00000, #d00000);
-  background-image: -o-linear-gradient(top, #d00000, #d00000);
-  background-image: linear-gradient(to bottom, #d00000, #d00000);
-}
+    .btnUpload {
+        -webkit-border-radius: 7;
+        -moz-border-radius: 7;
+        border-radius: 7px;
+        font-family: Arial;
+        color: #ffffff;
+        font-size: 20px;
+        background: #f90000;
+        padding: 10px 20px 10px 20px;
+        border: solid #000000 2px;
+        text-decoration: none;
+    }
+    
+    .btnUpload:hover {
+        background: #d00000;
+        background-image: -webkit-linear-gradient(top, #d00000, #d00000);
+        background-image: -moz-linear-gradient(top, #d00000, #d00000);
+        background-image: -ms-linear-gradient(top, #d00000, #d00000);
+        background-image: -o-linear-gradient(top, #d00000, #d00000);
+        background-image: linear-gradient(to bottom, #d00000, #d00000);
+    }
 </style>
 
 <script>
-
- 	var idgallery; //needs to be globally accessible (atm)
-
-	$("#submit").click( function(e){ 
-        	executionFormInputFromUser(e);
+    var idgallery; //needs to be globally accessible (atm)
+    $("#submit").click(function(e) {
+        executionFormInputFromUser(e);
     });
 
-	function executionFormInputFromUser(e){
+    function executionFormInputFromUser(e) {
+        swal({
+            title: 'Are you sure?',
+            text: 'Are you sure you want to delete dataset\n\n [' + idgallery + '] ?\n\n',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Delete!',
+            cancelButtonText: 'No!'
+        }).then(function(isConfirm) {
 
-		swal({
-		  title: 'Are you sure?',
-		  text: 'Are you sure you want to delete dataset\n\n [' + idgallery + '] ?\n\n',
-		  type: 'warning',
-		  showCancelButton: true,
-		  confirmButtonColor: '#3085d6',
-		  cancelButtonColor: '#d33',
-		  confirmButtonText: 'Delete!',
-		  cancelButtonText: 'No!'
-		}).then(function (isConfirm) {
-						  
-			if(isConfirm)
-				handlerPostCall(e);
-			else{
-				
-				 swal({
-				      title: 'Operation Aborted',
-				      text: 'This dataset is safe :)',
-				      type: 'error'
-			     })
-				
-			}
-								
-		})
+            if (isConfirm)
+                handlerPostCall(e);
+            else {
 
-	}
-	
-	function handlerPostCall(e){
-	   		
-	       e.preventDefault();
-	       var data = new FormData();
-	       
-	       data.append('type', 'delete');
-	       data.append('datasetId', idgallery);
-	
-	       var xhr = new XMLHttpRequest();
-	       xhr.open('POST', 'SubmitDatasetJob', true);
-	       
-	       //Operation communication progress
-	       xhr.onload = function(e){
-	       	
-	       	//Everything seems to be OK
-	           if(this.status == 200) {
-	               
-	               swal({
-						  title: 'Succes!',
-						  text: 'Dataset [' + idgallery + '] has been correclty deleted!',
-						  type: 'info',
-						  confirmButtonColor: '#5cb85c',
-						  confirmButtonText: 'Yeah!'
-						}).then(function (isConfirm) {
-						  
-							if(isConfirm)
-								window.location.href = 'home.html';
-								
-					})
-	               
-	           }
-	           
-	           else{
-	           	
-		           	var err_type = this.status;
-		           	var alert_title, alert_text, alert_img = null;
-					
-					switch( err_type ){
-						
-						//BAD (cit. the Donald) request
-						case 400:
-							alert_title = "BAD REQUEST";
-							alert_text = "Our server could not understand the request...\nSorry about that.\n\n";
-							break;
-						case 401:
-							alert_title = "UNAUTHORIZED";
-							alert_text = "Authentication is needed to get requested response.\n\n";
-							break;
-						case 404:
-							alert_title = "NOT FOUND";
-							alert_text = "Our Server wasn't able to retrieve the requested resource. \n\nI know right?!\n";
-							break;
-						case 408:
-							alert_title = "REQUEST TIMEOUT";
-							alert_text = "Our server did not receive a complete request message within the time that it was prepared to wait.\nHe's impatient...\n\n";
-							break;
-						//This is serious
-						case 500:
-							alert_title = "INTERNAL ERROR";
-							alert_text = "This is on our side...sorry about that!\n\n";
-							alert_img = 'images/internal_error.jpg';
-							break;
-						case 503:
-							alert_title = "SERVICE'S OVERLOADED";
-							alert_text = "Our server is really busy at the moment, try again in a few minutes...\n\n";
-							break;
-						default:
-							alert_title = "GENERIC ERROR";
-							alert_text = "An error occured...try again please!\n";
-					
-					}
-		           	
-		           	swal({
-							  title: '*** ' + alert_title + ' ***',
-							  text: alert_text,
-							  type: 'error',
-							  imageUrl: alert_img,
-							  imageWidth: 800,
-		 					  imageHeight: 200,
-							  confirmButtonColor: '#f0ad4e',
-							  confirmButtonText: 'Ok :('
-							}).then(function (isConfirm) {
-							  
-								if(isConfirm)
-									location.reload();
-									
-							})
-		           	
-	           	}
-	           
-	       }//Operation communication progress END
-	
-	       xhr.send(data);
-       
-   }
-	
-	
-	//**************************************************************************
-	//********* GET FROM THE SERVER TESTSET ***************************
-	//**************************************************************************
+                swal({
+                    title: 'Operation Aborted',
+                    text: 'This dataset is safe :)',
+                    type: 'error'
+                })
 
-// 	var loading_status = false;
-	
-// 	$('#negativetestSetGallery').display("none");
-// 	$('#positivetestSetGallery').display("none");
+            }
 
-	$("#testsetTitle").append(document.createTextNode(localStorage.getItem("idgallery")));
+        })
+    }
 
-	var j = 0;
-	var k = 0;
-	var flag = false;
+    function handlerPostCall(e) {
 
-			$.ajax({
-				contentType : "application/json",
-				dataType : "json",
-				url : 'GetDataset',
-				async : true,
-				success : function(result) {
-					
-					for ( var i in result) {
-						if (result[i]._id == idgallery) {
-							
-							var negative_images = [];
-							for(j=0;j<result[i].images.negative.length;j++) 
-								negative_images.push("GetImage?image_id="+result[i].images.negative[j]);
-		
-							var positive_images = [];
-							for(k=0;k<result[i].images.positive.length;k++) 
-								positive_images.push("GetImage?image_id="+result[i].images.positive[k]);
-							
- 							createGallery('negativetestSetGallery',negative_images, result[i]._id + "NEG");
- 							createGallery('positivetestSetGallery',positive_images, result[i]._id + "POS");							
-							
-						}
+        e.preventDefault();
+        var data = new FormData();
 
-					}		
-				
-				}
-				
-			});		
-	
+        data.append('type', 'delete');
+        data.append('datasetId', idgallery);
 
-// 	loading_status = true;
-	
-// 	if(loading_status){
-// 		$('.waiting2').fadeOut("slow");
-// 		$('#negativetestSetGallery').fadeIn("slow");
-// 		$('#positivetestSetGallery').fadeIn("slow");
-// 	}
-	
-	$(document).ready(function() {
-	
-  		setTimeout(function(){ $("img").unveil(200); },5000);
-  		
-	});
-	
-	//ADD button actions
-	$('#backicon').mouseover(function(){
-	$(this).attr('src','ico/back.png');
-	});
-	
-	$('#backicon').mouseleave(function(){
-		$(this).attr('src',"ico/backDARK.png" );
-	});
-	
-	$('#backicon').click(function(){
-		window.history.back();
-	});
-	
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'SubmitDatasetJob', true);
+
+        //Operation communication progress
+        xhr.onload = function(e) {
+
+                //Everything seems to be OK
+                if (this.status == 200) {
+
+                    swal({
+                        title: 'Succes!',
+                        text: 'Dataset [' + idgallery + '] has been correclty deleted!',
+                        type: 'info',
+                        confirmButtonColor: '#5cb85c',
+                        confirmButtonText: 'Yeah!'
+                    }).then(function(isConfirm) {
+
+                        if (isConfirm)
+                            window.location.href = 'home.html';
+
+                    })
+
+                } else {
+
+                    var err_type = this.status;
+                    var alert_title, alert_text, alert_img = null;
+
+                    switch (err_type) {
+
+                        //BAD (cit. the Donald) request
+                        case 400:
+                            alert_title = "BAD REQUEST";
+                            alert_text = "Our server could not understand the request...\nSorry about that.\n\n";
+                            break;
+                        case 401:
+                            alert_title = "UNAUTHORIZED";
+                            alert_text = "Authentication is needed to get requested response.\n\n";
+                            break;
+                        case 404:
+                            alert_title = "NOT FOUND";
+                            alert_text = "Our Server wasn't able to retrieve the requested resource. \n\nI know right?!\n";
+                            break;
+                        case 408:
+                            alert_title = "REQUEST TIMEOUT";
+                            alert_text = "Our server did not receive a complete request message within the time that it was prepared to wait.\nHe's impatient...\n\n";
+                            break;
+                            //This is serious
+                        case 500:
+                            alert_title = "INTERNAL ERROR";
+                            alert_text = "This is on our side...sorry about that!\n\n";
+                            alert_img = 'images/internal_error.jpg';
+                            break;
+                        case 503:
+                            alert_title = "SERVICE'S OVERLOADED";
+                            alert_text = "Our server is really busy at the moment, try again in a few minutes...\n\n";
+                            break;
+                        default:
+                            alert_title = "GENERIC ERROR";
+                            alert_text = "An error occured...try again please!\n";
+
+                    }
+
+                    swal({
+                        title: '*** ' + alert_title + ' ***',
+                        text: alert_text,
+                        type: 'error',
+                        imageUrl: alert_img,
+                        imageWidth: 800,
+                        imageHeight: 200,
+                        confirmButtonColor: '#f0ad4e',
+                        confirmButtonText: 'Ok :('
+                    }).then(function(isConfirm) {
+
+                        if (isConfirm)
+                            location.reload();
+
+                    })
+
+                }
+
+            } //Operation communication progress END
+
+        xhr.send(data);
+
+    }
+
+    //**************************************************************************
+    //********* GET FROM THE SERVER TESTSET ***************************
+    //**************************************************************************
+
+    var j = 0;
+    var k = 0;
+    var flag = false;
+
+	idgallery = localStorage.getItem("idgallery");
+
+    $.ajax({
+        contentType: "application/json",
+        dataType: "json",
+        url: 'GetDataset',
+        async: true,
+        success: function(result) {
+
+            for (var i in result) {
+                if (result[i]._id == idgallery) {
+
+                    $("#testsetTitle").append(document.createTextNode(idgallery)); /*sostituire idgallery con testname se si vuole parsare il titolo*/
+
+                    var negative_images = [];
+                    for (j = 0; j < result[i].images.negative.length; j++)
+                        negative_images.push("GetImage?image_id=" + result[i].images.negative[j]);
+
+                    var positive_images = [];
+                    for (k = 0; k < result[i].images.positive.length; k++)
+                        positive_images.push("GetImage?image_id=" + result[i].images.positive[k]);
+
+                    createGallery('negativetestSetGallery', negative_images, result[i]._id + "NEG");
+                    createGallery('positivetestSetGallery', positive_images, result[i]._id + "POS");
+
+                }
+                
+            }
+
+        }
+
+    });
+
+    //ADD button actions
+    $('#backicon').mouseover(function() {
+        $(this).attr('src', 'ico/back.png');
+    });
+
+    $('#backicon').mouseleave(function() {
+        $(this).attr('src', "ico/backDARK.png");
+    });
+
+    $('#backicon').click(function() {
+        window.history.back();
+    });
 </script>
 
 </html>
