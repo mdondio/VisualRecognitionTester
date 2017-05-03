@@ -701,27 +701,40 @@ function showGallery(result,inputgallery) {
 				
 				var x = document.createElement("IMG");
 				
-				x.setAttribute("data-src", img_path + result[i]);
+				//x.setAttribute("data-src", img_path + result[i]);
+				x.setAttribute("src", img_path + result[i]);
+				
 				
 				x.setAttribute("onclick", 'openModal();currentSlide('+slidenumber+')');
 				// TODO approfondire addEventListener anche per pezzo successivo
 				x.addEventListener("click", function(event) {
+					//callTestFunction(img_path + result[i]);
 					newImg(inputgallery, slidenumber);
-					event.preventDefault();
-//					callTestFunction();
+					event.preventDefault();					
 				});
-				x.setAttribute("class", "test hover-shadow cursor");
+				x.setAttribute("class", "test hover-shadow cursor"); //was test hover-shadow cursor
 				x.setAttribute("onclick", 'currentSlide('+slidenumber+')');
 				document.getElementById("gallery" + GALLERY).appendChild(x);
+				
+				//For GIAN!
+				var gian_str = result[i];
+				gian_str = gian_str.substring(gian_str.indexOf("=") + 1);
+				//For GIAN! {END}
+				
 				$('#modalcontent' + GALLERY).append(
 						"<div class='mySlides" + GALLERY
 								+ "'><div class='numbertext'>" + slidenumber
 								+ " / " + totalslide
-								+ "</div><img class='modal-img' data-src="
-								+ img_path + result[i] + " id='here'></div>");
+								+ "</div><h1>"+gian_str+"</h1><img class='modal-img' src="
+								+ img_path + result[i] + "></div>");
+//								+ "</div><img class='modal-img' data-src="
+//								+ img_path + result[i] + " id='here' ></div>");
+				
+				
+								//+ img_path + result[i] + " src="+ img_path + result[i] + " ></div>");
 				slidenumber++;
+//				callTestFunction(img_path + result[i]);
 			}
-			
 			//inserisco le frecce per scorrere la galleria in modalità ZOOM (elemento div con id modalcontent)
 			var a_prev = document.createElement("a");
 			var a_next = document.createElement("a");
@@ -765,7 +778,8 @@ function showGallery(result,inputgallery) {
 				var obj = result[i];
 
 				var x = document.createElement("IMG");
-				x.setAttribute("data-src", img_path + obj);
+				//x.setAttribute("data-src", img_path + result[i]);
+				x.setAttribute("src", img_path + result[i]);
 				x.addEventListener("click", function(event) {
 					newImgZoom(inputgallery, slidenumber);
 					event.preventDefault();
@@ -786,16 +800,14 @@ function showGallery(result,inputgallery) {
 			
 }
 
-function callTestFunction(){
-	
-	var here = document.getElementById("here");
-	
-	var test = here.getAttribute("data-src");
-	
-	here.setAttribute("data-src", null);
-	here.setAttribute("src", test);
-	
-}
+//function callTestFunction(test_parameter){
+//	
+//	var here = document.getElementById("here");
+//	
+//	here.setAttribute("data-src", null);
+//	here.setAttribute("src", test_parameter);
+//	
+//}
 
 function newImgZoom(inputgallery,slidenumber){
 	setGallery(inputgallery);
@@ -847,7 +859,7 @@ function showSlides(n) {
 	} else {
 		var i;
 		var slides = document.getElementsByClassName("mySlides" + GALLERY);
-		console.log(GALLERY);
+		console.log("HERE --> " + GALLERY);
 		var dots = document.getElementsByClassName("demo" + GALLERY);
 		var captionText = document.getElementById("caption" + GALLERY);
 		if (n > slides.length) {
@@ -905,16 +917,14 @@ function createGallery(idTOappend,images,idgallery)
  * ==============================================================================
 */
 
-function testingLoading(){
-	
-	$('.test').lazy({
-        enableThrottle: true,
-        throttle: 250
-    });
-	
-}
-
-
+//function testingLoading(){
+//	
+//	$('.test').lazy({
+//        enableThrottle: true,
+//        throttle: 250
+//    });
+//	
+//}
 
 /*
  * ==============================================================================
