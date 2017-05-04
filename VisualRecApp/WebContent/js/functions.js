@@ -701,14 +701,13 @@ function showGallery(result,inputgallery) {
 				
 				var x = document.createElement("IMG");
 				
-				//x.setAttribute("data-src", img_path + result[i]);
-				x.setAttribute("src", img_path + result[i]);
+				x.setAttribute("data-src", img_path + result[i]);
+//				x.setAttribute("src", img_path + result[i]);
 				
 				
 				x.setAttribute("onclick", 'openModal();currentSlide('+slidenumber+')');
 				// TODO approfondire addEventListener anche per pezzo successivo
 				x.addEventListener("click", function(event) {
-					//callTestFunction(img_path + result[i]);
 					newImg(inputgallery, slidenumber);
 					event.preventDefault();					
 				});
@@ -725,16 +724,16 @@ function showGallery(result,inputgallery) {
 						"<div class='mySlides" + GALLERY
 								+ "'><div class='numbertext'>" + slidenumber
 								+ " / " + totalslide
-								+ "</div><h1>"+gian_str+"</h1><img class='modal-img' src="
+//								+ "</div><h1>"+gian_str+"</h1><img class='modal-img' src="
+//								+ img_path + result[i] + "></div>");
+								+ "</div><h1>"+gian_str+"</h1>><img class='modal-img' data-src="
 								+ img_path + result[i] + "></div>");
-//								+ "</div><img class='modal-img' data-src="
-//								+ img_path + result[i] + " id='here' ></div>");
-				
 				
 								//+ img_path + result[i] + " src="+ img_path + result[i] + " ></div>");
 				slidenumber++;
-//				callTestFunction(img_path + result[i]);
+				
 			}
+			
 			//inserisco le frecce per scorrere la galleria in modalità ZOOM (elemento div con id modalcontent)
 			var a_prev = document.createElement("a");
 			var a_next = document.createElement("a");
@@ -778,12 +777,11 @@ function showGallery(result,inputgallery) {
 				var obj = result[i];
 
 				var x = document.createElement("IMG");
-				//x.setAttribute("data-src", img_path + result[i]);
-				x.setAttribute("src", img_path + result[i]);
+				x.setAttribute("data-src", img_path + result[i]);
+//				x.setAttribute("src", img_path + result[i]);
 				x.addEventListener("click", function(event) {
 					newImgZoom(inputgallery, slidenumber);
 					event.preventDefault();
-//					callTestFunction();
 				});
 				x.setAttribute("class", "demo" + GALLERY + " cursor");
 				x.setAttribute("onclick", 'currentSlide('+slidenumber+')');
@@ -796,18 +794,7 @@ function showGallery(result,inputgallery) {
 				slidenumber++;
 			}
 			
-			
-			
 }
-
-//function callTestFunction(test_parameter){
-//	
-//	var here = document.getElementById("here");
-//	
-//	here.setAttribute("data-src", null);
-//	here.setAttribute("src", test_parameter);
-//	
-//}
 
 function newImgZoom(inputgallery,slidenumber){
 	setGallery(inputgallery);
@@ -859,7 +846,8 @@ function showSlides(n) {
 	} else {
 		var i;
 		var slides = document.getElementsByClassName("mySlides" + GALLERY);
-		console.log("HERE --> " + GALLERY);
+//		console.log("HERE --> " + GALLERY);
+		var changeForLazy = document.getElementsByClassName("modal-img");
 		var dots = document.getElementsByClassName("demo" + GALLERY);
 		var captionText = document.getElementById("caption" + GALLERY);
 		if (n > slides.length) {
@@ -868,9 +856,20 @@ function showSlides(n) {
 		if (n < 1) {
 			SLIDEINDEX = slides.length
 		}
+		
+		for( var i = 0; i < changeForLazy.length; i++ ){
+			
+			var old = changeForLazy[i].getAttribute("data-src");
+			changeForLazy[i].src = old;
+			
+		}
+		
 		for (i = 0; i < slides.length; i++) {
 			slides[i].style.display = "none";
 		}
+		
+
+		
 		for (i = 0; i < dots.length; i++) {
 			dots[i].className = dots[i].className.replace(" active", "");
 		}
@@ -917,14 +916,14 @@ function createGallery(idTOappend,images,idgallery)
  * ==============================================================================
 */
 
-//function testingLoading(){
-//	
-//	$('.test').lazy({
-//        enableThrottle: true,
-//        throttle: 250
-//    });
-//	
-//}
+function testingLoading(){
+	
+	$('.test').lazy({
+        enableThrottle: true,
+        throttle: 250
+    });
+	
+}
 
 /*
  * ==============================================================================

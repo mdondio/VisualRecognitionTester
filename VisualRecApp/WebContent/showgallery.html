@@ -6,7 +6,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="js/genericFunctions.js"></script>
 <script src="js/functions.js"></script>
-<!-- <script src="js/jquery.lazy.min.js"></script> -->
+<script src="js/jquery.lazy.min.js"></script>
 
 <script>
     createHead();
@@ -243,6 +243,9 @@
     var j = 0;
     var k = 0;
     var flag = false;
+    
+    var negative_images = [];
+    var positive_images = [];
 
 	idgallery = localStorage.getItem("idgallery");
 	
@@ -258,11 +261,14 @@
 	
 	                    $("#testsetTitle").append(document.createTextNode(idgallery)); /*sostituire idgallery con testname se si vuole parsare il titolo*/
 	
-	                    var negative_images = [];
-	                    for (j = 0; j < result[i].images.negative.length; j++)
+	                    //var negative_images = [];
+	                    negative_images = [];
+	                    for (j = 0; j < result[i].images.negative.length; j++)	                        
 	                        negative_images.push("GetImage?image_id=" + result[i].images.negative[j]);
+
 	
-	                    var positive_images = [];
+	                    //var positive_images = [];
+	                    positive_images = [];
 	                    for (k = 0; k < result[i].images.positive.length; k++)
 	                        positive_images.push("GetImage?image_id=" + result[i].images.positive[k]);
 	
@@ -277,9 +283,9 @@
 	
 	    });
 	 
-// 	$(document).ajaxStop(function () {
-//       testingLoading();
-//   	});
+	$(document).ajaxStop(function () {
+      testingLoading();
+  	});
 
     //ADD button actions
     $('#backicon').mouseover(function() {
