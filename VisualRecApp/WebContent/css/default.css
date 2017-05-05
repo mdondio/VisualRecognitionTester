@@ -333,6 +333,16 @@ input[type=password]:focus {
 
 
 /*============ IMMAGINI ==========*/
+
+img.test {
+
+	width: 100px;
+	height: 100px;
+	float: left;
+	margin-top: 10px;
+	margin-right: 11px;
+}
+
 img.icon {
 	display: block;
 }

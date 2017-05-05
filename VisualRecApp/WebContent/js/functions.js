@@ -686,8 +686,8 @@ var GALLERY = "";
  */
 function showGallery(result,inputgallery) {
 
-//	var img_path = "GetImage?image_id=";
-	var img_path = "";
+			//var img_path = "GetImage?image_id=";
+			var img_path = "";
 			setGallery(inputgallery);
 			
 			$("#modalcontent" + GALLERY).empty();
@@ -698,27 +698,42 @@ function showGallery(result,inputgallery) {
 
 			//Aggiungo le immagini nella modalità preview (elemento div con id gallery)
 			for ( var i in result) {
+				
 				var x = document.createElement("IMG");
-				var obj = result[i];
-				x.setAttribute("src", img_path + obj);
+				
+				x.setAttribute("data-src", img_path + result[i]);
+//				x.setAttribute("src", img_path + result[i]);
+				
+				
 				x.setAttribute("onclick", 'openModal();currentSlide('+slidenumber+')');
 				// TODO approfondire addEventListener anche per pezzo successivo
 				x.addEventListener("click", function(event) {
 					newImg(inputgallery, slidenumber);
-					event.preventDefault();
+					event.preventDefault();					
 				});
-				x.setAttribute("class", "hover-shadow cursor");
+				x.setAttribute("class", "test hover-shadow cursor"); //was test hover-shadow cursor
 				x.setAttribute("onclick", 'currentSlide('+slidenumber+')');
 				document.getElementById("gallery" + GALLERY).appendChild(x);
+				
+				//For GIAN!
+				var gian_str = result[i];
+				gian_str = gian_str.substring(gian_str.indexOf("=") + 1);
+				//For GIAN! {END}
+				
 				$('#modalcontent' + GALLERY).append(
 						"<div class='mySlides" + GALLERY
 								+ "'><div class='numbertext'>" + slidenumber
 								+ " / " + totalslide
-								+ "</div><img class='modal-img' src="
-								+ img_path + obj + "></div>");
+//								+ "</div><h1>"+gian_str+"</h1><img class='modal-img' src="
+//								+ img_path + result[i] + "></div>");
+								+ "</div><h1>"+gian_str+"</h1>><img class='modal-img' data-src="
+								+ img_path + result[i] + "></div>");
+				
+								//+ img_path + result[i] + " src="+ img_path + result[i] + " ></div>");
 				slidenumber++;
+				
 			}
-
+			
 			//inserisco le frecce per scorrere la galleria in modalità ZOOM (elemento div con id modalcontent)
 			var a_prev = document.createElement("a");
 			var a_next = document.createElement("a");
@@ -762,7 +777,8 @@ function showGallery(result,inputgallery) {
 				var obj = result[i];
 
 				var x = document.createElement("IMG");
-				x.setAttribute("src", img_path + obj);
+				x.setAttribute("data-src", img_path + result[i]);
+//				x.setAttribute("src", img_path + result[i]);
 				x.addEventListener("click", function(event) {
 					newImgZoom(inputgallery, slidenumber);
 					event.preventDefault();
@@ -830,7 +846,8 @@ function showSlides(n) {
 	} else {
 		var i;
 		var slides = document.getElementsByClassName("mySlides" + GALLERY);
-		console.log(GALLERY);
+//		console.log("HERE --> " + GALLERY);
+		var changeForLazy = document.getElementsByClassName("modal-img");
 		var dots = document.getElementsByClassName("demo" + GALLERY);
 		var captionText = document.getElementById("caption" + GALLERY);
 		if (n > slides.length) {
@@ -839,9 +856,20 @@ function showSlides(n) {
 		if (n < 1) {
 			SLIDEINDEX = slides.length
 		}
+		
+		for( var i = 0; i < changeForLazy.length; i++ ){
+			
+			var old = changeForLazy[i].getAttribute("data-src");
+			changeForLazy[i].src = old;
+			
+		}
+		
 		for (i = 0; i < slides.length; i++) {
 			slides[i].style.display = "none";
 		}
+		
+
+		
 		for (i = 0; i < dots.length; i++) {
 			dots[i].className = dots[i].className.replace(" active", "");
 		}
@@ -888,8 +916,14 @@ function createGallery(idTOappend,images,idgallery)
  * ==============================================================================
 */
 
-
-
+function testingLoading(){
+	
+	$('.test').lazy({
+        enableThrottle: true,
+        throttle: 250
+    });
+	
+}
 
 /*
  * ==============================================================================
@@ -954,21 +988,26 @@ function buildSelectDataSet(dataset_type,IDselector){
 		dataType: "json",
 		url: 'GetDataset',
 		async: true,
-		success: function(result)
-		{
+		success: function(result){
+			
 			for(var i in result){
 				var obj = result[i];
 				
-	if((obj.images.positive.length + obj.images.negative.length)*(dataset_type=="test_set")<250)
-		{
+				if((obj.images.positive.length + obj.images.negative.length)*(dataset_type=="test_set")<250){
+						
 					$(IDselector).append($('<option>', {
-						value: obj._id,
-						text: obj._id
+							value: obj._id,
+							text: obj._id
 					}));
-		}
+					
+				}
+			
 			}
+			
 		}
+	
 	});
+	
 }
 
 /**
