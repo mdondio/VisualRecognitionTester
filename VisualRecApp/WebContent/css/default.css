@@ -333,6 +333,16 @@ input[type=password]:focus {
 
 
 /*============ IMMAGINI ==========*/
+
+img.test {
+
+	width: 100px;
+	height: 100px;
+	float: left;
+	margin-top: 10px;
+	margin-right: 11px;
+}
+
 img.icon {
 	display: block;
 }
@@ -522,10 +532,11 @@ img#waiting{
 }
 
 .smoothrectangle {
-	width: 100%;
+	width: 85%;
 	height: 50px;
 	margin-top: 10px;
 	margin-bottom: 10px;
+	margin-left: 25px;
 	padding: 12px;
 	background: #ECECEC;
 	font-family: IBM;
@@ -768,3 +779,5 @@ position:relative;
 
 /* #negativetestSetGallery{ overflow: scroll; overflow-x: hidden; height: 400px; } */
 /* #positivetestSetGallery{ overflow: scroll; overflow-x: hidden; height: 400px; } */
+
+#listdataset{ overflow: scroll; overflow-x: hidden; height: 400px; }
