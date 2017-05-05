@@ -777,7 +777,7 @@ position:relative;
 	
 /* } */
 
-#negativetestSetGallery{ overflow: scroll; overflow-x: hidden; height: 400px; }
-#positivetestSetGallery{ overflow: scroll; overflow-x: hidden; height: 400px; }
+/* #negativetestSetGallery{ overflow: scroll; overflow-x: hidden; height: 400px; } */
+/* #positivetestSetGallery{ overflow: scroll; overflow-x: hidden; height: 400px; } */
 
 #listdataset{ overflow: scroll; overflow-x: hidden; height: 400px; }
