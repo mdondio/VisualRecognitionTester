@@ -15,6 +15,7 @@ import javax.servlet.ServletContext;
 import com.cloudant.client.api.Database;
 import com.cloudant.client.api.model.FindByIndexOptions;
 import com.cloudant.client.api.model.Response;
+import com.ibm.watson.developer_cloud.service.exception.ServiceResponseException;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.VisualRecognition;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassifier;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassifier.Status;
@@ -128,7 +129,7 @@ public class ReadyTimer extends TimerTask {
 		classifier.setLabel(c.getLabel());
 		try {
 			classifier.classify(zip, Utils.WATSONMINSCORE);
-		} catch (VisualClassifierException e) {
+		} catch (VisualClassifierException | ServiceResponseException e) {
 
 			System.out.println("[ZombieTimer isClassifierReadyAgain()] VisualClassifierException: " + e.getMessage());
 			return false;
