@@ -24,6 +24,7 @@ function createHead(){
 	var js_save = ["<script src='js/FileSaver.min.js'>"];
 	var js_swal = ["<script src='js/sweetalert2_mine.js'>"];
 	var js_drop = ["<script src='js/dropzone.js'>"];
+	var js_lazy = ["<script src='js/jquery.lazy.min.js'>"]; //not working at the moment!
 	
 	var title = ["<title>Bellosguardo</title>"];
 

@@ -5,6 +5,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="js/genericFunctions.js"></script>
 <script src="js/functions.js"></script>
+<script src="js/jquery.lazy.min.js"></script>
 
 
 <script>createHead();</script>
@@ -85,6 +86,7 @@ $('#viewresult').click(function() {
     // Store
 	localStorage.setItem("viewresult", "history");
 	window.location.href = 'simulate.html';
+	testingLoading();
 	 			
 });
 
