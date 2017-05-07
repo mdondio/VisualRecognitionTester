@@ -227,6 +227,7 @@ function buildSelectTestResult(IDselector) {
 		}
 		testcount++;
 	}
+	//testingLoading();
 }
 
 /**
@@ -241,6 +242,7 @@ function updateTestFields(IDselector) {
 
 	//disegna gli oggetti dipendenti dal test selezionato
 	var testname = $(IDselector).val();
+	//testingLoading();
 	console.log(testname)
 	drawRocCurves(testname);
 	drawIndexes(testname);
@@ -249,15 +251,24 @@ function updateTestFields(IDselector) {
 		if (testdetails[j].name == testname) {
 			setParameters(result[j]);
 			
+			//var positive_images = [];
+//            positive_images = [];
+//            for (k = 0; k < result[i].images.positive.length; k++)
+//                positive_images.push("GetImage?image_id=" + result[i].images.positive[k]);
+			
 			var negative_images = [];
-			for(var i=0;i<result[j].falseNegativeOpt.length;i++) negative_images.push("GetImage?image_id="+result[j].falseNegativeOpt[i]);
+			for(var i=0;i<result[j].falseNegativeOpt.length;i++) 
+				negative_images.push("GetImage?image_id="+result[j].falseNegativeOpt[i]);
 			$("#galleryFN").empty()
 			createGallery('galleryFN',negative_images,"showtestNEG");
 			
 			var positive_images = [];
-			for(var i=0;i<result[j].falsePositiveOpt.length;i++) positive_images.push("GetImage?image_id="+result[j].falsePositiveOpt[i]);
+			for(var i=0;i<result[j].falsePositiveOpt.length;i++) 
+				positive_images.push("GetImage?image_id="+result[j].falsePositiveOpt[i]);
 			$("#galleryFP").empty()
 			createGallery('galleryFP',positive_images,"showtestPOS");
+			
+			//testingLoading();
 			
 			DrawHistogram(result[j].histogramNegative,result[j].histogramPositive);
 		}
@@ -701,7 +712,13 @@ function showGallery(result,inputgallery) {
 				
 				var x = document.createElement("IMG");
 				
-				x.setAttribute("data-src", img_path + result[i]);
+				//Handling simulate results images
+				if( inputgallery.includes("show") ){
+					x.setAttribute("src", img_path + result[i]);
+					console.log("HERE!")
+				}
+				else
+					x.setAttribute("data-src", img_path + result[i]);
 //				x.setAttribute("src", img_path + result[i]);
 				
 				
@@ -975,6 +992,8 @@ function startSimulation(){
 
 							}
 						});
+				
+				//testingLoading();
 	}
 
 /*
