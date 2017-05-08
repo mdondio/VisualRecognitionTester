@@ -11,20 +11,74 @@ function printTestResults(){
 	
 	//costruisco il JSON da stampare
 	directJSON = [];
+	var fileName;
+	
     for(var i in result){
     	var objtest = testdetails[i];
     	var obj = result[i];
-    	if(objtest.name==checkedValue[count])
-    		{
+    	
+    	if(objtest.name==checkedValue[count]){
+    	
+    		fileName = objtest.name + " ";
+    		
     		directJSON.push(obj); 
     		count++;
-    		}
+    		
+    	}
+    	
     }
+    
+	 var json = JSON.stringify(directJSON);
+	 var blob = new Blob([json], {type: "application/json"});
+	  
+	 closeModal2();
+    
+	 
+	 if( count!= 0 ){
+		 
+	     swal({
+			  title: "Insert File Name",
+			  text: "Give JSON file a name:",
+			  type: "info",
+			  input: "text",
+			  confirmButtonColor: '#5cb85c',
+			  confirmButtonText: 'Save!',
+			  showCancelButton: true,
+			  allowOutsideClick: false,
+			  allowEscapeKey: true,
+			  inputPlaceholder: "...filename..."
+			}).then( function (result) {
+				
+				if( result != null && result != "" )
+					saveAs(blob, result + ".json");
+				
+				else{
+					
+					swal({
+						  title: 'Error!',
+						  text: 'For correctly saving a JSON file you have to insert a file name!',
+						  type: 'error',
+						  confirmButtonColor: '#f0ad4e',
+						  confirmButtonText: 'Ok'
+						})
+					
+				}
+					
+	
+			})
 
-    var json = JSON.stringify(directJSON);
-    var blob = new Blob([json], {type: "application/json"});
-    saveAs(blob, "TestResult.json");
-    closeModal2();
+	 }else{
+		 
+		 swal({
+			  title: 'Error!',
+			  text: 'For correctly saving a JSON file you have to select at least a result!',
+			  type: 'error',
+			  confirmButtonColor: '#f0ad4e',
+			  confirmButtonText: 'Ok'
+			})
+		 
+	 }
+			
 }
 
 function populateListTestResult(){
@@ -227,7 +281,7 @@ function buildSelectTestResult(IDselector) {
 		}
 		testcount++;
 	}
-	//testingLoading();
+	
 }
 
 /**
@@ -242,7 +296,6 @@ function updateTestFields(IDselector) {
 
 	//disegna gli oggetti dipendenti dal test selezionato
 	var testname = $(IDselector).val();
-	//testingLoading();
 	console.log(testname)
 	drawRocCurves(testname);
 	drawIndexes(testname);
@@ -267,8 +320,6 @@ function updateTestFields(IDselector) {
 				positive_images.push("GetImage?image_id="+result[j].falsePositiveOpt[i]);
 			$("#galleryFP").empty()
 			createGallery('galleryFP',positive_images,"showtestPOS");
-			
-			//testingLoading();
 			
 			DrawHistogram(result[j].histogramNegative,result[j].histogramPositive);
 		}
@@ -706,6 +757,8 @@ function showGallery(result,inputgallery) {
 
 			var slidenumber = 1;
 			var totalslide = result.length;
+			
+			var simulate_lazy = false;
 
 			//Aggiungo le immagini nella modalità preview (elemento div con id gallery)
 			for ( var i in result) {
@@ -714,13 +767,11 @@ function showGallery(result,inputgallery) {
 				
 				//Handling simulate results images
 				if( inputgallery.includes("show") ){
-					x.setAttribute("src", img_path + result[i]);
-					console.log("HERE!")
+					x.setAttribute("data-src", img_path + result[i]);
+					simulate_lazy = true;
 				}
 				else
 					x.setAttribute("data-src", img_path + result[i]);
-//				x.setAttribute("src", img_path + result[i]);
-				
 				
 				x.setAttribute("onclick", 'openModal();currentSlide('+slidenumber+')');
 				// TODO approfondire addEventListener anche per pezzo successivo
@@ -811,6 +862,9 @@ function showGallery(result,inputgallery) {
 				slidenumber++;
 			}
 			
+			if( simulate_lazy )
+				testingLoading();
+				
 }
 
 function newImgZoom(inputgallery,slidenumber){
@@ -992,8 +1046,7 @@ function startSimulation(){
 
 							}
 						});
-				
-				//testingLoading();
+
 	}
 
 /*
