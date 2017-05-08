@@ -1236,19 +1236,23 @@ function startTrain(){
 	
 	var datasetId = $("#labelselected").val();
 	var label = $("#labelselected").html();
-	console.log(datasetId)
-	console.log(label)
+	var description = $("#classifierdesc").val();
+	
+	console.log(datasetId);
+	console.log(label);
+	console.log(description);
+	
 	if(datasetId && label)
 		{
  	$.ajax({
 		contentType : "application/json",
 		dataType : "json",
-		data : "datasetId=" + datasetId + "&label="+label,
+		data : "datasetId=" + datasetId + "&label="+label + "&description="+description,
 		url : 'SubmitTrainJob',
 		async : true,
 		success : function(result) {
-			swal('Trained!',
-					'Your classifier has been trained!',
+			swal('Launched!',
+					'Your classifier training has been launched!',
 					'success').then(function(){window.location.href="home.html"})
 		}
 	});
