@@ -682,7 +682,7 @@ img#waiting{
 /* Add this attribute to the element that needs a tooltip */
 [data-tooltip] {
   position: relative;
-/*   z-index: 2000000; */
+/*   z-index: 2000000000000000; */
   cursor: pointer;
 }
 
@@ -781,4 +781,4 @@ position:relative;
 /* #positivetestSetGallery{ overflow: scroll; overflow-x: hidden; height: 400px; } */
 
 #listdataset { overflow: scroll; overflow-x: hidden; height: 400px; }
-#dvTable { overflow: scroll; overflow-x: hidden; height: 400px; }
+/* #dvTable { overflow: scroll; overflow-x: hidden; height: 400px; } */

@@ -147,14 +147,14 @@ function addClassifierTable(IDelement,table){
 					block.addEventListener("click", function(){
 						var IDstring = $(this).prop("id");
 						swal({
-							  title: 'Are you sure?',
-							  text: 'You are deleting this classifier (ID: '+IDstring +"). You won't be able to revert this!",
+							  title: 'ID: "+IDstring"',
+							  text: "Put description of the classifier here. Put description of the classifier here. Put description of the classifier here. <br><br><br><br><br><input type='submit' class='submitmodal2' value='Edit classifier'>",
 							  type: 'warning',
 							  showCancelButton: true,
 							  confirmButtonColor: '#3085d6',
 							  cancelButtonColor: '#d33',
-							  confirmButtonText: 'Yes, delete it!',
-							  cancelButtonText: 'No, cancel!'
+							  confirmButtonText: 'Delete it!',
+							  cancelButtonText: 'Cancel'
 							}).then(function (isConfirm) {
 							  
 								if(isConfirm)
