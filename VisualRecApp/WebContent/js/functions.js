@@ -1204,6 +1204,7 @@ function generateHome(){
 
 			//add a table (idelement and table to print)
 			addClassifierTable("dvTable",print_table);
+			setListHeight($('#dvTable').height());
 		}
 	});
 
@@ -1263,6 +1264,18 @@ function startTrain(){
 				type: 'warning',});
 		} 	
 }
+
+
+/**
+ * Function called in generateHome to set the height of the dataset list equal to the height of the classifier table
+ */
+function setListHeight(height){
+
+    console.log(height);
+    $('#listdataset').css("height", height);
+	
+}
+
 
 /*
  * ==============================================================================
