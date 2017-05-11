@@ -28,7 +28,16 @@
 
 <script>
 
-
+var directJSON = [];
+var resultJSON;
+var finalResultJSON;
+var newJSON;
+var deletable;
+var ready = false;
+var test;
+var oldVersion;
+var deletedOnes = [];
+var t = 0;
 //per caricare file
 $('#import').click(function() {
     var files = document.getElementById('selectFiles').files;
@@ -36,7 +45,7 @@ $('#import').click(function() {
   if (files.length <= 0) {
     return false;
   }
-
+	
   var fr = new FileReader();
 
   fr.onload = function(e) { 
@@ -45,47 +54,186 @@ $('#import').click(function() {
     var testset = [];
     var testclassifier = [];
     
+    deletable = result.length;
+    
     //al momento stiamo assumendo di poter caricare solo un file JSON (senza comporre più file diversi)
     $("#caricatest").empty();
     for(var i in result)
     {
     var obj=result[i];
-    
+
+	obj.ID = obj.ID + "_" + i;
+	
     //TODO recuperare anche il nome del test e gli ID dei test set
     testname.push(obj.ID);
     testset.push(obj.ID);
     testclassifier.push(obj.ID);
             
     createBlockTest("caricatest",obj.ID,"TBD","TBD");
+    
+//     console.log( "RESULT: " + JSON.stringify( result[i]) )
+    
+    ready = true;
+    
     }
     
     //verrà spostato da qui perchè dobbiamo implementare la personalizzazione dei dati da caricare
     localStorage.setItem("resultJSON", e.target.result);
     
+//  	test = JSON.stringify( e.target.result );
+	//test = e.target.result;
+	test = result;
+    resultJSON = result;
+
     // creazione del nuovo file JSON dei testname
-    directJSON = [];
-			    for( k = 0; k < testname.length; k++ ){
-			       	item = {}
-			    	item["name"] = testname[k];
-			    	item["test"] = testset[k];
-			    	item["classifier"] = testclassifier[k];
-			    	directJSON.push(item); 
-			    } 
+    for( k = 0; k < testname.length; k++ ){
+       	item = {}
+    	item["name"] = testname[k];
+    	item["test"] = testset[k];
+    	item["classifier"] = testclassifier[k];
+    	directJSON.push(item); 
+    } 
 
 	localStorage.setItem("listJSON",JSON.stringify(directJSON));
+	
+	oldVersion = JSON.stringify(directJSON);
+	
+	newJSON = resultJSON;
   }
   fr.readAsText(files.item(0));
-  
   
 });
 
 //cambio pagina
 $('#viewresult').click(function() {
+
+// 	console.log("**********************************")
+	
+// 	console.log("OLD listJSON: " + oldVersion)
+// 	console.log("NEW: listJSON" + localStorage.getItem("listJSON") )
+	
+// 	if( oldVersion != localStorage.getItem("listJSON") )
+// 		console.log("COOL!")
+
+// 	console.log("**********************************")
+   
+   	console.log("OLD resultJSON " +  JSON.stringify( test ) )
+   	
+   	var editable = test;
+   	
+   	console.log("Deleted Ones: " + deletedOnes)
+   	
+   	console.log("**********************************")
+	console.log("DELETING PROCESS")
+   	
+   	for( var i = 0; i < deletedOnes.length; i++ ){
+   	
+   		delete test[ deletedOnes[i] ];
+   	
+   	}
+   	
+   	var cleanJSON = [];
+   	
+   	//Cleaning null values
+   	for( var i = 0; i < test.length; i++ ){
+   	
+   		if( test[i] != undefined && test[i] != null ){
+   		
+   			cleanJSON.push( test[i] );
+   			
+   		}
+   	
+   	}
+	
+	console.log("**********************************")
+	
+	console.log("Entire JSON: " + JSON.stringify( cleanJSON ) )
+	
+	localStorage.setItem("resultJSON", JSON.stringify( cleanJSON ) );
    
     // Store
 	localStorage.setItem("viewresult", "history");
 	window.location.href = 'simulate.html';
 	 			
+});
+	
+$('body').on("click","img[id*=garbage]",function(){
+
+	if( deletable <= 1 ){
+	
+		 swal({
+		 
+				title: "Warning",
+				text: "You have to load at least one test!",
+				type: "warning"
+				
+			});
+		
+	}
+		
+	else{
+	
+		var parent = this.parentNode.parentNode;
+		
+		var parent_not_primary = this.getAttribute("id");
+		
+		var stringToBeDeleted = parent_not_primary.replace('garbage', '');
+		
+		deletedOnes[t] = this.getAttribute("number");
+		t++;
+		
+		console.log( "BEFORE:  " + JSON.stringify(directJSON) )
+		
+		//var index = directJSON.indexOf(stringToBeDeleted);
+		
+		var finalJSON = directJSON.filter(function (elem) { return elem.name !== stringToBeDeleted  });
+		
+		//console.log( "HERE: " + JSON.stringify( finalJSON ) )
+		
+		directJSON = finalJSON;
+				
+		console.log( "AFTER:  " + JSON.stringify(directJSON) )
+		
+		console.log("####################################################")
+		
+		var first = false;
+		
+		for( var k = 0; k < newJSON.length; k++ ){
+		
+			console.log("THIS: " + newJSON[k].ID)
+			console.log("To be deleted: " + stringToBeDeleted)
+		
+			if( newJSON[k].ID == stringToBeDeleted ){
+				
+				finalResultJSON = "";
+				//finalResultJSON = JSON.stringify( newJSON[k] );
+				
+			}else{
+				
+				if( first )
+					finalResultJSON = finalResultJSON + "," + JSON.stringify( newJSON[k] );
+				else{
+				
+					finalResultJSON = JSON.stringify( newJSON[k] );
+					first = true;
+					
+				}
+			}
+			
+		}
+			
+		console.log( "FINAL: ----------> " + finalResultJSON )
+		
+		console.log("####################################################")
+		
+		parent.remove();
+		
+		localStorage.setItem("listJSON",JSON.stringify(directJSON));
+		
+		deletable--;
+		
+		}
+	
 });
 
 </script>

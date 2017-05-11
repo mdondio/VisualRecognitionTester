@@ -11,15 +11,12 @@ function printTestResults(){
 	
 	//costruisco il JSON da stampare
 	directJSON = [];
-	var fileName;
 	
     for(var i in result){
     	var objtest = testdetails[i];
     	var obj = result[i];
     	
     	if(objtest.name==checkedValue[count]){
-    	
-    		fileName = objtest.name + " ";
     		
     		directJSON.push(obj); 
     		count++;
@@ -197,6 +194,9 @@ function addClassifierTable(IDelement,table){
  * @param classifier
  * @returns create and append a descriptive area of a testresult
  */
+
+var numberBlock = 0;
+
 function createBlockTest(IDappend,testname,label,classifier){
 	
 	var block = document.createElement("div");
@@ -228,7 +228,10 @@ function createBlockTest(IDappend,testname,label,classifier){
 	var icon1 = document.createElement("img");
 	icon1.setAttribute("class","icon verysmall blocktest");
 	icon1.setAttribute("src","ico/garbageDARK.png");
+	icon1.setAttribute("number", numberBlock);
 	icon1.setAttribute("id","garbage"+testname);
+	
+	numberBlock++;
 	
 	blockicon1.appendChild(icon1);
 	
@@ -1265,17 +1268,14 @@ function startTrain(){
 		} 	
 }
 
-
-/**
- * Function called in generateHome to set the height of the dataset list equal to the height of the classifier table
- */
-function setListHeight(height){
-
-    console.log(height);
-    $('#listdataset').css("height", height);
-	
+/**		
+* Function called in generateHome to set the height of the dataset list equal to the height of the classifier table		
+*/		
+function setListHeight(height){		
+	console.log(height);		
+	$('#listdataset').css("height", height);		
+		
 }
-
 
 /*
  * ==============================================================================
@@ -1297,7 +1297,3 @@ function setListHeight(height){
  * ========================= UPLOAD FUNCTIONS {END} =============================
  * ==============================================================================
 */
-
-
-
-
