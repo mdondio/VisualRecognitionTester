@@ -109,7 +109,7 @@ if (settings.format === 'multitoggle') multiTg();
 else cssmenu.addClass('dropdown');
 if (settings.sticky === true) cssmenu.css('position', 'fixed');
 resizeFix = function() {
-var mediasize = 700;
+var mediasize = 768;
   if ($( window ).width() > mediasize) {
     cssmenu.find('ul').show();
   }

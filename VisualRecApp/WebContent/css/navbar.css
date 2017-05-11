@@ -172,7 +172,7 @@ nav{
 
 
 
-@media screen and (max-width:900px){
+@media screen and (max-width:768px){
 header{ height: 0px; }
 .logo{
 	background: #343B43; 
