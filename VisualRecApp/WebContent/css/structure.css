@@ -1,4 +1,8 @@
-/* ================ MOBILE (DEFAULT) =====================*/
+
+
+/* ================ MOBILE =====================*/
+
+@media screen and (min-width: 480px){
 
 * {
   margin: 0; padding: 0px; outline: none;
@@ -46,6 +50,7 @@ h5 { font-family: "museo-sans",sans-serif; font-style: normal; font-weight: 500;
 .column.three-fourths { width: 100%;	text-align: left; }
 .column.flow-opposite { float: right; 	text-align: left; }
 
+}
 
 /* ================ TABLET PORTRAIT =====================*/
 
@@ -59,8 +64,8 @@ h5 { font-family: "museo-sans",sans-serif; font-style: normal; font-weight: 500;
 /* ================ TABLET LANDSCAPE =====================*/
 
 @media screen and (min-width: 1024px) {
-
-  .content { width: 95%; display: block; }
+	
+  .content { width: 100%; display: block; overflow: hidden; }
 
   .column.full { 		  width: 100%; }
   .column.two-thirds { 	  width: 66.7%; }
@@ -75,8 +80,6 @@ h5 { font-family: "museo-sans",sans-serif; font-style: normal; font-weight: 500;
 
 /* ================ DESKTOP =====================*/
 
-@media all and (min-width: 1200px) {
-	
 body { min-width: 1024px; }	
 	
 h1 { left: 19%; }

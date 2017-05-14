@@ -6,6 +6,7 @@
 <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
 <script src="js/genericFunctions.js"></script>
 <script src="js/functions.js"></script>
+<script src="js/jquery.lazy.min.js"></script>
 
 <script>createHead();</script>
 
@@ -284,7 +285,7 @@
 		<div class="modal2" id="savetestmodalbackground"></div>
 		<div class="modal-content2" id="savetestmodalcontent">	
 		<span class="titlemodal">Select which test result save on your PC</span>
-		<span class="cursormodal" onclick="closeModal2()">&#10005;</span>
+		<span class="cursormodal" onclick="closeModal2()">&#10005;</span> 
 		<form id="listatest" action="javascript:printTestResults();" class="formmodal">
 		</form>
 	</div> 
@@ -307,20 +308,13 @@ $( document ).ready(function() {
 
 if(localStorage.getItem("viewresult")=="history")
 {
-
-// $(document).ajaxStop(function () {
-//       testingLoading();
-//   	});
-
 localStorage.setItem("viewresult", "simulation");
 //mostro subito la parte di show
 $("#simulate").hide();
-// testingLoading();
 $("#showtest").show("slow");
 buildSelectTestResult('#show_test');
 updateTestFields('#show_test');
 }
-
 });
 
 
@@ -422,7 +416,6 @@ $('body').on("click","img[id*=garbage]",function(){
 	$('#show_test').on(
 			'change',
 			function() {
-			testingLoading();
 			updateTestFields('#show_test');
 });   
 

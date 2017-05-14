@@ -93,22 +93,6 @@
 	*zoom: 1;
 }
 
-/* #logowait { */
-/* 	position: relative; */
-/* 	top: 20%; */
-/* 	left: 50%; */
-/* 	z-index: 10000; */
-/* 	height: 250px; */
-/* 	width: auto; */
-/* } */
-
-/* #loading { logo watson loading */
-/* 	width: 150px; */
-/* 	height: auto; */
-/* 	position: relative; */
-/* 	filter: contrast(93.3%); */
-/* 	/* per fare in modo che il bianco di sfondo diventi il grigio della pagina! */ */
-/* } */
 
 /* ============================================== */
 /* ====	NUOVE CLASSI PER FORMATTING =====*/
@@ -144,8 +128,6 @@ p.smalltitle {
 	font-family: IBM;
 }
 
-
-
 p.title.right {
 	text-align: right;
 }
@@ -163,7 +145,6 @@ p.paragraph {
 	font-size: 16px;
 	font-family: IBM;
 }
-
 
 p.paragraph.right {
 	text-align: right;
@@ -209,10 +190,8 @@ th {
 	text-align: left;
 }
 
+
 /*============ BOTTONI ==========*/
-
-
-
 button {
 	background: transparent;
 	border: transparent;
@@ -232,7 +211,6 @@ button.import{
   font-size:16pt;
   font-family: IBM;
   font-weight:bold;
-/*   margin-left:37%; */
 }
 
 select.title {
@@ -307,11 +285,9 @@ input[type=submit]{
   border-radius: 1px;
   padding: 12px 16px;
   text-decoration: none;
-/*   margin: 4px 2px; */
   margin-top: 20px;
   cursor: pointer;
   font-family: IBM;
-/*   margin-left:37%; */
 }
 
 input[type=file]{
@@ -414,8 +390,6 @@ img.icon.xlarge {
 
 img.centeralign {
 	margin: auto;
-/* 	margin-bottom: 8px; */
-/* 	margin-top: 8px; */
 }
 
 img.center {
@@ -615,7 +589,6 @@ img#waiting{
 }
 
 .titlemodal {
-/*     color: #ffffff; */
 	color: #000000;
     font-weight: bold;
     font-size: 18px;
@@ -624,7 +597,6 @@ img#waiting{
     padding: 20px;
     width: 85%;
    	display:inline-block;
-/*    	border-bottom:3px solid #485a67; */
 }
 
 .cursormodal { 
@@ -642,27 +614,20 @@ img#waiting{
 	}
 	
 	
-	.formmodal { 
+.formmodal { 
     color: #000000;
-    /* background: #485a67; */
-    /* font-weight: bold; */
-/*     cursor: pointer; */
     font-size: 18px;
     padding: 20px;
     width: 80%;
     text-align: left;
-    /* display: inline-block; */
-    /* border-bottom: 3px solid #485a67; */
     margin: auto;
-    /* height: 50%; */
-	}
+}
 	
 	.smoothrectangle.training {
 	background: #ECECEC;
 	color: #d9d9d9;
 	border-color: #d9d9d9;
 	cursor: wait;
-/* 	cursor: url(../ico/load.svg); */
 }
 
 .smoothrectangle.zombie {
@@ -670,8 +635,6 @@ img#waiting{
 	color: #d9d9d9;
 	border-color: #d9d9d9;
 	cursor: wait;
-/* 	cursor: url(../ico/load.svg), 100px; */
-/* 	cursor('data:image/svg+xml;utf8,<svg xmlns="../ico/load.svg" version="1.1" width="64" height="64"></svg>') */
 }
 
 
@@ -682,7 +645,7 @@ img#waiting{
 /* Add this attribute to the element that needs a tooltip */
 [data-tooltip] {
   position: relative;
-/*   z-index: 2000000; */
+/*   z-index: 2000000000000000; */
   cursor: pointer;
 }
 
@@ -764,20 +727,61 @@ position:relative;
 	display: inline-block;
 }
 
-/* #positivetestSetGallery{ */
-	
-/* 	display: none; */
-/* 	visibility: hidden; */
-	
-/* } */
-/* #negativetestSetGallery{ */
-	
-/* 	display: none; */
-/* 	visibility: hidden; */
-	
-/* } */
+#listdataset { overflow: scroll; overflow-x: hidden; }
 
-/* #negativetestSetGallery{ overflow: scroll; overflow-x: hidden; height: 400px; } */
-/* #positivetestSetGallery{ overflow: scroll; overflow-x: hidden; height: 400px; } */
 
-#listdataset{ overflow: scroll; overflow-x: hidden; height: 400px; }
+
+
+
+@media screen and (min-width: 480px) {
+
+}
+ 
+@media screen and (min-width: 768px) {
+
+}
+ 
+@media screen and (min-width: 1024px) {
+	
+p.title {
+	color: #343b43;
+	font-weight: bold;
+	font-size: 22px;
+	font-family: IBM;
+}
+
+p.paragraph {
+	color: #A0A0A0;
+	font-size: 14px;
+	font-family: IBM;
+}
+
+.circumference.medium {
+	/* 	shape characteristcs */
+	width: 80px;
+	height: 80px;
+	-webkit-border-radius: 50px;
+	-moz-border-radius: 50px;
+	border-radius: 50px;
+	/* 	test characteristics */ 
+	font-weight: bold;
+	font-size: 35px;
+	text-align: center;
+	line-height: 72px;
+}
+
+.circumference.large {
+	/* 	shape characteristcs */
+	width: 100px;
+	height: 100px;
+	-webkit-border-radius: 65px;
+	-moz-border-radius: 65px;
+	border-radius: 65px;
+	/* 	test characteristics */
+	font-weight: bold;
+	font-size: 30px;
+	text-align: center;
+	line-height: 92px;
+}
+
+}

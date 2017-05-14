@@ -22,8 +22,7 @@
 			<div class="column fourth">
 
 				<div class="post-preview">
-					<div class="circumference medium" style="margin: auto;"
-						id="readyclass"></div>
+					<div class="circumference medium" style="margin: auto;"	id="readyclass"></div>
 				</div>
 
 				<hr class="lineseparator">
@@ -48,8 +47,7 @@
 			<div class="column fourth">
 
 				<div class="post-preview">
-					<div class="circumference medium" style="margin: auto;"
-						id="freeclass"></div>
+					<div class="circumference medium" style="margin: auto;"	id="freeclass"></div>
 				</div>
 				<hr class="lineseparator">
 
@@ -73,8 +71,7 @@
 			<div class="column fourth">
 
 				<div class="post-preview">
-					<div class="circumference medium" style="margin: auto;"
-						id="trainingclass"></div>
+					<div class="circumference medium" style="margin: auto;"	id="trainingclass"></div>
 				</div>
 
 				<hr class="lineseparator">
@@ -115,8 +112,8 @@
 
 				<div class="column half">
 					<div class="post-preview">
-						<p class="paragraph left">Wait 24h or pass to a premium
-							BLUEMIX account.</p>
+						<p class="paragraph left">Wait 24h or switch to a premium
+							Bluemix account.</p>
 					</div>
 				</div>
 			</div>
@@ -139,7 +136,6 @@
 				<div class="post-preview">
 					<p class="title center topborder">Classifier list</p>
 					<div id="dvTable"></div>
-					<br> <br> <br> <br>
 
 				</div>
 			</div>
@@ -155,7 +151,7 @@
 
 <script>
 	generateHome();
-
+	
 	//per vedere la galleria di immagini di un certo testset clickato
 	$('body').on("click", "[id*=showdatasetID]", function() {
 
@@ -167,6 +163,18 @@
 		// 	console.log("num reload "+num);
 
 	});
+	
+// 	var table_height = 0; 
+// 	table_height = $('#dvTable').height();
+	
+// 	setListHeight(table_height);
+		
+// 	jQuery(window).on("load", function(){
+// 	    console.log(table_height);
+// 	    // 	$('#listdataset').css("height", table_height);
+// 	});
+	
+
 </script>
 
 </html>

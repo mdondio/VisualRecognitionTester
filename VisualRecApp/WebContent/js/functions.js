@@ -11,20 +11,71 @@ function printTestResults(){
 	
 	//costruisco il JSON da stampare
 	directJSON = [];
+	
     for(var i in result){
     	var objtest = testdetails[i];
     	var obj = result[i];
-    	if(objtest.name==checkedValue[count])
-    		{
+    	
+    	if(objtest.name==checkedValue[count]){
+    		
     		directJSON.push(obj); 
     		count++;
-    		}
+    		
+    	}
+    	
     }
+    
+	 var json = JSON.stringify(directJSON);
+	 var blob = new Blob([json], {type: "application/json"});
+	  
+	 closeModal2();
+    
+	 
+	 if( count!= 0 ){
+		 
+	     swal({
+			  title: "Insert File Name",
+			  text: "Give JSON file a name:",
+			  type: "info",
+			  input: "text",
+			  confirmButtonColor: '#5cb85c',
+			  confirmButtonText: 'Save!',
+			  showCancelButton: true,
+			  allowOutsideClick: false,
+			  allowEscapeKey: true,
+			  inputPlaceholder: "...filename..."
+			}).then( function (result) {
+				
+				if( result != null && result != "" )
+					saveAs(blob, result + ".json");
+				
+				else{
+					
+					swal({
+						  title: 'Error!',
+						  text: 'For correctly saving a JSON file you have to insert a file name!',
+						  type: 'error',
+						  confirmButtonColor: '#f0ad4e',
+						  confirmButtonText: 'Ok'
+						})
+					
+				}
+					
+	
+			})
 
-    var json = JSON.stringify(directJSON);
-    var blob = new Blob([json], {type: "application/json"});
-    saveAs(blob, "TestResult.json");
-    closeModal2();
+	 }else{
+		 
+		 swal({
+			  title: 'Error!',
+			  text: 'For correctly saving a JSON file you have to select at least a result!',
+			  type: 'error',
+			  confirmButtonColor: '#f0ad4e',
+			  confirmButtonText: 'Ok'
+			})
+		 
+	 }
+			
 }
 
 function populateListTestResult(){
@@ -93,14 +144,14 @@ function addClassifierTable(IDelement,table){
 					block.addEventListener("click", function(){
 						var IDstring = $(this).prop("id");
 						swal({
-							  title: 'Are you sure?',
-							  text: 'You are deleting this classifier (ID: '+IDstring +"). You won't be able to revert this!",
+							  title: 'ID: "+IDstring"',
+							  text: "Put description of the classifier here. Put description of the classifier here. Put description of the classifier here. <br><br><br><br><br><input type='submit' class='submitmodal2' value='Edit classifier'>",
 							  type: 'warning',
 							  showCancelButton: true,
 							  confirmButtonColor: '#3085d6',
 							  cancelButtonColor: '#d33',
-							  confirmButtonText: 'Yes, delete it!',
-							  cancelButtonText: 'No, cancel!'
+							  confirmButtonText: 'Delete it!',
+							  cancelButtonText: 'Cancel'
 							}).then(function (isConfirm) {
 							  
 								if(isConfirm)
@@ -143,6 +194,9 @@ function addClassifierTable(IDelement,table){
  * @param classifier
  * @returns create and append a descriptive area of a testresult
  */
+
+var numberBlock = 0;
+
 function createBlockTest(IDappend,testname,label,classifier){
 	
 	var block = document.createElement("div");
@@ -174,7 +228,10 @@ function createBlockTest(IDappend,testname,label,classifier){
 	var icon1 = document.createElement("img");
 	icon1.setAttribute("class","icon verysmall blocktest");
 	icon1.setAttribute("src","ico/garbageDARK.png");
+	icon1.setAttribute("number", numberBlock);
 	icon1.setAttribute("id","garbage"+testname);
+	
+	numberBlock++;
 	
 	blockicon1.appendChild(icon1);
 	
@@ -227,7 +284,7 @@ function buildSelectTestResult(IDselector) {
 		}
 		testcount++;
 	}
-	//testingLoading();
+	
 }
 
 /**
@@ -242,7 +299,6 @@ function updateTestFields(IDselector) {
 
 	//disegna gli oggetti dipendenti dal test selezionato
 	var testname = $(IDselector).val();
-	//testingLoading();
 	console.log(testname)
 	drawRocCurves(testname);
 	drawIndexes(testname);
@@ -267,8 +323,6 @@ function updateTestFields(IDselector) {
 				positive_images.push("GetImage?image_id="+result[j].falsePositiveOpt[i]);
 			$("#galleryFP").empty()
 			createGallery('galleryFP',positive_images,"showtestPOS");
-			
-			//testingLoading();
 			
 			DrawHistogram(result[j].histogramNegative,result[j].histogramPositive);
 		}
@@ -706,6 +760,8 @@ function showGallery(result,inputgallery) {
 
 			var slidenumber = 1;
 			var totalslide = result.length;
+			
+			var simulate_lazy = false;
 
 			//Aggiungo le immagini nella modalità preview (elemento div con id gallery)
 			for ( var i in result) {
@@ -714,13 +770,11 @@ function showGallery(result,inputgallery) {
 				
 				//Handling simulate results images
 				if( inputgallery.includes("show") ){
-					x.setAttribute("src", img_path + result[i]);
-					console.log("HERE!")
+					x.setAttribute("data-src", img_path + result[i]);
+					simulate_lazy = true;
 				}
 				else
 					x.setAttribute("data-src", img_path + result[i]);
-//				x.setAttribute("src", img_path + result[i]);
-				
 				
 				x.setAttribute("onclick", 'openModal();currentSlide('+slidenumber+')');
 				// TODO approfondire addEventListener anche per pezzo successivo
@@ -811,6 +865,9 @@ function showGallery(result,inputgallery) {
 				slidenumber++;
 			}
 			
+			if( simulate_lazy )
+				testingLoading();
+				
 }
 
 function newImgZoom(inputgallery,slidenumber){
@@ -992,8 +1049,7 @@ function startSimulation(){
 
 							}
 						});
-				
-				//testingLoading();
+
 	}
 
 /*
@@ -1151,6 +1207,7 @@ function generateHome(){
 
 			//add a table (idelement and table to print)
 			addClassifierTable("dvTable",print_table);
+			setListHeight($('#dvTable').height());
 		}
 	});
 
@@ -1183,19 +1240,23 @@ function startTrain(){
 	
 	var datasetId = $("#labelselected").val();
 	var label = $("#labelselected").html();
-	console.log(datasetId)
-	console.log(label)
+	var description = $("#classifierdesc").val();
+	
+	console.log(datasetId);
+	console.log(label);
+	console.log(description);
+	
 	if(datasetId && label)
 		{
  	$.ajax({
 		contentType : "application/json",
 		dataType : "json",
-		data : "datasetId=" + datasetId + "&label="+label,
+		data : "datasetId=" + datasetId + "&label="+label + "&description="+description,
 		url : 'SubmitTrainJob',
 		async : true,
 		success : function(result) {
-			swal('Trained!',
-					'Your classifier has been trained!',
+			swal('Launched!',
+					'Your classifier training has been launched!',
 					'success').then(function(){window.location.href="home.html"})
 		}
 	});
@@ -1205,6 +1266,15 @@ function startTrain(){
 				text: 'You have to select a valid dataset of images!',
 				type: 'warning',});
 		} 	
+}
+
+/**		
+* Function called in generateHome to set the height of the dataset list equal to the height of the classifier table		
+*/		
+function setListHeight(height){		
+	console.log(height);		
+	$('#listdataset').css("height", height);		
+		
 }
 
 /*
@@ -1227,7 +1297,3 @@ function startTrain(){
  * ========================= UPLOAD FUNCTIONS {END} =============================
  * ==============================================================================
 */
-
-
-
-

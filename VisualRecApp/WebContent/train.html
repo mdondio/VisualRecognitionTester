@@ -17,20 +17,21 @@
 		<br>
 
 		<form action="javascript:startTrain();">
-			<div class="column third">
+			<div class="column fourth">
 				<select required class="title" id="trainingdataset">
 					<option selected disabled value="">Select training dataset</option>
 				</select>
 			</div>
-			<div class="column third">
-				<p class="title center" id="labelselected">dataset label</p>
+			<div class="column half">
+				<p class="title center" id="labelselected" style="display:none;">dataset label</p>
+				<input class="title" id="classifierdesc" type="text" placeholder="Put classifier description here">
 			</div>
-			<div class="column third">
-				<button type="submit" class="import">Start training</button>
+			<div class="column fourth">
+				</center><button type="submit" class="import">Start training</button>
 			</div>
 		</form>
 
-		<br> <br> <br> <br>
+		<br> <br> <br> <br> <br> <br>
 
 		<div class="column half">
 			<p class='title center'>positive images</p>
