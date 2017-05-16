@@ -17,6 +17,9 @@ public class Classifier {
 	private String label;
 	private int training_size;
 	private Date zombie_since;
+	private String description;
+	private String observations;
+	private String shortname;
 
 	// TODO ricordati di gestire date in JSON
 	// GsonBuilder builder = new GsonBuilder();
@@ -44,6 +47,18 @@ public class Classifier {
 	public String getLabel() {
 		return label;
 	}
+	
+	public String getDescription() {
+		return description;
+	}
+	
+	public String getObservations() {
+		return observations;
+	}
+	
+	public String getShortname() {
+		return shortname;
+	}
 
 	public int getTrainingSize() {
 		return training_size;
@@ -57,6 +72,18 @@ public class Classifier {
 	this.zombie_since = zombie_since;
 	}
 
+	public String setDescription(String description) {
+		return this.description = description;
+	}
+
+	public String setObservations(String observations) {
+		return this.observations = observations;
+	}
+
+	public String setShortname(String shortname) {
+		return this.shortname = shortname;
+	}
+		
 	public String toString(){
 		return _id;
 	}

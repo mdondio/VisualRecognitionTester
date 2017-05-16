@@ -13,10 +13,14 @@ public class TrainingJobInfo {
 
 	Dataset dataset;
 	String label;
-
-	public TrainingJobInfo(Dataset dataset, String label) {
+	String description;
+	String shortname;
+	
+	public TrainingJobInfo(Dataset dataset, String label, String description, String shortname) {
 		this.dataset = dataset;
 		this.label = label;
+		this.description = description;
+		this.shortname = shortname;
 	}
 
 
@@ -27,6 +31,14 @@ public class TrainingJobInfo {
 		return label;
 	}
 
+	public String getDescription(){
+		return description;
+	}
+	
+	public String getShortname(){
+		return shortname;
+	}
+	
 	public String toString(){
 		return "Dataset: " + dataset.getId() + " label: " + label;
 		

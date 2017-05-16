@@ -197,7 +197,9 @@ public class TrainDaemon implements Runnable {
 		c.setTrainingSize(info.getDataset().getSize());
 		c.setStatus("training");
 		c.setTrainingSet(info.getDataset().getId());
-
+		c.setDescription(info.getDescription());
+		c.setShortname(info.getShortname());
+		
 		// get db connection
 		Database db = CloudantClientMgr.getCloudantDB();
 
