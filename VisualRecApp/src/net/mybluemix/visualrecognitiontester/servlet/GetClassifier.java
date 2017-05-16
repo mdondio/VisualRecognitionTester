@@ -44,6 +44,7 @@ public class GetClassifier extends HttpServlet {
 		System.out.println("[GetClassifier doGet()] Function called");
 		
 		Database db = CloudantClientMgr.getCloudantDB();
+		
 		// First, parse args
 		String classifierId = request.getParameter("_id");
 		
