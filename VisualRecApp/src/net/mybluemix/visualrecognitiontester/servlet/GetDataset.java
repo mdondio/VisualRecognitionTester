@@ -19,6 +19,8 @@ import net.mybluemix.visualrecognitiontester.datamodel.Dataset;
 /**
  * This endpoint retrieves Datasets. 
  * @author Marco Dondio
+ * Test with:
+ * http://localhost:9080/VisualRecognitionTester/GetDataset?_id=Wind_test_20
  */
 @WebServlet("/GetDataset")
 public class GetDataset extends HttpServlet {
@@ -44,11 +46,16 @@ public class GetDataset extends HttpServlet {
 
 		// Ricevi get con parametro sub_type
 		Database db = CloudantClientMgr.getCloudantDB();
-		String datasetId = request.getParameter("datasetId");
+		String datasetId = request.getParameter("_id");
 		
 		// Condizione con ricerca di Id
-		String selector = "{\"selector\": {\"type\":\"dataset\"" + (datasetId == null ? "" : ", \"_id\":\"" + datasetId + "\"")+"}}";
+		//String selector = "{\"selector\": {\"type\":\"dataset\"" + (datasetId == null ? "" : ", \"_id\":\"" + datasetId + "\"")+"}}";
 
+		String selector;
+		if(datasetId.isEmpty()) selector = "{\"selector\": {\"type\":\"dataset\"}}";
+		else selector = "{\"selector\": {\"type\":\"dataset\", \"_id\":\"" + datasetId + "\"}}";
+		//TODO gestire il caso di IDdataset non esistente
+		
 		// temporaneo, poi verrà rimosso
 		//String selector = "{\"selector\": {\"type\":\"dataset\"}}";
 
