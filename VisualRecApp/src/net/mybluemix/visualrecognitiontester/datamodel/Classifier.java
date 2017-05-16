@@ -18,7 +18,7 @@ public class Classifier {
 	private int training_size;
 	private Date zombie_since;
 	private String description;
-	private String observations;
+	private String comments;
 	private String shortname;
 
 	// TODO ricordati di gestire date in JSON
@@ -52,8 +52,8 @@ public class Classifier {
 		return description;
 	}
 	
-	public String getObservations() {
-		return observations;
+	public String getComments() {
+		return comments;
 	}
 	
 	public String getShortname() {
@@ -76,8 +76,8 @@ public class Classifier {
 		return this.description = description;
 	}
 
-	public String setObservations(String observations) {
-		return this.observations = observations;
+	public String setComments(String comments) {
+		return this.comments = comments;
 	}
 
 	public String setShortname(String shortname) {

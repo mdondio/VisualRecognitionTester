@@ -27,7 +27,7 @@ import net.mybluemix.visualrecognitiontester.datamodel.Instance;
  * 
  * @author Marco Dondio
  * Test with:
- * http://localhost:9080/VisualRecognitionTester/SubmitTrainJob?datasetId=watch_training_100&label=watch
+ * http://localhost:9080/VisualRecognitionTester/SubmitTrainJob?datasetId=Wind_test_20&label=watch&description=pale eoliche in azione&shortname=pala1
  */
 @WebServlet("/SubmitTrainJob")
 public class SubmitTrainJob extends HttpServlet {
@@ -55,6 +55,7 @@ public class SubmitTrainJob extends HttpServlet {
 		String label = request.getParameter("label");
 		String description = request.getParameter("description");
 		String shortname = request.getParameter("shortname");
+		String comments = "";
 		// XXX promemoria: occhio a label in classifier e in dataset..
 
 		

@@ -19,8 +19,10 @@ import net.mybluemix.visualrecognitiontester.datamodel.Classifier;
 
 
 /**
- * This endpoint retrieves Classifiers. 
- * @author Marco Dondio
+ * This endpoint retrieves Classifiers. You can use the parameter _id to select just one classifier. 
+ * @author Marco Dondio & Andrea Bortolossi
+ * Test with:
+ * http://localhost:9080/VisualRecognitionTester/GetClassifier?_id=Wind_classifier_639040266
  */
 @WebServlet("/GetClassifier")
 public class GetClassifier extends HttpServlet {
@@ -42,19 +44,23 @@ public class GetClassifier extends HttpServlet {
 		System.out.println("[GetClassifier doGet()] Function called");
 		
 		Database db = CloudantClientMgr.getCloudantDB();
-
-		// Condizione
-		String selector = "{\"selector\": {\"type\":\"classifier\"}}";
-
+		// First, parse args
+		String classifierId = request.getParameter("_id");
 		
-		// debug, query
-//		System.out.println("Query:  -> " + selector);
-  
+		// Condizione
+		String selector;
+		if(classifierId.isEmpty()) selector = "{\"selector\": {\"type\":\"classifier\"}}";
+		else selector = "{\"selector\": {\"type\":\"classifier\", \"_id\":\"" + classifierId + "\"}}";
+		//TODO aggiungere warning se ID classificatore non esiste
+		
 		Gson gson = new Gson();
 
         // Limita i campi
         FindByIndexOptions opt = new FindByIndexOptions()
-        	 .fields("_id").fields("label").fields("training_size").fields("status");
+        	 .fields("_id").fields("label")
+        	 .fields("training_size").fields("status")
+        	 .fields("comments").fields("shortname")
+        	 .fields("description");
         
         // execute query
         List<Classifier> classifiers = db.findByIndex(selector, Classifier.class, opt);
