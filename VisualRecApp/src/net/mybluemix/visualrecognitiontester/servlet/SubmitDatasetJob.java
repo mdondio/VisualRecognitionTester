@@ -125,7 +125,7 @@ public class SubmitDatasetJob extends HttpServlet {
 		datasetQueue.addJob(new Job<DatasetJobInfo>(dji));
 
 		// return answer to client
-		System.out.println("[SubmitTrainJob doPost()] Passed dataset job to daemon, returning answer to client");
+		System.out.println("[SubmitDatasetJob doPost()] Passed dataset job to daemon, returning answer to client");
 
 		JsonObject o = new JsonObject();
 		o.addProperty("message", "DatasetJob submitted for processing!");

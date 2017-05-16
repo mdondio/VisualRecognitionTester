@@ -44,14 +44,13 @@ public class GetDataset extends HttpServlet {
 
 		// Ricevi get con parametro sub_type
 		Database db = CloudantClientMgr.getCloudantDB();
-
+		String datasetId = request.getParameter("datasetId");
 		
-		// Condizione
-		// temporaneo, poi verrà rimosso
-	//	String selector = "{\"selector\": {\"type\":\"dataset\"" + (datasetType == null ? "" : ", \"sub_type\":\"" + datasetType + "\"")+"}}";
+		// Condizione con ricerca di Id
+		String selector = "{\"selector\": {\"type\":\"dataset\"" + (datasetId == null ? "" : ", \"_id\":\"" + datasetId + "\"")+"}}";
 
 		// temporaneo, poi verrà rimosso
-		String selector = "{\"selector\": {\"type\":\"dataset\"}}";
+		//String selector = "{\"selector\": {\"type\":\"dataset\"}}";
 
 		// debug, query
 //		System.out.println("Query:  -> " + selector);
