@@ -1145,6 +1145,7 @@ function generateHome(){
 		contentType: "application/json",
 		dataType: "json",
 		url: 'GetClassifier',
+		data : "_id=",
 		async: true,
 		success: function(result){
 			//COMPUTE NUMBER FOR READY AND TRAINING
@@ -1218,6 +1219,7 @@ function generateHome(){
 		contentType : "application/json",
 		dataType : "json",
 		url : 'GetDataset',
+		data : "_id=",
 		async : true,
 		success : function(result) {
 			for ( var i in result) {
