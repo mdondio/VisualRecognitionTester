@@ -27,7 +27,7 @@ import net.mybluemix.visualrecognitiontester.datamodel.Instance;
  * This endpoint is used to edit a classifier (change of description/shortname/comments/label). If the field doesn't exist yet you can't edit it (or create it)
  * @author Andrea Bortolossi
  * Test with:
- * http://localhost:9080/VisualRecognitionTester/UpdateClassifier?_id=Wind_classifier_639040266&shortname=myclassifier&label=&description=BLABALBAL and this more than that&comments=
+ * http://localhost:9080/VisualRecognitionTester/UpdateClassifier?_id=wind_classifier_642054071&shortname=myclassifier&label=&description=BLABALBAL and this more than that&comments=Questo un nuovo commento
  */
 @WebServlet("/UpdateClassifier")
 public class UpdateClassifier extends HttpServlet {
@@ -66,10 +66,10 @@ public class UpdateClassifier extends HttpServlet {
 		
 		Classifier c = db.find(Classifier.class,_Id);
 		
-		if(!shortname.isEmpty()) c.setDescription(shortname);
-		if(!label.isEmpty()) c.setDescription(label);
+		if(!shortname.isEmpty()) c.setShortname(shortname);
+		if(!label.isEmpty()) c.setLabel(label);
 		if(!description.isEmpty()) c.setDescription(description);
-		if(!comments.isEmpty()) c.setDescription(comments);
+		if(!comments.isEmpty()) c.setComments(comments);
 		
 		Response responseUpdate = db.update(c);
 		

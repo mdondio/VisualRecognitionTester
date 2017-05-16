@@ -22,7 +22,7 @@ import net.mybluemix.visualrecognitiontester.datamodel.Classifier;
  * This endpoint retrieves Classifiers. You can use the parameter _id to select just one classifier. 
  * @author Marco Dondio & Andrea Bortolossi
  * Test with:
- * http://localhost:9080/VisualRecognitionTester/GetClassifier?_id=Wind_classifier_639040266
+ * http://localhost:9080/VisualRecognitionTester/GetClassifier?_id=wind_classifier_642054071
  */
 @WebServlet("/GetClassifier")
 public class GetClassifier extends HttpServlet {

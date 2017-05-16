@@ -27,7 +27,7 @@ import net.mybluemix.visualrecognitiontester.datamodel.Instance;
  * 
  * @author Marco Dondio
  * Test with:
- * http://localhost:9080/VisualRecognitionTester/SubmitTrainJob?datasetId=Wind_test_20&label=watch&description=pale eoliche in azione&shortname=pala1
+ * http://localhost:9080/VisualRecognitionTester/SubmitTrainJob?datasetId=Wind_test_20&label=wind&description=pale eoliche in azione&shortname=pala1
  */
 @WebServlet("/SubmitTrainJob")
 public class SubmitTrainJob extends HttpServlet {
@@ -55,7 +55,7 @@ public class SubmitTrainJob extends HttpServlet {
 		String label = request.getParameter("label");
 		String description = request.getParameter("description");
 		String shortname = request.getParameter("shortname");
-		String comments = "";
+		String comments = "COMMENTO DI PROVA PER INIZIARE";
 		// XXX promemoria: occhio a label in classifier e in dataset..
 
 		
@@ -91,7 +91,7 @@ public class SubmitTrainJob extends HttpServlet {
 		@SuppressWarnings("unchecked")
 		JobQueue<Job<TrainingJobInfo>> trainQueue = (JobQueue<Job<TrainingJobInfo>>) ctx.getAttribute("trainQueue");
 
-		trainQueue.addJob(new Job<TrainingJobInfo>(new TrainingJobInfo(dataset,label,description,shortname)));
+		trainQueue.addJob(new Job<TrainingJobInfo>(new TrainingJobInfo(dataset,label,description,shortname,comments)));
 
 		// return answer
 		System.out.println("[SubmitTrainJob] Passed training job to daemon, returning asnwer to client");

@@ -15,12 +15,14 @@ public class TrainingJobInfo {
 	String label;
 	String description;
 	String shortname;
+	String comments;
 	
-	public TrainingJobInfo(Dataset dataset, String label, String description, String shortname) {
+	public TrainingJobInfo(Dataset dataset, String label, String description, String shortname, String comments) {
 		this.dataset = dataset;
 		this.label = label;
 		this.description = description;
 		this.shortname = shortname;
+		this.comments = comments;
 	}
 
 
@@ -37,6 +39,10 @@ public class TrainingJobInfo {
 	
 	public String getShortname(){
 		return shortname;
+	}
+	
+	public String getComments(){
+		return comments;
 	}
 	
 	public String toString(){
