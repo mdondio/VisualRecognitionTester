@@ -2,7 +2,7 @@
 
 /* ================ MOBILE =====================*/
 
-@media screen and (min-width: 480px){
+@media only screen and (min-width: 480px){
 
 * {
   margin: 0; padding: 0px; outline: none;
@@ -36,6 +36,7 @@ h5 { font-family: "museo-sans",sans-serif; font-style: normal; font-weight: 500;
   font-size: 18px;
   text-transform: none;
   color: #000000;
+  overflow: hidden;
 }
 
 .column { float: left; padding-left: 1rem; padding-right: 1rem; }
@@ -54,8 +55,9 @@ h5 { font-family: "museo-sans",sans-serif; font-style: normal; font-weight: 500;
 
 /* ================ TABLET PORTRAIT =====================*/
 
-@media screen and (min-width: 768px) {
+@media only screen and (min-width: 480px) and (max-width: 768px) {
 
+  .content { width: 100%; display: block; overflow: hidden; }
   .column.fourth { width: 50%; display: block; }
 
 }
@@ -63,7 +65,7 @@ h5 { font-family: "museo-sans",sans-serif; font-style: normal; font-weight: 500;
 
 /* ================ TABLET LANDSCAPE =====================*/
 
-@media screen and (min-width: 1024px) {
+@media only screen and (min-width: 768px) and (max-width: 1250px) {
 	
   .content { width: 100%; display: block; overflow: hidden; }
 

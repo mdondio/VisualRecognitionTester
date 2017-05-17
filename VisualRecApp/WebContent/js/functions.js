@@ -145,12 +145,12 @@ function addClassifierTable(IDelement,table){
 						var IDstring = $(this).prop("id");
 						swal({
 							  title: 'ID: "+IDstring"',
-							  text: "Put description of the classifier here. Put description of the classifier here. Put description of the classifier here. <br><br><br><br><br><input type='submit' class='submitmodal2' value='Edit classifier'>",
+							  text: "Put description of the classifier here. Put description of the classifier here. Put description of the classifier here.\n\n<input type='submit' class='submitmodal2' value='Edit'>",
 							  type: 'warning',
 							  showCancelButton: true,
 							  confirmButtonColor: '#3085d6',
 							  cancelButtonColor: '#d33',
-							  confirmButtonText: 'Delete it!',
+							  confirmButtonText: 'Delete!',
 							  cancelButtonText: 'Cancel'
 							}).then(function (isConfirm) {
 							  
@@ -1241,17 +1241,19 @@ function startTrain(){
 	var datasetId = $("#labelselected").val();
 	var label = $("#labelselected").html();
 	var description = $("#classifierdesc").val();
+	var shortname = $("#classifiershortname").val(); //CONTROLLO SHORTNAME UNIVOCO
 	
 	console.log(datasetId);
 	console.log(label);
 	console.log(description);
+	console.log(shortname);
 	
 	if(datasetId && label)
 		{
  	$.ajax({
 		contentType : "application/json",
 		dataType : "json",
-		data : "datasetId=" + datasetId + "&label="+label + "&description="+description,
+		data : "datasetId=" + datasetId + "&label="+label + "&description="+description + "&shortname="+shortname,
 		url : 'SubmitTrainJob',
 		async : true,
 		success : function(result) {
