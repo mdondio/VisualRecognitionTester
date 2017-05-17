@@ -24,6 +24,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import com.ibm.watson.developer_cloud.service.exception.ServiceResponseException;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassification;
 
 import net.mybluemix.visualrecognitiontester.blmxservices.CloudantClientMgr;
@@ -185,7 +186,7 @@ public class GetTestResult extends HttpServlet {
 		List<VisualClassification> watsonres;
 		try {
 			watsonres = classifier.classify(zipFiles, Utils.WATSONMINSCORE);
-		} catch (VisualClassifierException e) {
+		} catch (VisualClassifierException | ServiceResponseException e) {
 
 			// if we have an error, we exhausted
 			// classification calls

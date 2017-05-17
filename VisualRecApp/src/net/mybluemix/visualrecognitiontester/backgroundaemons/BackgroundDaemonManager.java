@@ -53,7 +53,6 @@ public class BackgroundDaemonManager implements ServletContextListener {
 		System.out.println("[BackgroundDaemonManager] contextInitialized");
 		System.out.println("[BackgroundDaemonManager] java vm name: " + System.getProperty("java.vm.name"));
 
-		
 		// First clean all files from staging area
 		cleanDisk();
 
@@ -70,12 +69,17 @@ public class BackgroundDaemonManager implements ServletContextListener {
 		daemons.add(new DatasetDaemon(ctx));
 
 		////////////////////////////////////////////
-		// System.out.println("[BackgroundDaemonManager] mqtt enabled");
-		// try {
-		// daemons.add(new MqttClientDaemon(ctx));
-		// } catch (MqttException e) {
-		// e.printStackTrace();
-		// }
+
+		String VCAP_SERVICES = System.getenv("VCAP_SERVICES");
+		if (VCAP_SERVICES != null) {
+
+			System.out.println("[BackgroundDaemonManager] Running into Bluemix: mqtt enabled");
+			try {
+				daemons.add(new MqttClientDaemon(ctx));
+			} catch (MqttException e) {
+				e.printStackTrace();
+			}
+		}
 		////////////////////////////////////////////
 
 		// Initialize executor: one thread per daemon
@@ -95,7 +99,7 @@ public class BackgroundDaemonManager implements ServletContextListener {
 	}
 
 	private void cleanDisk() {
-		
+
 		// First, clean staging area at startup
 		File stagingDir = new File(STAGING_AREA);
 
@@ -108,16 +112,15 @@ public class BackgroundDaemonManager implements ServletContextListener {
 			for (File datasetDir : stagingDir.listFiles()) {
 				System.out.println("[BackgroundDaemonManager] Cleaning " + datasetDir);
 
-
 				for (File images : datasetDir.listFiles())
 					images.delete();
 				datasetDir.delete();
 			}
-		} else{
+		} else {
 			System.out.println("[BackgroundDaemonManager] Staging area exists: cleaning");
 			stagingDir.mkdir();
 		}
-		
+
 		// Delete other files
 		File f = new File("temp_pos.zip");
 		f.delete();
