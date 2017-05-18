@@ -18,6 +18,7 @@ import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.Job;
 import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.JobQueue;
 import net.mybluemix.visualrecognitiontester.backgroundaemons.datamodel.TrainingJobInfo;
 import net.mybluemix.visualrecognitiontester.blmxservices.CloudantClientMgr;
+import net.mybluemix.visualrecognitiontester.datamodel.Classifier;
 import net.mybluemix.visualrecognitiontester.datamodel.Dataset;
 import net.mybluemix.visualrecognitiontester.datamodel.Instance;
 
@@ -58,8 +59,23 @@ public class SubmitTrainJob extends HttpServlet {
 		String comments = "COMMENTO DI PROVA PER INIZIARE";
 		// XXX promemoria: occhio a label in classifier e in dataset..
 
-		
-		
+		//CHECK if shortname already exists
+		Database db = CloudantClientMgr.getCloudantDB();
+		String selector = "{\"selector\": {\"type\":\"classifier\", \"shortname\":\"" + shortname + "\"}}";
+        FindByIndexOptions opt = new FindByIndexOptions()
+        	 .fields("_id").fields("label");
+        
+        List<Classifier> classifiers = db.findByIndex(selector, Classifier.class, opt);
+        System.out.println("[SubmitTrainJob] size of classifier with "+shortname+" as shortname: "+classifiers.size());
+        if(classifiers.size()>0){
+			System.out.println("[SubmitTrainJob] Shortname already exists");
+			JsonObject o = new JsonObject();
+			o.addProperty("error", "try another shortname for this classifier");
+			response.getWriter().println(o);
+			return;
+        }
+        
+        
 		// Then, retrieve resources: instance
 		Instance vr_instance = checkFreeVRInstance();
 
