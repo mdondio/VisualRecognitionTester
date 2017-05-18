@@ -1,6 +1,7 @@
 /* ================================================== */
 /* ===================== DESKTOP =====================*/
 /* ================================================== */
+
 .post-preview {
 	width: 100%;
 	padding-bottom: 0;
@@ -257,9 +258,9 @@ input.submitmodal2{
     border: 0!important;
     font-size: 17px!important;
     font-weight: 500!important;
-    position: absolute;
-    bottom: 20px;
-    left:37%;
+/*     position: absolute; */
+/*     bottom: 20px; */
+/*     left:37%; */
 }
 
 input.submitmodal2:hover{
@@ -733,15 +734,15 @@ position:relative;
 
 
 
-@media screen and (min-width: 480px) {
+@media only screen and (max-width: 480px) {
 
 }
  
-@media screen and (min-width: 768px) {
+@media only screen and (max-width: 768px) {
 
 }
  
-@media screen and (min-width: 1024px) {
+@media only screen and (min-width: 768px) and (max-width: 1250px) {
 	
 p.title {
 	color: #343b43;
