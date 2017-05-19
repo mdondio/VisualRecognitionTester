@@ -577,10 +577,10 @@ img#waiting{
 
 .modal-content2 {
   display: none;
-  position: fixed;
+  position: sticky;
   z-index: 40000010;
   background: #FFFFFF;
-  margin-top: 10%;
+  margin-top: -110%;
   margin-left: 38%;
   padding: 0;
   width: 30%;
