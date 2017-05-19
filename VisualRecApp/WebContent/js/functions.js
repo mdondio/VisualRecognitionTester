@@ -1063,6 +1063,7 @@ function buildSelectDataSet(dataset_type,IDselector){
 	$.ajax({													
 		dataType: "json",
 		url: 'GetDataset',
+		data: "_id=",
 		async: true,
 		success: function(result){
 			
@@ -1260,10 +1261,19 @@ function startTrain(){
 		url : 'SubmitTrainJob',
 		async : true,
 		success : function(result) {
+			if(result.hasOwnProperty('error'))
+				{
+				swal({
+					title: 'Warning',
+					text: result.error,
+					type: 'warning',});
+				}
+			else{
 			swal('Launched!',
 					'Your classifier training has been launched!',
 					'success').then(function(){window.location.href="home.html"})
 		}
+			}
 	});
 		}else{
 			swal({
