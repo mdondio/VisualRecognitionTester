@@ -1098,6 +1098,7 @@ function buildSelectClassifier(status,IDselector){
 		contentType: "application/json",
 		dataType: "json",
 		url: 'GetClassifier',
+		data: "_id=",
 		async: true,
 		success: function(result)
 		{
