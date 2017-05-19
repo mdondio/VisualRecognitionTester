@@ -145,7 +145,7 @@ function addClassifierTable(IDelement,table){
 						var IDstring = $(this).prop("id");
 						swal({
 							  title: 'ID: "+IDstring"',
-							  text: "Put description of the classifier here. Put description of the classifier here. Put description of the classifier here.\n\n<input type='submit' class='submitmodal2' value='Edit'>",
+							  text: "\n\n<input type='submit' class='submitmodal2' value='Edit'>",
 							  type: 'warning',
 							  showCancelButton: true,
 							  confirmButtonColor: '#3085d6',
@@ -173,7 +173,8 @@ function addClassifierTable(IDelement,table){
 							block.setAttribute("class",'smoothrectangle '+table[i][j][k].status+'');
 							block.setAttribute("data-tooltip","ID: "+table[i][j][k]._id+" status:"+table[i][j][k].status+" - label:"+table[i][j][k].label);
 					
-					block.appendChild(document.createTextNode(table[i][j][k].training_size+"_"+"v"+k));
+//					block.appendChild(document.createTextNode(table[i][j][k].training_size+"_"+"v"+k));
+					block.appendChild(document.createTextNode(table[i][j][k].shortname));
 					td.appendChild(block);
 				}
 				if((table[i][j]).length==0) td.appendChild(document.createTextNode(""));
