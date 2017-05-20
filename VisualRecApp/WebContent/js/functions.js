@@ -717,6 +717,95 @@ function setParameters(result) {
 			$("#auctest").html(result.AUC.toFixed(2));
 }
 
+function createMyModal(){
+	
+	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
+	
+//	for(var i in testdetails){
+//		var obj = testdetails[i];
+//		var label = document.createElement("label");
+//		var input = document.createElement("input");
+//		var linebreak = document.createElement("br");
+//		
+//		
+//		input.value = obj.name;
+//		input.type = "checkbox";
+//		input.setAttribute("class","formcheckbox")
+//		label.appendChild(input);
+//		label.appendChild(document.createTextNode("  "+obj.name));
+//
+//		$("#listatest").append(label);
+//		$("#listatest").append(linebreak);
+//	}
+//	
+	var toBeImplemented= "";
+	var testNames = [];
+	
+	var modal = new tingle.modal({
+	    footer: true,
+	    stickyFooter: false,
+	    closeMethods: ['overlay', 'escape'],
+	    closeLabel: "Close",
+	    //cssClass: ['custom-class-1', 'custom-class-2'],
+	    onOpen: function() {
+	    	
+	    	toBeImplemented = "<h3> Select test to be saved: </h3>";
+	    	
+	    },
+	    onClose: function() {
+	    
+			        
+
+	    },
+	    beforeClose: function() {
+	        // here's goes some logic
+	        // e.g. save content before closing the modal
+	    	
+	    	
+	        return true; // close the modal
+	    	return false; // nothing happens
+	    }
+	});
+
+	
+	for(var i in testdetails){
+		
+		var obj = testdetails[i];
+		testNames[i] = obj.name;
+
+	}
+	
+	for( i = 0; i < testdetails.length; i++ ){
+		
+		toBeImplemented = toBeImplemented + "<input style= 'width:25px; height:25px' value='" + testNames[i] + "' class='formcheckbox' type='checkbox' >     " + testNames[i] + "<br><br>"; 
+		
+	}
+	
+	modal.addFooterBtn('SAVE', 'tingle-btn tingle-btn--primary', function() {
+		// here goes some logic
+		printTestResults();
+		modal.close();
+		
+	});
+	
+	// add another button
+	modal.addFooterBtn('CANCEL!', 'tingle-btn tingle-btn--danger', function() {
+	    // here goes some logic
+	    modal.close();
+	});
+	
+	
+	openIt(modal, toBeImplemented);
+	
+}
+
+function openIt(modal, content){
+	
+	modal.setContent(content);
+	modal.open();
+	
+}
+
 function openModal2() {
 	populateListTestResult();
 //	$('#savetestmodal').show("slow");
