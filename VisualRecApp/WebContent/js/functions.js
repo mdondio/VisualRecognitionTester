@@ -174,7 +174,7 @@ function addClassifierTable(IDelement,table){
 							block.setAttribute("data-tooltip","ID: "+table[i][j][k]._id+" status:"+table[i][j][k].status+" - label:"+table[i][j][k].label);
 					
 //					block.appendChild(document.createTextNode(table[i][j][k].training_size+"_"+"v"+k));
-					block.appendChild(document.createTextNode(table[i][j][k].shortname));
+					block.appendChild(document.createTextNode(table[i][j][k].shortname+" "+table[i][j][k].training_size));
 					td.appendChild(block);
 				}
 				if((table[i][j]).length==0) td.appendChild(document.createTextNode(""));
