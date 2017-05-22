@@ -514,11 +514,11 @@ img#waiting{
 /* 	padding: 12px; */
     padding-left: 15px;
     padding-right: 15px;
-    padding-top: 4px;
+    padding-top: 15px;
 	background: #ECECEC;
 	font-family: IBM;
 	text-align: center;
-	font-size: 12pt;
+	font-size: 9pt;
 	color: #343b43;
 	-webkit-border-radius: 25px;
 	-moz-border-radius: 25px;
