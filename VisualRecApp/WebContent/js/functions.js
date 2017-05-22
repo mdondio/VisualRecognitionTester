@@ -1,4 +1,5 @@
 
+
 /**
  * @returns save locally the result file depending on the checkboxes selected
  */
