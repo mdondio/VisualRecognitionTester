@@ -39,7 +39,7 @@
 			<p class='title center'>description</p>
 			<p class='paragraph center'>this is a short description of the classifier</p>
 			<hr class="lineseparator">
-			<div id="" contenteditable="true" id="descriptionedit">Quisque in turpis condimentum, cursus neque eu, pharetra justo. Vivamus lacinia dui nisi. Integer feugiat vulputate velit quis rhoncus.</div>
+			<div contenteditable="true" id="descriptionedit">Quisque in turpis condimentum, cursus neque eu, pharetra justo. Vivamus lacinia dui nisi. Integer feugiat vulputate velit quis rhoncus.</div>
 		</div>
 
 		<div class="column half">
@@ -83,6 +83,18 @@
 	$(document).ajaxStop(function () {
       testingLoading();
   	});
+  	
+	var classID = localStorage.getItem("classID");
+
+	var shortName = returnClassifierDetail(classID, "shortname");
+	var label = returnClassifierDetail(classID, "label");
+	var descr = returnClassifierDetail(classID, "description");
+
+	$("#shortnameedit").text(shortName);
+	$("#labeledit").text(label);
+	$("#descriptionedit").text(descr);
+	//$("#commentsedit").text();
+	
 
 buildSelectDataSet("all",'#trainingdataset');
 

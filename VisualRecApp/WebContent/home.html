@@ -164,6 +164,13 @@
 
 	});
 	
+	$('body').on("click", "[id*=editButton]", function() {
+
+		localStorage.setItem("classID", getClassID());
+		window.location.href = 'classifierdetails.html';
+
+	});
+	
 // 	var table_height = 0; 
 // 	table_height = $('#dvTable').height();
 	

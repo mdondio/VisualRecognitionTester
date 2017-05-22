@@ -143,13 +143,16 @@ function addClassifierTable(IDelement,table){
 					
 					block.addEventListener("click", function(){
 						var IDstring = $(this).prop("id");
+						
+						setClassID(IDstring);
+						
 						var IDshortname = returnClassifierDetail(IDstring, "shortname");
 						var IDdescription = returnClassifierDetail(IDstring, "description");
 						
 						swal({
 //							  title: 'ID: '+IDstring,
 							  title: IDshortname,
-							  text: ""+IDdescription+"\n\n<input type='submit' class='submitmodal2' value='Edit'>",
+							  text: ""+IDdescription+"\n\n<input type='submit' id='editButton' class='submitmodal2' value='Edit'>",
 //							  type: 'warning',
 							  showCancelButton: true,
 							  confirmButtonColor: '#3085d6',
@@ -213,7 +216,19 @@ function addClassifierTable(IDelement,table){
 	document.getElementById(IDelement).appendChild(tableElement);
 }
 
+var classIDFin;
 
+function setClassID(classID){
+	
+	classIDFin = classID;
+	
+}
+
+function getClassID(){
+	
+	return classIDFin;
+	
+}
 
 /**
  * @param IDappend div element where append the descriptive rectangle
