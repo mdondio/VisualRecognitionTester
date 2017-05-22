@@ -143,10 +143,14 @@ function addClassifierTable(IDelement,table){
 					
 					block.addEventListener("click", function(){
 						var IDstring = $(this).prop("id");
+						var IDshortname = returnClassifierDetail(IDstring, "shortname");
+						var IDdescription = returnClassifierDetail(IDstring, "description");
+						
 						swal({
-							  title: 'ID: "+IDstring"',
-							  text: "\n\n<input type='submit' class='submitmodal2' value='Edit'>",
-							  type: 'warning',
+//							  title: 'ID: '+IDstring,
+							  title: IDshortname,
+							  text: ""+IDdescription+"\n\n<input type='submit' class='submitmodal2' value='Edit'>",
+//							  type: 'warning',
 							  showCancelButton: true,
 							  confirmButtonColor: '#3085d6',
 							  cancelButtonColor: '#d33',
@@ -823,6 +827,31 @@ function closeModal2() {
 	$('#savetestmodal').fadeOut(100);
 	$('#savetestmodalbackground').fadeOut(100);
 	$('#savetestmodalcontent').fadeOut(100);
+}
+
+/**
+ * @param detail (_id,shortname,description, ...)
+ * @param ID
+ * @returns the selected detail of the classifier
+ */
+function returnClassifierDetail(ID, param){
+	
+	var tiramifuori;
+	
+	$.ajax({												
+		contentType: "application/json",
+		dataType: "json",
+		url: 'GetClassifier',
+		data: "_id="+ID,
+		async: false,
+		success: function(result)
+		{
+			tiramifuori = result[0][param];			
+		}
+	});
+	
+	return tiramifuori;
+	
 }
 
 /*
