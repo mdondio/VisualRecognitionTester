@@ -13,9 +13,12 @@
 <header></header><script>createHeader();</script>
 
   <script>
-  $( function() {
-    $( "#accordion" ).accordion();
-  } );
+$(function() {
+    $("#accordion" ).accordion({
+        collapsible: true,
+        heightStyle: "content"
+    });
+});
   </script>
   
 
