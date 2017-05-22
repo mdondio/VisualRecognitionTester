@@ -18,10 +18,10 @@
 
 		<form action="javascript:startTrain();">
 			<div class="column fourth">
-				<p class="title center" id="shortnameedit" contenteditable="true">put shortname</p>
+				<p class="title center" id="shortnameedit" contenteditable="true"></p>
 			</div>
 			<div class="column fourth">
-				<p class="title center" id="labeledit" contenteditable="true">put label</p>
+				<p class="title center" id="labeledit" contenteditable="true"></p>
 			</div>
 			<div class="column fourth">
 				&ensp;
@@ -39,14 +39,14 @@
 			<p class='title center'>description</p>
 			<p class='paragraph center'>this is a short description of the classifier</p>
 			<hr class="lineseparator">
-			<div contenteditable="true" id="descriptionedit">Quisque in turpis condimentum, cursus neque eu, pharetra justo. Vivamus lacinia dui nisi. Integer feugiat vulputate velit quis rhoncus.</div>
+			<div contenteditable="true" id="descriptionedit"></div>
 		</div>
 
 		<div class="column half">
 			<p class='title center'>comments</p>
 			<p class='paragraph center'>you can put comments on the behaviour of the classifier</p>
 			<hr class="lineseparator">
-			<div id="" contenteditable="true" id="commentsedit">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vitae pretium nisi. In vel sem ante. Mauris efficitur lectus ut quam finibus, vel eleifend justo faucibus.</div>
+			<div contenteditable="true" id="commentsedit"></div>
 		</div>
 		
 	</div>
@@ -89,11 +89,17 @@
 	var shortName = returnClassifierDetail(classID, "shortname");
 	var label = returnClassifierDetail(classID, "label");
 	var descr = returnClassifierDetail(classID, "description");
+	var comm = returnClassifierDetail(classID, "comments");
 
 	$("#shortnameedit").text(shortName);
 	$("#labeledit").text(label);
 	$("#descriptionedit").text(descr);
-	//$("#commentsedit").text();
+	$("#commentsedit").text(comm);
+	
+	$("#shortnameedit").focusout(function(){ 	updateClassifierDetail(classID, "shortname", 	($("#shortnameedit").html())	);	}); // VEDERE FUNZIONE
+// 	$("#labeledit").focusout(function(){ 		updateClassifierDetail(classID, "label", 		($("#labeledit").html())		);	});
+// 	$("#descriptionedit").focusout(function(){ 	updateClassifierDetail(classID, "description",	($("#descriptionedit").html())	);	});
+// 	$("#commentsedit").focusout(function(){ 	updateClassifierDetail(classID, "comments",		($("#commentsedit").html())		);	});
 	
 
 buildSelectDataSet("all",'#trainingdataset');

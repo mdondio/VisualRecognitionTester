@@ -885,6 +885,30 @@ function returnClassifierDetail(ID, param){
 	
 }
 
+
+
+/**
+ * @param 
+ * @param 
+ * @returns
+ */
+function updateClassifierDetail(ID, attribute, value){
+		
+	// DA CORREGGERE e da fare check su lunghezza shortname
+	
+	$.ajax({												
+		contentType: "application/json",
+		dataType: "json",
+		url: 'UpdateClassifier',
+		data: "_id="+ID+"&shortname="+value+"&label=&description=&comments=",
+		async: true,
+		success: function(result)
+		{
+		}
+	});
+		
+}
+
 /*
  * =======================================================================
  * ============== FUNCTIONS FOR GALLERY MANAGEMENT =======================
