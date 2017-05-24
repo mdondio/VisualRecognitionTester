@@ -892,7 +892,7 @@ function returnClassifierDetail(ID, param){
  * @param 
  * @returns
  */
-function updateClassifierDetail(ID, attribute, value){
+function updateClassifierDetail(ID, shortName, label, descr, comm){
 		
 	// DA CORREGGERE e da fare check su lunghezza shortname
 	
@@ -900,13 +900,42 @@ function updateClassifierDetail(ID, attribute, value){
 		contentType: "application/json",
 		dataType: "json",
 		url: 'UpdateClassifier',
-		data: "_id="+ID+"&shortname="+value+"&label=&description=&comments=",
+		data: "_id="+ID+"&shortname="+shortName+"&label="+label+"&description="+descr+"&comments="+comm,
 		async: true,
 		success: function(result)
 		{
+		},
+		complete: function (data) {
+	    
+			workingUpdate(true); 
+	     
 		}
+
+	
 	});
 		
+}
+
+function workingUpdate(flag){
+	
+	if( flag ){
+			
+	 		swal({
+				  title: "Saved!",
+				  text: "Your changes have been saved correctly!",
+				  type: "success",
+				  confirmButtonColor: '#5cb85c',
+				  confirmButtonText: 'Set!',
+				  allowOutsideClick: false,
+				  allowEscapeKey: true
+				}).then(function(result) {
+				
+					if(result) ; //do nothing!
+				
+				})
+				
+		}
+	
 }
 
 /*

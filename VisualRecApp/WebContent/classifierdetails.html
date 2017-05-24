@@ -16,7 +16,7 @@
 
 		<br>
 
-		<form action="javascript:startTrain();">
+		<form> <!--  action="javascript:startTrain();"  -->
 			<div class="column fourth">
 				<p class="title center" id="shortnameedit" contenteditable="true"></p>
 			</div>
@@ -30,6 +30,8 @@
 				<button type="submit" class="import">Use</button><button type="submit" class="import">Retrain</button><button type="submit" class="import">Delete</button>
 			</div>
 		</form>
+		
+		<button id="saveButton" disabled class="import">Save</button>
 
 		<br> <br> <br> <br> <br> <br>
 		
@@ -39,7 +41,8 @@
 			<p class='title center'>description</p>
 			<p class='paragraph center'>this is a short description of the classifier</p>
 			<hr class="lineseparator">
-			<div contenteditable="true" id="descriptionedit"></div>
+			<textarea id="descriptionedit"></textarea>
+<!-- 			<div contenteditable="true" id="descriptionedit"></div> -->
 		</div>
 
 		<div class="column half">
@@ -80,9 +83,66 @@
 
 <script>
 
+	//autosize(document.querySelector('textarea'));
+	
 	$(document).ajaxStop(function () {
       testingLoading();
   	});
+  	
+  	var flag = 0;
+  	
+  	if( flag == 0 ){
+  		 	
+	 	if( $('#saveButton').attr("disabled") ){
+	 	
+	 		$('#saveButton').css("background", "pink");
+	 	
+	 	}else
+	 		$('#saveButton').css("background", "green");
+  	
+  		flag = 1;
+  		
+  	}
+
+
+	$("#descriptionedit").on("change keyup paste", function(){
+    
+    	$('#saveButton').attr("disabled", false);
+    	$('#saveButton').css("background", "green");
+	
+	});
+	
+	$("#commentsedit").on("change keyup paste", function(){
+    
+    	$('#saveButton').attr("disabled", false);
+    	$('#saveButton').css("background", "green");
+	
+	});
+	
+	$("#labeledit").on("change keyup paste", function(){
+    
+    	$('#saveButton').attr("disabled", false);
+    	$('#saveButton').css("background", "green");
+	
+	});
+	
+	$("#shortnameedit").on("change keyup paste", function(){
+    
+    	$('#saveButton').attr("disabled", false);
+    	$('#saveButton').css("background", "green");
+	
+	});
+  	
+  	$('#saveButton').click(function(){
+  	
+  		var shortName = ( $("#shortnameedit").html() );
+  		var descr = ( $("#descriptionedit").html() );
+  		var comm = ( $("#commentsedit").html() );
+  		var label = ( $("#labeledit").html() );;
+  	
+  		updateClassifierDetail(classID, shortName, label, descr, comm);
+	
+	});
   	
 	var classID = localStorage.getItem("classID");
 
@@ -96,7 +156,7 @@
 	$("#descriptionedit").text(descr);
 	$("#commentsedit").text(comm);
 	
-	$("#shortnameedit").focusout(function(){ 	updateClassifierDetail(classID, "shortname", 	($("#shortnameedit").html())	);	}); // VEDERE FUNZIONE
+// 	$("#shortnameedit").focusout(function(){ 	updateClassifierDetail(classID, "shortname", 	($("#shortnameedit").html())	);	}); // VEDERE FUNZIONE
 // 	$("#labeledit").focusout(function(){ 		updateClassifierDetail(classID, "label", 		($("#labeledit").html())		);	});
 // 	$("#descriptionedit").focusout(function(){ 	updateClassifierDetail(classID, "description",	($("#descriptionedit").html())	);	});
 // 	$("#commentsedit").focusout(function(){ 	updateClassifierDetail(classID, "comments",		($("#commentsedit").html())		);	});
