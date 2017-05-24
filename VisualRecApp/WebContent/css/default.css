@@ -159,12 +159,12 @@ p.paragraph.left {
 	text-align: left;
 }
 
-textarea {
-    resize: none;
-    overflow: hidden;
-    min-height: 50px;
-    max-height: 100px;
-}
+/* textarea { */
+/*     resize: none; */
+/*     overflow: hidden; */
+/*     min-height: 50px; */
+/*     max-height: 100px; */
+/* } */
 
 
 /* ================== GESTIONE TABELLE ============== */

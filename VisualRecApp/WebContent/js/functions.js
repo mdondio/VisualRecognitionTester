@@ -860,6 +860,7 @@ function closeModal2() {
 	$('#savetestmodalcontent').fadeOut(100);
 }
 
+
 /**
  * @param detail (_id,shortname,description, ...)
  * @param ID
@@ -893,9 +894,7 @@ function returnClassifierDetail(ID, param){
  * @returns
  */
 function updateClassifierDetail(ID, shortName, label, descr, comm){
-		
-	// DA CORREGGERE e da fare check su lunghezza shortname
-	
+			
 	$.ajax({												
 		contentType: "application/json",
 		dataType: "json",
