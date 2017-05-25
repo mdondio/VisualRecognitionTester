@@ -144,10 +144,17 @@ function addClassifierTable(IDelement,table){
 					
 					block.addEventListener("click", function(){
 						var IDstring = $(this).prop("id");
+						
+						setClassID(IDstring);
+						
+						var IDshortname = returnClassifierDetail(IDstring, "shortname");
+						var IDdescription = returnClassifierDetail(IDstring, "description");
+						
 						swal({
-							  title: 'ID: "+IDstring"',
-							  text: "\n\n<input type='submit' class='submitmodal2' value='Edit'>",
-							  type: 'warning',
+//							  title: 'ID: '+IDstring,
+							  title: IDshortname,
+							  text: ""+IDdescription+"\n\n<input type='submit' id='editButton' class='submitmodal2' value='Edit'>",
+//							  type: 'warning',
 							  showCancelButton: true,
 							  confirmButtonColor: '#3085d6',
 							  cancelButtonColor: '#d33',
@@ -155,18 +162,41 @@ function addClassifierTable(IDelement,table){
 							  cancelButtonText: 'Cancel'
 							}).then(function (isConfirm) {
 							  
-								if(isConfirm)
-									{
-									$.ajax({
-										   		contentType : "application/json",
-										   		dataType : "json",
-										   		data : "classifierId=" + IDstring + "",
-										   		url : 'DeleteClassifier',
-										   		async : false,
-										   		success : function(result) {
-						   									swal('Deleted!','Classifier (ID: '+IDstring+') has been deleted.','success').then(function(){location.reload();})
-							   								}
-				   							});
+								if(isConfirm){
+									
+									swal({
+										  title: "Are you sure?",
+										  text: "Are you really sure you want to delete this classifier?",
+										  type: "warning",
+										  confirmButtonColor: '#d33',
+										  confirmButtonText: 'Delete!',
+										  showCancelButton: true,
+										  allowOutsideClick: false,
+										  allowEscapeKey: true
+										}).then( function(result) {
+											
+											//User really wants to delete the classifier
+											if(result){
+												
+												$.ajax({
+
+													   	contentType : "application/json",
+													   	dataType : "json",
+													  	data : "classifierId=" + IDstring + "",
+													  	url : 'DeleteClassifier',
+													   	async : false,
+													   	success : function(result) {
+													   		
+									   						swal('Deleted!','Classifier ' + IDshortname + ' (ID: '+IDstring+') has been deleted.','success').then(function(){location.reload();})
+										   				
+													   	}
+												
+							   					});
+												
+											}//User really wants to delete the classifier {END}
+												
+										});
+									
 									}
 							})
 					});
@@ -187,7 +217,19 @@ function addClassifierTable(IDelement,table){
 	document.getElementById(IDelement).appendChild(tableElement);
 }
 
+var classIDFin;
 
+function setClassID(classID){
+	
+	classIDFin = classID;
+	
+}
+
+function getClassID(){
+	
+	return classIDFin;
+	
+}
 
 /**
  * @param IDappend div element where append the descriptive rectangle
@@ -721,24 +763,6 @@ function setParameters(result) {
 function createMyModal(){
 	
 	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
-	
-//	for(var i in testdetails){
-//		var obj = testdetails[i];
-//		var label = document.createElement("label");
-//		var input = document.createElement("input");
-//		var linebreak = document.createElement("br");
-//		
-//		
-//		input.value = obj.name;
-//		input.type = "checkbox";
-//		input.setAttribute("class","formcheckbox")
-//		label.appendChild(input);
-//		label.appendChild(document.createTextNode("  "+obj.name));
-//
-//		$("#listatest").append(label);
-//		$("#listatest").append(linebreak);
-//	}
-//	
 	var toBeImplemented= "";
 	var testNames = [];
 	
@@ -750,7 +774,7 @@ function createMyModal(){
 	    //cssClass: ['custom-class-1', 'custom-class-2'],
 	    onOpen: function() {
 	    	
-	    	toBeImplemented = "<h3> Select test to be saved: </h3>";
+//	    	toBeImplemented = "<h3> Select test to be saved: </h3>";
 	    	
 	    },
 	    onClose: function() {
@@ -776,9 +800,18 @@ function createMyModal(){
 
 	}
 	
+	var flag = false;
+	
 	for( i = 0; i < testdetails.length; i++ ){
 		
-		toBeImplemented = toBeImplemented + "<input style= 'width:25px; height:25px' value='" + testNames[i] + "' class='formcheckbox' type='checkbox' >     " + testNames[i] + "<br><br>"; 
+		if(!flag){
+		
+			toBeImplemented = "<h2> Select test to be saved: </h2> <br> <input style= 'width:25px; height:25px' value='" + testNames[i] + "' class='formcheckbox' type='checkbox' >     " + testNames[i] + "<br><br>";
+			flag = true;
+			
+		}
+		else
+			toBeImplemented = toBeImplemented + "<input style= 'width:25px; height:25px' value='" + testNames[i] + "' class='formcheckbox' type='checkbox' >     " + testNames[i] + "<br><br>"; 
 		
 	}
 	
@@ -797,6 +830,8 @@ function createMyModal(){
 	
 	
 	openIt(modal, toBeImplemented);
+	
+	console.log(toBeImplemented)
 	
 }
 
@@ -824,6 +859,83 @@ function closeModal2() {
 	$('#savetestmodal').fadeOut(100);
 	$('#savetestmodalbackground').fadeOut(100);
 	$('#savetestmodalcontent').fadeOut(100);
+}
+
+
+/**
+ * @param detail (_id,shortname,description, ...)
+ * @param ID
+ * @returns the selected detail of the classifier
+ */
+function returnClassifierDetail(ID, param){
+	
+	var tiramifuori;
+	
+	$.ajax({												
+		contentType: "application/json",
+		dataType: "json",
+		url: 'GetClassifier',
+		data: "_id="+ID,
+		async: false,
+		success: function(result)
+		{
+			tiramifuori = result[0][param];			
+		}
+	});
+	
+	return tiramifuori;
+	
+}
+
+
+
+/**
+ * @param 
+ * @param 
+ * @returns
+ */
+function updateClassifierDetail(ID, shortName, label, descr, comm){
+			
+	$.ajax({												
+		contentType: "application/json",
+		dataType: "json",
+		url: 'UpdateClassifier',
+		data: "_id="+ID+"&shortname="+shortName+"&label="+label+"&description="+descr+"&comments="+comm,
+		async: true,
+		success: function(result)
+		{
+		},
+		complete: function (data) {
+	    
+			workingUpdate(true); 
+	     
+		}
+
+	
+	});
+		
+}
+
+function workingUpdate(flag){
+	
+	if( flag ){
+			
+	 		swal({
+				  title: "Saved!",
+				  text: "Your changes have been saved correctly!",
+				  type: "success",
+				  confirmButtonColor: '#5cb85c',
+				  confirmButtonText: 'Set!',
+				  allowOutsideClick: false,
+				  allowEscapeKey: true
+				}).then(function(result) {
+				
+					if(result) ; //do nothing!
+				
+				})
+				
+		}
+	
 }
 
 /*

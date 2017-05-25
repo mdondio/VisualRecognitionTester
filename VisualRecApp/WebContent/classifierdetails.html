@@ -16,20 +16,20 @@
 
 		<br>
 
-		<form action="javascript:startTrain();">
 			<div class="column fourth">
-				<p class="title center" id="labelselected" contenteditable="true">put shortname</p>
+				<input class="title" type="text" id="shortnameedit" maxlength="5">
 			</div>
-			<div class="column three-fourths">
+			<div class="column fourth">
+				<input class="title" type="text" id="labeledit" maxlength="5">
+			</div>
+			<div class="column fourth">
+				<button id="saveButton" disabled class="import">Save</button>
+			</div>
+			<div class="column fourth">
 				<button type="submit" class="import">Use</button><button type="submit" class="import">Retrain</button><button type="submit" class="import">Delete</button>
 			</div>
-<!-- 			<div class="column fourth"> -->
-<!-- 				<button type="submit" class="import">Retrain</button> -->
-<!-- 			</div> -->
-<!-- 			<div class="column fourth"> -->
-<!-- 				<button type="submit" class="import">Delete</button> -->
-<!-- 			</div> -->
-		</form>
+	
+		
 
 		<br> <br> <br> <br> <br> <br>
 		
@@ -37,16 +37,16 @@
 
 		<div class="column half">
 			<p class='title center'>description</p>
-			<p class='paragraph center'>a short description of the classifier</p>
+			<p class='paragraph center'>this is a short description of the classifier</p>
 			<hr class="lineseparator">
-			<div id="" contenteditable="true">Quisque in turpis condimentum, cursus neque eu, pharetra justo. Vivamus lacinia dui nisi. Integer feugiat vulputate velit quis rhoncus.</div>
+			<textarea id="descriptionedit" rows="12" style="width:100%" maxlength="500"></textarea>
 		</div>
 
 		<div class="column half">
 			<p class='title center'>comments</p>
 			<p class='paragraph center'>you can put comments on the behaviour of the classifier</p>
 			<hr class="lineseparator">
-			<div id="" contenteditable="true">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vitae pretium nisi. In vel sem ante. Mauris efficitur lectus ut quam finibus, vel eleifend justo faucibus.</div>
+			<textarea id="commentsedit" rows="12" style="width:100%" maxlength="500"></textarea>
 		</div>
 		
 	</div>
@@ -80,9 +80,84 @@
 
 <script>
 
+	//autosize(document.querySelector('textarea'));
+	
 	$(document).ajaxStop(function () {
       testingLoading();
   	});
+  	
+  	var flag = 0;
+  	
+  	if( flag == 0 ){
+  		 	
+	 	if( $('#saveButton').attr("disabled") ){
+	 	
+	 		$('#saveButton').css("background", "pink");
+	 	
+	 	}else
+	 		$('#saveButton').css("background", "green");
+  	
+  		flag = 1;
+  		
+  	}
+
+
+	$("#descriptionedit").on("change keyup paste", function(){
+    
+    	$('#saveButton').attr("disabled", false);
+    	$('#saveButton').css("background", "green");
+	
+	});
+	
+	$("#commentsedit").on("change keyup paste", function(){
+    
+    	$('#saveButton').attr("disabled", false);
+    	$('#saveButton').css("background", "green");
+	
+	});
+	
+	$("#labeledit").on("change keyup paste", function(){
+    
+    	$('#saveButton').attr("disabled", false);
+    	$('#saveButton').css("background", "green");
+	
+	});
+	
+	$("#shortnameedit").on("change keyup paste", function(){
+    
+    	$('#saveButton').attr("disabled", false);
+    	$('#saveButton').css("background", "green");
+	
+	});
+  	
+  	$('#saveButton').click(function(){
+  	
+  		var shortName = ( $("#shortnameedit").val() );
+  		var descr = ( $("#descriptionedit").val() );
+  		var comm = ( $("#commentsedit").val() );
+  		var label = ( $("#labeledit").val() );;
+  	
+  		updateClassifierDetail(classID, shortName, label, descr, comm);
+	
+	});
+  	
+	var classID = localStorage.getItem("classID");
+
+	var shortName = returnClassifierDetail(classID, "shortname");
+	var label = returnClassifierDetail(classID, "label");
+	var descr = returnClassifierDetail(classID, "description");
+	var comm = returnClassifierDetail(classID, "comments");
+
+	$("#shortnameedit").val(shortName);
+	$("#labeledit").val(label);
+	$("#descriptionedit").text(descr);
+	$("#commentsedit").text(comm);
+	
+// 	$("#shortnameedit").focusout(function(){ 	updateClassifierDetail(classID, "shortname", 	($("#shortnameedit").html())	);	}); // VEDERE FUNZIONE
+// 	$("#labeledit").focusout(function(){ 		updateClassifierDetail(classID, "label", 		($("#labeledit").html())		);	});
+// 	$("#descriptionedit").focusout(function(){ 	updateClassifierDetail(classID, "description",	($("#descriptionedit").html())	);	});
+// 	$("#commentsedit").focusout(function(){ 	updateClassifierDetail(classID, "comments",		($("#commentsedit").html())		);	});
+	
 
 buildSelectDataSet("all",'#trainingdataset');
 

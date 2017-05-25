@@ -159,6 +159,13 @@ p.paragraph.left {
 	text-align: left;
 }
 
+/* textarea { */
+/*     resize: none; */
+/*     overflow: hidden; */
+/*     min-height: 50px; */
+/*     max-height: 100px; */
+/* } */
+
 
 /* ================== GESTIONE TABELLE ============== */
 table, td, th {
@@ -512,13 +519,13 @@ img#waiting{
 	margin-bottom: 10px;
 	margin-left: 25px;
 /* 	padding: 12px; */
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-top: 4px;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 15px;
 	background: #ECECEC;
 	font-family: IBM;
 	text-align: center;
-	font-size: 12pt;
+	font-size: 9pt;
 	color: #343b43;
 	-webkit-border-radius: 25px;
 	-moz-border-radius: 25px;
