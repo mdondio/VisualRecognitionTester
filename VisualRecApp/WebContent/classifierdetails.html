@@ -39,14 +39,14 @@
 			<p class='title center'>description</p>
 			<p class='paragraph center'>this is a short description of the classifier</p>
 			<hr class="lineseparator">
-			<textarea id="descriptionedit" rows="12" style="width:100%" maxlength="500"></textarea>
+			<textarea id="descriptionedit" rows="8" style="width:100%" maxlength="500"></textarea>
 		</div>
 
 		<div class="column half">
 			<p class='title center'>comments</p>
 			<p class='paragraph center'>you can put comments on the behaviour of the classifier</p>
 			<hr class="lineseparator">
-			<textarea id="commentsedit" rows="12" style="width:100%" maxlength="500"></textarea>
+			<textarea id="commentsedit" rows="8" style="width:100%" maxlength="500"></textarea>
 		</div>
 		
 	</div>
@@ -90,10 +90,12 @@
   		 	
 	 	if( $('#saveButton').attr("disabled") ){
 	 	
-	 		$('#saveButton').css("background", "pink");
+// 	 		$('#saveButton').css("background", "pink");
+	 		$('#saveButton').addClass("disabled");
 	 	
 	 	}else
-	 		$('#saveButton').css("background", "green");
+// 	 		$('#saveButton').css("background", "green");
+	 		$('#saveButton').removeClass("disabled");
   	
   		flag = 1;
   		
@@ -103,28 +105,32 @@
 	$("#descriptionedit").on("change keyup paste", function(){
     
     	$('#saveButton').attr("disabled", false);
-    	$('#saveButton').css("background", "green");
+//     	$('#saveButton').css("background", "green");
+    	$('#saveButton').removeClass("disabled");
 	
 	});
 	
 	$("#commentsedit").on("change keyup paste", function(){
     
     	$('#saveButton').attr("disabled", false);
-    	$('#saveButton').css("background", "green");
+//     	$('#saveButton').css("background", "green");
+		$('#saveButton').removeClass("disabled");
 	
 	});
 	
 	$("#labeledit").on("change keyup paste", function(){
     
     	$('#saveButton').attr("disabled", false);
-    	$('#saveButton').css("background", "green");
+//     	$('#saveButton').css("background", "green");
+    	$('#saveButton').removeClass("disabled");
 	
 	});
 	
 	$("#shortnameedit").on("change keyup paste", function(){
     
     	$('#saveButton').attr("disabled", false);
-    	$('#saveButton').css("background", "green");
+//     	$('#saveButton').css("background", "green");
+    	$('#saveButton').removeClass("disabled");
 	
 	});
   	
@@ -138,7 +144,8 @@
   		updateClassifierDetail(classID, shortName, label, descr, comm);
   		
   		$('#saveButton').attr("disabled", true);
-    	$('#saveButton').css("background", "pink");
+//     	$('#saveButton').css("background", "pink");
+    	$('#saveButton').addClass("disabled");
 	
 	});
   	
@@ -148,6 +155,8 @@
 	var label = returnClassifierDetail(classID, "label");
 	var descr = returnClassifierDetail(classID, "description");
 	var comm = returnClassifierDetail(classID, "comments");
+	var set = returnClassifierDetail(classID, "training_set");
+	
 
 	$("#shortnameedit").val(shortName);
 	$("#labeledit").val(label);
@@ -156,9 +165,6 @@
 
 buildSelectDataSet("all",'#trainingdataset');
 
-	$('#trainingdataset').on(
-			'change',
-			function() {
 				
 				$.ajax({
 					contentType : "application/json",
@@ -168,12 +174,18 @@ buildSelectDataSet("all",'#trainingdataset');
 					async : true,
 					success : function(result) {
 					
+					console.log("err1");
+					
 						$("#negativeTrainingGallery").empty();
 						$("#positiveTrainingGallery").empty();
+						
+					console.log("err2");
 
 						for ( var i in result ){
 
-							if (result[i]._id == classID) {
+							if (result[i]._id == set) {
+							
+								console.log(result[i]._id);
 								
 								var positive_images = [];
 								for( var k = 0; k < result[i].images.positive.length; k++ )								
@@ -193,8 +205,7 @@ buildSelectDataSet("all",'#trainingdataset');
 
 					}
 				});
-				
-			});
+
 			
 </script>
 

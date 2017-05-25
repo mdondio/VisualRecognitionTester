@@ -207,6 +207,12 @@ button {
 	margin-right: 15px;
 }
 
+button.import.disabled {
+	background-color: #DDDDDD;
+	color: #ffffff;
+	cursor: not-allowed;
+}
+
 button.import{
   background-color: #485a67;
   border: none;
