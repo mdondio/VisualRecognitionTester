@@ -145,7 +145,7 @@ function addClassifierTable(IDelement,table){
 						var IDstring = $(this).prop("id");
 						
 						setClassID(IDstring);
-						
+												
 						var IDshortname = returnClassifierDetail(IDstring, "shortname");
 						var IDdescription = returnClassifierDetail(IDstring, "description");
 						

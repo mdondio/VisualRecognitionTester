@@ -79,8 +79,6 @@
 </body>
 
 <script>
-
-	//autosize(document.querySelector('textarea'));
 	
 	$(document).ajaxStop(function () {
       testingLoading();
@@ -138,11 +136,14 @@
   		var label = ( $("#labeledit").val() );;
   	
   		updateClassifierDetail(classID, shortName, label, descr, comm);
+  		
+  		$('#saveButton').attr("disabled", true);
+    	$('#saveButton').css("background", "pink");
 	
 	});
   	
 	var classID = localStorage.getItem("classID");
-
+	
 	var shortName = returnClassifierDetail(classID, "shortname");
 	var label = returnClassifierDetail(classID, "label");
 	var descr = returnClassifierDetail(classID, "description");
@@ -152,20 +153,12 @@
 	$("#labeledit").val(label);
 	$("#descriptionedit").text(descr);
 	$("#commentsedit").text(comm);
-	
-// 	$("#shortnameedit").focusout(function(){ 	updateClassifierDetail(classID, "shortname", 	($("#shortnameedit").html())	);	}); // VEDERE FUNZIONE
-// 	$("#labeledit").focusout(function(){ 		updateClassifierDetail(classID, "label", 		($("#labeledit").html())		);	});
-// 	$("#descriptionedit").focusout(function(){ 	updateClassifierDetail(classID, "description",	($("#descriptionedit").html())	);	});
-// 	$("#commentsedit").focusout(function(){ 	updateClassifierDetail(classID, "comments",		($("#commentsedit").html())		);	});
-	
 
 buildSelectDataSet("all",'#trainingdataset');
 
 	$('#trainingdataset').on(
 			'change',
 			function() {
-			
-				var testsetID = $(this).val();
 				
 				$.ajax({
 					contentType : "application/json",
@@ -180,7 +173,7 @@ buildSelectDataSet("all",'#trainingdataset');
 
 						for ( var i in result ){
 
-							if (result[i]._id == testsetID) {
+							if (result[i]._id == classID) {
 								
 								var positive_images = [];
 								for( var k = 0; k < result[i].images.positive.length; k++ )								
@@ -192,8 +185,6 @@ buildSelectDataSet("all",'#trainingdataset');
 								
 								createGallery('negativeTrainingGallery', negative_images, result[i]._id + "NEG");
 								createGallery('positiveTrainingGallery', positive_images, result[i]._id + "POS");
-								$("#labelselected").html(result[i].label);
-								$("#labelselected").val(result[i]._id);
 
 							}
 
