@@ -22,7 +22,7 @@ import net.mybluemix.visualrecognitiontester.datamodel.Classifier;
  * This endpoint retrieves Classifiers. You can use the parameter _id to select just one classifier. 
  * @author Marco Dondio & Andrea Bortolossi
  * Test with:
- * http://localhost:9080/VisualRecognitionTester/GetClassifier?_id=wind_classifier_642054071
+ * http://localhost:9080/VisualRecognitionTester/GetClassifier?_id=Wind_classifier_1184422983
  */
 @WebServlet("/GetClassifier")
 public class GetClassifier extends HttpServlet {
@@ -61,7 +61,7 @@ public class GetClassifier extends HttpServlet {
         	 .fields("_id").fields("label")
         	 .fields("training_size").fields("status")
         	 .fields("comments").fields("shortname")
-        	 .fields("description");
+        	 .fields("description").fields("training_set");
         
         // execute query
         List<Classifier> classifiers = db.findByIndex(selector, Classifier.class, opt);
