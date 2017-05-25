@@ -26,7 +26,8 @@
 				<button id="saveButton" disabled class="import">Save</button>
 			</div>
 			<div class="column fourth">
-				<button type="submit" class="import">Use</button><button type="submit" class="import">Retrain</button><button type="submit" class="import">Delete</button>
+<!-- 				<button type="submit" class="import">Use</button> -->
+				<button type="submit" class="import">Retrain</button><button id="deleteButton" type="submit" class="import">Delete</button>
 			</div>
 	
 		
@@ -90,11 +91,9 @@
   		 	
 	 	if( $('#saveButton').attr("disabled") ){
 	 	
-// 	 		$('#saveButton').css("background", "pink");
 	 		$('#saveButton').addClass("disabled");
 	 	
 	 	}else
-// 	 		$('#saveButton').css("background", "green");
 	 		$('#saveButton').removeClass("disabled");
   	
   		flag = 1;
@@ -105,7 +104,6 @@
 	$("#descriptionedit").on("change keyup paste", function(){
     
     	$('#saveButton').attr("disabled", false);
-//     	$('#saveButton').css("background", "green");
     	$('#saveButton').removeClass("disabled");
 	
 	});
@@ -113,7 +111,6 @@
 	$("#commentsedit").on("change keyup paste", function(){
     
     	$('#saveButton').attr("disabled", false);
-//     	$('#saveButton').css("background", "green");
 		$('#saveButton').removeClass("disabled");
 	
 	});
@@ -121,7 +118,6 @@
 	$("#labeledit").on("change keyup paste", function(){
     
     	$('#saveButton').attr("disabled", false);
-//     	$('#saveButton').css("background", "green");
     	$('#saveButton').removeClass("disabled");
 	
 	});
@@ -129,22 +125,26 @@
 	$("#shortnameedit").on("change keyup paste", function(){
     
     	$('#saveButton').attr("disabled", false);
-//     	$('#saveButton').css("background", "green");
     	$('#saveButton').removeClass("disabled");
+	
+	});
+	
+	var shortName = ( $("#shortnameedit").val() );
+  	var descr = ( $("#descriptionedit").val() );
+  	var comm = ( $("#commentsedit").val() );
+  	var label = ( $("#labeledit").val() );;
+	
+	$('#deleteButton').click(function(){
+	
+		deleteClassifierFromDetailPage(classID, shortName);
 	
 	});
   	
   	$('#saveButton').click(function(){
   	
-  		var shortName = ( $("#shortnameedit").val() );
-  		var descr = ( $("#descriptionedit").val() );
-  		var comm = ( $("#commentsedit").val() );
-  		var label = ( $("#labeledit").val() );;
-  	
   		updateClassifierDetail(classID, shortName, label, descr, comm);
   		
   		$('#saveButton').attr("disabled", true);
-//     	$('#saveButton').css("background", "pink");
     	$('#saveButton').addClass("disabled");
 	
 	});

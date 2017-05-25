@@ -217,6 +217,42 @@ function addClassifierTable(IDelement,table){
 	document.getElementById(IDelement).appendChild(tableElement);
 }
 
+function deleteClassifierFromDetailPage(classID, shortName){
+	
+	swal({
+		  title: "Are you sure?",
+		  text: "Are you really sure you want to delete this classifier?",
+		  type: "warning",
+		  confirmButtonColor: '#d33',
+		  confirmButtonText: 'Delete!',
+		  showCancelButton: true,
+		  allowOutsideClick: false,
+		  allowEscapeKey: true
+		}).then(function (isConfirm) {
+		  
+			if(isConfirm){
+				
+				$.ajax({
+
+				   	contentType : "application/json",
+				   	dataType : "json",
+				  	data : "classifierId=" + classID,
+				  	url : 'DeleteClassifier',
+				   	async : false,
+				   	success : function(result) {
+				   		
+   						swal('Deleted!','Classifier ' + shortName + ' (ID: '+classID+') has been deleted.','success').then(function(){window.location.href = 'home.html';})
+	   				
+				   	}
+			
+				});
+			}
+				
+							
+		});
+	
+}
+
 var classIDFin;
 
 function setClassID(classID){
