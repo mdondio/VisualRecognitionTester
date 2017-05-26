@@ -6,7 +6,7 @@
         <ul role="menubar" class="bx--top-nav__left-container" aria-hidden="false">
           <a class="bx--top-nav__left-container__link" href="#" tabindex="0">
             <svg class="bx--top-nav__left-container__link--icon">
-              <use xlink:href="https://dev-console.stage1.ng.bluemix.net/api/v4/img/sprite.svg#support--help-fill-circle-with-outline"></use>
+              <use xlink:href="carbon-icons/help.svg"></use>
             </svg>
             Docs
           </a>
@@ -54,7 +54,7 @@
             <svg data-left-nav-current-section-icon="apps" class="bx--left-nav__header--taxonomy-icon">
               <use xlink:href="https://dev-console.stage1.ng.bluemix.net/api/v4/img/sprite.svg#taxonomy--compute"></use>
             </svg>
-            <a data-left-nav-current-section-title tabindex="0" class="bx--left-nav__header--title">Dashboard</a>
+            <a data-left-nav-current-section-title tabindex="0" class="bx--left-nav__header--title">Home</a>
           </div>
           <nav class="bx--left-nav" data-left-nav role="navigation" aria-label="Left Navigation">
             <ul data-left-nav-sections class="bx--left-nav__sections">
@@ -75,8 +75,16 @@
                 </a>
               </li>
             </ul>
-            <!-- APPLICATIONS MENU -->
+            <!-- DASHBOARD MENU -->
             <ul role="menubar" class="bx--left-nav__main-nav" data-left-nav-list="apps" aria-hidden="false">
+              <li role="menuitem" class="bx--main-nav__parent-item" data-left-nav-item tabindex="0">
+                <a class="bx--parent-item__link" href="#" title="Example Item" tabindex="-1" aria-haspopup="true" data-left-nav-item-link>
+                  <svg class="bx--parent-item__link--taxonomy-icon">
+                    <use xlink:href="https://dev-console.stage1.ng.bluemix.net/api/v4/img/sprite.svg#taxonomy--compute"></use>
+                  </svg>
+                  Dashboard
+                </a>
+              </li>
               <li role="menuitem" class="bx--main-nav__parent-item" data-left-nav-item tabindex="0">
                 <a class="bx--parent-item__link" href="#" title="Example Item" tabindex="-1" aria-haspopup="true" data-left-nav-item-link>
                   <svg class="bx--parent-item__link--taxonomy-icon">
@@ -88,7 +96,7 @@
             </ul>
             <!-- END APPLICATIONS MENU -->
 
-            <!-- SERVICES MENU -->
+            <!-- SIMULATE MENU -->
             <ul role="menubar" class="bx--left-nav__main-nav bx--left-nav__main-nav--hidden bx--left-nav__main-nav--top" data-left-nav-list="services" aria-hidden="true">
               <li role="menuitem" class="bx--main-nav__parent-item" data-left-nav-item tabindex="0">
                 <a class="bx--parent-item__link" href="#" title="Example Item" tabindex="-1" aria-haspopup="true" data-left-nav-item-link>
@@ -111,7 +119,7 @@
                   <svg class="bx--parent-item__link--taxonomy-icon">
                     <use xlink:href="https://dev-console.stage1.ng.bluemix.net/api/v4/img/sprite.svg#taxonomy--compute"></use>
                   </svg>
-                  Upload dataset
+                  Upload test set
                 </a>
               </li>
               <li role="menuitem" class="bx--main-nav__parent-item" data-left-nav-item tabindex="0">
@@ -119,20 +127,20 @@
                   <svg class="bx--parent-item__link--taxonomy-icon">
                     <use xlink:href="https://dev-console.stage1.ng.bluemix.net/api/v4/img/sprite.svg#taxonomy--compute"></use>
                   </svg>
-                  Docs #simulate
+                  How to simulate
                 </a>
               </li>
             </ul>
             <!-- END SERVICES MENU -->
 
-            <!-- INFRASTRUCTURE MENU -->
+            <!-- TRAINING MENU -->
             <ul role="menubar" class="bx--left-nav__main-nav bx--left-nav__main-nav--hidden bx--left-nav__main-nav--top" data-left-nav-list="infrastructure" aria-hidden="true">
               <li role="menuitem" class="bx--main-nav__parent-item" data-left-nav-item tabindex="0">
                 <a class="bx--parent-item__link" href="#" title="Example Item" tabindex="-1" data-left-nav-item-link>
                   <svg class="bx--parent-item__link--taxonomy-icon">
                     <use xlink:href="https://dev-console.stage1.ng.bluemix.net/api/v4/img/sprite.svg#taxonomy--compute"></use>
                   </svg>
-                  Upload dataset
+                  Train a classifier
                 </a>
               </li>
               <li role="menuitem" class="bx--main-nav__parent-item" data-left-nav-item tabindex="0">
@@ -140,7 +148,15 @@
                   <svg class="bx--parent-item__link--taxonomy-icon">
                     <use xlink:href="https://dev-console.stage1.ng.bluemix.net/api/v4/img/sprite.svg#taxonomy--compute"></use>
                   </svg>
-                  Docs #train
+                  Upload training set
+                </a>
+              </li>
+              <li role="menuitem" class="bx--main-nav__parent-item" data-left-nav-item tabindex="0">
+                <a class="bx--parent-item__link" href="#" title="Example Item" tabindex="-1" data-left-nav-item-link>
+                  <svg class="bx--parent-item__link--taxonomy-icon">
+                    <use xlink:href="https://dev-console.stage1.ng.bluemix.net/api/v4/img/sprite.svg#taxonomy--compute"></use>
+                  </svg>
+                  How to train
                 </a>
               </li>
             </ul>
@@ -152,18 +168,18 @@
 
       <div class="bx--global-header__title">
         <a href="#" class="bx--global-header__title--logo" tabindex="0">
-          <img class="bx--logo__image" src="./assets/img/bluemix.svg"></img>
-          <h1 class="bx--logo__text">
-            IBM <span class="bx--logo__text--bold">Bluemix</span>
-          </h1>
+          <img class="bx--logo__image" src="ico/watson.png" style="height: 30px"></img>
         </a>
-        <h4 class="bx--global-header__title--current-page">Apps</h4>
+        <h4 class="bx--global-header__title--current-page">Bellosguardo</h4>
       </div>
       </div>
 
       <!-- Global Header - Right Nav -->
       <div class="bx--global-header__right-container">
       <ul data-global-header-menu role="menubar" class="bx--global-header__menu" aria-hidden="false">
+        <li role="menuitem" class="bx--global-header__menu__item">
+          <a class="bx--global-header__menu__item--link" tabindex="0" href="javascript:void(0)">Home</a>
+        </li>
         <li role="menuitem" class="bx--global-header__menu__item">
           <a class="bx--global-header__menu__item--link" tabindex="0" href="javascript:void(0)">Docs</a>
         </li>
@@ -179,3 +195,4 @@
   <script src="js/index.js"></script>
   <script src="js/bluemix-components.min.js"></script>
   <script src="js/svgxuse.min.js"></script>
+<!--   <script src="carbon-icons.js"></script> -->
