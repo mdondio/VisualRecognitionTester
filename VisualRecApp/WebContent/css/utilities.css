@@ -115,14 +115,13 @@ fieldset { border: 0px; }
 
 
 /* ---------------------------- FORMS ---------------------------- */
-input[type=text], input[type=url], input[type=datetime-local], input[type=time], input[type=password] {
-  border: 0;
-  outline: 0;
-  background: transparent;
-  border-bottom: 1px solid black;
-  padding: 13px 4px;
-  font-family: "IBM"; font-size: 15px; color: #000000;
-}
+/* input[type=text], input[type=url], input[type=datetime-local], input[type=time], input[type=password] { */
+/*   border: 0; */
+/*   outline: 0; */
+/*   background: transparent; */
+/*   border-bottom: 1px solid black; */
+/*   padding: 13px 4px; */
+/* } */
 
 ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
  color: #000000; font-family: "IBM"; font-size: 15px;
@@ -142,7 +141,7 @@ select {
   color: #000000; font-family: "IBM"; font-size: 15px;
 }
 
-input[type=text]:focus { background-color: transparent; }
+/* input[type=text]:focus { background-color: transparent; } */
 input[type=url]:focus { background-color: #FFFFFF; }
 input[type=datetime-local]:focus { background-color: #FFFFFF; }
 input[type=time]:focus { background-color: #FFFFFF; }

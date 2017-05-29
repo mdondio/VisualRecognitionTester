@@ -280,17 +280,17 @@ input.submitmodal2:hover{
 	background-color: rgb(48, 133, 193)!important; 	
 }
 
-input[type=text], input[type=password] {
-  width: 100%;
-  border: 0;
-  outline: 0;
-  background: transparent;
-  border-bottom: 1px solid #343b43;
-  padding: 13px 4px;
-  font-family: "IBM"; 
-  font-size: 15px; 
-  color: #343b43;
-}
+/* input[type=text], input[type=password] { */
+/*   width: 100%; */
+/*   border: 0; */
+/*   outline: 0; */
+/*   background: transparent; */
+/*   border-bottom: 1px solid #343b43; */
+/*   padding: 13px 4px; */
+/*   font-family: "IBM";  */
+/*   font-size: 15px;  */
+/*   color: #343b43; */
+/* } */
 
 input[type=submit]{
   background-color: #485a67;
@@ -313,9 +313,9 @@ input[type=file]{
   padding: 12px;
 }
 
-input[type=text]:focus {
-	background-color: transparent;
-}
+/* input[type=text]:focus { */
+/* 	background-color: transparent; */
+/* } */
 
 input[type=password]:focus {
 	background-color: transparent;
