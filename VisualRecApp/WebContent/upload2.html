@@ -4,9 +4,9 @@
 <head></head>
 
 <body>
-		
+
 <div id="carbon-header"></div><br><br><br>
-				
+
 <div class="content">
 
 <div class="form-container">
@@ -16,64 +16,41 @@
 		<div class="column fourth"><h1>Upload</h1><br>
 			<button id="submit" class="bx--btn bx--btn--primary" type="button">Upload dataset</button>
 		</div>
-		
+
 		<div class="column half"><h1>&ensp;</h1><br>
 			Upload your positive and negative images. You can delete images by clicking on them. When ready, press the button to rename the dataset, to give it a label and to upload.
 		</div>
-		
+
 	</div>
-	
-	<br><br><br>	
-		
+
+	<br><br><br>
+
 		<div class="row clearfix">
 
 			<form id="uploadForm" method="post" enctype="multipart/form-data">
-			
+
 				<div class="column half">
 					
-<!-- 					<div class="bx--form-item"> -->
 					  <strong class="bx--label">Positive images</strong>
 					  <p class="bx--label-description">only .jpg and .png files. 500kb max file size.</p>
-<!-- 					  <div class="bx--file" data-file> -->
-<!-- 					    <label -->
-<!-- 					      for="posFiles" -->
-<!-- 					      class="bx--file-btn bx--btn bx--btn--secondary" -->
-<!-- 					      role="button" -->
-<!-- 					      tabindex="0">Add files</label> -->
 					    <input type='file' id="posFiles" name="positives[]" multiple />
 					    <br><br>
 					    <div id="chosenFilesPos"></div>
-<!-- 					    <div data-file-container class="bx--file-container"></div> -->
-<!-- 					  </div> -->
-<!-- 					</div> -->
-					
-					
 				</div>
-	
+
 				<div class="column half">
 
-<!-- 					<div class="bx--form-item"> -->
 					  <strong class="bx--label">Negative images</strong>
 					  <p class="bx--label-description">only .jpg and .png files. 500kb max file size.</p>
-<!-- 					  <div class="bx--file" data-file> -->
-<!-- 					    <label -->
-<!-- 					      for="posFiles" -->
-<!-- 					      class="bx--file-btn bx--btn bx--btn--secondary" -->
-<!-- 					      role="button" -->
-<!-- 					      tabindex="0">Add files</label> -->
 					    <input type='file' id="negFiles" name="negatives[]" multiple />
 					    <br><br>
 					    <div id="chosenFilesNeg"></div>
-<!-- 					    <div data-file-container class="bx--file-container"></div> -->
-<!-- 					  </div> -->
-<!-- 					</div> -->
-
 				</div>
 
     		</form>
-    		
+
     	</div>
-    	
+
     	</div>
 
 		</div>
@@ -99,7 +76,7 @@ createCarbonHeader();
 
 	var selDiv = "";
     var storedFiles = [];
-    
+
 	var datasetID, datasetLabel;
 	var flag = false;
 
@@ -108,13 +85,13 @@ createCarbonHeader();
         $("#posFiles").on("change", handlerSelectedFiles);
 
         $("#negFiles").on("change", handlerSelectedFiles);
-        
-        $("#submit").click( function(e){ 
+
+        $("#submit").click( function(e){
         	executionFormInputFromUser(e);
         });
 
         $("body").on("click", ".selFile", handlerFileRemove);
-        
+
     });
 
 	function executionFormInputFromUser(e){
@@ -192,7 +169,7 @@ createCarbonHeader();
 	}
 
     function handlerSelectedFiles(e){
-    
+
         var files = e.target.files;
         var filesArr = Array.prototype.slice.call(files);
         filesArr.forEach(function(f) {
@@ -200,22 +177,22 @@ createCarbonHeader();
             if(!f.type.match("image.*")) {
                 return;
             }
-            
+
             //New Property
             f.test = e.target.name;
-            
+
             if( e.target.name == $('#posFiles').attr('name') )
             	selDiv = $("#chosenFilesPos");
             else
             	selDiv = $("#chosenFilesNeg");
             //New Property end
-            
+
             storedFiles.push(f);
-            
+
             var reader = new FileReader();
             reader.onload = function (e) {
-            
-                var html = "<div class='blockgallery'><img border='1' width='100px' height='100px' src=\"" + e.target.result + "\" data-file='" +"' class='selFile' title='Click to remove'>" + "<br clear=\"left\"/></div>";
+
+                var html = "<div class='blockgallery'><img border='1' width='100px' height='100px' src=\"" + e.target.result + "\" data-file='"+ f.name +"' class='selFile' title='Click to remove'><br clear=\"left\"/></div>";
                 selDiv.append(html);
 
             }
@@ -223,30 +200,30 @@ createCarbonHeader();
         });
 
     }
-	
+
 	function handlerPostCall(e){
-	   		
+
 	       e.preventDefault();
 	       var data = new FormData();
-	       
+
 	       data.append('type', 'insert');
 	       data.append('datasetId', datasetID);
 	       data.append('label', datasetLabel);
-	       
+
 	       filesNumber = storedFiles.length;
-	
+
 	       for( var i = 0; i < filesNumber; i++ )
-			data.append(storedFiles[i].test, storedFiles[i] );	
-	
+			data.append(storedFiles[i].test, storedFiles[i] );
+
 	       var xhr = new XMLHttpRequest();
 	       xhr.open('POST', 'SubmitDatasetJob', true);
-	
+
 		   //Operation communication progress
 	       xhr.onload = function(e){
-	       	
+
 	       	//Everything seems to be OK
 	           if(this.status == 200) {
-	               
+
 	               swal({
 						  title: 'Succes!',
 						  text: 'Your upload process has concluded succesfully!',
@@ -254,21 +231,21 @@ createCarbonHeader();
 						  confirmButtonColor: '#5cb85c',
 						  confirmButtonText: 'Yeah!'
 						}).then(function (isConfirm) {
-						  
+
 							if(isConfirm)
 								location.reload();
-								
+
 					})
-	               
+
 	           }
-	           
+
 	           else{
-	           	
+
 		           	var err_type = this.status;
 		           	var alert_title, alert_text, alert_img = null;
-					
+
 					switch( err_type ){
-						
+
 						//BAD (cit. the Donald) request
 						case 400:
 							alert_title = "BAD REQUEST";
@@ -299,9 +276,9 @@ createCarbonHeader();
 						default:
 							alert_title = "GENERIC ERROR";
 							alert_text = "An error occured...try again please!\n";
-					
+
 					}
-		           	
+
 		           	swal({
 							  title: '*** ' + alert_title + ' ***',
 							  text: alert_text,
@@ -312,35 +289,35 @@ createCarbonHeader();
 							  confirmButtonColor: '#f0ad4e',
 							  confirmButtonText: 'Ok :('
 							}).then(function (isConfirm) {
-							  
+
 								if(isConfirm)
 									location.reload();
-									
+
 							})
-		           	
+
 	           	}
-	           
+
 	       }//Operation communication progress END
-	
+
 	       xhr.send(data);
-       
+
    }
 
     function handlerFileRemove(e) {
-    
+
         var file = $(this).data("file");
-        
+
         for( var i = 0; i < storedFiles.length; i++ ){
-        
+
             if(storedFiles[i].name === file) {
                 storedFiles.splice(i,1);
                 break;
             }
-            
+
         }
-        
+
         $(this).parent().remove();
-        
+
     }
 
   $('#backicon').mouseover(function(){
