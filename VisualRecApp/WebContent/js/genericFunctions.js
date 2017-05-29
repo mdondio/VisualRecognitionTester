@@ -12,6 +12,8 @@
  */
 function createHead(){
 	var met_sta = ["<meta http-equiv='X-UA-Compatible' content='IE=edge'><meta name='viewport' content='width=device-width, initial-scale=1.0'><meta name='ROBOTS' content='INDEX,FOLLOW'><meta name='GOOGLEBOT' content='ARCHIVE'><link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'>"];
+	var css_car1 = ["<link rel='stylesheet' type='text/css' href='css/main.css'/>"]; //css per carbon design - main
+	var css_car2 = ["<link rel='stylesheet' type='text/css' href='css/carbon-components.css'/>"]; //css per carbon design - components
 	var css_fon = ["<link rel='stylesheet' type='text/css' href='css/fonts.css'/>"]; //css fonts
 	var css_def = ["<link rel='stylesheet' type='text/css' href='css/default.css'/>"]; //css per le pagine
 	var css_str = ["<link rel='stylesheet' type='text/css' href='css/structure.css'/>"]; //css per le pagine
@@ -19,7 +21,6 @@ function createHead(){
 	var css_uti = ["<link rel='stylesheet' type='text/css' href='css/utilities.css'/>"]; //css per parti comuni della pagina
 	var css_swa = ["<link rel='stylesheet' type='text/css' href='css/sweetalert2_mine.css'/>"]; //css per sweetalert2
 	var css_dro = ["<link rel='stylesheet' type='text/css' href='css/dropzone.css'/>"]; //css per sweetalert2
-	var css_jui = ["<link rel='stylesheet' type='text/css' href='css/jquery-ui.css'/>"]; //css per sweetalert2
 	var js_form = ["<script src='//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js'>"];
 	var js_save = ["<script src='js/FileSaver.min.js'>"];
 	var js_swal = ["<script src='js/sweetalert2_mine.js'>"];
@@ -28,7 +29,7 @@ function createHead(){
 	
 	var title = ["<title>Bellosguardo</title>"];
 
-	var headfull = met_sta.concat(css_fon, css_def, css_str, css_nav, css_uti, css_swa, css_dro, css_jui, js_form, js_save, js_swal, js_drop, title);
+	var headfull = met_sta.concat(css_car1, css_car2, css_fon, css_def, css_str, css_nav, css_uti, css_swa, css_dro, js_form, js_save, js_swal, js_drop, title);
 	$('head').append(headfull);
 }
 
@@ -50,6 +51,17 @@ function createHeader(){
 			$('#begin').append("<li><a href='aboutus.html'>about us");	
 			$('#begin').append("<li><a href='logoutservlet'>logout");
 	
+}
+
+function createCarbonHeader(){
+	$(function(){
+	      $("#carbon-header").load("head.html"); 
+	    });
+	
+	$.get('head.html', function(result){
+	    $result = $(result);
+	    $result.find('script').appendTo('#carbon-header');
+	}, 'html');
 }
 
 function createHeaderforLogin(){

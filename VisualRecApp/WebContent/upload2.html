@@ -1,45 +1,86 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <link rel="stylesheet" href="css/main.css" />
-  <link rel="stylesheet" href="css/carbon-components.css" />
-</head>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
-<script src="js/genericFunctions.js"></script>
-<script src="js/functions.js"></script>
-
-<script>createHead();</script>
+<head></head>
 
 <body>
-
-<!-- <header></header><script>createHeader();</script> -->
-
-<div id="asd"></div>
-
+		
+<div id="carbon-header"></div>
+				
 <div class="content">
 
-		<div class="container">
+		<div class="container">	
 		
-		<button id="submit" class="btnUpload">Upload!</button>
+		<div class="column fourth">
+			<button id="submit" class="bx--btn bx--btn--primary" type="button">Upload dataset</button>
+			<br><br>
+			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ullamcorper ipsum sed felis ullamcorper viverra. Duis eget convallis sapien. Phasellus purus ipsum, scelerisque rutrum nunc quis, vehicula luctus dolor. Integer ac aliquam odio, vel placerat justo.
+		</div>
+		
+		<div class="column three-fourths">
 
 			<form id="uploadForm" method="post" enctype="multipart/form-data">
 			
 				<div class="column half">
-					<p class='title center'>positive images</p>
-					<br> <input type='file' id="posFiles" name="positives[]" multiple />
-					<div id="chosenFilesPos"></div>
+					
+					<div class="bx--form-item">
+					  <strong class="bx--label">Positive images</strong>
+					  <p class="bx--label-description">only .jpg and .png files. 500kb max file size.</p>
+					  <div class="bx--file" data-file>
+					    <label
+					      for="posFiles"
+					      class="bx--file-btn bx--btn bx--btn--secondary"
+					      role="button"
+					      tabindex="0">Add files</label>
+					    <input
+					      type="file"
+					      class="bx--file-input"
+					      id="posFiles"
+					      data-file-uploader
+					      data-target="[data-file-container]"
+					      name="positives[]"
+					      multiple
+					    />
+					    <br><br>
+					    <div id="chosenFilesPos"></div>
+					    <div data-file-container class="bx--file-container"></div>
+					  </div>
+					</div>
+					
+					
 				</div>
 	
 				<div class="column half">
-					<p class='title center'>negative images</p>
-					<br> <input type='file' id="negFiles" name="negatives[]" multiple />
-					<div id="chosenFilesNeg"></div>
+
+					<div class="bx--form-item">
+					  <strong class="bx--label">Negative images</strong>
+					  <p class="bx--label-description">only .jpg and .png files. 500kb max file size.</p>
+					  <div class="bx--file" data-file>
+					    <label
+					      for="negFiles"
+					      class="bx--file-btn bx--btn bx--btn--secondary"
+					      role="button"
+					      tabindex="0">Add files</label>
+					    <input
+					      type="file"
+					      class="bx--file-input"
+					      id="negFiles"
+					      data-file-uploader
+					      data-target="[data-file-container]"
+					      name="negatives[]"
+					      multiple
+					    />
+					    <br><br>
+					    <div id="chosenFilesNeg"></div>
+					    <div data-file-container class="bx--file-container"></div>
+					  </div>
+					</div>
+
 				</div>
 
     		</form>
+    		
+    	</div>
 
 		</div>
 
@@ -47,28 +88,19 @@
 
 </body>
 
-<style>
-.btnUpload {
-  -webkit-border-radius: 7;
-  -moz-border-radius: 7;
-  border-radius: 7px;
-  font-family: Arial;
-  color: #ffffff;
-  font-size: 20px;
-  background: #00ccff;
-  padding: 10px 20px 10px 20px;
-  border: solid #000000 2px;
-  text-decoration: none;
-}
-.btnUpload:hover {
-  background: #3cb0fd;
-  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
-}
-</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+<script src="js/genericFunctions.js"></script>
+<script src="js/functions.js"></script>
+<script src="js/index.js"></script>
+<script src="js/bluemix-components.min.js"></script>
+<script src="js/svgxuse.min.js"></script>
+
+<script>
+createHead();
+createCarbonHeader();
+</script>
 
 <script>
 
@@ -200,7 +232,7 @@
             var reader = new FileReader();
             reader.onload = function (e) {
             
-                var html = "<div class='blockgallery'><img border='1' width='100px' height='100px' src=\"" + e.target.result + "\" data-file='"+ f.name +"' class='selFile' title='Click to remove'>" + f.name + "<br clear=\"left\"/></div>";
+                var html = "<div class='blockgallery'><img border='1' width='100px' height='100px' src=\"" + e.target.result + "\" data-file='" +"' class='selFile' title='Click to remove'>" + "<br clear=\"left\"/></div>";
                 selDiv.append(html);
 
             }

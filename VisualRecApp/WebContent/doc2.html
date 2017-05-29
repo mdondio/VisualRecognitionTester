@@ -1,45 +1,13 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <link rel="stylesheet" href="css/main.css" />
-  <link rel="stylesheet" href="css/carbon-components.css" />
-</head>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> <!-- ACCORDION -->
-<script src="js/genericFunctions.js"></script>
-<script src="js/functions.js"></script>
-
-<script>createHead();</script>
+<head></head>
 
 <body>
-<!-- <header></header><script>createHeader();</script> -->
 		
-		<div id="asd"></div>
-		
-		<div class="row clearfix"><br><br></div>
-
-
-  <script>
-$(function() {
-    $("#accordion" ).accordion({
-        collapsible: true,
-        heightStyle: "content"
-    });
-});
-
-$(function(){
-      $("#asd").load("head.html"); 
-    });
-
-$.get('head.html', function(result){
-    $result = $(result);
-
-//     $result.find('#content').appendTo('#new_content');
-    $result.find('script').appendTo('#asd');
-}, 'html');
-
-  </script>
+<div id="carbon-header"></div>
+				
+<br><br><br><br>
 
 	<div class="content">
 
@@ -47,32 +15,54 @@ $.get('head.html', function(result){
 
 			<div class="column three-fourths">
 			
-				<div class="post-preview">
+				<div class="post-preview"><h3>Documentation</h3>
 									
-						<div id="accordion">
-					
-						  <h3>Introduction to Bellosguardo</h3>
-						  <div>
-						    <p>Cras dictum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia mauris vel est. </p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.</p>
-						  </div>
-						  <h3>Description of the analysis</h3>
-						  <div>
-						    <p>Cras dictum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia mauris vel est. </p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In suscipit faucibus urna. </p>
-						  </div>
-						  <h3>Brief mathematical notions</h3>
-						  <div>
-						    <p>Cras dictum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia mauris vel est. </p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.Cras dictum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia mauris vel est. </p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis. Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac libero ac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quis lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui. </p>
-						    <ul>
-						      <li>List item one</li>
-						      <li>List item two</li>
-						      <li>List item three</li>
-						    </ul>
-						  </div>
-						  <h3>Getting started</h3>
-						  <div>
-						    <p>Cras dictum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia mauris vel est. </p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Cras dictum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia mauris vel est. </p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.Cras dictum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia mauris vel est. </p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.Cras dictum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia mauris vel est. </p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.Cras dictum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia mauris vel est. </p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
-						  </div>
-						</div>
+						<ul data-accordion class="bx--accordion">
+							  <li tabindex="0" data-accordion-item class="bx--accordion__item">
+							    <div class="bx--accordion__heading">
+							      <svg class="bx--accordion__arrow">
+							        <use xlink:href="/carbon-icons/bluemix-icons.svg#icon--chevron--right"></use>
+							      </svg>
+							      <p class="bx--accordion__title">Label</p>
+							    </div>
+							    <div class="bx--accordion__content">
+							      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+							    </div>
+							  </li>
+							  <li tabindex="0" data-accordion-item class="bx--accordion__item">
+							    <div class="bx--accordion__heading">
+							      <svg class="bx--accordion__arrow">
+							        <use xlink:href="/carbon-icons/bluemix-icons.svg#icon--chevron--right"></use>
+							      </svg>
+							      <p class="bx--accordion__title">Label with multiple words</p>
+							    </div>
+							    <div class="bx--accordion__content">
+							      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+							    </div>
+							  </li>
+							  <li tabindex="0" data-accordion-item class="bx--accordion__item">
+							    <div class="bx--accordion__heading">
+							      <svg class="bx--accordion__arrow">
+							        <use xlink:href="/carbon-icons/bluemix-icons.svg#icon--chevron--right"></use>
+							      </svg>
+							      <p class="bx--accordion__title">Label</p>
+							    </div>
+							    <div class="bx--accordion__content">
+							      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+							    </div>
+							  </li>
+							  <li tabindex="0" data-accordion-item class="bx--accordion__item">
+							    <div class="bx--accordion__heading">
+							      <svg class="bx--accordion__arrow">
+							        <use xlink:href="/carbon-icons/bluemix-icons.svg#icon--chevron--right"></use>
+							      </svg>
+							      <p class="bx--accordion__title">Label</p>
+							    </div>
+							    <div class="bx--accordion__content">
+							      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+							    </div>
+							  </li>
+							</ul>
 				
 				</div>
 				
@@ -81,7 +71,7 @@ $.get('head.html', function(result){
 			<div class="column fourth">
 			
 				<div class="post-preview">
-				<h3>Docs</h3>
+				<h3>&ensp;</h3>
 				
 				<div id="card">Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis. Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac libero ac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quis lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui.</div>
 				
@@ -98,7 +88,16 @@ $.get('head.html', function(result){
 
 </body>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="js/genericFunctions.js"></script>
+<script src="js/functions.js"></script>
+<script src="js/index.js"></script>
+<script src="js/bluemix-components.min.js"></script>
+<script src="js/svgxuse.min.js"></script>
+
 <script>
+createHead();
+createCarbonHeader();
 </script>
 
 </html>

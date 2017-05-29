@@ -25,17 +25,17 @@ h5 { font-family: "museo-sans",sans-serif; font-style: normal; font-weight: 500;
 
 .content {
   position: relative;
-  top: 80px;
+  top: 50px;
   bottom: 60px;
   margin: 0 auto;
   max-width: 95rem;
   width: 100%;
-  font-family: "museo-sans",sans-serif;
+  font-family: "IBM";
   font-style: normal;
   font-weight: 100;
-  font-size: 18px;
+  font-size: 15px;
   text-transform: none;
-  color: #000000;
+  color: #5a6872;
   overflow: hidden;
 }
 
