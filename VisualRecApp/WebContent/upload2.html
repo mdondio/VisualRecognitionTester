@@ -5,81 +5,75 @@
 
 <body>
 		
-<div id="carbon-header"></div>
+<div id="carbon-header"></div><br><br><br>
 				
 <div class="content">
 
-		<div class="container">	
-		
-		<div class="column fourth">
+<div class="form-container">
+
+	<div class="row clearfix">
+
+		<div class="column fourth"><h1>Upload</h1><br>
 			<button id="submit" class="bx--btn bx--btn--primary" type="button">Upload dataset</button>
-			<br><br>
-			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ullamcorper ipsum sed felis ullamcorper viverra. Duis eget convallis sapien. Phasellus purus ipsum, scelerisque rutrum nunc quis, vehicula luctus dolor. Integer ac aliquam odio, vel placerat justo.
 		</div>
 		
-		<div class="column three-fourths">
+		<div class="column half"><h1>&ensp;</h1><br>
+			Upload your positive and negative images. You can delete images by clicking on them. When ready, press the button to rename the dataset, to give it a label and to upload.
+		</div>
+		
+	</div>
+	
+	<br><br><br>	
+		
+		<div class="row clearfix">
 
 			<form id="uploadForm" method="post" enctype="multipart/form-data">
 			
 				<div class="column half">
 					
-					<div class="bx--form-item">
+<!-- 					<div class="bx--form-item"> -->
 					  <strong class="bx--label">Positive images</strong>
 					  <p class="bx--label-description">only .jpg and .png files. 500kb max file size.</p>
-					  <div class="bx--file" data-file>
-					    <label
-					      for="posFiles"
-					      class="bx--file-btn bx--btn bx--btn--secondary"
-					      role="button"
-					      tabindex="0">Add files</label>
-					    <input
-					      type="file"
-					      class="bx--file-input"
-					      id="posFiles"
-					      data-file-uploader
-					      data-target="[data-file-container]"
-					      name="positives[]"
-					      multiple
-					    />
+<!-- 					  <div class="bx--file" data-file> -->
+<!-- 					    <label -->
+<!-- 					      for="posFiles" -->
+<!-- 					      class="bx--file-btn bx--btn bx--btn--secondary" -->
+<!-- 					      role="button" -->
+<!-- 					      tabindex="0">Add files</label> -->
+					    <input type='file' id="posFiles" name="positives[]" multiple />
 					    <br><br>
 					    <div id="chosenFilesPos"></div>
-					    <div data-file-container class="bx--file-container"></div>
-					  </div>
-					</div>
+<!-- 					    <div data-file-container class="bx--file-container"></div> -->
+<!-- 					  </div> -->
+<!-- 					</div> -->
 					
 					
 				</div>
 	
 				<div class="column half">
 
-					<div class="bx--form-item">
+<!-- 					<div class="bx--form-item"> -->
 					  <strong class="bx--label">Negative images</strong>
 					  <p class="bx--label-description">only .jpg and .png files. 500kb max file size.</p>
-					  <div class="bx--file" data-file>
-					    <label
-					      for="negFiles"
-					      class="bx--file-btn bx--btn bx--btn--secondary"
-					      role="button"
-					      tabindex="0">Add files</label>
-					    <input
-					      type="file"
-					      class="bx--file-input"
-					      id="negFiles"
-					      data-file-uploader
-					      data-target="[data-file-container]"
-					      name="negatives[]"
-					      multiple
-					    />
+<!-- 					  <div class="bx--file" data-file> -->
+<!-- 					    <label -->
+<!-- 					      for="posFiles" -->
+<!-- 					      class="bx--file-btn bx--btn bx--btn--secondary" -->
+<!-- 					      role="button" -->
+<!-- 					      tabindex="0">Add files</label> -->
+					    <input type='file' id="negFiles" name="negatives[]" multiple />
 					    <br><br>
 					    <div id="chosenFilesNeg"></div>
-					    <div data-file-container class="bx--file-container"></div>
-					  </div>
-					</div>
+<!-- 					    <div data-file-container class="bx--file-container"></div> -->
+<!-- 					  </div> -->
+<!-- 					</div> -->
 
 				</div>
 
     		</form>
     		
+    	</div>
+    	
     	</div>
 
 		</div>
@@ -90,7 +84,6 @@
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
 <script src="js/genericFunctions.js"></script>
 <script src="js/functions.js"></script>
 <script src="js/index.js"></script>
@@ -103,16 +96,6 @@ createCarbonHeader();
 </script>
 
 <script>
-
-	$(function(){
-      $("#asd").load("head.html"); 
-    });
-
-	$.get('head.html', function(result){
-	    $result = $(result);
-	    $result.find('script').appendTo('#asd');
-	}, 'html');
-	
 
 	var selDiv = "";
     var storedFiles = [];
