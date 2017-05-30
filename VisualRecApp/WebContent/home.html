@@ -162,7 +162,7 @@ createCarbonHeader();
 	//per vedere la galleria di immagini di un certo testset clickato
 	$('body').on("click", "[id*=showdatasetID]", function() {
 
-		window.location.href = 'showgallery.html';
+		window.location.href = 'showgallery2.html';
 		console.log($(this).attr("id"));
 		var ID = $(this).attr("id").substring(13);
 		localStorage.setItem("idgallery", ID);
