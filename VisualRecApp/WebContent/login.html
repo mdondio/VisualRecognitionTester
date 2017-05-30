@@ -46,6 +46,13 @@
 </body>
 
 <script>
+
+	$("#login").click(function() {
+
+		localStorage.setItem("user",  document.getElementById('username').value);
+	
+	});
+	
 // 	$("#login").click(function() {
 // 		var user = $("#username").val();
 // 		var pass = $("#password").val();

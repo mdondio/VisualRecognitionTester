@@ -23,8 +23,8 @@
                 <ul class="bx--dropdown__list">
                   <li data-option data-value="all" class="bx--dropdown__list-item">
                     <img class="bx--dropdown__profile-dropdown--picture" src="https://32a7b.https.cdn.softlayer.net/8032A7B/dal05.objectstorage.softlayer.net/v1/AUTH_f2968d51-d955-4506-8fc5-7c95a06eb671/bluemix-photos-production/d7efd012-8c4f-425a-a604-4bc6c15e0019.jpg" />
-                    <div class="bx--dropdown__profile-dropdown--information">
-                      <p>Michael Scott</p>
+                    <div id='user' class="bx--dropdown__profile-dropdown--information">
+                      <p></p>
                       <div class="bx--dropdown__profile-dropdown__container">
                         <a class="bx--link" href="javascript:void(0)">Profile</a>
                         <p>|</p>
@@ -54,7 +54,7 @@
             <svg data-left-nav-current-section-icon="apps" class="bx--left-nav__header--taxonomy-icon">
               <use xlink:href="https://dev-console.stage1.bluemix.net/api/v5/img/bluemix-icons.svg#taxonomy--compute"></use>
             </svg>
-            <a data-left-nav-current-section-title tabindex="0" class="bx--left-nav__header--title">Home</a>
+            <a data-left-nav-current-section-title tabindex="0" class="bx--left-nav__header--title" >Home</a>
           </div>
           <nav class="bx--left-nav" data-left-nav role="navigation" aria-label="Left Navigation">
             <ul data-left-nav-sections class="bx--left-nav__sections">
@@ -78,7 +78,7 @@
             <!-- DASHBOARD MENU -->
             <ul role="menubar" class="bx--left-nav__main-nav" data-left-nav-list="apps" aria-hidden="false">
               <li role="menuitem" class="bx--main-nav__parent-item" data-left-nav-item tabindex="0">
-                <a class="bx--parent-item__link" href="#" title="Example Item" tabindex="-1" aria-haspopup="true" data-left-nav-item-link>
+                <a class="bx--parent-item__link" href="home.html" title="Example Item" tabindex="-1" aria-haspopup="true" data-left-nav-item-link>
                   <svg class="bx--parent-item__link--taxonomy-icon">
                     <use xlink:href="https://dev-console.stage1.ng.bluemix.net/api/v4/img/sprite.svg#taxonomy--compute"></use>
                   </svg>
@@ -86,7 +86,7 @@
                 </a>
               </li>
               <li role="menuitem" class="bx--main-nav__parent-item" data-left-nav-item tabindex="0">
-                <a class="bx--parent-item__link" href="#" title="Example Item" tabindex="-1" aria-haspopup="true" data-left-nav-item-link>
+                <a class="bx--parent-item__link" href="upload2.html" title="Example Item" tabindex="-1" aria-haspopup="true" data-left-nav-item-link>
                   <svg class="bx--parent-item__link--taxonomy-icon">
                     <use xlink:href="https://dev-console.stage1.ng.bluemix.net/api/v4/img/sprite.svg#taxonomy--compute"></use>
                   </svg>
@@ -99,7 +99,7 @@
             <!-- SIMULATE MENU -->
             <ul role="menubar" class="bx--left-nav__main-nav bx--left-nav__main-nav--hidden bx--left-nav__main-nav--top" data-left-nav-list="services" aria-hidden="true">
               <li role="menuitem" class="bx--main-nav__parent-item" data-left-nav-item tabindex="0">
-                <a class="bx--parent-item__link" href="#" title="Example Item" tabindex="-1" aria-haspopup="true" data-left-nav-item-link>
+                <a class="bx--parent-item__link" href="simulate2.html" title="Example Item" tabindex="-1" aria-haspopup="true" data-left-nav-item-link>
                   <svg class="bx--parent-item__link--taxonomy-icon">
                     <use xlink:href="https://dev-console.stage1.ng.bluemix.net/api/v4/img/sprite.svg#taxonomy--compute"></use>
                   </svg>
@@ -107,7 +107,7 @@
                 </a>
               </li>
               <li role="menuitem" class="bx--main-nav__parent-item" data-left-nav-item tabindex="0">
-                <a class="bx--parent-item__link" href="#" title="Example Item" tabindex="-1" aria-haspopup="true" data-left-nav-item-link>
+                <a class="bx--parent-item__link" href="history2.html" title="Example Item" tabindex="-1" aria-haspopup="true" data-left-nav-item-link>
                   <svg class="bx--parent-item__link--taxonomy-icon">
                     <use xlink:href="https://dev-console.stage1.ng.bluemix.net/api/v4/img/sprite.svg#taxonomy--compute"></use>
                   </svg>
@@ -115,7 +115,7 @@
                 </a>
               </li>
               <li role="menuitem" class="bx--main-nav__parent-item" data-left-nav-item tabindex="0">
-                <a class="bx--parent-item__link" href="#" title="Example Item" tabindex="-1" data-left-nav-item-link>
+                <a class="bx--parent-item__link" href="upload2.html" title="Example Item" tabindex="-1" data-left-nav-item-link>
                   <svg class="bx--parent-item__link--taxonomy-icon">
                     <use xlink:href="https://dev-console.stage1.ng.bluemix.net/api/v4/img/sprite.svg#taxonomy--compute"></use>
                   </svg>
@@ -123,7 +123,7 @@
                 </a>
               </li>
               <li role="menuitem" class="bx--main-nav__parent-item" data-left-nav-item tabindex="0">
-                <a class="bx--parent-item__link" href="#" title="Example Item" tabindex="-1" data-left-nav-item-link>
+                <a class="bx--parent-item__link" href="doc2.html" title="Example Item" tabindex="-1" data-left-nav-item-link>
                   <svg class="bx--parent-item__link--taxonomy-icon">
                     <use xlink:href="https://dev-console.stage1.ng.bluemix.net/api/v4/img/sprite.svg#taxonomy--compute"></use>
                   </svg>
@@ -136,7 +136,7 @@
             <!-- TRAINING MENU -->
             <ul role="menubar" class="bx--left-nav__main-nav bx--left-nav__main-nav--hidden bx--left-nav__main-nav--top" data-left-nav-list="infrastructure" aria-hidden="true">
               <li role="menuitem" class="bx--main-nav__parent-item" data-left-nav-item tabindex="0">
-                <a class="bx--parent-item__link" href="#" title="Example Item" tabindex="-1" data-left-nav-item-link>
+                <a class="bx--parent-item__link" href="train2.html" title="Example Item" tabindex="-1" data-left-nav-item-link>
                   <svg class="bx--parent-item__link--taxonomy-icon">
                     <use xlink:href="https://dev-console.stage1.ng.bluemix.net/api/v4/img/sprite.svg#taxonomy--compute"></use>
                   </svg>
@@ -144,7 +144,7 @@
                 </a>
               </li>
               <li role="menuitem" class="bx--main-nav__parent-item" data-left-nav-item tabindex="0">
-                <a class="bx--parent-item__link" href="#" title="Example Item" tabindex="-1" data-left-nav-item-link>
+                <a class="bx--parent-item__link" href="upload2.htlm" title="Example Item" tabindex="-1" data-left-nav-item-link>
                   <svg class="bx--parent-item__link--taxonomy-icon">
                     <use xlink:href="https://dev-console.stage1.ng.bluemix.net/api/v4/img/sprite.svg#taxonomy--compute"></use>
                   </svg>
@@ -152,7 +152,7 @@
                 </a>
               </li>
               <li role="menuitem" class="bx--main-nav__parent-item" data-left-nav-item tabindex="0">
-                <a class="bx--parent-item__link" href="#" title="Example Item" tabindex="-1" data-left-nav-item-link>
+                <a class="bx--parent-item__link" href="doc2.html" title="Example Item" tabindex="-1" data-left-nav-item-link>
                   <svg class="bx--parent-item__link--taxonomy-icon">
                     <use xlink:href="https://dev-console.stage1.ng.bluemix.net/api/v4/img/sprite.svg#taxonomy--compute"></use>
                   </svg>
@@ -191,6 +191,11 @@
     </header>
     <!-- End Global Header -->
     
+    <script>
+    	
+    	$("#user > p").text(localStorage.getItem("user"));
+    
+    </script>
     
   <script src="js/index.js"></script>
   <script src="js/bluemix-components.min.js"></script>
