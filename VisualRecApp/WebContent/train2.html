@@ -1,58 +1,63 @@
 <!DOCTYPE html>
 <html>
+
 <head></head>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="js/genericFunctions.js"></script>
-<script src="js/functions.js"></script>
-<script src="js/jquery.lazy.min.js"></script>
-<script src="js/index.js"></script>
-<script src="js/bluemix-components.min.js"></script>
-<script src="js/svgxuse.min.js"></script>
-
-<script>createHead();</script>
 
 <body>
 
-<div id="carbon-header"></div>
+<div id="carbon-header"></div><br><br><br>
+
+<div class="content">
+
+	<div class="row clearfix">
+
+		<div class="column fourth"><h1>Train a classifier</h1><br>
+		</div>
+
+	</div>
 	
-	<br><br><br>
-	<div class="content">
-
-		<br>
-
 		<form action="javascript:startTrain();">
 			<div class="column fourth">
-				<select required class="title" id="trainingdataset">
-					<option selected disabled value="">Select training dataset</option>
-				</select>
+					<div class="bx--form-item">
+					  <div class="bx--select">
+					    <select id="trainingdataset" class="bx--select-input">
+					      <option class="bx--select-option" disabled selected hidden value="">Select training dataset</option>
+					    </select>
+					    <svg class="bx--select__arrow">
+					      <use xlink:href="/carbon-icons/bluemix-icons.svg#icon--caret--down"></use>
+					    </svg>
+					  </div>
+					</div>
 			</div>
 			<div class="column fourth">
 				<p class="title center" id="labelselected" style="display:none;">dataset label</p>
-				<input class="title" id="classifiershortname" type="text" placeholder="Put classifier name here" maxlength="10">
+				<div class="bx--form-item">
+				  <input id="classifiershortname" type="text" class="bx--text-input" placeholder="Hint classifier name here (max 5 char)" maxlenght="5">
+				</div>
+				
 			</div>
 			<div class="column fourth">
-				<input class="title" id="classifierdesc" type="text" placeholder="Put classifier description here">
+				<div class="bx--form-item">
+				  <input id="classifierdesc" type="text" class="bx--text-input" placeholder="Hint classifier description here">
+				</div>
 			</div>
 			<div class="column fourth">
-				</center><button type="submit" class="import">Start training</button>
+				<center><button class="bx--btn bx--btn--primary" type="submit">Start training</button></center>
 			</div>
 		</form>
 
 		<br> <br> <br> <br> <br> <br>
 
 		<div class="column half">
-			<p class='title center'>positive images</p>
-			<p class='paragraph center'>list of all the pictures containing
-				an object representing the category</p>
+			<strong class="bx--label">Positive images</strong>
+			<p class="bx--label-description">images containing an object of the selected category</p>
 			<hr class="lineseparator">
 			<div id=positiveTrainingGallery></div>
 		</div>
 
 		<div class="column half">
-			<p class='title center'>negative images</p>
-			<p class='paragraph center'>list of all the pictures not
-				containing any object representing the category, but similar ones</p>
+			<strong class="bx--label">Negative images</strong>
+			<p class="bx--label-description">images not containing an object of the selected category, but a similar one</p>
 			<hr class="lineseparator">
 			<div id=negativeTrainingGallery></div>
 		</div>
@@ -62,10 +67,20 @@
 
 </body>
 
-<script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="js/genericFunctions.js"></script>
+<script src="js/functions.js"></script>
+<script src="js/index.js"></script>
+<script src="js/bluemix-components.min.js"></script>
+<script src="js/svgxuse.min.js"></script>
+<script src="js/jquery.lazy.min.js"></script>
 
+<script>
 createHead();
 createCarbonHeader();
+</script>
+
+<script>
 
 	$(document).ajaxStop(function () {
       testingLoading();

@@ -237,21 +237,21 @@ select.title {
 
 
 
-select {
-	width: 100%;
-  border: 0;
-  outline: 0;
-  background: transparent;
-  border-bottom: 1px solid #343b43;
-  padding: 12px 4px;
-  -webkit-appearance: none; 
-  -moz-appearance: none; 
-  appearance: none;
-  background: url(../ico/down-arrow.png) no-repeat right;
-  color: #343b43; 
-  font-family:"IBM"; 
-  font-size: 15px;
-}
+/* select { */
+/* 	width: 100%; */
+/*   border: 0; */
+/*   outline: 0; */
+/*   background: transparent; */
+/*   border-bottom: 1px solid #343b43; */
+/*   padding: 12px 4px; */
+/*   -webkit-appearance: none;  */
+/*   -moz-appearance: none;  */
+/*   appearance: none; */
+/*   background: url(../ico/down-arrow.png) no-repeat right; */
+/*   color: #343b43;  */
+/*   font-family:"IBM";  */
+/*   font-size: 15px; */
+/* } */
 
 input.title{
 	width: 100%;

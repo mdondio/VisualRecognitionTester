@@ -130,16 +130,16 @@ fieldset { border: 0px; }
  color: #000000; font-family: "IBM"; font-size: 15px;
 }
 
-select {
-  border: 0;
-  outline: 0;
-  background: transparent;
-  border-bottom: 1px solid black;
-  padding: 12px 4px;
-  -webkit-appearance: none; -moz-appearance: none; appearance: none;
-  background: url(../ico/down-arrow.png) no-repeat right;
-  color: #000000; font-family: "IBM"; font-size: 15px;
-}
+/* select { */
+/*   border: 0; */
+/*   outline: 0; */
+/*   background: transparent; */
+/*   border-bottom: 1px solid black; */
+/*   padding: 12px 4px; */
+/*   -webkit-appearance: none; -moz-appearance: none; appearance: none; */
+/*   background: url(../ico/down-arrow.png) no-repeat right; */
+/*   color: #000000; font-family: "IBM"; font-size: 15px; */
+/* } */
 
 /* input[type=text]:focus { background-color: transparent; } */
 input[type=url]:focus { background-color: #FFFFFF; }

@@ -1265,8 +1265,8 @@ function startSimulation(){
 			    
 			    localStorage.setItem("listJSON",JSON.stringify(directJSON));
 			    
-			    $("#simulate").fadeOut(1000);
-			    setTimeout(function(){$("#waiting").fadeIn(1000)},1000);
+			    $("#simulate").fadeOut(500);
+			    setTimeout(function(){$("#waiting").fadeIn(500)},500);
 
 				var testdetails = localStorage.getItem("listJSON");
 
@@ -1309,13 +1309,10 @@ function buildSelectDataSet(dataset_type,IDselector){
 				var obj = result[i];
 				
 				if((obj.images.positive.length + obj.images.negative.length)*(dataset_type=="test_set")<250){
-				
-					$(IDselector).append('<li data-option data-value="'+obj._id+'" class="bx--dropdown-item"><a class="bx--dropdown-link" href="javascript:void(0)">'+obj._id);
-//					$(IDselector).append($('<li data-option data-value="'+obj._id+'" class="bx--dropdown-item"><a class="bx--dropdown-link" href="javascript:void(0)">', {
-//							data-value: obj._id,
-//							text: obj._id
-//					}));
-									
+					$(IDselector).append($('<option>', {
+						value: obj._id,
+						text: obj._id
+					}));				
 				}
 			
 			}
