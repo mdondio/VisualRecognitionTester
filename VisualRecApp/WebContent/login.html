@@ -19,15 +19,13 @@
 
 				<div class="bx--form-item">
 				  <input id="username" type="text" class="bx--text-input" placeholder="Username" name="username" maxlenght="50" required>
+				  <br>
+				  <input id="password" type="password" class="bx--text-input" placeholder="Password" name="password" maxlenght="50" required>  
 				</div>
-
-				<div class="bx--form-item">
-				  <input id="password" type="password" class="bx--text-input" placeholder="Password" name="password" maxlenght="50" required>
-				</div>
-
+				
 			<br> 
 			<br>
-				<button class="bx--btn bx--btn--primary" type="submit">Login to Bellosguardo</button>
+				<button class="bx--btn bx--btn--primary" type="submit" id="login">Login to Bellosguardo</button>
 		</form>
 		<br>
 		<br>
@@ -55,6 +53,13 @@ createHead();
 </script>
 
 <script>
+
+	$("#login").click(function() {
+
+		localStorage.setItem("user",  document.getElementById('username').value);
+	
+	});
+
 // 	$("#login").click(function() {
 // 		var user = $("#username").val();
 // 		var pass = $("#password").val();
