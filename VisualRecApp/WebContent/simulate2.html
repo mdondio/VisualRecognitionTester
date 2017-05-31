@@ -3,6 +3,26 @@
 
 <head></head>
 
+<!-- Main inclusions -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+<!-- Functions -->
+<script src="js/genericFunctions.js"></script>
+<script src="js/functions.js"></script>
+<!-- Carbon design scripts -->
+<script src="js/index.js"></script>
+<script src="js/bluemix-components.min.js"></script>
+<script src="js/svgxuse.min.js"></script>
+<!-- Utilities -->
+<script src="js/jquery.lazy.min.js"></script>
+<script src="js/tingle.min.js"></script>
+<link rel="stylesheet" href="css/tingle.min.css">
+
+<script>
+createHead();
+createCarbonHeader();
+</script>
+
 <body>
 		
 <div id="carbon-header"></div>
@@ -19,7 +39,7 @@
 	
 	<div class="row clearfix">
 
-		<div class="column third"><h1>&ensp;</h1><strong class="bx--label">Add one more test</strong><br>
+		<div class="column third"><h1>&ensp;</h1><strong class="bx--label">Add tests</strong><br>
 			You can run 10 test at the same time
 		</div>
 		
@@ -33,7 +53,7 @@
 
 	</div>
 
- 	<br><br>
+ 	<br>
  
     <div class="row clearfix">
     	<div class="column full">
@@ -60,14 +80,14 @@
 
 						<div class="column fourth">						
 								<div class="bx--form-item">
-								  <input id="testname1" type="text" class="bx--text-input" placeholder="TEST_1">
+								  <input id="testname1" type="text" class="bx--text-input" placeholder="TEST_1" required>
 								</div>	
 						</div>						
 						
 						<div class="column fourth">
 								<div class="bx--form-item">
 								  <div class="bx--select">
-								    <select id="testset1" class="bx--select-input">
+								    <select id="testset1" class="bx--select-input" required>
 								      <option class="bx--select-option" disabled selected hidden value="">Select test set</option>
 								    </select>
 								    <svg class="bx--select__arrow">
@@ -80,7 +100,7 @@
 						<div class="column fourth">			
 								<div class="bx--form-item">
 								  <div class="bx--select">
-								    <select id="testclassifier1" class="bx--select-input">
+								    <select id="testclassifier1" class="bx--select-input" required>
 								      <option class="bx--select-option" disabled selected hidden value="">Select classifier</option>
 								    </select>
 								    <svg class="bx--select__arrow">
@@ -312,25 +332,6 @@
 
 
 </body>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
-<script src="js/genericFunctions.js"></script>
-<script src="js/functions.js"></script>
-<script src="js/index.js"></script>
-<script src="js/bluemix-components.min.js"></script>
-<script src="js/svgxuse.min.js"></script>
-<script src="js/jquery.lazy.min.js"></script>
-<script src="https://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script>
-<script src="https://cdn.jsdelivr.net/jquery.validation/1.15.0/additional-methods.min.js"></script>
-<script src="js/tingle.min.js"></script>
-<link rel="stylesheet" href="css/tingle.min.css">
-
-<script>
-createHead();
-createCarbonHeader();
-</script>
-
 
 
 
