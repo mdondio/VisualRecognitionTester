@@ -168,11 +168,9 @@ createCarbonHeader();
 	$('body').on("click", "[id*=showdatasetID]", function() {
 
 		window.location.href = 'showgallery2.html';
-		console.log($(this).attr("id"));
+// 		console.log($(this).attr("id"));
 		var ID = $(this).attr("id").substring(13);
 		localStorage.setItem("idgallery", ID);
-
-		// 	console.log("num reload "+num);
 
 	});
 	
@@ -182,17 +180,6 @@ createCarbonHeader();
 		window.location.href = 'classifierdetails2.html';
 
 	});
-	
-// 	var table_height = 0; 
-// 	table_height = $('#dvTable').height();
-	
-// 	setListHeight(table_height);
-		
-// 	jQuery(window).on("load", function(){
-// 	    console.log(table_height);
-// 	    // 	$('#listdataset').css("height", table_height);
-// 	});
-	
 
 </script>
 
