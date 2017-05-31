@@ -313,6 +313,10 @@ input[type=file]{
   padding: 12px;
 }
 
+input[type=checkbox]{
+  color: #5a6872;
+}
+
 /* input[type=text]:focus { */
 /* 	background-color: transparent; */
 /* } */

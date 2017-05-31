@@ -842,12 +842,12 @@ function createMyModal(){
 		
 		if(!flag){
 		
-			toBeImplemented = "<h2> Select test to be saved: </h2> <br> <input style= 'width:25px; height:25px' value='" + testNames[i] + "' class='formcheckbox' type='checkbox' >     " + testNames[i] + "<br><br>";
+			toBeImplemented = "<h1 style='color:#5a6872'> Select test to be saved: </h1> <br> <input style='color:#5a6872; width:25px; height:25px' value='" + testNames[i] + "' class='formcheckbox' type='checkbox' ><span style='color:#5a6872'>" + testNames[i] + "</span><br><br>";
 			flag = true;
 			
 		}
 		else
-			toBeImplemented = toBeImplemented + "<input style= 'width:25px; height:25px' value='" + testNames[i] + "' class='formcheckbox' type='checkbox' >     " + testNames[i] + "<br><br>"; 
+			toBeImplemented = toBeImplemented + "<input style='color:#5a6872; width:25px; height:25px;' value='" + testNames[i] + "' class='formcheckbox' type='checkbox' ><span style='color:#5a6872'>" + testNames[i] + "</span><br><br>"; 
 		
 	}
 	
@@ -1508,7 +1508,7 @@ function startTrain(){
 			else{
 			swal('Launched!',
 					'Your classifier training has been launched!',
-					'success').then(function(){window.location.href="home.html"})
+					'success').then(function(){window.location.href="home_old.html"})
 		}
 			}
 	});
