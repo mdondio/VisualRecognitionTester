@@ -17,7 +17,7 @@ function createHead(){
 	var css_fon = ["<link rel='stylesheet' type='text/css' href='css/fonts.css'/>"]; //css fonts
 	var css_def = ["<link rel='stylesheet' type='text/css' href='css/default.css'/>"]; //css per le pagine
 	var css_str = ["<link rel='stylesheet' type='text/css' href='css/structure.css'/>"]; //css per le pagine
-	var css_nav = ["<link rel='stylesheet' type='text/css' href='css/navbar.css'/>"]; //css per il menu
+//	var css_nav = ["<link rel='stylesheet' type='text/css' href='css/navbar.css'/>"]; //css per il menu
 	var css_uti = ["<link rel='stylesheet' type='text/css' href='css/utilities.css'/>"]; //css per parti comuni della pagina
 	var css_swa = ["<link rel='stylesheet' type='text/css' href='css/sweetalert2_mine.css'/>"]; //css per sweetalert2
 	var css_dro = ["<link rel='stylesheet' type='text/css' href='css/dropzone.css'/>"]; //css per sweetalert2
@@ -29,7 +29,7 @@ function createHead(){
 	
 	var title = ["<title>Bellosguardo</title>"];
 
-	var headfull = met_sta.concat(css_car1, css_car2, css_fon, css_def, css_str, css_nav, css_uti, css_swa, css_dro, js_form, js_save, js_swal, js_drop, title);
+	var headfull = met_sta.concat(css_car1, css_car2, css_fon, css_def, css_str, css_uti, css_swa, css_dro, js_form, js_save, js_swal, js_drop, title);
 	$('head').append(headfull);
 }
 

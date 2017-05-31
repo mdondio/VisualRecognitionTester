@@ -139,11 +139,12 @@ createCarbonHeader();
 
 	<div class="content" id="showtest" style="display: none;">
 	
-<!-- 	==================================================================== -->
-<!-- 	===================== PRIMA COLONNA ================================ -->
-<!-- 	==================================================================== -->
-		<div class="column third">
-
+	
+		<div class="row clearfix">
+			
+			<div class="column third"><h1>Test results</h1><br><br>
+			
+			
 			<div class="row clearfix">
 				<div class="column full">
 					<select id="show_test"></select>
@@ -182,125 +183,228 @@ createCarbonHeader();
 				</div>
 
 			</div>
-
-			<br> <br>
-
-			<hr class="lineseparator">
-
-			<div class="row clearfix">
-				<div class="column full">
-					<p class='title left'>
-						false positives
-					</p>
-					<p class='paragraph left'>is a result that indicates a given condition
-						has been fulfilled, when it has not</p>
-				<br>
-					<div class="post-preview" id="galleryFP"></div>
-				</div>
-			</div>
-
-			<hr class="lineseparator">
-
-			<div class="row clearfix">
-				<div class="column full">
-					<p class='title left'>
-						false negatives
-					</p>
-					<p class='paragraph left'>is where a test result indicates that a
-						condition failed, while it was successful</p>
-				<br>
-					<div class="post-preview" id="galleryFN"></div>
-				</div>
-			</div>
-
-			<hr class="lineseparator">
-
+				
 		</div>
+			
+				<div class="column two-thirds">
+				
+	
+					<nav data-tabs class="bx--tabs" role="navigation">
+					
+						  <div class="bx--tabs-trigger" tabindex="0">
+						    <a href="javascript:void(0)" class="bx--tabs-trigger-text" tabindex="-1"></a>
+						    <svg width="10" height="5" viewBox="0 0 10 5" fill-rule="evenodd">
+						      <path d="M10 0L5 5 0 0z"></path>
+						    </svg>
+						  </div>
+						  
+						  <ul class="bx--tabs__nav bx--tabs__nav--hidden" role="tablist">
+						    <li class="bx--tabs__nav-item bx--tabs__nav-item--selected" data-target=".tab-1" role="presentation">
+						      <a id="tab-link-1" class="bx--tabs__nav-link" href="javascript:void(0)" role="tab" aria-controls="tab-panel-1" aria-selected="true">ROC analysis</a>
+						    </li>
+						    <li class="bx--tabs__nav-item" data-target=".tab-2" role="presentation">
+						      <a id="tab-link-2" class="bx--tabs__nav-link" href="javascript:void(0)" role="tab" aria-controls="tab-panel-2" aria-selected="false">Distribution</a>
+						    </li>
+						    <li class="bx--tabs__nav-item" data-target=".tab-3" role="presentation">
+						      <a id="tab-link-3" class="bx--tabs__nav-link" href="javascript:void(0)" role="tab" aria-controls="tab-panel-3" aria-selected="false">Results recap</a>
+						    </li>
+						    <li class="bx--tabs__nav-item" data-target=".tab-3" role="presentation">
+						      <a id="tab-link-4" class="bx--tabs__nav-link" href="javascript:void(0)" role="tab" aria-controls="tab-panel-4" aria-selected="false">False positive</a>
+						    </li>
+						    <li class="bx--tabs__nav-item" data-target=".tab-3" role="presentation">
+						      <a id="tab-link-5" class="bx--tabs__nav-link" href="javascript:void(0)" role="tab" aria-controls="tab-panel-5" aria-selected="false">False negative</a>
+						    </li>
+						  </ul>
+						  
+					</nav>
+					
+					<div style="padding: 1rem;">
+					  <div id="tab-panel-1" class="tab-1" role="tabpanel" aria-labelledby="tab-link-1" aria-hidden="false">
+					    <div class="post-preview" id="graph1"></div>
+					  </div>
+					  <div id="tab-panel-2" class="tab-2" role="tabpanel" aria-labelledby="tab-link-2" aria-hidden="true" hidden>
+					  	<div class="post-preview" id="graph_histogram"></div>
+					  </div>
+					  <div id="tab-panel-3" class="tab-3" role="tabpanel" aria-labelledby="tab-link-3" aria-hidden="true" hidden>
+					    <div class="post-preview" id="graph2"></div>
+					  </div>
+					  <div id="tab-panel-4" class="tab-4" role="tabpanel" aria-labelledby="tab-link-4" aria-hidden="true" hidden>
+
+					  </div>
+					  <div id="tab-panel-5" class="tab-5" role="tabpanel" aria-labelledby="tab-link-5" aria-hidden="true" hidden>
+
+					  </div>
+					</div>
+				
+				
+				
+				</div>
+		
+		</div>
+	
+	
+<!-- 	==================================================================== -->
+<!-- 	===================== PRIMA COLONNA ================================ -->
+<!-- 	==================================================================== -->
+<!-- 		<div class="column third"> -->
+
+<!-- 			<div class="row clearfix"> -->
+<!-- 				<div class="column full"> -->
+<!-- 					<select id="show_test"></select> -->
+<!-- 					<br><br> -->
+<!-- 					<div class="post-preview" style="text-align:center;"> -->
+<!-- 					<button class="rectangle" id="saveJSON">Save to JSON file</button> -->
+<!-- 					<button class="rectangle" id="saveJSONDB">Save to DB</button> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+<!-- 		<hr class="lineseparator"> -->
+<!-- 			<div class="row clearfix"> -->
+
+<!-- 				<div class="column half"> -->
+<!-- 					<div class="post-preview" style="width: 100%; height: auto"> -->
+<!-- 						<div class="circumference large" style="margin:auto;" id=accuracy>--.--</div> -->
+<!-- 						<p class="title center">accuracy</p> -->
+<!-- 					</div> -->
+<!-- 					<br> -->
+<!-- 					<div class="post-preview" style="width: 100%; height: auto"> -->
+<!-- 						<div class="circumference large" style="margin:auto;" id=auctest>--.--</div> -->
+<!-- 						<p class="title center">AUC</p> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
+
+<!-- 				<div class="column half"> -->
+<!-- 					<div class="post-preview" style="width: 100%; height: auto"> -->
+<!-- 						<div class="circumference large" style="margin:auto;" id=threshold>--.--</div> -->
+<!-- 						<p class="title center">threshold</p> -->
+<!-- 					</div> -->
+<!-- 					<br> -->
+<!-- 					<div class="post-preview" style="width: 100%; height: auto"> -->
+<!-- 						<div class="circumference large" style="margin:auto;" id=indice>--.--</div> -->
+<!-- 						<p class="title center">F-positive</p> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
+
+<!-- 			</div> -->
+
+<!-- 			<br> <br> -->
+
+<!-- 			<hr class="lineseparator"> -->
+
+<!-- 			<div class="row clearfix"> -->
+<!-- 				<div class="column full"> -->
+<!-- 					<p class='title left'> -->
+<!-- 						false positives -->
+<!-- 					</p> -->
+<!-- 					<p class='paragraph left'>is a result that indicates a given condition -->
+<!-- 						has been fulfilled, when it has not</p> -->
+<!-- 				<br> -->
+<!-- 					<div class="post-preview" id="galleryFP"></div> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+
+<!-- 			<hr class="lineseparator"> -->
+
+<!-- 			<div class="row clearfix"> -->
+<!-- 				<div class="column full"> -->
+<!-- 					<p class='title left'> -->
+<!-- 						false negatives -->
+<!-- 					</p> -->
+<!-- 					<p class='paragraph left'>is where a test result indicates that a -->
+<!-- 						condition failed, while it was successful</p> -->
+<!-- 				<br> -->
+<!-- 					<div class="post-preview" id="galleryFN"></div> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+
+<!-- 			<hr class="lineseparator"> -->
+
+<!-- 		</div> -->
 
 <!-- 		==================================================================== -->
 <!-- 		===================== SECONDA COLONNA ================================ -->
 <!-- 		==================================================================== -->
-		<div class="column third">
+<!-- 		<div class="column third"> -->
 
-			<div class="column full">
-				<!-- 	===========================		GRAFICO ROC CURVE ============================= -->
-				<div class="row clearfix">
-						<div class="post-preview">
-							<div>
-								<p class="title left">ROC curve</p>
-								<p class="paragraph left">In
-									statistics, a receiver operating characteristic curve, or ROC
-									curve, is a graphical plot that illustrates the performance of
-									a binary classifier system as its discrimination threshold is
-									varied.</p>
-							</div>
-						</div>
-				</div>
-				<br>
-				<div class="row clearfix">
-					<div class="post-preview" id="graph1"></div>
-				</div>
-				<!-- 	============================= FINE ROC CURVE ============================= -->
-				<hr class="lineseparator">
-								<!-- 	===========================		GRAFICO AUC CURVE ============================= -->
-				<div class="row clearfix">
-					<div class="post-preview">
-						<div>
-							<p class="title left">AUC curve</p>
-							<p class="paragraph left">The
-								area under the curve (often referred to as simply the AUC) is
-								equal to the probability that a classifier will rank a randomly
-								chosen positive instance higher than a randomly chosen negative
-								one</p>
-						</div>
-					</div>
-				</div>
-				<br>
+<!-- 			<div class="column full"> -->
+<!-- 					===========================		GRAFICO ROC CURVE ============================= -->
+<!-- 				<div class="row clearfix"> -->
+<!-- 						<div class="post-preview"> -->
+<!-- 							<div> -->
+<!-- 								<p class="title left">ROC curve</p> -->
+<!-- 								<p class="paragraph left">In -->
+<!-- 									statistics, a receiver operating characteristic curve, or ROC -->
+<!-- 									curve, is a graphical plot that illustrates the performance of -->
+<!-- 									a binary classifier system as its discrimination threshold is -->
+<!-- 									varied.</p> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 				</div> -->
+<!-- 				<br> -->
+<!-- 				<div class="row clearfix"> -->
+<!-- 					<div class="post-preview" id="graph1"></div> -->
+<!-- 				</div> -->
+<!-- 					============================= FINE ROC CURVE ============================= -->
+<!-- 				<hr class="lineseparator"> -->
+<!-- 									===========================		GRAFICO AUC CURVE ============================= -->
+<!-- 				<div class="row clearfix"> -->
+<!-- 					<div class="post-preview"> -->
+<!-- 						<div> -->
+<!-- 							<p class="title left">AUC curve</p> -->
+<!-- 							<p class="paragraph left">The -->
+<!-- 								area under the curve (often referred to as simply the AUC) is -->
+<!-- 								equal to the probability that a classifier will rank a randomly -->
+<!-- 								chosen positive instance higher than a randomly chosen negative -->
+<!-- 								one</p> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
+<!-- 				<br> -->
 
-				<div class="row clearfix">
-					<div class="post-preview" id="graph2"></div>
-				</div>
-<!-- 	============================= FINE AUC CURVE ============================= -->
-				<hr class="lineseparator">
+<!-- 				<div class="row clearfix"> -->
+<!-- 					<div class="post-preview" id="graph2"></div> -->
+<!-- 				</div> -->
+<!-- <!-- 	============================= FINE AUC CURVE ============================= -->
+<!-- 				<hr class="lineseparator"> -->
 
-			</div>
+<!-- 			</div> -->
 
-<br><br><br>
+<!-- <br><br><br> -->
 
-		</div>
+<!-- 		</div> -->
 		
 <!-- 		==================================================================== -->
 <!-- 		===================== TERZA COLONNA ================================ -->
 <!-- 		==================================================================== -->
 
-		<div class="column third">
+<!-- 		<div class="column third"> -->
 
-			<div class="column full">
-<!-- 	============================= DISTRIBUTION CURVE ============================= -->
-				<div class="row clearfix">
-					<div class="post-preview">
-						<div>
-							<p class="title left">Distribution
-								curve</p>
-							<p class="paragraph left">Thanks to Visual Recognition scores, we can draw the negative and the positive distribution curves. Classifier effectiveness increases if VR instance is able to better separate the positive population from the negative one.</p>
-						</div>
-					</div>
-				</div>
-				<br>
-				<div class="row clearfix">
-					<div class="post-preview" id="graph_histogram"></div>
-				</div>
-				<!-- 	============================= FINE DISTRIBUTION CURVE ============================= -->
+<!-- 			<div class="column full"> -->
+<!-- <!-- 	============================= DISTRIBUTION CURVE ============================= -->
+<!-- 				<div class="row clearfix"> -->
+<!-- 					<div class="post-preview"> -->
+<!-- 						<div> -->
+<!-- 							<p class="title left">Distribution -->
+<!-- 								curve</p> -->
+<!-- 							<p class="paragraph left">Thanks to Visual Recognition scores, we can draw the negative and the positive distribution curves. Classifier effectiveness increases if VR instance is able to better separate the positive population from the negative one.</p> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
+<!-- 				<br> -->
+<!-- 				<div class="row clearfix"> -->
+<!-- 					<div class="post-preview" id="graph_histogram"></div> -->
+<!-- 				</div> -->
+<!-- 					============================= FINE DISTRIBUTION CURVE ============================= -->
 
-				<hr class="lineseparator">
-			</div>
-
-
-
-		</div>
+<!-- 				<hr class="lineseparator"> -->
+<!-- 			</div> -->
 
 
-	</div>
+
+<!-- 		</div> -->
+
+
+<!-- 	</div> -->
 
 	<!-- gestione della preview immagini -->
 
@@ -328,7 +432,7 @@ createCarbonHeader();
 <!-- 	</div>  -->
 		
 
-<!-- 	</div> -->
+	</div>
 
 
 </body>

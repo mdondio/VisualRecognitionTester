@@ -1,51 +1,89 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-  <link rel="stylesheet" href="css/main.css" />
-  <link rel="stylesheet" href="css/carbon-components.css" />
-</head>
+<head></head>
 
+<!-- Main inclusions -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<!-- Functions -->
 <script src="js/genericFunctions.js"></script>
 <script src="js/functions.js"></script>
-
-<script>createHead();</script>
-
-<body class="bx--global-light-ui">
-<!-- <header></header> -->
-<!-- <script>createHeader();</script> -->
-
-<div id="asd"></div>
+<!-- Carbon design scripts -->
+<script src="js/index.js"></script>
+<script src="js/bluemix-components.min.js"></script>
+<script src="js/svgxuse.min.js"></script>
+<!-- Utilities -->
+<script src="js/jquery.lazy.min.js"></script>
 
 
 <script>
-
-
-$(function(){
-      $("#asd").load("head.html"); 
-    });
-
-$.get('head.html', function(result){
-    $result = $(result);
-
-//     $result.find('#content').appendTo('#new_content');
-    $result.find('script').appendTo('#asd');
-}, 'html');
-
+createHead();
+createCarbonHeader();
 </script>
 
+<body>
+
+<div id="carbon-header"></div><br><br><br>
 
 
+	<div class="content">
 	
+		<div class="row clearfix">
+		
+		<div class="column third">Lorem ipsum</div>
+		
+			<div class="column two-thirds">
+			
+
+				<nav data-tabs class="bx--tabs" role="navigation">
+					  <div class="bx--tabs-trigger" tabindex="0">
+					    <a href="javascript:void(0)" class="bx--tabs-trigger-text" tabindex="-1"></a>
+					    <svg width="10" height="5" viewBox="0 0 10 5" fill-rule="evenodd">
+					      <path d="M10 0L5 5 0 0z"></path>
+					    </svg>
+					  </div>
+					  <ul class="bx--tabs__nav bx--tabs__nav--hidden" role="tablist">
+					    <li class="bx--tabs__nav-item bx--tabs__nav-item--selected" data-target=".tab-1" role="presentation">
+					      <a id="tab-link-1" class="bx--tabs__nav-link" href="javascript:void(0)" role="tab" aria-controls="tab-panel-1" aria-selected="true">ROC analysis</a>
+					    </li>
+					    <li class="bx--tabs__nav-item" data-target=".tab-2" role="presentation">
+					      <a id="tab-link-2" class="bx--tabs__nav-link" href="javascript:void(0)" role="tab" aria-controls="tab-panel-2" aria-selected="false">Distribution</a>
+					    </li>
+					    <li class="bx--tabs__nav-item" data-target=".tab-3" role="presentation">
+					      <a id="tab-link-3" class="bx--tabs__nav-link" href="javascript:void(0)" role="tab" aria-controls="tab-panel-3" aria-selected="false">Test overview</a>
+					    </li>
+<!-- 					    <li class="bx--tabs__nav-item" data-target=".tab-4" role="presentation"> -->
+<!-- 					      <a id="tab-link-4" class="bx--tabs__nav-link" href="javascript:void(0)" role="tab" aria-controls="tab-panel-4" aria-selected="false">Test </a> -->
+<!-- 					    </li> -->
+					  </ul>
+				</nav>
+				<!-- The markup below is for demonstration purposes only -->
+				<div style="padding: 1rem;">
+				  <div id="tab-panel-1" class="tab-1" role="tabpanel" aria-labelledby="tab-link-1" aria-hidden="false">
+				    <p>Tab Content #1</p>
+				  </div>
+				  <div id="tab-panel-2" class="tab-2" role="tabpanel" aria-labelledby="tab-link-2" aria-hidden="true" hidden>
+				    <p>Tab Content #2</p>
+				  </div>
+				  <div id="tab-panel-3" class="tab-3" role="tabpanel" aria-labelledby="tab-link-3" aria-hidden="true" hidden>
+				    <p>Tab Content #3</p>
+				  </div>
+<!-- 				  <div id="tab-panel-4" class="tab-4" role="tabpanel" aria-labelledby="tab-link-4" aria-hidden="true" hidden> -->
+<!-- 				    <p>Tab Content #4</p> -->
+<!-- 				  </div> -->
+				</div>
+			
+			
+			
+			</div>
+		
+		</div>
+	
+	</div>
+
+
+
 	
 </body>
-
-
-
-
-  <script src="js/index.js"></script>
-  <script src="js/bluemix-components.min.js"></script>
-  <script src="js/svgxuse.min.js"></script>
 
 </html>
