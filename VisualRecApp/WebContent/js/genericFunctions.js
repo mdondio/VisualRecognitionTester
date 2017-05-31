@@ -42,7 +42,7 @@ function createHeader(){
 		$('#cssmenu').append("<div class='logo'><img src='img/Avatar_new.png' height='40px'><a href='/'>Bellosguardo</a></div>");
 		$('#cssmenu').append("<div id='head-mobile'></div><div class='button'></div>");
 		$('#cssmenu').append("<ul id='begin'>");
-			$('#begin').append("<li><a href='home.html'>dashboard");
+			$('#begin').append("<li><a href='home_old.html'>dashboard");
 			$('#begin').append("<li><a href='simulate.html'>simulate</a><ul id='subs0'>");
 				$('#subs0').append("<li><a href='simulate.html'><b>run</b> new test");
 				$('#subs0').append("<li><a href='history.html'><b>see</b> previous tests");
