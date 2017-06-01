@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head></head>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="js/genericFunctions.js"></script>
+<script src="js/functions.js"></script>
+<script src="js/jquery.lazy.min.js"></script>
+
+<script>createHead();</script>
+
+<body>
+<header></header><script>createHeader();</script>
+
+	<div class="content">
+
+		<br>
+
+			<div class="column fourth">
+				<input class="title" type="text" id="shortnameedit" maxlength="5">
+			</div>
+			<div class="column fourth">
+				<input class="title" type="text" id="labeledit" maxlength="5">
+			</div>
+			<div class="column fourth">
+				<button id="saveButton" disabled class="import">Save</button>
+			</div>
+			<div class="column fourth">
+<!-- 				<button type="submit" class="import">Use</button> -->
+				<button type="submit" class="import">Retrain</button><button id="deleteButton" type="submit" class="import">Delete</button>
+			</div>
+	
+		
+
+		<br> <br> <br> <br> <br> <br>
+		
+	<div class="row clearfix">
+
+		<div class="column half">
+			<p class='title center'>description</p>
+			<p class='paragraph center'>this is a short description of the classifier</p>
+			<hr class="lineseparator">
+			<textarea id="descriptionedit" rows="8" style="width:100%" maxlength="500"></textarea>
+		</div>
+
+		<div class="column half">
+			<p class='title center'>comments</p>
+			<p class='paragraph center'>you can put comments on the behaviour of the classifier</p>
+			<hr class="lineseparator">
+			<textarea id="commentsedit" rows="8" style="width:100%" maxlength="500"></textarea>
+		</div>
+		
+	</div>
+		
+		<br> <br> <br>
+		
+	<div class="row clearfix">
+
+		<div class="column half">
+			<p class='title center'>positive images</p>
+			<p class='paragraph center'>list of all the pictures containing
+				an object representing the category</p>
+			<hr class="lineseparator">
+			<div id=positiveTrainingGallery></div>
+		</div>
+
+		<div class="column half">
+			<p class='title center'>negative images</p>
+			<p class='paragraph center'>list of all the pictures not
+				containing any object representing the category, but similar ones</p>
+			<hr class="lineseparator">
+			<div id=negativeTrainingGallery></div>
+		</div>
+		
+	</div>
+
+
+	</div>
+
+</body>
+
+<script>
+	
+	$(document).ajaxStop(function () {
+      testingLoading();
+  	});
+  	
+  	var flag = 0;
+  	
+  	if( flag == 0 ){
+  		 	
+	 	if( $('#saveButton').attr("disabled") ){
+	 	
+	 		$('#saveButton').addClass("disabled");
+	 	
+	 	}else
+	 		$('#saveButton').removeClass("disabled");
+  	
+  		flag = 1;
+  		
+  	}
+
+
+	$("#descriptionedit").on("change keyup paste", function(){
+    
+    	$('#saveButton').attr("disabled", false);
+    	$('#saveButton').removeClass("disabled");
+	
+	});
+	
+	$("#commentsedit").on("change keyup paste", function(){
+    
+    	$('#saveButton').attr("disabled", false);
+		$('#saveButton').removeClass("disabled");
+	
+	});
+	
+	$("#labeledit").on("change keyup paste", function(){
+    
+    	$('#saveButton').attr("disabled", false);
+    	$('#saveButton').removeClass("disabled");
+	
+	});
+	
+	$("#shortnameedit").on("change keyup paste", function(){
+    
+    	$('#saveButton').attr("disabled", false);
+    	$('#saveButton').removeClass("disabled");
+	
+	});
+	
+	var shortName = ( $("#shortnameedit").val() );
+  	var descr = ( $("#descriptionedit").val() );
+  	var comm = ( $("#commentsedit").val() );
+  	var label = ( $("#labeledit").val() );;
+	
+	$('#deleteButton').click(function(){
+	
+		deleteClassifierFromDetailPage(classID, shortName);
+	
+	});
+  	
+  	$('#saveButton').click(function(){
+  	
+  		updateClassifierDetail(classID, shortName, label, descr, comm);
+  		
+  		$('#saveButton').attr("disabled", true);
+    	$('#saveButton').addClass("disabled");
+	
+	});
+  	
+	var classID = localStorage.getItem("classID");
+	
+	var shortName = returnClassifierDetail(classID, "shortname");
+	var label = returnClassifierDetail(classID, "label");
+	var descr = returnClassifierDetail(classID, "description");
+	var comm = returnClassifierDetail(classID, "comments");
+	var set = returnClassifierDetail(classID, "training_set");
+	
+
+	$("#shortnameedit").val(shortName);
+	$("#labeledit").val(label);
+	$("#descriptionedit").text(descr);
+	$("#commentsedit").text(comm);
+
+buildSelectDataSet("all",'#trainingdataset');
+
+				
+				$.ajax({
+					contentType : "application/json",
+					dataType : "json",
+					url : 'GetDataset',
+					data : "_id=",
+					async : true,
+					success : function(result) {
+					
+					console.log("err1");
+					
+						$("#negativeTrainingGallery").empty();
+						$("#positiveTrainingGallery").empty();
+						
+					console.log("err2");
+
+						for ( var i in result ){
+
+							if (result[i]._id == set) {
+							
+								console.log(result[i]._id);
+								
+								var positive_images = [];
+								for( var k = 0; k < result[i].images.positive.length; k++ )								
+									positive_images.push("GetImage?image_id="+result[i].images.positive[k]);
+									
+								var negative_images = [];
+								for( var j = 0; j < result[i].images.negative.length; j++ )
+									negative_images.push("GetImage?image_id="+result[i].images.negative[j]);
+								
+								createGallery('negativeTrainingGallery', negative_images, result[i]._id + "NEG");
+								createGallery('positiveTrainingGallery', positive_images, result[i]._id + "POS");
+
+							}
+
+
+						}
+
+					}
+				});
+
+			
+</script>
+
+</html>

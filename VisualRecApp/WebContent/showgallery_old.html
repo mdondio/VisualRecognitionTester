@@ -3,78 +3,74 @@
 
 <head></head>
 
-<!-- Main inclusions -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<!-- Functions -->
 <script src="js/genericFunctions.js"></script>
 <script src="js/functions.js"></script>
-<!-- Carbon design scripts -->
-<script src="js/index.js"></script>
-<script src="js/bluemix-components.min.js"></script>
-<script src="js/svgxuse.min.js"></script>
-<!-- Utilities -->
 <script src="js/jquery.lazy.min.js"></script>
 
-
 <script>
-createHead();
-createCarbonHeader();
+    createHead();
 </script>
 
 <body>
-
-<div id="carbon-header"></div><br><br><br>
+    <header id="header" style="animation-duration:2s"></header>
+    <script>
+        createHeader();
+    </script>
 
     <div class="content">
-    
 
-	<div class="row clearfix">
+        <input type=image id="backicon" class="inline" src="ico/backDARK.png" style="width:60px;height:auto;">
+        <button id="submit" class="btnUpload">Delete!</button>
 
-		<div class="column fourth"><h1>Show gallery</h1><br>
-		</div>
+        <br>
 
-	</div>
-	
-	<br>
-
-		<div class="row clearfix">
-
-			<div class="column fourth">	
-				<button id="backicon" class="bx--btn bx--btn--secondary" type="button">
-					Back
-				  <svg class="bx--btn__icon">
-				    <use xlink:href="/carbon-icons/bluemix-icons.svg#icon--arrow--left"></use>
-				  </svg>
-				</button>			
-				
-				<button id="submit" class="bx--btn bx--btn--primary" type="button">Delete</button>
-			</div>
-			
-	
-	        <div class="column third">
-	            <h2 id="testsetTitle"></h2>
-	        </div>
-
-		</div>
+        <div class="column third">&ensp;</div>
+        <div class="column third">
+            <h3 id="testsetTitle"></h3>
+        </div>
+        <div class="column third">&ensp;</div>
 
         <br>
         <br>
         <br>
-
+        <br>
 
         <div class="column half">
-			<strong class="bx--label">Positive images</strong>
-			<p class="bx--label-description">images containing an object of the selected category</p>
+            <p class='title center'>positive images</p>
+            <p class='paragraph center'>list of all the pictures containing an object representing the category</p>
             <hr class="lineseparator">
+            <!-- 			<img src='ico/spin.svg' class="waiting2"> -->
             <div id="positivetestSetGallery"></div>
         </div>
 
         <div class="column half">
-			<strong class="bx--label">Negative images</strong>
-			<p class="bx--label-description">images not containing an object of the selected category, but a similar one</p>
+            <p class='title center'>negative images</p>
+            <p class='paragraph center'>list of all the pictures not containing any object representing the category, but similar ones</p>
             <hr class="lineseparator">
+            <!-- 			<img src='ico/spin.svg' class="waiting2"> -->
             <div id="negativetestSetGallery"></div>
         </div>
+<!--         <br><br><br><br><br> -->
+<!-- 	<div class="column third"> -->
+	    
+<!-- 	    <img class="test" data-src="GetImage?image_id=1" /> -->
+<!--         <img class="test" data-src="GetImage?image_id=2" /> -->
+<!--         <img class="test" data-src="GetImage?image_id=3" /> -->
+<!--         <img class="test" data-src="GetImage?image_id=4"  /> -->
+<!--         <img class="test" data-src="GetImage?image_id=5"  /> -->
+<!--         <img class="test" data-src="GetImage?image_id=6"  /> -->
+<!--         <img class="test" data-src="GetImage?image_id=7"  /> -->
+<!--         <img class="test" data-src="GetImage?image_id=8"  /> -->
+<!--         <img class="test" data-src="GetImage?image_id=9"  /> -->
+<!--         <img class="test" data-src="GetImage?image_id=10"  /> -->
+<!--         <img class="test" data-src="GetImage?image_id=11"  /> -->
+<!--         <img class="test" data-src="GetImage?image_id=12"  /> -->
+<!--         <img class="test" data-src="GetImage?image_id=13"  /> -->
+<!--         <img class="test" data-src="GetImage?image_id=14"  /> -->
+<!--         <img class="test" data-src="GetImage?image_id=15"  /> -->
+<!--         <img class="test" data-src="GetImage?image_id=16"  /> -->
+<!-- 	</div> -->
 	
     </div>
 
@@ -82,10 +78,38 @@ createCarbonHeader();
 	
 </body>
 
+<style>
+    .btnUpload {
+        -webkit-border-radius: 7;
+        -moz-border-radius: 7;
+        border-radius: 7px;
+        font-family: Arial;
+        color: #ffffff;
+        font-size: 20px;
+        background: #f90000;
+        padding: 10px 20px 10px 20px;
+        border: solid #000000 2px;
+        text-decoration: none;
+    }
+    
+    .btnUpload:hover {
+        background: #d00000;
+        background-image: -webkit-linear-gradient(top, #d00000, #d00000);
+        background-image: -moz-linear-gradient(top, #d00000, #d00000);
+        background-image: -ms-linear-gradient(top, #d00000, #d00000);
+        background-image: -o-linear-gradient(top, #d00000, #d00000);
+        background-image: linear-gradient(to bottom, #d00000, #d00000);
+    }
+    
+</style>
 
 <script>
+// 	jQuery(document).ready(function ($) {
+	
+// 	     testingLoading();
 
-
+// 	});
+	
     var idgallery; //needs to be globally accessible (atm)
     $("#submit").click(function(e) {
         executionFormInputFromUser(e);
@@ -264,13 +288,14 @@ createCarbonHeader();
       testingLoading();
   	});
 
-//     $('#backicon').mouseover(function() {
-//         $(this).attr('src', 'ico/back.png');
-//     });
+    //ADD button actions
+    $('#backicon').mouseover(function() {
+        $(this).attr('src', 'ico/back.png');
+    });
 
-//     $('#backicon').mouseleave(function() {
-//         $(this).attr('src', "ico/backDARK.png");
-//     });
+    $('#backicon').mouseleave(function() {
+        $(this).attr('src', "ico/backDARK.png");
+    });
 
     $('#backicon').click(function() {
         window.history.back();

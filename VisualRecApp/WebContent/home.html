@@ -167,7 +167,7 @@ createCarbonHeader();
 	//per vedere la galleria di immagini di un certo testset clickato
 	$('body').on("click", "[id*=showdatasetID]", function() {
 
-		window.location.href = 'showgallery2.html';
+		window.location.href = 'showgallery.html';
 // 		console.log($(this).attr("id"));
 		var ID = $(this).attr("id").substring(13);
 		localStorage.setItem("idgallery", ID);
@@ -177,7 +177,7 @@ createCarbonHeader();
 	$('body').on("click", "[id*=editButton]", function() {
 
 		localStorage.setItem("classID", getClassID());
-		window.location.href = 'classifierdetails2.html';
+		window.location.href = 'classifierdetails.html';
 
 	});
 

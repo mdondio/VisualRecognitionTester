@@ -1,33 +1,58 @@
 <!DOCTYPE html>
 <html>
+
 <head></head>
 
+<!-- Main inclusions -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<!-- Functions -->
 <script src="js/genericFunctions.js"></script>
 <script src="js/functions.js"></script>
+<!-- Carbon design scripts -->
+<script src="js/index.js"></script>
+<script src="js/bluemix-components.min.js"></script>
+<script src="js/svgxuse.min.js"></script>
+<!-- Utilities -->
 <script src="js/jquery.lazy.min.js"></script>
 
-<script>createHead();</script>
+
+<script>
+createHead();
+createCarbonHeader();
+</script>
 
 <body>
-<header></header><script>createHeader();</script>
+
+<div id="carbon-header"></div><br><br><br>
+
 
 	<div class="content">
 
-		<br>
+	<div class="row clearfix">
+
+		<div class="column half"><h1>Classifier details</h1><br>
+		</div>
+
+	</div>
+	
+	<br>
 
 			<div class="column fourth">
-				<input class="title" type="text" id="shortnameedit" maxlength="5">
+				<div class="bx--form-item">
+				  <input id="shortnameedit" type="text" class="bx--text-input" maxlenght="5">
+				</div>
 			</div>
 			<div class="column fourth">
-				<input class="title" type="text" id="labeledit" maxlength="5">
+				<div class="bx--form-item">
+				  <input id="labeledit" type="text" class="bx--text-input" maxlenght="5">
+				</div>			
 			</div>
 			<div class="column fourth">
-				<button id="saveButton" disabled class="import">Save</button>
+				<button id="saveButton" class="bx--btn bx--btn--secondary" type="button" disabled>Save</button>			
 			</div>
 			<div class="column fourth">
-<!-- 				<button type="submit" class="import">Use</button> -->
-				<button type="submit" class="import">Retrain</button><button id="deleteButton" type="submit" class="import">Delete</button>
+				<button class="bx--btn bx--btn--primary" type="sumbit" disabled>Retrain</button>
+				<button class="bx--btn bx--btn--primary" type="submit" id="deleteButton">Delete</button>
 			</div>
 	
 		
@@ -37,17 +62,23 @@
 	<div class="row clearfix">
 
 		<div class="column half">
-			<p class='title center'>description</p>
-			<p class='paragraph center'>this is a short description of the classifier</p>
+			<strong class="bx--label">Description</strong>
+			<p class="bx--label-description">This is the description of the classifier</p>
 			<hr class="lineseparator">
-			<textarea id="descriptionedit" rows="8" style="width:100%" maxlength="500"></textarea>
+			<div class="bx--form-item">
+			  <textarea id="descriptionedit" class="bx--text-area" rows="8" width="100%"></textarea>
+			</div>
+
+
 		</div>
 
 		<div class="column half">
-			<p class='title center'>comments</p>
-			<p class='paragraph center'>you can put comments on the behaviour of the classifier</p>
+			<strong class="bx--label">Comments</strong>
+			<p class="bx--label-description">Put here comments on the behaviour of the classifier</p>
 			<hr class="lineseparator">
-			<textarea id="commentsedit" rows="8" style="width:100%" maxlength="500"></textarea>
+			<div class="bx--form-item">
+			  <textarea id="commentsedit" class="bx--text-area" rows="8" width="100%"></textarea>
+			</div>
 		</div>
 		
 	</div>
@@ -57,17 +88,15 @@
 	<div class="row clearfix">
 
 		<div class="column half">
-			<p class='title center'>positive images</p>
-			<p class='paragraph center'>list of all the pictures containing
-				an object representing the category</p>
+			<strong class="bx--label">Positive images</strong>
+			<p class="bx--label-description">List of images containing an object of the selected category</p>
 			<hr class="lineseparator">
 			<div id=positiveTrainingGallery></div>
 		</div>
 
 		<div class="column half">
-			<p class='title center'>negative images</p>
-			<p class='paragraph center'>list of all the pictures not
-				containing any object representing the category, but similar ones</p>
+			<strong class="bx--label">Negative images</strong>
+			<p class="bx--label-description">List of images not containing an object of the selected category</p>
 			<hr class="lineseparator">
 			<div id=negativeTrainingGallery></div>
 		</div>
@@ -78,6 +107,8 @@
 	</div>
 
 </body>
+
+
 
 <script>
 	
@@ -129,10 +160,10 @@
 	
 	});
 	
-	var shortName = ( $("#shortnameedit").val() );
-  	var descr = ( $("#descriptionedit").val() );
-  	var comm = ( $("#commentsedit").val() );
-  	var label = ( $("#labeledit").val() );;
+// 	var shortName = ( $("#shortnameedit").val() );
+//   	var descr = ( $("#descriptionedit").val() );
+//   	var comm = ( $("#commentsedit").val() );
+//   	var label = ( $("#labeledit").val() );
 	
 	$('#deleteButton').click(function(){
 	
@@ -141,6 +172,11 @@
 	});
   	
   	$('#saveButton').click(function(){
+  	
+  		var shortName = ( $("#shortnameedit").val() );
+  		var descr = ( $("#descriptionedit").val() );
+  		var comm = ( $("#commentsedit").val() );
+  		var label = ( $("#labeledit").val() );
   	
   		updateClassifierDetail(classID, shortName, label, descr, comm);
   		
@@ -151,10 +187,10 @@
   	
 	var classID = localStorage.getItem("classID");
 	
-	var shortName = returnClassifierDetail(classID, "shortname");
-	var label = returnClassifierDetail(classID, "label");
-	var descr = returnClassifierDetail(classID, "description");
-	var comm = returnClassifierDetail(classID, "comments");
+	shortName = returnClassifierDetail(classID, "shortname");
+	label = returnClassifierDetail(classID, "label");
+	descr = returnClassifierDetail(classID, "description");
+	comm = returnClassifierDetail(classID, "comments");
 	var set = returnClassifierDetail(classID, "training_set");
 	
 
@@ -174,12 +210,8 @@ buildSelectDataSet("all",'#trainingdataset');
 					async : true,
 					success : function(result) {
 					
-					console.log("err1");
-					
 						$("#negativeTrainingGallery").empty();
 						$("#positiveTrainingGallery").empty();
-						
-					console.log("err2");
 
 						for ( var i in result ){
 
