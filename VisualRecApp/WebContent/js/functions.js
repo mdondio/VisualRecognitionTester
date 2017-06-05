@@ -1060,7 +1060,7 @@ function showGallery(result,inputgallery) {
 								+ " / " + totalslide
 //								+ "</div><h1>"+gian_str+"</h1><img class='modal-img' src="
 //								+ img_path + result[i] + "></div>");
-								+ "</div><h1>"+gian_str+"</h1>><img class='modal-img' data-src="
+								+ "</div><id-image>"+gian_str+"</id-image><img class='modal-img' data-src="
 								+ img_path + result[i] + "></div>");
 				
 								//+ img_path + result[i] + " src="+ img_path + result[i] + " ></div>");
