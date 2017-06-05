@@ -813,11 +813,54 @@ function DrawHistogram(histogramNegative,histogramPositive){
  * @param object including all the information of a single test
  */
 function setParameters(result) {
+	
+			setAccuracy( result.accuracyOpt.toFixed(2) );
+			setTreshold( result.thresholdOpt.toFixed(2) );
+			setAUC( result.AUC.toFixed(2) );
+			
 			$("#accuracy").empty();
 			$("#threshold").empty();
 			$("#accuracy").html(result.accuracyOpt.toFixed(2));
 			$("#threshold").html(result.thresholdOpt.toFixed(2));
 			$("#auctest").html(result.AUC.toFixed(2));
+}
+
+var acc, tres, auc;
+
+function setAccuracy( a ){
+	
+	acc = a;
+	
+}
+
+function getAccuracy(){
+
+	return acc;
+
+}
+
+function setTreshold( t ){
+	
+	tres = t;
+	
+}
+
+function getTreshold(){
+	
+	return tres;
+	
+}
+
+function setAUC( au ){
+	
+	auc = au;
+	
+}
+
+function getAUC(){
+	
+	return auc;
+	
 }
 
 function createMyModal(){
