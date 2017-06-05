@@ -16,6 +16,9 @@
 <!-- Utilities -->
 <script src="js/jquery.lazy.min.js"></script>
 <script src="js/tingle.min.js"></script>
+<script src="js/progressbar.js"></script>
+<script src="js/circle.js"></script>
+<script src="js/tingle.min.js"></script>
 <link rel="stylesheet" href="css/tingle.min.css">
 
 <script>
@@ -142,7 +145,7 @@ createCarbonHeader();
 	
 		<div class="row clearfix">
 			
-			<div class="column third"><h1>Test results</h1><br><br>
+			<div class="column fourth"><h1>Test results</h1><br><br>
 			
 <!-- 			<select id="testset1" class="bx--select-input" required> -->
 <!-- 			      <option class="bx--select-option" disabled selected hidden value="">Select test set</option> -->
@@ -165,33 +168,38 @@ createCarbonHeader();
 
 				<div class="column half">
 					<div class="post-preview" style="width: 100%; height: auto">
-						<div class="circumference large" style="margin:auto;" id=accuracy>--.--</div>
-						<p class="title center">accuracy</p>
+						<div class="progressbar" id="accuracy"></div>
+						<strong class="bx--label">Accuracy</strong>
 					</div>
 					<br>
 					<div class="post-preview" style="width: 100%; height: auto">
-						<div class="circumference large" style="margin:auto;" id=auctest>--.--</div>
-						<p class="title center">AUC</p>
+						<div class="progressbar" id="auctest"></div>
+						<strong class="bx--label">AUC</strong>
 					</div>
 				</div>
 
 				<div class="column half">
 					<div class="post-preview" style="width: 100%; height: auto">
-						<div class="circumference large" style="margin:auto;" id=threshold>--.--</div>
-						<p class="title center">threshold</p>
+						<div class="progressbar" id="threshold"></div>
+						<strong class="bx--label">Threshold</strong>
 					</div>
 					<br>
 					<div class="post-preview" style="width: 100%; height: auto">
-						<div class="circumference large" style="margin:auto;" id=indice>--.--</div>
-						<p class="title center">F-positive</p>
+						<div class="progressbar" id="indice"></div>
+						<strong class="bx--label">F-positive</strong>
 					</div>
 				</div>
+				
+					
+					
+				
+				
 
 			</div>
 				
 		</div>
 			
-				<div class="column two-thirds">
+				<div class="column three-fourths">
 				
 	
 					<nav data-tabs class="bx--tabs" role="navigation">
@@ -258,6 +266,14 @@ createCarbonHeader();
 
 
 <script>
+
+
+createProgress(accuracy, '#3d70b2', getAccuracy());
+createProgress(auctest, '#41d6c3', getAUC());
+createProgress(threshold, '#5596e6', getThreshold());
+createProgress(indice, '#8c9ba5', '0');
+
+
 
 $( document ).ready(function() {
 

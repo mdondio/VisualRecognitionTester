@@ -8,6 +8,14 @@
 /* ---------------------------- END DESIGN SCROLLBAR for webkit browsers ---------------------------- */
 
 
+.progressbar {
+  margin: 20px;
+  width: 80%;
+  height: 80%;
+  position: relative;
+}
+
+
 /* ---------------------------- CSS GALLERY ---------------------------- */
 body { font: 10px sans-serif; }
 
