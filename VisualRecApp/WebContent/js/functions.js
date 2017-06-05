@@ -818,6 +818,10 @@ function setParameters(result) {
 			setTreshold( result.thresholdOpt.toFixed(2) );
 			setAUC( result.AUC.toFixed(2) );
 			
+			console.log(result.accuracyOpt.toFixed(2))
+			console.log(result.thresholdOpt.toFixed(2))
+			console.log(result.AUC.toFixed(2))
+			
 			$("#accuracy").empty();
 			$("#threshold").empty();
 			$("#accuracy").html(result.accuracyOpt.toFixed(2));

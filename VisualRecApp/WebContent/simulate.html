@@ -381,6 +381,10 @@ $('body').on("click","img[id*=garbage]",function(){
 			'change',
 			function() {
 			updateTestFields('#show_test');
+			createProgress(accuracy, '#3d70b2', getAccuracy());
+			createProgress(auctest, '#41d6c3', getAUC());
+			createProgress(threshold, '#5596e6', getTreshold());
+// 			createProgress(indice, '#8c9ba5', '0');
 });   
 
 $('#saveJSON').click(function(){
@@ -404,15 +408,6 @@ $('#saveJSONDB').click(function(){
 <script>
 buildSelectDataSet("test_set",'[id*="testset"]');
 buildSelectClassifier("ready",'[id*="testclassifier"]');
-
-console.log(getAccuracy());
-console.log(getAUC());
-console.log(getTreshold());
-
-// createProgress(accuracy, '#3d70b2', getAccuracy());
-// createProgress(auctest, '#41d6c3', getAUC());
-// createProgress(threshold, '#5596e6', getTreshold());
-// createProgress(indice, '#8c9ba5', '0');
 </script>
 
 </html>
