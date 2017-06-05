@@ -268,13 +268,6 @@ createCarbonHeader();
 <script>
 
 
-createProgress(accuracy, '#3d70b2', getAccuracy());
-createProgress(auctest, '#41d6c3', getAUC());
-createProgress(threshold, '#5596e6', getThreshold());
-createProgress(indice, '#8c9ba5', '0');
-
-
-
 $( document ).ready(function() {
 
 if(localStorage.getItem("viewresult")=="history")
@@ -411,6 +404,15 @@ $('#saveJSONDB').click(function(){
 <script>
 buildSelectDataSet("test_set",'[id*="testset"]');
 buildSelectClassifier("ready",'[id*="testclassifier"]');
+
+console.log(getAccuracy());
+console.log(getAUC());
+console.log(getTreshold());
+
+// createProgress(accuracy, '#3d70b2', getAccuracy());
+// createProgress(auctest, '#41d6c3', getAUC());
+// createProgress(threshold, '#5596e6', getTreshold());
+// createProgress(indice, '#8c9ba5', '0');
 </script>
 
 </html>
