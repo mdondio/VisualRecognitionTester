@@ -403,7 +403,7 @@ function updateTestFields(IDselector) {
 
 	//disegna gli oggetti dipendenti dal test selezionato
 	var testname = $(IDselector).val();
-	console.log(testname)
+//	console.log(testname);
 	drawRocCurves(testname);
 	drawIndexes(testname);
 	
