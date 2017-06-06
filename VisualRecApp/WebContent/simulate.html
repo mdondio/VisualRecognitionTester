@@ -18,7 +18,7 @@
 <script src="js/tingle.min.js"></script>
 <script src="js/progressbar.js"></script>
 <script src="js/circle.js"></script>
-<script src="js/tingle.min.js"></script>
+<!-- <script src="js/tingle.min.js"></script> -->
 <link rel="stylesheet" href="css/tingle.min.css">
 
 <script>
@@ -158,43 +158,40 @@ createCarbonHeader();
 					</select>
 					<br><br>
 					<div style="text-align:center;">
-					<button class="bx--btn bx--btn--primary" id="saveJSON" type="sumbit">Save to JSON file</button>
-					<button class="bx--btn bx--btn--primary" id="saveJSONDB" type="sumbit">Save to DB</button>
+						<button class="bx--btn bx--btn--primary" id="saveJSON" type="sumbit">Save to JSON file</button>
+						<button class="bx--btn bx--btn--primary" id="saveJSONDB" type="sumbit">Save to DB</button>
 					</div>
 				</div>
 			</div>
 		<hr class="lineseparator">
-			<div class="row clearfix">
+		
+			<div class="row clearfix selecttest" style="">
+				<br><br><br><center>Select a test to view results</center>
+			</div>
+		
+			<div class="row clearfix displayresults" style="display: none;">
 
 				<div class="column half">
 					<div class="post-preview" style="width: 100%; height: auto">
-						<div class="progressbar" id="accuracy"></div>
-						<strong class="bx--label">Accuracy</strong>
+						<div class="progressbar" id="accuracyscore"></div>
+						<center><strong class="bx--label">Accuracy</strong></center>
 					</div>
 					<br>
 					<div class="post-preview" style="width: 100%; height: auto">
-						<div class="progressbar" id="auctest"></div>
-						<strong class="bx--label">AUC</strong>
+						<div class="progressbar" id="thresholdscore"></div>
+						<center><strong class="bx--label">Threshold</strong></center>
 					</div>
 				</div>
 
 				<div class="column half">
 					<div class="post-preview" style="width: 100%; height: auto">
-						<div class="progressbar" id="threshold"></div>
-						<strong class="bx--label">Threshold</strong>
+						<div class="progressbar" id="aucscore"></div>
+						<center><strong class="bx--label">AUC</strong></center>
 					</div>
 					<br>
-<!-- 					<div class="post-preview" style="width: 100%; height: auto"> -->
-<!-- 						<div class="progressbar" id="indice"></div> -->
-<!-- 						<strong class="bx--label">F-positive</strong> -->
-<!-- 					</div> -->
+
 				</div>
 				
-					
-					
-				
-				
-
 			</div>
 				
 		</div>
@@ -206,26 +203,15 @@ createCarbonHeader();
 					
 						  <div class="bx--tabs-trigger" tabindex="0">
 						    <a href="javascript:void(0)" class="bx--tabs-trigger-text" tabindex="-1"></a>
-<!-- 						    <svg width="10" height="5" viewBox="0 0 10 5" fill-rule="evenodd"> -->
-<!-- 						      <path d="M10 0L5 5 0 0z"></path> -->
-<!-- 						    </svg> -->
+
 						  </div>
 						  
 						  <ul class="bx--tabs__nav bx--tabs__nav--hidden" role="tablist">
 						    <li class="bx--tabs__nav-item bx--tabs__nav-item--selected" data-target=".tab-1" role="presentation">
-						      <a id="tab-link-1" class="bx--tabs__nav-link" href="javascript:void(0)" role="tab" aria-controls="tab-panel-1" aria-selected="true">ROC analysis</a>
-						    </li>
-						    <li class="bx--tabs__nav-item" data-target=".tab-2" role="presentation">
-						      <a id="tab-link-2" class="bx--tabs__nav-link" href="javascript:void(0)" role="tab" aria-controls="tab-panel-2" aria-selected="false">Distribution</a>
+						      <a id="tab-link-1" class="bx--tabs__nav-link" href="javascript:void(0)" role="tab" aria-controls="tab-panel-1" aria-selected="true">Selected test results</a>
 						    </li>
 						    <li class="bx--tabs__nav-item" data-target=".tab-3" role="presentation">
-						      <a id="tab-link-3" class="bx--tabs__nav-link" href="javascript:void(0)" role="tab" aria-controls="tab-panel-3" aria-selected="false">Results recap</a>
-						    </li>
-						    <li class="bx--tabs__nav-item" data-target=".tab-4" role="presentation">
-						      <a id="tab-link-4" class="bx--tabs__nav-link" href="javascript:void(0)" role="tab" aria-controls="tab-panel-4" aria-selected="false">False positive</a>
-						    </li>
-						    <li class="bx--tabs__nav-item" data-target=".tab-5" role="presentation">
-						      <a id="tab-link-5" class="bx--tabs__nav-link" href="javascript:void(0)" role="tab" aria-controls="tab-panel-5" aria-selected="false">False negative</a>
+						      <a id="tab-link-3" class="bx--tabs__nav-link" href="javascript:void(0)" role="tab" aria-controls="tab-panel-3" aria-selected="false">Overview of all tests</a>
 						    </li>
 						  </ul>
 						  
@@ -233,26 +219,57 @@ createCarbonHeader();
 					
 					<div style="padding: 1rem;"> 
 					  <div id="tab-panel-1" class="tab-1" role="tabpanel" aria-labelledby="tab-link-1" aria-hidden="false">
-					    <div id="graph1"></div>
-					  </div>
-					  <div id="tab-panel-2" class="tab-2" role="tabpanel" aria-labelledby="tab-link-2" aria-hidden="true" hidden>
-					  	<div id="graph_histogram"></div>
+					  	<div class="row clearfix">
+					  		<div class="column half"><strong class="bx--label">ROC curve</strong><div id="graph1"></div></div>
+					  		<div class="column half">
+					  			<strong class="bx--label">Distribution</strong>
+					  			
+					  			<a class="bx--tooltip__trigger">
+								  <svg tabindex="0" data-tooltip-trigger data-tooltip-target="#unique-tooltip" width="16" height="16">
+								    <use xlink:href="/carbon-icons/bluemix-icons.svg#icon--info--glyph"></use>
+								  </svg>
+								</a>
+								<div id="unique-tooltip" data-floating-menu-direction="top" class="bx--tooltip">
+								  <p class="bx--tooltip__label">Distribution graph</p>
+								  <p>Thanks to Visual Recognition scores, we can draw the negative and the positive distribution curves. Classifier effectiveness increases if VR instance is able to better separate the positive population from the negative one.</p>
+								</div>
+					  			<div class="selecttest"><br><br><br>Select a test to view distribution graph</div>		
+					  			<div class="displayresults" id="graph_histogram"></div>
+					  		</div>
+					  		
+					  	</div>
+					    
 					  </div>
 					  <div id="tab-panel-3" class="tab-3" role="tabpanel" aria-labelledby="tab-link-3" aria-hidden="true" hidden>
 					    <div id="graph2"></div>
 					  </div>
-					  <div id="tab-panel-4" class="tab-4" role="tabpanel" aria-labelledby="tab-link-4" aria-hidden="true" hidden>
-						<div id="galleryFP"></div>
-					  </div>
-					  <div id="tab-panel-5" class="tab-5" role="tabpanel" aria-labelledby="tab-link-5" aria-hidden="true" hidden>
-						<div id="galleryFN"></div>
-					  </div>
+
 					</div>
 				
 				
 				
 				</div>
 		
+		</div>
+		
+		<br><br>
+		
+		<div class="row clearfix">
+	
+			<div class="column half">
+				<strong class="bx--label">False positive</strong>
+				<p class="bx--label-description">Images wrongly recognized as part of the category</p>
+				<hr class="lineseparator">
+				<div id="galleryFP"></div>
+			</div>
+	
+			<div class="column half">
+				<strong class="bx--label">False negatives</strong>
+				<p class="bx--label-description">Images not recognized as part of the category</p>
+				<hr class="lineseparator">
+				<div id="galleryFN"></div>
+			</div>
+			
 		</div>
 		
 
@@ -381,9 +398,17 @@ $('body').on("click","img[id*=garbage]",function(){
 			'change',
 			function() {
 			updateTestFields('#show_test');
-			createProgress(accuracy, '#3d70b2', getAccuracy());
-			createProgress(auctest, '#41d6c3', getAUC());
-			createProgress(threshold, '#5596e6', getTreshold());
+			
+			$('.selecttest').css("display", "none");
+			$('.displayresults').css("display", "block");
+			
+			$('#accuracyscore').empty();
+			$('#aucscore').empty();
+			$('#thresholdscore').empty();			
+			
+			createProgress(accuracyscore, '#3d70b2', getAccuracy());
+			createProgress(aucscore, '#41d6c3', getAUC());
+			createProgress(thresholdscore, '#5596e6', getTreshold());
 // 			createProgress(indice, '#8c9ba5', '0');
 });   
 

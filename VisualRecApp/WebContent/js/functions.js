@@ -1441,7 +1441,7 @@ function generateHome(){
 				var obj = result[i].classifiers;
 				if(obj.length == 0) free++;
 			}
-			$('#freeclass').html(free);
+			createCircle(freeclassifiers, '#5596e6', free);
 		}
 	});
 
@@ -1467,9 +1467,11 @@ function generateHome(){
 				if(obj.status == "training") training++;
 				if(obj.status == "zombie") zombie++;
 			}
-			$('#readyclass').html(ready);
-			$('#trainingclass').html(training);
-			$('#zombieclass').html(zombie);
+
+			createCircle(readyclassifiers, '#3d70b2', ready);
+			createCircle(trainingclassifiers, '#41d6c3', training);
+			createCircle(zombieclassifiers, '#8c9ba5', zombie);
+			
 			//PRINT TABLE OF CLASSIFIERS
 			var label = [];
 			var n_img = [];

@@ -13,7 +13,8 @@
 <script src="js/bluemix-components.min.js"></script>
 <script src="js/svgxuse.min.js"></script>
 <!-- Utilities -->
-
+<script src="js/progressbar.js"></script>
+<script src="js/circle.js"></script>
 
 <script>
 createHead();
@@ -32,23 +33,18 @@ createCarbonHeader();
 			<div class="column fourth">
 
 				<div class="post-preview">
-					<div class="circumference medium" style="margin: auto;"	id="readyclass"></div>
+						<div class="progressbar home" id="readyclassifiers"></div>
 				</div>
 
 				<hr class="lineseparator">
 
-				<div class="column half">
-					<div class="post-preview">
-						<p class="title right">
-							ready <br> classifiers
-						</p>
-					</div>
+				<div class="column half right">
+					<strong class="bx--label">Ready</strong>
 				</div>
 
 				<div class="column half">
 					<div class="post-preview">
-						<p class="paragraph left">You can use these classifiers for
-							your simulations.</p>
+						<p class="paragraph left">Use them in your simulations</p>
 					</div>
 				</div>
 			</div>
@@ -57,22 +53,17 @@ createCarbonHeader();
 			<div class="column fourth">
 
 				<div class="post-preview">
-					<div class="circumference medium" style="margin: auto;"	id="freeclass"></div>
+					<div class="progressbar home" id="freeclassifiers"></div>
 				</div>
 				<hr class="lineseparator">
 
-				<div class="column half">
-					<div class="post-preview">
-						<p class="title right">
-							free <br> classifiers
-						</p>
-					</div>
+				<div class="column half right">
+					<strong class="bx--label">Free</strong>
 				</div>
 
 				<div class="column half">
 					<div class="post-preview">
-						<p class="paragraph left">These instances are free to train.
-							Let's go to the train panel!</p>
+						<p class="paragraph left">Classifiers free to be trained</p>
 					</div>
 				</div>
 
@@ -81,23 +72,18 @@ createCarbonHeader();
 			<div class="column fourth">
 
 				<div class="post-preview">
-					<div class="circumference medium" style="margin: auto;"	id="trainingclass"></div>
+					<div class="progressbar home" id="trainingclassifiers"></div>
 				</div>
 
 				<hr class="lineseparator">
 
-				<div class="column half">
-					<div class="post-preview">
-						<p class="title right">
-							classifiers <br> in training
-						</p>
-					</div>
+				<div class="column half right">
+					<strong class="bx--label">Training</strong>
 				</div>
 
 				<div class="column half">
 					<div class="post-preview">
-						<p class="paragraph left">We are building new classifiers for
-							you, just relax and prepare your next simulation.</p>
+						<p class="paragraph left">Watson is in training!</p>
 					</div>
 				</div>
 
@@ -106,24 +92,18 @@ createCarbonHeader();
 			<div class="column fourth">
 
 				<div class="post-preview">
-					<div class="circumference medium" style="margin: auto;"
-						id="zombieclass"></div>
+					<div class="progressbar home" id="zombieclassifiers"></div>
 				</div>
 
 				<hr class="lineseparator">
 
-				<div class="column half">
-					<div class="post-preview">
-						<p class="title right">
-							zombie <br> classifiers
-						</p>
-					</div>
+				<div class="column half right">
+					<strong class="bx--label">Zombie</strong>
 				</div>
 
 				<div class="column half">
 					<div class="post-preview">
-						<p class="paragraph left">Wait 24h or switch to a premium
-							Bluemix account.</p>
+						<p class="paragraph left">Limit reached: wait 24h or go premium</p>
 					</div>
 				</div>
 			</div>
