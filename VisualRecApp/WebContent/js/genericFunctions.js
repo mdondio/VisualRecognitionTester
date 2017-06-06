@@ -71,7 +71,7 @@ function createProgress(div_id, toColor, number){
 		    if (value === 0) {
 		      circle.setText('');
 		    } else {
-		      circle.setText(value);
+		      circle.setText(value+'&#37;');
 		    }
 
 		  }
