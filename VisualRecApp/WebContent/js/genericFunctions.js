@@ -119,8 +119,8 @@ function createCircle(div_id, toColor, number){
 function createCarbonHeader(){
 	$(function(){
 		  $("#carbon-header").load("head.html", function () {
-		    BluemixComponents.LeftNav.init();
-		    BluemixComponents.ProfileSwitcher.init();
+		    CarbonComponents.LeftNav.init();
+		    CarbonComponents.ProfileSwitcher.init();
 		  }); 
 		});
 }
