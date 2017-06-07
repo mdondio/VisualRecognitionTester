@@ -4,7 +4,7 @@
 <head></head>
 
 <!-- Main inclusions -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <!-- Functions -->
 <script src="js/genericFunctions.js"></script>
 <script src="js/functions.js"></script>
@@ -21,55 +21,90 @@ createCarbonHeader();
 </script>
 
 <body>
-		
-<div id="carbon-header"></div>
-				
-<br><br><br>
+
+	<div id="carbon-header"></div>
+
+	<br>
+	<br>
+	<br>
 
 	<div class="content">
 
 		<div class="row clearfix">
 
-			<div class="column three-fourths">
-			
-				<div class="post-preview"><h1>Documentation</h1>
-				
-				<br>
+			<div class="column two-thirds"><h1>Documentation</h1><br>
 
-							
-					<a class="bx--tooltip__trigger">
-					  JavaScript Tooltip
-					  <svg tabindex="0" data-tooltip-trigger data-tooltip-target="#unique-tooltip" width="16" height="16">
-					    <use xlink:href="/carbon-icons/bluemix-icons.svg#icon--info--glyph"></use>
-					  </svg>
-					</a>
-					<div id="unique-tooltip" data-floating-menu-direction="bottom" class="bx--tooltip">
-					  <p class="bx--tooltip__label">Tooltip label</p>
-					  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, seed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-					    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-					</div>
-				
-			</div>
-					
-			<div class="column fourth">
-			
-				<div class="post-preview">
-				<h3>&ensp;</h3>
-				
-				<br>
-				
-				<div id="card">Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam enim risus, molestie et, porta ac, aliquam ac, risus.</div>
-				
+				<div class="bx--module bx--module--double">
+				  <div class="bx--module__inner">
+				    <div class="bx--module__header">
+				      <h1 class="bx--module__title">What is Bellosguardo?</h1>
+				    </div>
+				    <div class="bx--module__content">
+				      <p>
+				        Bellosguardo is a web application that helps decision makers and subject matter experts in finding decision thresholds that maximize the accuracy of images classification.
+						<br><br>
+						<strong>How?</strong><br>
+						Without any coding skill required, in Bellosguardo is possible to:<br>
+						- upload image sets (that you will use as test or training sets)<br>
+						- train and test classifiers (with IBM Watson Visual Recognition)<br>
+						- evaluate performances and fine-tune classifiers (leveraging Bellosguard’s metrics)<br><br> 
+						<strong>Why?</strong><br>
+						Most public-available image recognition services produce a score between 0.0 and 1.0 for each image (and for each class). This value is not a percentage or a probability, but a unitless number that indicates the confidence of the service in recognizing a specific class.
+						Depending on the goal of the application, a specific score may be requested in order to take actions or generate decisions upon it. This value is called "decision threshold" and it is not (and cannot be) computed by image recognition services automatically.
+				      	<br><br>
+				      	<img class="center" src="img/docs/ciuaua.jpg" width="350px">
+				      	<br>
+				      	Bellosguardo uses the IBM Watson Visual Recognition service to train classifiers and statistical methods to evaluate them. The results is a user friendly environment that gives control along the whole image classification journey. 
+						<br><br>
+						For details about statistical testing, please see the section below.<br><br>
+						
+						<strong>Statistical Testing</strong><br>
+						In order to evaluate classifiers performances, Bellosguardo measures:<br>
+						1.	Receiver Operating Characteristics curve (ROC) and Distribution Curve<br>
+						2.	Accuracy and Area Under the Curve (AUC)<br>
+						3.	Optimal Threshold<br>
+						4.	False Positive and False Negative results<br>
+						<br>
+						A ROC curve is "a graphical plot that illustrates the diagnostic ability of a binary classifier system as its discrimination threshold is varied."<br><br>
+						In the case of Bellosguardo, the curve is created by plotting the true positive rate (TPR) against the false positive rate (FPR) at various Watson's score variations.
+						The true-positive rate is also known as sensitivity, recall or probability of detection; the false-positive rate is also known as the fall-out or probability of false alarm and can be calculated as (1 - specificity). TPR defines how many correct positive results occur among all positive samples available during the test; FPR defines how many incorrect positive results occur among all negative samples available during the test: TPR = TP/(TP+FN); FPR = FP/(FP+TN)				         
+				      </p>
+				    </div>
+				  </div>
 				</div>
+
+
 			</div>
+			
+			<div class="column third"><h1>&ensp;</h1><br>
+
 				
-			
-			
+				<div class="bx--module bx--module--single">
+				  <div class="bx--module__inner">
+				    <div class="bx--module__content">
+				    	<ol class="bx--list--ordered">
+							<li class="bx--list__item">What is Bellosguardo?
+							   <ol class="bx--list--nested">
+							      <li class="bx--list__item">How?</li>
+							      <li class="bx--list__item">What?</li>
+							    </ol>
+							 </li>
+							 <li class="bx--list__item">Ordered nested list level 1</li>
+							 <li class="bx--list__item">Ordered nested list level 1</li>
+						</ol>
+				    </div>
+				  </div>
+				</div>
+
+
+			</div>
+
 		</div>
-		
+
 	</div>
-				
-								
+
+
+
 
 </body>
 

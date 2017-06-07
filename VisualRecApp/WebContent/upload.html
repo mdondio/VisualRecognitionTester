@@ -31,11 +31,38 @@ createCarbonHeader();
 	<div class="row clearfix">
 
 		<div class="column fourth"><h1>Upload</h1><br>
-			<button id="submit" class="bx--btn bx--btn--primary" type="button">Upload dataset</button>
+						<button id="submit" class="bx--btn bx--btn--primary" type="button">
+						  Upload image set
+						  <svg class="bx--btn__icon">
+						    <use xlink:href="./ico/bluemix-icons.svg#icon--upload"></use>
+						  </svg>
+						</button>
 		</div>
 
+		<div class="column fourth"><h1>&ensp;</h1><br>
+
+			<fieldset class="bx--fieldset">
+<!-- 			  <legend class="bx--label">Favorite Color</legend> -->
+			  <div class="bx--form-item">
+			    <div class="bx--radio-button-group">
+			      <input id="radio-button-1" class="bx--radio-button" type="radio" value="red" name="radio-button" tabindex="0" checked>
+			      <label for="radio-button-1" class="bx--radio-button__label">
+			        <span class="bx--radio-button__appearance"></span>
+			        Training
+			      </label>
+			      <input id="radio-button-2" class="bx--radio-button" type="radio" value="green" name="radio-button" tabindex="0">
+			      <label for="radio-button-2" class="bx--radio-button__label">
+			        <span class="bx--radio-button__appearance"></span>
+			        Test
+			      </label>
+			    </div>
+			  </div>
+			</fieldset>
+
+		</div>
+		
 		<div class="column half"><h1>&ensp;</h1><br>
-			Upload your positive and negative images. You can delete images by clicking on them. When ready, press the button to rename the dataset, to give it a label and to upload.
+			Upload your positive and negative images and select dataset nature (Training or Test). You can delete images by clicking on them. When ready, press the button to rename the dataset, to give it a label and to upload.
 		</div>
 
 	</div>

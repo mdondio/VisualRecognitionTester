@@ -33,65 +33,69 @@ createCarbonHeader();
 			<div class="column fourth">
 				<div class="row clearfix">
 					<div class="column half">
-						<div class="progressbar home" id="readyclassifiers"></div>
+						<strong class="bx--label">Ready</strong>
+						<p class="bx--label-description">Use them in your simulations</p>
 					</div>
 					<div class="column half">
-						<strong class="bx--label">Ready</strong>
-						<p class="paragraph left">Use them in your simulations</p>
+						<div class="progressbar home" id="readyclassifiers"></div>
 					</div>
 				</div>		
 			</div>
 			<div class="column fourth">
 				<div class="row clearfix">
+					<div class="column half">
+						<strong class="bx--label">Free</strong>
+						<p class="bx--label-description">Classifiers free to be trained</p>
+					</div>
 					<div class="column half">
 						<div class="progressbar home" id="freeclassifiers"></div>
 					</div>
-					<div class="column half">
-						<strong class="bx--label">Free</strong>
-						<p class="paragraph left">Classifiers free to be trained</p>
-					</div>
 				</div>		
 			</div>
 			<div class="column fourth">
 				<div class="row clearfix">
+					<div class="column half">
+						<strong class="bx--label">Training</strong>
+						<p class="bx--label-description">Watson Visual Rec is in training!</p>
+					</div>
 					<div class="column half">
 						<div class="progressbar home" id="trainingclassifiers"></div>
 					</div>
-					<div class="column half">
-						<strong class="bx--label">Training</strong>
-						<p class="paragraph left">Watson is in training!</p>
-					</div>
 				</div>		
 			</div>
 			<div class="column fourth">
 				<div class="row clearfix">
 					<div class="column half">
-						<div class="progressbar home" id="zombieclassifiers"></div>
+						<strong class="bx--label">Zombie</strong>
+						<p class="bx--label-description">Limit reached: wait 24h or go premium</p>
 					</div>
 					<div class="column half">
-						<strong class="bx--label">Zombie</strong>
-						<p class="paragraph left">Limit reached: wait 24h or go premium</p>
+						<div class="progressbar home" id="zombieclassifiers"></div>
 					</div>
 				</div>		
 			</div>
 
 		</div>
 
-		<br><br><hr class="lineseparator"><br><br>
+		<br><hr class="lineseparator"><br>
 
 		<div class="row clearfix">
 
-			<div class="column fourth">
+			<div class="column fourth center">
 			
-				<p class="title center">Available Datasets</p>
+				<strong class="bx--label">Available dataset</strong>
+				<p class="bx--label-description">Test and training dataset available. Click to edit.</p>
+<!-- 				<hr class="lineseparator"> -->
 				<div class="post-preview" id="listdataset"></div>
 
 			</div>
 
-			<div class="column three-fourths">
+			<div class="column three-fourths center">
 			
 				<div class="post-preview">
-					<p class="title center">Classifier list</p>
+					<strong class="bx--label">Classifier list</strong>
+					<p class="bx--label-description">List of available classifiers divided by label, cardinality and version.</p>
+<!-- 					<hr class="lineseparator"> -->
 					<div id="dvTable"></div>
 
 				</div>
