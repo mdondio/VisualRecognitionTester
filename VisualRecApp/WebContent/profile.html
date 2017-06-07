@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head></head>
+
+<!-- Main inclusions -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<!-- Functions -->
+<script src="js/genericFunctions.js"></script>
+<script src="js/functions.js"></script>
+<!-- Carbon design scripts -->
+<script src="js/index.js"></script>
+<script src="js/bluemix-components.min.js"></script>
+<script src="js/svgxuse.min.js"></script>
+<!-- Utilities -->
+
+
+<script>
+createHead();
+createCarbonHeader();
+</script>
+
+<body>
+		
+<div id="carbon-header"></div>
+				
+<br><br><br>
+
+	<div class="content">
+
+		<div class="row clearfix">
+
+			<div class="column three-fourths">
+			
+				<div id="user" class="post-preview"><h1>###username###</h1>
+				
+				<br><br><br>
+					  
+<!-- 					 <div id="test" class="bx--form-item"> -->
+<!-- 					  <label for="apiKeysTitle" class="bx--label">Insert API key</label> -->
+<!-- 					  <input id="apiKeys" type="text" class="bx--text-input" placeholder="...API keys..."> -->
+<!-- 					</div> -->
+
+						<div id="test" class="bx--form-item">
+							 <label for="apiKeysTitle" class="bx--label">Insert API key</label>
+						     <input type="text" id="apiKeys" class="bx--text-input" placeholder="...API keys..."/>
+						</div>
+					  	
+					<br>
+					
+					<button id="insertAPI" class="bx--btn bx--btn--primary" type="button" disabled>Add APIs</button>
+				
+				</div>
+		
+	</div>
+				
+								
+
+</body>
+
+ <script>
+ 
+ 	var flag = 0;
+ 	
+ 	var i = 1;
+ 	
+ 	var num;
+
+    $("#user > h1").text(localStorage.getItem("user"));
+    
+	$('#test').on('keyup', 'input', function() {
+	
+	    if($(this).val() == ''){
+	    	
+	    	$(this).next().remove();
+	        i--;
+		
+			num = document.getElementById('test').getElementsByTagName('input').length;	
+			
+			if( num == 1 ){
+			
+				$('#insertAPI').addClass("disabled");
+    			$('#insertAPI').attr("disabled", true);
+			
+			}        
+
+	        return;
+	        
+	    }
+	    
+	    else if($(this).next().val() == '') {
+	    
+	    	$('#insertAPI').addClass("disabled");
+	        return;
+	        
+	    }
+
+	    var newTxt = $(this).clone();
+	    var id = newTxt.attr('id');
+	    newTxt.attr('id', 'apiKeys_' + (i));
+	    newTxt.val('');
+	    $(this).parent().append(newTxt);
+	    i++;
+	    
+	    $('#insertAPI').removeClass("disabled");
+    	$('#insertAPI').attr("disabled", false);		
+
+	});
+  	
+  	if( flag == 0 ){
+  		 	
+	 	if( $('#insertAPI').attr("disabled") ){
+	 	
+	 		$('#insertAPI').addClass("disabled");
+	 	
+	 	}else
+	 		$('#insertAPI').removeClass("disabled");
+  	
+  		flag = 1;
+  		
+  	}
+  	
+  	var values = [];
+  	var k = 0;
+  	
+  	$('#insertAPI').click(function(){
+		
+		$("#test :input").each(function(e){	
+
+		  values[k] = this.value;
+		  k++;
+
+		});
+		
+		console.log(values)
+		
+	});
+	
+  	
+</script>
+
+
+</html>
