@@ -1,3 +1,6 @@
+
+input.bx--radio-button[type="radio"]{visibility:hidden;}
+
 .bx--visually-hidden {
   position: absolute;
   width: 1px;

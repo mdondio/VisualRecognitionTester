@@ -47,17 +47,17 @@ createCarbonHeader();
 <!-- 			  <legend class="bx--label">Favorite Color</legend> -->
 			  <div class="bx--form-item">
 			    <div class="bx--radio-button-group">
-			      <input id="radio-button-1" class="bx--radio-button" type="radio" value="red" name="radio-button" tabindex="0" checked>
-			      <label for="radio-button-1" class="bx--radio-button__label">
-			        <span class="bx--radio-button__appearance"></span>
-			        Training
-			      </label>
-			      <input id="radio-button-2" class="bx--radio-button" type="radio" value="green" name="radio-button" tabindex="0">
-			      <label for="radio-button-2" class="bx--radio-button__label">
-			        <span class="bx--radio-button__appearance"></span>
-			        Test
-			      </label>
-			    </div>
+				      <input id="rbTraining" class="bx--radio-button" type="radio" value="train" name="radio-button" tabindex="0">
+				      <label for="rbTraining" class="bx--radio-button__label">
+				        <span class="bx--radio-button__appearance"></span>
+				        Training
+				      </label>
+				      <input id="rbTest" class="bx--radio-button" type="radio" value="test" name="radio-button" tabindex="0">
+				      <label for="rbTest" class="bx--radio-button__label">
+				        <span class="bx--radio-button__appearance"></span>
+				        Test
+				      </label>
+				    </div>
 			  </div>
 			</fieldset>
 
@@ -108,6 +108,9 @@ createCarbonHeader();
 
 
 <script>
+	
+	var rbTr = document.getElementById("rbTraining");
+	var rbTe = document.getElementById("rbTest");
 
 	var selDiv = "";
     var storedFiles = [];
@@ -122,12 +125,31 @@ createCarbonHeader();
         $("#negFiles").on("change", handlerSelectedFiles);
 
         $("#submit").click( function(e){
-        	executionFormInputFromUser(e);
+        
+        		if ( !rbTr.checked && !rbTe.checked )
+        			decideDatasetType();
+        		else
+        			executionFormInputFromUser(e);
+        			
         });
 
         $("body").on("click", ".selFile", handlerFileRemove);
 
     });
+
+	function decideDatasetType(){
+	
+		swal({
+			  title: 'Dataset Type',
+			  text: 'Before uploading you dataset you have to decide in which category it falls in (training | test)',
+			  confirmButtonColor: '#5cb85c',
+			  confirmButtonText: 'Ok!',
+			  imageUrl: 'images/decide.jpg',
+			  imageWidth: 400,
+		 	  imageHeight: 300
+			})
+					
+	}
 
 	function executionFormInputFromUser(e){
 
