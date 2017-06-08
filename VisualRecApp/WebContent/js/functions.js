@@ -277,6 +277,42 @@ function deleteClassifierFromDetailPage(classID, shortName){
 	
 }
 
+function deleteDataset(datasetID, shortName){
+	
+	swal({
+		  title: "Are you sure?",
+		  text: "Are you really sure you want to delete this classifier?",
+		  type: "warning",
+		  confirmButtonColor: '#d33',
+		  confirmButtonText: 'Delete!',
+		  showCancelButton: true,
+		  allowOutsideClick: false,
+		  allowEscapeKey: true
+		}).then(function (isConfirm) {
+		  
+			if(isConfirm){
+				
+				$.ajax({
+
+				   	contentType : "application/json",
+				   	dataType : "json",
+				  	data : "classifierId=" + datasetID,
+				  	url : 'DeleteClassifier',
+				   	async : false,
+				   	success : function(result) {
+				   		
+   						swal('Deleted!','Dataset ' + shortName + ' (ID: '+datasetID+') has been deleted.','success').then(function(){window.location.href = 'home.html';})
+	   				
+				   	}
+			
+				});
+			}
+				
+							
+		});
+	
+}
+
 var classIDFin;
 
 function setClassID(classID){
