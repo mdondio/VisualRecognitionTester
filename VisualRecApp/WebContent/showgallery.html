@@ -25,256 +25,370 @@ createCarbonHeader();
 
 <div id="carbon-header"></div><br><br><br>
 
-    <div class="content">
-    
+
+	<div class="content">
 
 	<div class="row clearfix">
 
-		<div class="column fourth"><h1>Show gallery</h1><br>
+		<div class="column half"><h1>Dataset details</h1><br>
 		</div>
 
 	</div>
 	
 	<br>
 
-		<div class="row clearfix">
-
-			<div class="column fourth">	
+			<div class="column fourth">
+				<div class="bx--form-item">
+				  <input id="shortnameedit" type="text" class="bx--text-input">
+				</div>
+			</div>
+			<div class="column fourth">
+				<div class="bx--form-item">
+				  <input id="labeledit" type="text" class="bx--text-input">
+				</div>			
+			</div>
+			
+			<div class="column fourth">
+				<fieldset class="bx--fieldset">
+				  <div class="bx--form-item">
+				    <div class="bx--radio-button-group">
+					      <input id="rbTraining" class="bx--radio-button" type="radio" value="train" name="radio-button" tabindex="0">
+					      <label for="rbTraining" class="bx--radio-button__label">
+					        <span class="bx--radio-button__appearance"></span>
+					        Training
+					      </label>
+					      <input id="rbTest" class="bx--radio-button" type="radio" value="test" name="radio-button" tabindex="0">
+					      <label for="rbTest" class="bx--radio-button__label">
+					        <span class="bx--radio-button__appearance"></span>
+					        Test
+					      </label>
+					    </div>
+				  </div>
+				</fieldset>		
+			</div>
+			
+			<div class="column fourth">
 				<button id="backicon" class="bx--btn bx--btn--secondary" type="button">
 					Back
 				  <svg class="bx--btn__icon">
 				    <use xlink:href="./ico/bluemix-icons.svg#icon--arrow--left"></use>
 				  </svg>
-				</button>			
-				
-				<button id="submit" class="bx--btn bx--btn--primary" type="button">Delete</button>
+				</button>
+				<button id="saveButton" class="bx--btn bx--btn--secondary" type="button" disabled>Save</button>	
+				<button class="bx--btn bx--btn--primary" type="submit" id="deleteButton">Delete</button>
 			</div>
-			
 	
-	        <div class="column third">
-	            <h2 id="testsetTitle"></h2>
-	        </div>
+		<br> <br> <br> <br> <br> <br>
+		
+<!-- 	<div class="row clearfix"> -->
 
+<!-- 		<div class="column half"> -->
+<!-- 			<strong class="bx--label">Description</strong> -->
+<!-- 			<p class="bx--label-description">This is the description of the classifier</p> -->
+<!-- 			<hr class="lineseparator"> -->
+<!-- 			<div class="bx--form-item"> -->
+<!-- 			  <textarea id="descriptionedit" class="bx--text-area" rows="8" width="100%"></textarea> -->
+<!-- 			</div> -->
+
+
+<!-- 		</div> -->
+
+<!-- 		<div class="column half"> -->
+<!-- 			<strong class="bx--label">Comments</strong> -->
+<!-- 			<p class="bx--label-description">Put here comments on the behaviour of the classifier</p> -->
+<!-- 			<hr class="lineseparator"> -->
+<!-- 			<div class="bx--form-item"> -->
+<!-- 			  <textarea id="commentsedit" class="bx--text-area" rows="8" width="100%"></textarea> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+		
+<!-- 	</div> -->
+		
+<!-- 		<br> <br> <br> -->
+		
+	<div class="row clearfix">
+
+		<div class="column half">
+			<strong class="bx--label">Positive images</strong>
+			<p class="bx--label-description">List of images containing an object of the selected category</p>
+			<hr class="lineseparator">
+			<div id="positivetestSetGallery"></div>
 		</div>
 
-        <br>
-        <br>
-        <br>
-
-
-        <div class="column half">
-			<strong class="bx--label">Positive images</strong>
-			<p class="bx--label-description">images containing an object of the selected category</p>
-            <hr class="lineseparator">
-            <div id="positivetestSetGallery"></div>
-        </div>
-
-        <div class="column half">
+		<div class="column half">
 			<strong class="bx--label">Negative images</strong>
-			<p class="bx--label-description">images not containing an object of the selected category, but a similar one</p>
-            <hr class="lineseparator">
-            <div id="negativetestSetGallery"></div>
-        </div>
-	
-    </div>
+			<p class="bx--label-description">List of images not containing an object of the selected category</p>
+			<hr class="lineseparator">
+			<div id="negativetestSetGallery"></div>
+		</div>
+		
+	</div>
 
-	
-	
+
+	</div>
+
 </body>
 
 
+
 <script>
+	
+	// Lazy loading management
+	$(document).ajaxStop(function () {
+      testingLoading();
+  	});
+  	
+  	// Save button management
+  	var flag = 0;
+  	
+  	if( flag == 0 ){
+  		 	
+	 	if( $('#saveButton').attr("disabled") ){
+	 		$('#saveButton').addClass("disabled");
+	 	}else
+	 		$('#saveButton').removeClass("disabled");
+  		flag = 1;
+  	}
 
 
-    var idgallery; //needs to be globally accessible (atm)
-    $("#submit").click(function(e) {
-        executionFormInputFromUser(e);
+	$("#descriptionedit").on("change keyup paste", function(){
+    
+    	$('#saveButton').attr("disabled", false);
+    	$('#saveButton').removeClass("disabled");
+	
+	});
+	
+	$("#commentsedit").on("change keyup paste", function(){
+    
+    	$('#saveButton').attr("disabled", false);
+		$('#saveButton').removeClass("disabled");
+	
+	});
+	
+	$("#labeledit").on("change keyup paste", function(){
+    
+    	$('#saveButton').attr("disabled", false);
+    	$('#saveButton').removeClass("disabled");
+	
+	});
+	
+	$("#shortnameedit").on("change keyup paste", function(){
+    
+    	$('#saveButton').attr("disabled", false);
+    	$('#saveButton').removeClass("disabled");
+	
+	});
+		
+	$('#deleteButton').click(function(){
+	
+		// Actual delete of classifier
+		deleteClassifierFromDetailPage(classID, shortName);
+	
+	});
+  	
+  	$('#saveButton').click(function(){
+  	
+  		var shortName = ( $("#shortnameedit").val() );
+//   		var descr = ( $("#descriptionedit").val() );
+//   		var comm = ( $("#commentsedit").val() );
+  		var label = ( $("#labeledit").val() );
+  	
+  		// Actual update of classifier
+  		updateClassifierDetail(classID, shortName, label, descr, comm);
+  		
+  		$('#saveButton').attr("disabled", true);
+    	$('#saveButton').addClass("disabled");
+	
+	});
+	
+	$('#backicon').click(function() {
+    	window.history.back();
     });
+  	  	
+  	
+  	// Retrieve from local storage
+	var idgallery = localStorage.getItem("idgallery");
+	
+	shortName = returnDatasetDetail(idgallery, "_id");
+	label = returnDatasetDetail(idgallery, "label");
+// 	descr = returnClassifierDetail(classID, "description");
+// 	comm = returnClassifierDetail(classID, "comments");
+	var set = returnDatasetDetail(idgallery, "images");
+	
+	// Populate page with dataset attributes
+	$("#shortnameedit").val(shortName);
+	$("#labeledit").val(label);
+// 	$("#descriptionedit").text(descr);
+// 	$("#commentsedit").text(comm);
 
-    function executionFormInputFromUser(e) {
-        swal({
-            title: 'Are you sure?',
-            text: 'Are you sure you want to delete dataset\n\n [' + idgallery + '] ?\n\n',
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Delete!',
-            cancelButtonText: 'No!'
-        }).then(function(isConfirm) {
+// 	buildSelectDataSet("all",'#trainingdataset');				
+				
+//     $("#submit").click(function(e) {
+//         executionFormInputFromUser(e);
+//     });
 
-            if (isConfirm)
-                handlerPostCall(e);
-            else {
+//     function executionFormInputFromUser(e) {
+//         swal({
+//             title: 'Are you sure?',
+//             text: 'Are you sure you want to delete dataset\n\n [' + idgallery + '] ?\n\n',
+//             type: 'warning',
+//             showCancelButton: true,
+//             confirmButtonColor: '#3085d6',
+//             cancelButtonColor: '#d33',
+//             confirmButtonText: 'Delete!',
+//             cancelButtonText: 'No!'
+//         }).then(function(isConfirm) {
 
-                swal({
-                    title: 'Operation Aborted',
-                    text: 'This dataset is safe :)',
-                    type: 'error'
-                })
+//             if (isConfirm)
+//                 handlerPostCall(e);
+//             else {
 
-            }
+//                 swal({
+//                     title: 'Operation Aborted',
+//                     text: 'This dataset is safe :)',
+//                     type: 'error'
+//                 })
 
-        })
-    }
+//             }
 
-    function handlerPostCall(e) {
+//         })
+//     }
 
-        e.preventDefault();
-        var data = new FormData();
+//     function handlerPostCall(e) {
 
-        data.append('type', 'delete');
-        data.append('datasetId', idgallery);
+//         e.preventDefault();
+//         var data = new FormData();
 
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'SubmitDatasetJob', true);
+//         data.append('type', 'delete');
+//         data.append('datasetId', idgallery);
 
-        //Operation communication progress
-        xhr.onload = function(e) {
+//         var xhr = new XMLHttpRequest();
+//         xhr.open('POST', 'SubmitDatasetJob', true);
 
-                //Everything seems to be OK
-                if (this.status == 200) {
+//         //Operation communication progress
+//         xhr.onload = function(e) {
 
-                    swal({
-                        title: 'Succes!',
-                        text: 'Dataset [' + idgallery + '] has been correclty deleted!',
-                        type: "success",
-                        confirmButtonColor: '#5cb85c',
-                        confirmButtonText: 'Yeah!'
-                    }).then(function(isConfirm) {
+//                 //Everything seems to be OK
+//                 if (this.status == 200) {
 
-                        if (isConfirm)
-                            window.location.href = 'home.html';
+//                     swal({
+//                         title: 'Succes!',
+//                         text: 'Dataset [' + idgallery + '] has been correclty deleted!',
+//                         type: "success",
+//                         confirmButtonColor: '#5cb85c',
+//                         confirmButtonText: 'Yeah!'
+//                     }).then(function(isConfirm) {
 
-                    })
+//                         if (isConfirm)
+//                             window.location.href = 'home.html';
 
-                } else {
+//                     })
 
-                    var err_type = this.status;
-                    var alert_title, alert_text, alert_img = null;
+//                 } else {
 
-                    switch (err_type) {
+//                     var err_type = this.status;
+//                     var alert_title, alert_text, alert_img = null;
 
-                        //BAD (cit. the Donald) request
-                        case 400:
-                            alert_title = "BAD REQUEST";
-                            alert_text = "Our server could not understand the request...\nSorry about that.\n\n";
-                            break;
-                        case 401:
-                            alert_title = "UNAUTHORIZED";
-                            alert_text = "Authentication is needed to get requested response.\n\n";
-                            break;
-                        case 404:
-                            alert_title = "NOT FOUND";
-                            alert_text = "Our Server wasn't able to retrieve the requested resource. \n\nI know right?!\n";
-                            break;
-                        case 408:
-                            alert_title = "REQUEST TIMEOUT";
-                            alert_text = "Our server did not receive a complete request message within the time that it was prepared to wait.\nHe's impatient...\n\n";
-                            break;
-                            //This is serious
-                        case 500:
-                            alert_title = "INTERNAL ERROR";
-                            alert_text = "This is on our side...sorry about that!\n\n";
-                            alert_img = 'images/internal_error.jpg';
-                            break;
-                        case 503:
-                            alert_title = "SERVICE'S OVERLOADED";
-                            alert_text = "Our server is really busy at the moment, try again in a few minutes...\n\n";
-                            break;
-                        default:
-                            alert_title = "GENERIC ERROR";
-                            alert_text = "An error occured...try again please!\n";
+//                     switch (err_type) {
 
-                    }
+//                         //BAD (cit. the Donald) request
+//                         case 400:
+//                             alert_title = "BAD REQUEST";
+//                             alert_text = "Our server could not understand the request...\nSorry about that.\n\n";
+//                             break;
+//                         case 401:
+//                             alert_title = "UNAUTHORIZED";
+//                             alert_text = "Authentication is needed to get requested response.\n\n";
+//                             break;
+//                         case 404:
+//                             alert_title = "NOT FOUND";
+//                             alert_text = "Our Server wasn't able to retrieve the requested resource. \n\nI know right?!\n";
+//                             break;
+//                         case 408:
+//                             alert_title = "REQUEST TIMEOUT";
+//                             alert_text = "Our server did not receive a complete request message within the time that it was prepared to wait.\nHe's impatient...\n\n";
+//                             break;
+//                             //This is serious
+//                         case 500:
+//                             alert_title = "INTERNAL ERROR";
+//                             alert_text = "This is on our side...sorry about that!\n\n";
+//                             alert_img = 'images/internal_error.jpg';
+//                             break;
+//                         case 503:
+//                             alert_title = "SERVICE'S OVERLOADED";
+//                             alert_text = "Our server is really busy at the moment, try again in a few minutes...\n\n";
+//                             break;
+//                         default:
+//                             alert_title = "GENERIC ERROR";
+//                             alert_text = "An error occured...try again please!\n";
 
-                    swal({
-                        title: '*** ' + alert_title + ' ***',
-                        text: alert_text,
-                        type: 'error',
-                        imageUrl: alert_img,
-                        imageWidth: 800,
-                        imageHeight: 200,
-                        confirmButtonColor: '#f0ad4e',
-                        confirmButtonText: 'Ok :('
-                    }).then(function(isConfirm) {
+//                     }
 
-                        if (isConfirm)
-                            location.reload();
+//                     swal({
+//                         title: '*** ' + alert_title + ' ***',
+//                         text: alert_text,
+//                         type: 'error',
+//                         imageUrl: alert_img,
+//                         imageWidth: 800,
+//                         imageHeight: 200,
+//                         confirmButtonColor: '#f0ad4e',
+//                         confirmButtonText: 'Ok :('
+//                     }).then(function(isConfirm) {
 
-                    })
+//                         if (isConfirm)
+//                             location.reload();
 
-                }
+//                     })
 
-            } //Operation communication progress END
+//                 }
 
-        xhr.send(data);
+//             } //Operation communication progress END
 
-    }
+//         xhr.send(data);
+
+//     }
 
     //**************************************************************************
     //********* GET FROM THE SERVER TESTSET ***************************
     //**************************************************************************
 
-    var j = 0;
-    var k = 0;
-    var flag = false;
-    
-    var negative_images = [];
-    var positive_images = [];
+			$.ajax({
+					contentType : "application/json",
+					dataType : "json",
+					url : 'GetDataset',
+					data : "_id=",
+					async : true,
+					success : function(result) {
+					
+						$("#negativetestSetGallery").empty();
+						$("#positivetestSetGallery").empty();
 
-	idgallery = localStorage.getItem("idgallery");
-	
-	   $.ajax({
-	        contentType: "application/json",
-	        dataType: "json",
-	        url: 'GetDataset',
-	        data: "_id=",
-	        async: true,
-	        success: function(result) {
-	
-	            for (var i in result) {
-	                if (result[i]._id == idgallery) {
-	
-	                    $("#testsetTitle").append(document.createTextNode(idgallery)); /*sostituire idgallery con testname se si vuole parsare il titolo*/
-	
-	                    //var negative_images = [];
-	                    negative_images = [];
-	                    for (j = 0; j < result[i].images.negative.length; j++)	                        
-	                        negative_images.push("GetImage?image_id=" + result[i].images.negative[j]);
+						for ( var i in result ){
 
-	
-	                    //var positive_images = [];
-	                    positive_images = [];
-	                    for (k = 0; k < result[i].images.positive.length; k++)
-	                        positive_images.push("GetImage?image_id=" + result[i].images.positive[k]);
-	
-	                    createGallery('negativetestSetGallery', negative_images, result[i]._id + "NEG");
-	                    createGallery('positivetestSetGallery', positive_images, result[i]._id + "POS");
-	
-	                }
-	                
-	            }
-				
-	        }
-	
-	    });
-	 
-	$(document).ajaxStop(function () {
-      testingLoading();
-  	});
+							if (result[i]._id == idgallery) {
+							
+								console.log(result[i]._id);
+								
+								var positive_images = [];
+								for( var k = 0; k < result[i].images.positive.length; k++ )								
+									positive_images.push("GetImage?image_id="+result[i].images.positive[k]);
+									
+								var negative_images = [];
+								for( var j = 0; j < result[i].images.negative.length; j++ )
+									negative_images.push("GetImage?image_id="+result[i].images.negative[j]);
+								
+								createGallery('negativetestSetGallery', negative_images, result[i]._id + "NEG");
+								createGallery('positivetestSetGallery', positive_images, result[i]._id + "POS");
 
-//     $('#backicon').mouseover(function() {
-//         $(this).attr('src', 'ico/back.png');
-//     });
+							}
 
-//     $('#backicon').mouseleave(function() {
-//         $(this).attr('src', "ico/backDARK.png");
-//     });
 
-    $('#backicon').click(function() {
-        window.history.back();
-    });
+						}
+
+					}
+				});
+	   	
+			
 </script>
 
 </html>

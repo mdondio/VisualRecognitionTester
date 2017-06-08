@@ -51,6 +51,12 @@ createCarbonHeader();
 				<button id="saveButton" class="bx--btn bx--btn--secondary" type="button" disabled>Save</button>			
 			</div>
 			<div class="column fourth">
+				<button id="backicon" class="bx--btn bx--btn--secondary" type="button">
+					Back
+				  <svg class="bx--btn__icon">
+				    <use xlink:href="./ico/bluemix-icons.svg#icon--arrow--left"></use>
+				  </svg>
+				</button>
 				<button class="bx--btn bx--btn--primary" type="sumbit" disabled>Retrain</button>
 				<button class="bx--btn bx--btn--primary" type="submit" id="deleteButton">Delete</button>
 			</div>
@@ -112,23 +118,21 @@ createCarbonHeader();
 
 <script>
 	
+	// Lazy loading management
 	$(document).ajaxStop(function () {
       testingLoading();
   	});
   	
+  	// Save button management
   	var flag = 0;
   	
   	if( flag == 0 ){
   		 	
 	 	if( $('#saveButton').attr("disabled") ){
-	 	
 	 		$('#saveButton').addClass("disabled");
-	 	
 	 	}else
 	 		$('#saveButton').removeClass("disabled");
-  	
   		flag = 1;
-  		
   	}
 
 
@@ -159,14 +163,10 @@ createCarbonHeader();
     	$('#saveButton').removeClass("disabled");
 	
 	});
-	
-// 	var shortName = ( $("#shortnameedit").val() );
-//   	var descr = ( $("#descriptionedit").val() );
-//   	var comm = ( $("#commentsedit").val() );
-//   	var label = ( $("#labeledit").val() );
-	
+		
 	$('#deleteButton').click(function(){
 	
+		// Actual delete of classifier
 		deleteClassifierFromDetailPage(classID, shortName);
 	
 	});
@@ -178,66 +178,70 @@ createCarbonHeader();
   		var comm = ( $("#commentsedit").val() );
   		var label = ( $("#labeledit").val() );
   	
+  		// Actual update of classifier
   		updateClassifierDetail(classID, shortName, label, descr, comm);
   		
   		$('#saveButton').attr("disabled", true);
     	$('#saveButton').addClass("disabled");
 	
 	});
-  	
+	
+	$('#backicon').click(function() {
+    	window.history.back();
+    });
+	
+	// Retrieve from local storage  	
 	var classID = localStorage.getItem("classID");
 	
+	// Retrieve classifier attributes
 	shortName = returnClassifierDetail(classID, "shortname");
 	label = returnClassifierDetail(classID, "label");
 	descr = returnClassifierDetail(classID, "description");
 	comm = returnClassifierDetail(classID, "comments");
 	var set = returnClassifierDetail(classID, "training_set");
 	
-
+	// Populate page with classifier attributes
 	$("#shortnameedit").val(shortName);
 	$("#labeledit").val(label);
 	$("#descriptionedit").text(descr);
 	$("#commentsedit").text(comm);
 
-buildSelectDataSet("all",'#trainingdataset');
+	// Retrieve images and create gallery				
+	$.ajax({
+		contentType : "application/json",
+		dataType : "json",
+		url : 'GetDataset',
+		data : "_id=",
+		async : true,
+		success : function(result) {
+		
+			$("#negativeTrainingGallery").empty();
+			$("#positiveTrainingGallery").empty();
 
+			for ( var i in result ){
+
+				if (result[i]._id == set) {
 				
-				$.ajax({
-					contentType : "application/json",
-					dataType : "json",
-					url : 'GetDataset',
-					data : "_id=",
-					async : true,
-					success : function(result) {
+					console.log(result[i]._id);
 					
-						$("#negativeTrainingGallery").empty();
-						$("#positiveTrainingGallery").empty();
+					var positive_images = [];
+					for( var k = 0; k < result[i].images.positive.length; k++ )								
+						positive_images.push("GetImage?image_id="+result[i].images.positive[k]);
+						
+					var negative_images = [];
+					for( var j = 0; j < result[i].images.negative.length; j++ )
+						negative_images.push("GetImage?image_id="+result[i].images.negative[j]);
+					
+					createGallery('negativeTrainingGallery', negative_images, result[i]._id + "NEG");
+					createGallery('positiveTrainingGallery', positive_images, result[i]._id + "POS");
 
-						for ( var i in result ){
+				}
 
-							if (result[i]._id == set) {
-							
-								console.log(result[i]._id);
-								
-								var positive_images = [];
-								for( var k = 0; k < result[i].images.positive.length; k++ )								
-									positive_images.push("GetImage?image_id="+result[i].images.positive[k]);
-									
-								var negative_images = [];
-								for( var j = 0; j < result[i].images.negative.length; j++ )
-									negative_images.push("GetImage?image_id="+result[i].images.negative[j]);
-								
-								createGallery('negativeTrainingGallery', negative_images, result[i]._id + "NEG");
-								createGallery('positiveTrainingGallery', positive_images, result[i]._id + "POS");
+			}
 
-							}
-
-
-						}
-
-					}
-				});
-
+		}
+	});
+				
 			
 </script>
 

@@ -995,6 +995,32 @@ function returnClassifierDetail(ID, param){
 }
 
 
+/**
+ * @param detail (_id,shortname,description, ...)
+ * @param ID
+ * @returns the selected detail of the classifier
+ */
+function returnDatasetDetail(ID, param){
+	
+	var tiramifuori;
+	
+	$.ajax({												
+		contentType: "application/json",
+		dataType: "json",
+		url: 'GetDataset',
+		data: "_id="+ID,
+		async: false,
+		success: function(result)
+		{
+			tiramifuori = result[0][param];			
+		}
+	});
+	
+	return tiramifuori;
+	
+}
+
+
 
 /**
  * @param 
