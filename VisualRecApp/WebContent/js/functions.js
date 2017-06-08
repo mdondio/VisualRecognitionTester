@@ -1307,6 +1307,34 @@ function testingLoading(){
 }
 
 /*
+ * POPULATION OF APIs KEYS TABLE IN PROFILE PAGE
+ */
+function populateAPITable(){
+
+	var table = document.getElementById('APITable');
+	
+	var tr = document.createElement("tr");
+	
+	tr.setAttribute("tabindex","0");
+	tr.setAttribute("class","bx--table-row bx--parent-row");
+	tr.setAttribute("data-parent-row", "");
+	
+	var td = document.createElement("td");
+	var td2 = document.createElement("td");
+	var text = document.createTextNode("API Key");
+	var text2 = document.createTextNode("ServiceName");
+	
+	td.appendChild(text);
+	td2.appendChild(text2);
+	
+	tr.appendChild(td);
+	tr.appendChild(td2);
+	
+	table.append(tr);
+	
+}
+
+/*
  * ==============================================================================
  * ========================= AJAX CALLS =================================
  * ==============================================================================

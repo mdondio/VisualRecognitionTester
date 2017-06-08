@@ -30,16 +30,11 @@ createCarbonHeader();
 
 		<div class="row clearfix">
 
-			<div class="column three-fourths">
+			<div class="column half">
 			
 				<div id="user" class="post-preview"><h1>###username###</h1>
 				
 				<br><br><br>
-					  
-<!-- 					 <div id="test" class="bx--form-item"> -->
-<!-- 					  <label for="apiKeysTitle" class="bx--label">Insert API key</label> -->
-<!-- 					  <input id="apiKeys" type="text" class="bx--text-input" placeholder="...API keys..."> -->
-<!-- 					</div> -->
 
 						<div id="test" class="bx--form-item">
 							 <label for="apiKeysTitle" class="bx--label">Insert API key</label>
@@ -51,14 +46,55 @@ createCarbonHeader();
 					<button id="insertAPI" class="bx--btn bx--btn--primary" type="button" disabled>Add APIs</button>
 				
 				</div>
+				
+				</div>
+				
+				<!-- APIs TABLE -->
+				<div class="column half">
+			
+					<strong class="bx--label">Your current APIs</strong>
+					<p class="bx--label-description">These are your APIs which are already linked to your account</p>
+	
+					<div class="bx--responsive-table-container" data-responsive-table>
+					  <table class="bx--responsive-table bx--responsive-table--static-size" data-table>
+					    <thead class="bx--table-head">
+					      <tr class="bx--table-row">
+					        <th tabindex="0" class="bx--table-header bx--table-sort" data-event="sort">
+					          <span>API Key</span>
+					          <svg class="bx--table-sort__svg" width="10" height="5" viewBox="0 0 10 5" fill-rule="evenodd">
+					            <path d="M10 0L5 5 0 0z"></path>
+					          </svg>
+					        </th>
+					        <th tabindex="0" class="bx--table-header bx--table-sort" data-event="sort">
+					          <span>Service</span>
+					          <svg class="bx--table-sort__svg" width="10" height="5" viewBox="0 0 10 5" fill-rule="evenodd">
+					            <path d="M10 0L5 5 0 0z"></path>
+					          </svg>
+					        </th>
+					      </tr>
+					    </thead>
+					    <tbody id="APITable" class="bx--table-body">
+					    
+<!-- 					      <tr tabindex="0" class="bx--table-row bx--parent-row" data-parent-row> -->
+<!-- 					        <td>Harry</td> -->
+<!-- 					        <td>Potter</td> -->
+<!-- 					      </tr> -->
+					      
+					    </tbody>
+					  </table>
+					</div>
+
+				</div><!-- CLOSING APIs TABLE -->
 		
-	</div>
+		</div>
 				
 								
 
 </body>
 
  <script>
+ 
+ 	populateAPITable();
  
  	var flag = 0;
  	
