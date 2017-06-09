@@ -98,32 +98,6 @@ createCarbonHeader();
 	
 			<br><br><br><br><br><br>
 		
-<!-- 	<div class="row clearfix"> -->
-
-<!-- 		<div class="column half"> -->
-<!-- 			<strong class="bx--label">Description</strong> -->
-<!-- 			<p class="bx--label-description">This is the description of the classifier</p> -->
-<!-- 			<hr class="lineseparator"> -->
-<!-- 			<div class="bx--form-item"> -->
-<!-- 			  <textarea id="descriptionedit" class="bx--text-area" rows="8" width="100%"></textarea> -->
-<!-- 			</div> -->
-
-
-<!-- 		</div> -->
-
-<!-- 		<div class="column half"> -->
-<!-- 			<strong class="bx--label">Comments</strong> -->
-<!-- 			<p class="bx--label-description">Put here comments on the behaviour of the classifier</p> -->
-<!-- 			<hr class="lineseparator"> -->
-<!-- 			<div class="bx--form-item"> -->
-<!-- 			  <textarea id="commentsedit" class="bx--text-area" rows="8" width="100%"></textarea> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-		
-<!-- 	</div> -->
-		
-<!-- 		<br> <br> <br> -->
-		
 	<div class="row clearfix">
 
 		<div class="column half">
@@ -159,10 +133,17 @@ createCarbonHeader();
 
 </body>
 
+<style>
 
+  img.getClick {
+    border-color: yellow;
+  }
+
+</style>
 
 <script>
 
+	var arraysOfIds;
 	
 	// Lazy loading management
 	$(document).ajaxStop(function () {
@@ -391,8 +372,18 @@ createCarbonHeader();
 	        $(this).parent().remove();
 	
 	    }		
-	   	
-			
+	    
+// 	   $(document).mousedown(function(e){ 
+	   
+// 	        if( e.button == 2 ) { 
+	        
+// 	            $("#positivetestSetGallery img").removeClass("hover-shadow").addClass("getClick");
+// 	            return false; 
+	            
+// 	        } 
+// 	        return true; 
+    	
+//     	});
 </script>
 
 </html>

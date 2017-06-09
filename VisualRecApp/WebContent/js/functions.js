@@ -1134,7 +1134,7 @@ function showGallery(result,inputgallery) {
 			var totalslide = result.length;
 			
 			var simulate_lazy = false;
-
+			
 			//Aggiungo le immagini nella modalità preview (elemento div con id gallery)
 			for ( var i in result) {
 				
@@ -1154,6 +1154,7 @@ function showGallery(result,inputgallery) {
 					newImg(inputgallery, slidenumber);
 					event.preventDefault();					
 				});
+				x.setAttribute("id", result[i].substring(result[i].indexOf("=") + 1) );
 				x.setAttribute("class", "test hover-shadow cursor"); //was test hover-shadow cursor
 				x.setAttribute("onclick", 'currentSlide('+slidenumber+')');
 				document.getElementById("gallery" + GALLERY).appendChild(x);
