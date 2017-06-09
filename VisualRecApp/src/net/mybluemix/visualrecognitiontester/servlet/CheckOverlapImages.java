@@ -53,12 +53,17 @@ public class CheckOverlapImages extends HttpServlet {
 		String datasetId = request.getParameter("dataset");
 		String classifierId = request.getParameter("classifier");
 		
-		// Condizione
-		String selector;
 		if(classifierId.isEmpty()) {
 			System.out.println("[CheckOverlapImages] classifier ID doesn't exist");
 			JsonObject o = new JsonObject();
 			o.addProperty("error", "classifier ID doesn't exist");
+			response.getWriter().println(o);
+			return;
+        }
+		if(datasetId.isEmpty()) {
+			System.out.println("[CheckOverlapImages] dataset ID doesn't exist");
+			JsonObject o = new JsonObject();
+			o.addProperty("error", "dataset ID doesn't exist");
 			response.getWriter().println(o);
 			return;
         }
