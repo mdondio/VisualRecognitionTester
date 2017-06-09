@@ -119,7 +119,6 @@ createCarbonHeader();
 	$('body').on("click", "[id*=showdatasetID]", function() {
 
 		window.location.href = 'showgallery.html';
-// 		console.log($(this).attr("id"));
 		var ID = $(this).attr("id").substring(13);
 		localStorage.setItem("idgallery", ID);
 

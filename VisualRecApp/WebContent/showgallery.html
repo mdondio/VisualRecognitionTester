@@ -48,37 +48,55 @@ createCarbonHeader();
 				</div>			
 			</div>
 			
-			<div class="column fourth">
-				<fieldset class="bx--fieldset">
-				  <div class="bx--form-item">
-				    <div class="bx--radio-button-group">
-					      <input id="rbTraining" class="bx--radio-button" type="radio" value="train" name="radio-button" tabindex="0">
-					      <label for="rbTraining" class="bx--radio-button__label">
-					        <span class="bx--radio-button__appearance"></span>
-					        Training
-					      </label>
-					      <input id="rbTest" class="bx--radio-button" type="radio" value="test" name="radio-button" tabindex="0">
-					      <label for="rbTest" class="bx--radio-button__label">
-					        <span class="bx--radio-button__appearance"></span>
-					        Test
-					      </label>
-					    </div>
-				  </div>
-				</fieldset>		
+
+			<div class="column half">
+			
+				<div class="row clearfix">
+				
+					<div class="column third">
+						<fieldset class="bx--fieldset">
+						  <div class="bx--form-item">
+						    <div class="bx--radio-button-group">
+							      <input id="rbTraining" class="bx--radio-button" type="radio" value="train" name="radio-button" tabindex="0">
+							      <label for="rbTraining" class="bx--radio-button__label">
+							        <span class="bx--radio-button__appearance"></span>
+							        Training
+							      </label>
+							      <input id="rbTest" class="bx--radio-button" type="radio" value="test" name="radio-button" tabindex="0">
+							      <label for="rbTest" class="bx--radio-button__label">
+							        <span class="bx--radio-button__appearance"></span>
+							        Test
+							      </label>
+							    </div>
+						  </div>
+						</fieldset>		
+					</div>	
+			
+					<div class="column two-thirds">
+						<button id="backicon" class="bx--btn bx--btn--secondary" type="button">
+							Back
+						  <svg class="bx--btn__icon">
+						    <use xlink:href="./ico/bluemix-icons.svg#icon--arrow--left"></use>
+						  </svg>
+						</button>
+						<button id="saveButton" class="bx--btn bx--btn--secondary" type="button" disabled>Save</button>
+						<button class="bx--btn bx--btn--primary" type="button" id="editimagesButton">
+							Edit images
+						  <svg class="bx--btn__icon">
+						    <use xlink:href="./ico/bluemix-icons.svg#icon--grid"></use>
+						  </svg>
+						</button>	
+						<button class="bx--btn bx--btn--primary" type="submit" id="deleteButton">Delete</button><br><br>
+<!-- 						<button class="bx--btn bx--btn--secondary" type="submit" id="removeButton">Remove selected img</button> -->
+					</div>
+					
+								
+				</div>
+			
 			</div>
 			
-			<div class="column fourth">
-				<button id="backicon" class="bx--btn bx--btn--secondary" type="button">
-					Back
-				  <svg class="bx--btn__icon">
-				    <use xlink:href="./ico/bluemix-icons.svg#icon--arrow--left"></use>
-				  </svg>
-				</button>
-				<button id="saveButton" class="bx--btn bx--btn--secondary" type="button" disabled>Save</button>	
-				<button class="bx--btn bx--btn--primary" type="submit" id="deleteButton">Delete</button>
-			</div>
 	
-		<br> <br> <br> <br> <br> <br>
+			<br><br><br><br><br><br>
 		
 <!-- 	<div class="row clearfix"> -->
 
@@ -111,6 +129,12 @@ createCarbonHeader();
 		<div class="column half">
 			<strong class="bx--label">Positive images</strong>
 			<p class="bx--label-description">List of images containing an object of the selected category</p>
+			<div id="uploaderpos" style="display:none;">
+			<p class="bx--label-description">only .jpg and .png files. 500kb max file size.</p>
+				<input type='file' id="posFiles" name="positives[]" multiple />
+				<br><br>
+				<div id="chosenFilesPos"></div>
+			</div>
 			<hr class="lineseparator">
 			<div id="positivetestSetGallery"></div>
 		</div>
@@ -118,6 +142,12 @@ createCarbonHeader();
 		<div class="column half">
 			<strong class="bx--label">Negative images</strong>
 			<p class="bx--label-description">List of images not containing an object of the selected category</p>
+			<div id="uploaderneg" style="display:none;">
+			<p class="bx--label-description">only .jpg and .png files. 500kb max file size.</p>
+				<input type='file' id="negFiles" name="negatives[]" multiple />
+				<br><br>
+				<div id="chosenFilesNeg"></div>
+			</div>
 			<hr class="lineseparator">
 			<div id="negativetestSetGallery"></div>
 		</div>
@@ -132,6 +162,7 @@ createCarbonHeader();
 
 
 <script>
+
 	
 	// Lazy loading management
 	$(document).ajaxStop(function () {
@@ -178,6 +209,20 @@ createCarbonHeader();
     	$('#saveButton').removeClass("disabled");
 	
 	});
+	
+	$("#uploaderpos").on("change keyup paste", function(){
+    
+    	$('#saveButton').attr("disabled", false);
+    	$('#saveButton').removeClass("disabled");
+	
+	});
+	
+	$("#uploaderneg").on("change keyup paste", function(){
+    
+    	$('#saveButton').attr("disabled", false);
+    	$('#saveButton').removeClass("disabled");
+	
+	});
 		
 	$('#deleteButton').click(function(){
 	
@@ -202,7 +247,11 @@ createCarbonHeader();
 	$('#backicon').click(function() {
     	window.history.back();
     });
-  	  	
+  	  	  
+  	$('#editimagesButton').click(function() {
+    	$('#uploaderpos').toggle();
+    	$('#uploaderneg').toggle();
+    });	
   	
   	// Retrieve from local storage
 	var idgallery = localStorage.getItem("idgallery");
@@ -223,41 +272,125 @@ createCarbonHeader();
     //********* GET FROM THE SERVER TESTSET ***************************
     //**************************************************************************
 
-			$.ajax({
-					contentType : "application/json",
-					dataType : "json",
-					url : 'GetDataset',
-					data : "_id=",
-					async : true,
-					success : function(result) {
+	$.ajax({
+			contentType : "application/json",
+			dataType : "json",
+			url : 'GetDataset',
+			data : "_id=",
+			async : true,
+			success : function(result) {
+			
+				$("#negativetestSetGallery").empty();
+				$("#positivetestSetGallery").empty();
+
+				for ( var i in result ){
+
+					if (result[i]._id == idgallery) {
 					
-						$("#negativetestSetGallery").empty();
-						$("#positivetestSetGallery").empty();
-
-						for ( var i in result ){
-
-							if (result[i]._id == idgallery) {
+						console.log(result[i]._id);
+						
+						var positive_images = [];
+						for( var k = 0; k < result[i].images.positive.length; k++ )								
+							positive_images.push("GetImage?image_id="+result[i].images.positive[k]);
 							
-								console.log(result[i]._id);
-								
-								var positive_images = [];
-								for( var k = 0; k < result[i].images.positive.length; k++ )								
-									positive_images.push("GetImage?image_id="+result[i].images.positive[k]);
-									
-								var negative_images = [];
-								for( var j = 0; j < result[i].images.negative.length; j++ )
-									negative_images.push("GetImage?image_id="+result[i].images.negative[j]);
-								
-								createGallery('negativetestSetGallery', negative_images, result[i]._id + "NEG");
-								createGallery('positivetestSetGallery', positive_images, result[i]._id + "POS");
-
-							}
-
-
-						}
+						var negative_images = [];
+						for( var j = 0; j < result[i].images.negative.length; j++ )
+							negative_images.push("GetImage?image_id="+result[i].images.negative[j]);
+						
+						createGallery('negativetestSetGallery', negative_images, result[i]._id + "NEG");
+						createGallery('positivetestSetGallery', positive_images, result[i]._id + "POS");
 
 					}
-				});
+
+
+				}
+
+			}
+		});
+
+
+    //**************************************************************************
+    //********* MANAGE UPLOAD AREA ***************************
+    //**************************************************************************			
+				
+		var rbTr = document.getElementById("rbTraining");
+		var rbTe = document.getElementById("rbTest");
+	
+		var selDiv = "";
+	    var storedFiles = [];
+	
+		var datasetID, datasetLabel;
+		var flag = false;
+		
+		$(document).ready(function(){
+
+	        $("#posFiles").on("change", handlerSelectedFiles);
+	
+	        $("#negFiles").on("change", handlerSelectedFiles);
+	
+	        $("#submit").click( function(e){
+	        
+	        		if ( !rbTr.checked && !rbTe.checked )
+	        			decideDatasetType();
+	        		else
+	        			executionFormInputFromUser(e);
+	        			
+	        });
+	
+	        $("body").on("click", ".selFile", handlerFileRemove);
+
+    	});
+		
+				
+	    function handlerSelectedFiles(e){
+
+	        var files = e.target.files;
+	        var filesArr = Array.prototype.slice.call(files);
+	        filesArr.forEach(function(f) {
+	
+	            if(!f.type.match("image.*")) {
+	                return;
+	            }
+	
+	            //New Property
+	            f.test = e.target.name;
+	
+	            if( e.target.name == $('#posFiles').attr('name') )
+	            	selDiv = $("#chosenFilesPos");
+	            else
+	            	selDiv = $("#chosenFilesNeg");
+	            //New Property end
+	
+	            storedFiles.push(f);
+	
+	            var reader = new FileReader();
+	            reader.onload = function (e) {
+	
+	                var html = "<div class='blockgallery'><img border='1' width='100px' height='100px' src=\"" + e.target.result + "\" data-file='"+ f.name +"' class='selFile' title='Click to remove'><br clear=\"left\"/></div>";
+	                selDiv.append(html);
+	
+	            }
+	            reader.readAsDataURL(f);
+	        });
+	
+	    }	
+    
+	    function handlerFileRemove(e) {
+	
+	        var file = $(this).data("file");
+	
+	        for( var i = 0; i < storedFiles.length; i++ ){
+	
+	            if(storedFiles[i].name === file) {
+	                storedFiles.splice(i,1);
+	                break;
+	            }
+	
+	        }
+	
+	        $(this).parent().remove();
+	
+	    }		
 	   	
 			
 </script>

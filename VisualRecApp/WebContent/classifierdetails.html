@@ -48,16 +48,22 @@ createCarbonHeader();
 				</div>			
 			</div>
 			<div class="column fourth">
-				<button id="saveButton" class="bx--btn bx--btn--secondary" type="button" disabled>Save</button>			
-			</div>
-			<div class="column fourth">
 				<button id="backicon" class="bx--btn bx--btn--secondary" type="button">
 					Back
 				  <svg class="bx--btn__icon">
 				    <use xlink:href="./ico/bluemix-icons.svg#icon--arrow--left"></use>
 				  </svg>
 				</button>
-				<button class="bx--btn bx--btn--primary" type="sumbit" disabled>Retrain</button>
+				<button id="saveButton" class="bx--btn bx--btn--secondary" type="button" disabled>Save</button>			
+			</div>
+			<div class="column fourth">
+				<button class="bx--btn bx--btn--primary" type="sumbit" id="datasetButton">View dataset</button>
+				<button id="backicon" class="bx--btn bx--btn--primary" type="button" disabled>
+					Retrain
+				  <svg class="bx--btn__icon">
+				    <use xlink:href="./ico/bluemix-icons.svg#icon--watson"></use>
+				  </svg>
+				</button>
 				<button class="bx--btn bx--btn--primary" type="submit" id="deleteButton">Delete</button>
 			</div>
 	
@@ -240,6 +246,14 @@ createCarbonHeader();
 			}
 
 		}
+	});
+	
+	// View dataset details
+	$('#datasetButton').on("click", function() {
+
+		window.location.href = 'showgallery.html';
+		localStorage.setItem("idgallery", set);
+
 	});
 				
 			
