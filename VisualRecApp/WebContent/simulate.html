@@ -303,6 +303,7 @@ updateTestFields('#show_test');
 }
 });
 
+//=========================== Simulate part ===================
 
 //ADD button actions
 $('#addicon').mouseover(function(){
@@ -398,7 +399,56 @@ $('body').on("click","img[id*=garbage]",function(){
 				type: "warning"});
 });
 
-// ON CHANGE select test
+//WARNING overla images between test dataset and classifier dataset
+$('body').on("change","select[id*=testset]",function(){
+ 	var $this = $(this);
+	var num = parseInt($this.prop("id").substring(7));
+	
+	var IDdataset = $("#testset"+num).val();
+	var IDclassifier = $("#testclassifier"+num).val();
+	
+	console.log("ID dataset= "+IDdataset);
+	console.log("ID classifier= "+IDclassifier);
+		
+	if(IDclassifier != null)
+	{
+	//chiamata ajax per controllo
+	// id dataset
+	// id classifier
+// 		$.ajax({
+// 		contentType: "application/json",
+// 		dataType: "json",
+// 		url: 'CheckOverlapImages',
+// 		data : "dataset="+IDdataset+"&classifier="+IDclassifier,
+// 		async: true,
+// 		success: function(result){
+if(result.hasOwnProperty('error'))
+				{
+				swal({
+					title: 'Warning',
+					text: result.error,
+					type: 'warning',});
+				}
+			else{
+// 			swal({
+ 			
+// 				title: "Warning",
+// 				text: "This test-dataset shares "+result.images+" with this training-classifier dataset",
+// 				type: "warning"});
+				}
+// 				});
+// 		}
+// 	});
+	}
+});
+
+$('body').on("change","select[id*=testclassifier]",function(){
+ 	
+});
+
+//=========================== Showresult part ===================
+
+// ON CHANGE select test SHOW SIDE
 	$('#show_test').on(
 			'change',
 			function() {
