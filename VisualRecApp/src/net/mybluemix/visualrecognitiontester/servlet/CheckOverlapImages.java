@@ -1,6 +1,7 @@
 package net.mybluemix.visualrecognitiontester.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -18,6 +19,7 @@ import com.google.gson.JsonObject;
 import net.mybluemix.visualrecognitiontester.blmxservices.CloudantClientMgr;
 import net.mybluemix.visualrecognitiontester.datamodel.Classifier;
 import net.mybluemix.visualrecognitiontester.datamodel.Dataset;
+import net.mybluemix.visualrecognitiontester.datamodel.Images;
 
 
 /**
@@ -64,32 +66,24 @@ public class CheckOverlapImages extends HttpServlet {
 		Classifier c = db.find(Classifier.class,classifierId);
 		String classifierDatasetId=c.getTrainingSet();
 		
-		Dataset d = db.find(Dataset.class,classifierDatasetId);
+		Dataset dClassifier = db.find(Dataset.class,classifierDatasetId);
+		List<Long> imgClassifier = new ArrayList<Long>();
+		imgClassifier.addAll(dClassifier.getImages().getPositives());
+		imgClassifier.addAll(dClassifier.getImages().getNegatives());
 		
-		//prendi le immagini positive e negative
-		//d.getPositiveSize()
+		Dataset dDataset = db.find(Dataset.class,datasetId);
+		List<Long> imgDataset = new ArrayList<Long>();
+		imgDataset.addAll(dDataset.getImages().getPositives());
+		imgDataset.addAll(dDataset.getImages().getNegatives());
 		
-		//prendi le immagini positive e negative dell'altro dataset
-		//scorri per contare quanti ID comuni ci sono
-		//pubblichi il risultato nel campo images di result
+		imgDataset.retainAll(imgClassifier);
+		System.out.println("[CheckOverlapImages] The following "+imgDataset.size()+" are the common ID images"+imgDataset);
 		
 		Gson gson = new Gson();
-
-        // Limita i campi
-//        FindByIndexOptions opt = new FindByIndexOptions()
-//        	 .fields("_id").fields("label")
-//        	 .fields("training_size").fields("status")
-//        	 .fields("comments").fields("shortname")
-//        	 .fields("description").fields("training_set");
-        
-        // execute query
-        //List<Classifier> classifiers = db.findByIndex(selector, Classifier.class, opt);
-
-		//----------------------------------------------------------
-		// Se non mi va bene il default e lo devo modificare:
-    //    JsonArray arr = gson.toJsonTree(db.findByIndex(selector, Dataset.class, opt)).getAsJsonArray();
-        
-//		response.getWriter().append(gson.toJson(classifiers));
+		JsonObject o = new JsonObject();
+		o.addProperty("images", gson.toJson(imgDataset));
+		o.addProperty("size", imgDataset.size());
+		response.getWriter().println(o);
 
 	}
 
