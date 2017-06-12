@@ -303,6 +303,7 @@ updateTestFields('#show_test');
 }
 });
 
+//=========================== Simulate part ===================
 
 //ADD button actions
 $('#addicon').mouseover(function(){
@@ -398,7 +399,92 @@ $('body').on("click","img[id*=garbage]",function(){
 				type: "warning"});
 });
 
-// ON CHANGE select test
+//WARNING overlap images between test dataset and classifier dataset
+$('body').on("change","select[id*=testset]",function(){
+ 	var $this = $(this);
+	var num = parseInt($this.prop("id").substring(7));
+	
+	var IDdataset = $("#testset"+num).val();
+	var IDclassifier = $("#testclassifier"+num).val();
+	
+	console.log("ID dataset= "+IDdataset);
+	console.log("ID classifier= "+IDclassifier);
+		
+	if(IDclassifier != null)
+	{
+
+		$.ajax({
+		contentType: "application/json",
+		dataType: "json",
+		url: 'CheckOverlapImages',
+		data : "dataset="+IDdataset+"&classifier="+IDclassifier,
+		async: false,
+		success: function(result){
+		if(result.hasOwnProperty('error'))
+				{
+				swal({
+					title: 'Warning',
+					text: result.error,
+					type: 'warning',});
+				}
+			else{
+			console.log(result.images);
+						console.log(result.size);
+			if(result.size>0){
+			swal({
+				title: "Warning",
+				text: "This test-dataset shares "+result.size+" images with this training-classifier dataset",
+				type: "warning"});
+				}
+				}
+				}});
+		}
+	});
+
+$('body').on("change","select[id*=testclassifier]",function(){
+ 	 	var $this = $(this);
+	var num = parseInt($this.prop("id").substring(14));
+	
+	var IDdataset = $("#testset"+num).val();
+	var IDclassifier = $("#testclassifier"+num).val();
+	
+	console.log("ID dataset= "+IDdataset);
+	console.log("ID classifier= "+IDclassifier);
+		
+	if(IDdataset != null)
+	{
+
+		$.ajax({
+		contentType: "application/json",
+		dataType: "json",
+		url: 'CheckOverlapImages',
+		data : "dataset="+IDdataset+"&classifier="+IDclassifier,
+		async: true,
+		success: function(result){
+		if(result.hasOwnProperty('error'))
+				{
+				swal({
+					title: 'Warning',
+					text: result.error,
+					type: 'warning',});
+				}
+			else{
+			console.log(result.images);
+						console.log(result.size);
+			if(result.size>0){
+			swal({
+				title: "Warning",
+				text: "This test-dataset shares "+result.size+" images with this training-classifier dataset",
+				type: "warning"});
+				}
+				}
+				}});
+		}
+});
+
+//=========================== Showresult part ===================
+
+// ON CHANGE select test SHOW SIDE
 	$('#show_test').on(
 			'change',
 			function() {

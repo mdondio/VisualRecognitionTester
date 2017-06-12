@@ -1461,27 +1461,114 @@ function testingLoading(){
  */
 function populateAPITable(){
 
-	var table = document.getElementById('APITable');
-	
-	var tr = document.createElement("tr");
-	
-	tr.setAttribute("tabindex","0");
-	tr.setAttribute("class","bx--table-row bx--parent-row");
-	tr.setAttribute("data-parent-row", "");
-	
-	var td = document.createElement("td");
-	var td2 = document.createElement("td");
-	var text = document.createTextNode("API Key");
-	var text2 = document.createTextNode("ServiceName");
-	
-	td.appendChild(text);
-	td2.appendChild(text2);
-	
-	tr.appendChild(td);
-	tr.appendChild(td2);
-	
-	table.append(tr);
-	
+	//chiamata ajax per ottenere le istanze
+	$.ajax({
+		contentType: "application/json",
+		dataType: "json",
+		url: 'GetInstance',
+		async: true,
+		success: function(result){
+			
+			var table = document.getElementById('APITable');
+			
+			for(var i in result)
+			{
+				var tr = document.createElement("tr");
+				
+				tr.setAttribute("tabindex","0");
+				tr.setAttribute("class","bx--table-row bx--parent-row");
+				tr.setAttribute("data-parent-row", "");
+				
+				var td1 = document.createElement("td");
+				var td2 = document.createElement("td");
+				var td3 = document.createElement("td");
+				var td4 = document.createElement("td");
+				
+				var text1 = document.createTextNode(result[i].account.substring(8));
+				var text2 = document.createTextNode(result[i].region);
+				var text3 = document.createTextNode(result[i].api_key);
+				
+				var btn = document.createElement('input');
+				btn.type = "button";
+				btn.className = "btn";
+				btn.value = "delete"; 
+					var instanceId=result[i]._id;
+					var classifiers=result[i].classifiers;
+				btn.onclick = (function(instanceId,classifiers) {return function() {
+					console.log(instanceId);
+console.log(classifiers);
+					swal({
+						  title: "Are you sure?",
+						  text: "You are deleting also all classifiers ("+classifiers.length+") linked to this api_key. Are you really sure you want to delete this instance?",
+						  type: "warning",
+						  confirmButtonColor: '#d33',
+						  confirmButtonText: 'Delete!',
+						  showCancelButton: true,
+						  allowOutsideClick: false,
+						  allowEscapeKey: true
+						}).then( function(result) {
+							
+							//User really wants to delete the classifier
+							if(result){
+								
+								for(var j in classifiers)
+									{
+									console.log(classifiers[j]);
+//									TODO esiste un modo per verificare se un classificatore è in uso? In questo momento se un altro sta usando il classificatore si trova magari mezza simulazione fatta e mezza no
+									$.ajax({
+
+									   	contentType : "application/json",
+									   	dataType : "json",
+									  	data : "classifierId=" + classifiers[j] + "",
+									  	url : 'DeleteClassifier',
+									   	async : false,
+									   	success : function(result) {
+//										TODO bisogno assolutamente gestire il caso in cui dia errore (esempio cancella 1 classifier e il 2 invece non riesce, a quel punto non cancello l'istanza
+//										TODO si potrebbe pensare di mettere uno stato progressivo della cancellazione dei classificatori
+									   	}								
+			   					});
+									}
+								//TODO verificare se con swal interrompo l'esecuzione delle chiamate e quindi posso mettere un intermezzo ogni volta che viene cancellato un classificatore
+								$.ajax({
+									   	contentType : "application/json",
+									   	dataType : "json",
+									  	data : "instanceId=" + instanceId + "",
+									  	url : 'DeleteInstance',
+									   	async : true,
+									   	success : function(result) {
+									   		if(result.hasOwnProperty('error'))
+									   			{
+									   				swal({
+									   					title: 'Warning',
+									   					text: result.error,
+									   					type: 'warning',});
+									   					}
+									   		else{
+									   			swal('Deleted!','Instance has been deleted.','success').then(function(){location.reload();})
+									   		}
+									   	}
+			   					});
+								
+							}
+								
+						});
+					}})(instanceId,classifiers);
+				
+				
+				td1.appendChild(text1);
+				td2.appendChild(text2);
+				td3.appendChild(text3);
+				td4.appendChild(btn);
+				
+				tr.appendChild(td1);
+				tr.appendChild(td2);
+				tr.appendChild(td3);
+				tr.appendChild(td4);
+				
+				table.appendChild(tr);
+			}
+		}
+	});	
 }
 
 /*
