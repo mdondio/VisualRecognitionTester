@@ -53,26 +53,10 @@ createCarbonHeader();
 			
 				<div class="row clearfix">
 				
-					<div class="column third">
-						<fieldset class="bx--fieldset">
-						  <div class="bx--form-item">
-						    <div class="bx--radio-button-group">
-							      <input id="rbTraining" class="bx--radio-button" type="radio" value="train" name="radio-button" tabindex="0">
-							      <label for="rbTraining" class="bx--radio-button__label">
-							        <span class="bx--radio-button__appearance"></span>
-							        Training
-							      </label>
-							      <input id="rbTest" class="bx--radio-button" type="radio" value="test" name="radio-button" tabindex="0">
-							      <label for="rbTest" class="bx--radio-button__label">
-							        <span class="bx--radio-button__appearance"></span>
-							        Test
-							      </label>
-							    </div>
-						  </div>
-						</fieldset>		
-					</div>	
-			
-					<div class="column two-thirds">
+				<div class="column third">
+				</div>
+		
+					<div class="column one-thirds">
 						<button id="backicon" class="bx--btn bx--btn--secondary" type="button">
 							Back
 						  <svg class="bx--btn__icon">
@@ -87,7 +71,6 @@ createCarbonHeader();
 						  </svg>
 						</button>	
 						<button class="bx--btn bx--btn--primary" type="submit" id="deleteButton">Delete</button><br><br>
-<!-- 						<button class="bx--btn bx--btn--secondary" type="submit" id="removeButton">Remove selected img</button> -->
 					</div>
 					
 								
@@ -204,29 +187,27 @@ createCarbonHeader();
     	$('#saveButton').removeClass("disabled");
 	
 	});
-		
-	$('#deleteButton').click(function(){
-	
-		// Actual delete of classifier
-		deleteClassifierFromDetailPage(idgallery, shortName);
-	
-	});
   	
   	$('#saveButton').click(function(){
   	
   		var shortName = ( $("#shortnameedit").val() );
   		var label = ( $("#labeledit").val() );
   	
-  		// Actual update of classifier
-  		updateClassifierDetail(classID, shortName, label, descr, comm);
+		updateDataset(idgallery, label);
   		
   		$('#saveButton').attr("disabled", true);
     	$('#saveButton').addClass("disabled");
 	
 	});
+			
+	$('#deleteButton').click(function(e){
+	
+		deleteDataset(e, idgallery);
+	
+	});
 	
 	$('#backicon').click(function() {
-    	window.history.back();
+    	window.location.href = "home.html";
     });
   	  	  
   	$('#editimagesButton').click(function() {
@@ -244,10 +225,6 @@ createCarbonHeader();
 	// Populate page with dataset attributes
 	$("#shortnameedit").val(shortName);
 	$("#labeledit").val(label);		
-				
-    $("#deleteButton").click(function(e) {
-        deleteClassifierFromDetailPage(shortName, idgallery);
-    });
 
     //**************************************************************************
     //********* GET FROM THE SERVER TESTSET ***************************
@@ -293,10 +270,6 @@ createCarbonHeader();
     //**************************************************************************
     //********* MANAGE UPLOAD AREA ***************************
     //**************************************************************************			
-				
-		var rbTr = document.getElementById("rbTraining");
-		var rbTe = document.getElementById("rbTest");
-	
 		var selDiv = "";
 	    var storedFiles = [];
 	
@@ -311,10 +284,7 @@ createCarbonHeader();
 	
 	        $("#submit").click( function(e){
 	        
-	        		if ( !rbTr.checked && !rbTe.checked )
-	        			decideDatasetType();
-	        		else
-	        			executionFormInputFromUser(e);
+	       		executionFormInputFromUser(e);
 	        			
 	        });
 	

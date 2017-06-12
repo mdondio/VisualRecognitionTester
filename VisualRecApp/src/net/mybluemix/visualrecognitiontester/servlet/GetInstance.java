@@ -52,8 +52,7 @@ public class GetInstance extends HttpServlet {
 
         // Limita i campi
         FindByIndexOptions opt = new FindByIndexOptions()
-        	 .fields("_id").fields("classifiers")
-        	 .fields("account").fields("region").fields("api_key");
+        	 .fields("_id").fields("classifiers");
         
         // execute query
         List<Instance> instances = db.findByIndex(selector, Instance.class, opt);

@@ -277,39 +277,105 @@ function deleteClassifierFromDetailPage(classID, shortName){
 	
 }
 
-function deleteDataset(datasetID, shortName){
+function deleteDataset(e, datasetID){
 	
 	swal({
-		  title: "Are you sure?",
-		  text: "Are you really sure you want to delete this classifier?",
-		  type: "warning",
-		  confirmButtonColor: '#d33',
-		  confirmButtonText: 'Delete!',
-		  showCancelButton: true,
-		  allowOutsideClick: false,
-		  allowEscapeKey: true
-		}).then(function (isConfirm) {
-		  
-			if(isConfirm){
-				
-				$.ajax({
+        title: 'Are you sure?',
+        text: 'Are you sure you want to delete dataset\n\n [' + datasetID + '] ?\n\n',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Delete!',
+        cancelButtonText: 'No!'
+    }).then(function(isConfirm) {
+        if (isConfirm)
+            handlerDeletion(e, datasetID);
+        else {
+            swal({
+                title: 'Operation Aborted',
+                text: 'This dataset is safe :)',
+                type: 'error'
+            })
+        }
+    })
 
-				   	contentType : "application/json",
-				   	dataType : "json",
-				  	data : "classifierId=" + datasetID,
-				  	url : 'DeleteClassifier',
-				   	async : false,
-				   	success : function(result) {
-				   		
-   						swal('Deleted!','Dataset ' + shortName + ' (ID: '+datasetID+') has been deleted.','success').then(function(){window.location.href = 'home.html';})
-	   				
-				   	}
-			
-				});
-			}
-				
-							
-		});
+}
+
+function handlerDeletion(e, datasetID){
+	
+	e.preventDefault();
+    var data = new FormData();
+    data.append('type', 'delete');
+    data.append('datasetId', datasetID);
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'SubmitDatasetJob', true);
+    //Operation communication progress
+    xhr.onload = function(e) {
+            //Everything seems to be OK
+            if (this.status == 200) {
+                swal({
+                    title: 'Succes!',
+                    text: 'Dataset [' + idgallery + '] has been correclty deleted!',
+                    type: "success",
+                    confirmButtonColor: '#5cb85c',
+                    confirmButtonText: 'Yeah!'
+                }).then(function(isConfirm) {
+                    if (isConfirm)
+                        window.location.href = 'home.html';
+                })
+            } else {
+                var err_type = this.status;
+                var alert_title, alert_text, alert_img = null;
+                switch (err_type) {
+                    //BAD (cit. the Donald) request
+                    case 400:
+                        alert_title = "BAD REQUEST";
+                        alert_text = "Our server could not understand the request...\nSorry about that.\n\n";
+                        break;
+                    case 401:
+                        alert_title = "UNAUTHORIZED";
+                        alert_text = "Authentication is needed to get requested response.\n\n";
+                        break;
+                    case 404:
+                        alert_title = "NOT FOUND";
+                        alert_text = "Our Server wasn't able to retrieve the requested resource. \n\nI know right?!\n";
+                        break;
+                    case 408:
+                        alert_title = "REQUEST TIMEOUT";
+                        alert_text = "Our server did not receive a complete request message within the time that it was prepared to wait.\nHe's impatient...\n\n";
+                        break;
+                        //This is serious
+                    case 500:
+                        alert_title = "INTERNAL ERROR";
+                        alert_text = "This is on our side...sorry about that!\n\n";
+                        alert_img = 'images/internal_error.jpg';
+                        break;
+                    case 503:
+                        alert_title = "SERVICE'S OVERLOADED";
+                        alert_text = "Our server is really busy at the moment, try again in a few minutes...\n\n";
+                        break;
+                    default:
+                        alert_title = "GENERIC ERROR";
+                        alert_text = "An error occured...try again please!\n";
+                }
+                swal({
+                    title: '*** ' + alert_title + ' ***',
+                    text: alert_text,
+                    type: 'error',
+                    imageUrl: alert_img,
+                    imageWidth: 800,
+                    imageHeight: 200,
+                    confirmButtonColor: '#f0ad4e',
+                    confirmButtonText: 'Ok :('
+                }).then(function(isConfirm) {
+                    if (isConfirm)
+                        location.reload();
+                })
+            }
+        } //Operation communication progress END
+    
+    xhr.send(data);
 	
 }
 
@@ -1085,6 +1151,27 @@ function updateClassifierDetail(ID, shortName, label, descr, comm){
 		
 }
 
+function updateDataset(ID, label){
+	
+//	$.ajax({												
+//		contentType: "application/json",
+//		dataType: "json",
+//		url: 'UpdateClassifier',
+//		data: "_id="+ID+"&shortname="+shortName+"&label="+label+"&description="+descr+"&comments="+comm,
+//		async: true,
+//		success: function(result)
+//		{
+//		},
+//		complete: function (data) {
+//	    
+//			workingUpdate(true); 
+//	     
+//		}
+//
+//	});
+	
+}
+
 function workingUpdate(flag){
 	
 	if( flag ){
@@ -1374,114 +1461,27 @@ function testingLoading(){
  */
 function populateAPITable(){
 
-	//chiamata ajax per ottenere le istanze
-	$.ajax({
-		contentType: "application/json",
-		dataType: "json",
-		url: 'GetInstance',
-		async: true,
-		success: function(result){
-			
-			var table = document.getElementById('APITable');
-			
-			for(var i in result)
-			{
-				var tr = document.createElement("tr");
-				
-				tr.setAttribute("tabindex","0");
-				tr.setAttribute("class","bx--table-row bx--parent-row");
-				tr.setAttribute("data-parent-row", "");
-				
-				var td1 = document.createElement("td");
-				var td2 = document.createElement("td");
-				var td3 = document.createElement("td");
-				var td4 = document.createElement("td");
-				
-				var text1 = document.createTextNode(result[i].account.substring(8));
-				var text2 = document.createTextNode(result[i].region);
-				var text3 = document.createTextNode(result[i].api_key);
-				
-				var btn = document.createElement('input');
-				btn.type = "button";
-				btn.className = "btn";
-				btn.value = "delete"; 
-					var instanceId=result[i]._id;
-					var classifiers=result[i].classifiers;
-				btn.onclick = (function(instanceId,classifiers) {return function() {
-					console.log(instanceId);
-console.log(classifiers);
-					swal({
-						  title: "Are you sure?",
-						  text: "You are deleting also all classifiers ("+classifiers.length+") linked to this api_key. Are you really sure you want to delete this instance?",
-						  type: "warning",
-						  confirmButtonColor: '#d33',
-						  confirmButtonText: 'Delete!',
-						  showCancelButton: true,
-						  allowOutsideClick: false,
-						  allowEscapeKey: true
-						}).then( function(result) {
-							
-							//User really wants to delete the classifier
-							if(result){
-								
-								for(var j in classifiers)
-									{
-									console.log(classifiers[j]);
-//									TODO esiste un modo per verificare se un classificatore è in uso? In questo momento se un altro sta usando il classificatore si trova magari mezza simulazione fatta e mezza no
-									$.ajax({
-
-									   	contentType : "application/json",
-									   	dataType : "json",
-									  	data : "classifierId=" + classifiers[j] + "",
-									  	url : 'DeleteClassifier',
-									   	async : false,
-									   	success : function(result) {
-//										TODO bisogno assolutamente gestire il caso in cui dia errore (esempio cancella 1 classifier e il 2 invece non riesce, a quel punto non cancello l'istanza
-//										TODO si potrebbe pensare di mettere uno stato progressivo della cancellazione dei classificatori
-									   	}								
-			   					});
-									}
-								//TODO verificare se con swal interrompo l'esecuzione delle chiamate e quindi posso mettere un intermezzo ogni volta che viene cancellato un classificatore
-								$.ajax({
-									   	contentType : "application/json",
-									   	dataType : "json",
-									  	data : "instanceId=" + instanceId + "",
-									  	url : 'DeleteInstance',
-									   	async : true,
-									   	success : function(result) {
-									   		if(result.hasOwnProperty('error'))
-									   			{
-									   				swal({
-									   					title: 'Warning',
-									   					text: result.error,
-									   					type: 'warning',});
-									   					}
-									   		else{
-									   			swal('Deleted!','Instance has been deleted.','success').then(function(){location.reload();})
-									   		}
-									   	}
-			   					});
-								
-							}
-								
-						});
-					}})(instanceId,classifiers);
-				
-				
-				td1.appendChild(text1);
-				td2.appendChild(text2);
-				td3.appendChild(text3);
-				td4.appendChild(btn);
-				
-				tr.appendChild(td1);
-				tr.appendChild(td2);
-				tr.appendChild(td3);
-				tr.appendChild(td4);
-				
-				table.appendChild(tr);
-			}
-		}
-	});	
+	var table = document.getElementById('APITable');
+	
+	var tr = document.createElement("tr");
+	
+	tr.setAttribute("tabindex","0");
+	tr.setAttribute("class","bx--table-row bx--parent-row");
+	tr.setAttribute("data-parent-row", "");
+	
+	var td = document.createElement("td");
+	var td2 = document.createElement("td");
+	var text = document.createTextNode("API Key");
+	var text2 = document.createTextNode("ServiceName");
+	
+	td.appendChild(text);
+	td2.appendChild(text2);
+	
+	tr.appendChild(td);
+	tr.appendChild(td2);
+	
+	table.append(tr);
+	
 }
 
 /*

@@ -64,10 +64,6 @@ public class Classifier {
 		return training_size;
 	}
 
-	public String getTrainingSet() {
-		return training_set;
-	}
-	
 	public void setStatus(String status){
 		this.status = status;
 	}

@@ -41,26 +41,6 @@ createCarbonHeader();
 
 		<div class="column fourth"><h1>&ensp;</h1><br>
 
-<!-- RICORDARSI DI INSERIRLO NEL FORM SOTTOSTANTE PER L'INVIO DEI DATI! -->
-
-			<fieldset class="bx--fieldset">
-<!-- 			  <legend class="bx--label">Favorite Color</legend> -->
-			  <div class="bx--form-item">
-			    <div class="bx--radio-button-group">
-				      <input id="rbTraining" class="bx--radio-button" type="radio" value="train" name="radio-button" tabindex="0">
-				      <label for="rbTraining" class="bx--radio-button__label">
-				        <span class="bx--radio-button__appearance"></span>
-				        Training
-				      </label>
-				      <input id="rbTest" class="bx--radio-button" type="radio" value="test" name="radio-button" tabindex="0">
-				      <label for="rbTest" class="bx--radio-button__label">
-				        <span class="bx--radio-button__appearance"></span>
-				        Test
-				      </label>
-				    </div>
-			  </div>
-			</fieldset>
-
 		</div>
 		
 		<div class="column half"><h1>&ensp;</h1><br>
@@ -109,9 +89,6 @@ createCarbonHeader();
 
 <script>
 	
-	var rbTr = document.getElementById("rbTraining");
-	var rbTe = document.getElementById("rbTest");
-
 	var selDiv = "";
     var storedFiles = [];
 
@@ -126,30 +103,13 @@ createCarbonHeader();
 
         $("#submit").click( function(e){
         
-        		if ( !rbTr.checked && !rbTe.checked )
-        			decideDatasetType();
-        		else
-        			executionFormInputFromUser(e);
+        	executionFormInputFromUser(e);
         			
         });
 
         $("body").on("click", ".selFile", handlerFileRemove);
 
     });
-
-	function decideDatasetType(){
-	
-		swal({
-			  title: 'Dataset Type',
-			  text: 'Before uploading you dataset you have to decide in which category it falls in (training | test)',
-			  confirmButtonColor: '#5cb85c',
-			  confirmButtonText: 'Ok!',
-			  imageUrl: 'images/decide.jpg',
-			  imageWidth: 400,
-		 	  imageHeight: 300
-			})
-					
-	}
 
 	function executionFormInputFromUser(e){
 
