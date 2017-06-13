@@ -36,6 +36,8 @@ createCarbonHeader();
 	</div>
 	
 	<br>
+	
+	<div class="row clearfix">
 
 			<div class="column fourth">
 				<div class="bx--form-item">
@@ -56,7 +58,7 @@ createCarbonHeader();
 				<div class="column third">
 				</div>
 		
-					<div class="column one-thirds">
+					<div class="column half">
 						<button id="backicon" class="bx--btn bx--btn--secondary" type="button">
 							Back
 						  <svg class="bx--btn__icon">
@@ -64,6 +66,8 @@ createCarbonHeader();
 						  </svg>
 						</button>
 						<button id="saveButton" class="bx--btn bx--btn--secondary" type="button" disabled>Save</button>
+					</div>
+					<div class="row clearfix">
 						<button class="bx--btn bx--btn--primary" type="button" id="editimagesButton">
 							Edit images
 						  <svg class="bx--btn__icon">
@@ -78,8 +82,35 @@ createCarbonHeader();
 			
 			</div>
 			
+	</div>
 	
-			<br><br><br><br><br><br>
+			<br><br><br>
+			
+	<div class="row clearfix">
+
+		<div class="column half">
+			<strong class="bx--label">Description</strong>
+			<p class="bx--label-description">This is the description of the dataset</p>
+			<hr class="lineseparator">
+			<div class="bx--form-item">
+			  <textarea id="descriptionedit" class="bx--text-area" rows="5" width="100%"></textarea>
+			</div>
+
+
+		</div>
+
+		<div class="column half">
+			<strong class="bx--label">Comments</strong>
+			<p class="bx--label-description">Put here comments on the dataset</p>
+			<hr class="lineseparator">
+			<div class="bx--form-item">
+			  <textarea id="commentsedit" class="bx--text-area" rows="5" width="100%" disabled></textarea>
+			</div>
+		</div>
+		
+	</div>
+	
+	<br><br><br>		
 		
 	<div class="row clearfix">
 

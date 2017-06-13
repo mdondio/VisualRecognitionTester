@@ -30,25 +30,53 @@ createCarbonHeader();
 
 	<div class="row clearfix">
 
-		<div class="column fourth"><h1>Upload</h1><br>
-			<button id="submit" class="bx--btn bx--btn--primary" type="button">
-			  Upload image set
-			  <svg class="bx--btn__icon">
-			    <use xlink:href="./ico/bluemix-icons.svg#icon--upload"></use>
-			  </svg>
-			</button>
+		<div class="column half"><h1>Upload</h1><br>
+			Upload your positive and negative images and select dataset nature (Training or Test). You can delete images by clicking on them. When ready, press the button to rename the dataset, to give it a label and to upload.
 		</div>
 
 		<div class="column fourth"><h1>&ensp;</h1><br>
 
 		</div>
 		
-		<div class="column half"><h1>&ensp;</h1><br>
-			Upload your positive and negative images and select dataset nature (Training or Test). You can delete images by clicking on them. When ready, press the button to rename the dataset, to give it a label and to upload.
+		<div class="column fourth"><h1>&ensp;</h1><br>
+			<center>
+				<button id="submit" class="bx--btn bx--btn--primary" type="button">
+				  Upload image set
+				  <svg class="bx--btn__icon">
+				    <use xlink:href="./ico/bluemix-icons.svg#icon--upload"></use>
+				  </svg>
+				</button>
+			</center>
 		</div>
 
 	</div>
 
+	<br><br><br>
+			
+	<div class="row clearfix">
+
+		<div class="column half">
+			<strong class="bx--label">Description</strong>
+			<p class="bx--label-description">This is the description of the dataset</p>
+			<hr class="lineseparator">
+			<div class="bx--form-item">
+			  <textarea id="descriptionedit" class="bx--text-area" rows="5" width="100%"></textarea>
+			</div>
+
+
+		</div>
+
+		<div class="column half">
+			<strong class="bx--label">Comments</strong>
+			<p class="bx--label-description">Put here comments on the dataset</p>
+			<hr class="lineseparator">
+			<div class="bx--form-item">
+			  <textarea id="commentsedit" class="bx--text-area" rows="5" width="100%" disabled></textarea>
+			</div>
+		</div>
+		
+	</div>
+	
 	<br><br><br>
 
 		<div class="row clearfix">

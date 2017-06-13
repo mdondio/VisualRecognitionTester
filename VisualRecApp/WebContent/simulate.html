@@ -43,15 +43,15 @@ createCarbonHeader();
 	<div class="row clearfix">
 
 		<div class="column third"><h1>&ensp;</h1><strong class="bx--label">Add tests</strong><br>
-			You can run 10 test at the same time
+			You can run up to 10 VR test at the same time; reset or delete unnecessary tests
 		</div>
 		
-		<div class="column third"><h1>&ensp;</h1><strong class="bx--label">Upload a new image set</strong><br>
-			Select positive and negative images to test Watson
+		<div class="column third"><h1>&ensp;</h1><strong class="bx--label">Upload image set</strong><br>
+			Upload images to test the Watson VR classifiers or use a preloaded image dataset
 		</div>
 		
 		<div class="column third"><h1>&ensp;</h1><strong class="bx--label">Run simulation</strong><br>
-			When you are ready start the simulation with Watson
+			Click to start simulation with selected dataset and VR classifiers, and view test results
 		</div>
 
 	</div>
@@ -328,10 +328,17 @@ if(TOTALROWSFILLED < 10){
       $("#moltiplicandum"+nextrow).find("img#reload"+currentrow).attr("id","reload"+nextrow);
       $("#moltiplicandum"+nextrow).find("img#garbage"+currentrow).attr("id","garbage"+nextrow);
     } else {
-    swal({
+    		swal({
 				title: "Warning",
 				text: "Max number of entries reached. You can run max 10 tests simultaneously.",
-				type: "warning"});
+				type: "warning",
+				showCloseButton: false,
+				showCancelButton: true,
+				showConfirmButton: false,
+				buttonsStyling: false,
+				canceluttonClass: 'bx--btn bx--btn--primary',
+				cancelButtonText: 'OK'
+			});
     }
     TOTALROWSFILLED++;
 });
