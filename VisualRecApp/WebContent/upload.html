@@ -145,15 +145,19 @@ createCarbonHeader();
 
 		swal({
 		  title: "Insert Dataset ID",
-		  text: "Give your Dataset an ID:",
+		  html: "Give your Dataset an ID:<br><br>",
 		  type: "info",
 		  input: "text",
-		  confirmButtonColor: '#5cb85c',
-		  confirmButtonText: 'Set!',
+		  customClass: 'modal-container',
+		  confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+		  confirmButtonText: 'Set ID',
+		  cancelButtonClass: 'bx--btn bx--btn--secondary margin-lr',
+		  cancelButtonText: 'Cancel',
+		  buttonsStyling: false,
 		  showCancelButton: true,
 		  allowOutsideClick: false,
 		  allowEscapeKey: true,
-		  inputPlaceholder: "...ID..."
+		  inputPlaceholder: "Hint ID here..."
 		}).then( function (result) {
 
 			if( result == null || result == ""){
@@ -171,15 +175,19 @@ createCarbonHeader();
 				//Second alert for Dataset label
 				swal({
 				  title: "Insert Dataset Label",
-				  text: "Give your Dataset a Label:",
+				  html: "Give your Dataset a Label:<br><br>",
 				  type: "info",
 				  input: "text",
-				  confirmButtonColor: '#5cb85c',
-				  confirmButtonText: 'Set!',
+				  customClass: 'modal-container',
+				  confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+				  confirmButtonText: 'Set label',
+				  cancelButtonClass: 'bx--btn bx--btn--secondary margin-lr',
+				  cancelButtonText: 'Cancel',
+				  buttonsStyling: false,
 				  showCancelButton: true,
 				  allowOutsideClick: false,
 				  allowEscapeKey: true,
-				  inputPlaceholder: "...Label..."
+				  inputPlaceholder: "Hint label here..."
 				}).then( function(result) {
 
 					if( result == null || result == "" )
@@ -270,17 +278,18 @@ createCarbonHeader();
 	           if(this.status == 200) {
 
 	               swal({
-						  title: 'Succes!',
-						  text: 'Your upload process has concluded succesfully!',
-						  type: 'info',
-						  confirmButtonColor: '#5cb85c',
+						  title: 'Done',
+						  html: 'Your upload process has concluded succesfully!<br><br>',
+						  type: 'success',
+						  buttonsStyling: false,
+						  showCancelButton: false,
+						  customClass: 'modal-container',
+						  confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
 						  confirmButtonText: 'Yeah!'
 						}).then(function (isConfirm) {
-
 							if(isConfirm)
 								location.reload();
-
-					})
+						})
 
 	           }
 
@@ -325,20 +334,22 @@ createCarbonHeader();
 					}
 
 		           	swal({
-							  title: '*** ' + alert_title + ' ***',
-							  text: alert_text,
-							  type: 'error',
-							  imageUrl: alert_img,
-							  imageWidth: 800,
-		 						  imageHeight: 200,
-							  confirmButtonColor: '#f0ad4e',
-							  confirmButtonText: 'Ok :('
-							}).then(function (isConfirm) {
+						  title: '*** ' + alert_title + ' ***',
+						  html: alert_text+'<br><br>',
+						  type: 'error',
+						  imageUrl: alert_img,
+						  imageWidth: 800,
+		 				  imageHeight: 200,
+		 				  customClass: 'modal-container',
+		 				  buttonsStyling: false,
+		 				  showCancelButton: false,
+						  confirmButtonClass: 'bx--btn bx--btn--primary',
+						  confirmButtonText: 'Ok :('
+						}).then(function (isConfirm) {
 
-								if(isConfirm)
-									location.reload();
-
-							})
+						if(isConfirm)
+							location.reload();
+						})
 
 	           	}
 

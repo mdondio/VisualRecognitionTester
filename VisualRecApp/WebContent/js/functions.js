@@ -36,15 +36,19 @@ function printTestResults(){
 		 
 	     swal({
 			  title: "Insert File Name",
-			  text: "Give JSON file a name:",
+			  html: "Give JSON file a name:<br><br>",
 			  type: "info",
 			  input: "text",
-			  confirmButtonColor: '#5cb85c',
-			  confirmButtonText: 'Save!',
+			  buttonsStyling: false,
+			  customClass: 'modal-container',
+			  confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+			  confirmButtonText: 'Save file',
+			  cancelButtonClass: 'bx--btn bx--btn--secondary margin-lr',
+			  cancelButtonText: 'Cancel',
 			  showCancelButton: true,
 			  allowOutsideClick: false,
 			  allowEscapeKey: true,
-			  inputPlaceholder: "...filename..."
+			  inputPlaceholder: "Hint filename here..."
 			}).then( function (result) {
 				
 				if( result != null && result != "" )
@@ -54,10 +58,13 @@ function printTestResults(){
 					
 					swal({
 						  title: 'Error!',
-						  text: 'For correctly saving a JSON file you have to insert a file name!',
+						  html: 'For correctly saving a JSON file you have to insert a file name!<br><br>',
 						  type: 'error',
-						  confirmButtonColor: '#f0ad4e',
-						  confirmButtonText: 'Ok'
+						  buttonsStyling: false,
+						  showCancelButton: false,
+						  customClass: 'modal-container',
+						  cancelButtonClass: 'bx--btn bx--btn--primary margin-lr',
+						  confirmButtonText: 'Got it'
 						})
 					
 				}
@@ -69,10 +76,13 @@ function printTestResults(){
 		 
 		 swal({
 			  title: 'Error!',
-			  text: 'For correctly saving a JSON file you have to select at least a result!',
+			  html: 'For correctly saving a JSON file you have to select at least one result!<br><br>',
 			  type: 'error',
-			  confirmButtonColor: '#f0ad4e',
-			  confirmButtonText: 'Ok'
+			  buttonsStyling: false,
+			  showCancelButton: false,
+			  customClass: 'modal-container',
+			  cancelButtonClass: 'bx--btn bx--btn--primary margin-lr',
+			  confirmButtonText: 'Got it'
 			})
 		 
 	 }
@@ -113,10 +123,6 @@ function populateListTestResult(){
  * @returns build the table
  */
 function addClassifierTable(IDelement,table){
-	
-	//flag for disabling swal buttons in case of a training classifier
-	var flag = true;
-	
 	//Create a HTML Table element.
 	var tableElement = document.createElement('table');
 	var columnCount = table[0].length;
@@ -149,77 +155,81 @@ function addClassifierTable(IDelement,table){
 					block.addEventListener("click", function(){
 						var IDstring = $(this).prop("id");
 						
-						var classifierClass = $(this).prop("class");
-						
-						if( classifierClass.includes("ready") )
-							flag = false;
-						
 						setClassID(IDstring);
 												
 						var IDshortname = returnClassifierDetail(IDstring, "shortname");
 						var IDdescription = returnClassifierDetail(IDstring, "description");
 						
-						if(flag){
-
-							swal({
-								  title: IDshortname,
-								  text: IDdescription,
-								  showCancelButton: false
-								});
-							
-						}//Ready classifier handling {END}
-						else{
-							
-							swal({
-								  title: IDshortname,
-								  text: ""+IDdescription+"\n\n<input type='submit' id='editButton' class='submitmodal2' value='Edit'>",
-								  showCancelButton: true,
-								  confirmButtonColor: '#3085d6',
-								  cancelButtonColor: '#d33',
-								  confirmButtonText: 'Delete!',
-								  cancelButtonText: 'Cancel'
-								}).then(function (isConfirm) {
-								  
-									if(isConfirm){
-										
-										swal({
-											  title: "Are you sure?",
-											  text: "Are you really sure you want to delete this classifier?",
-											  type: "warning",
-											  confirmButtonColor: '#d33',
-											  confirmButtonText: 'Delete!',
-											  showCancelButton: true,
-											  allowOutsideClick: false,
-											  allowEscapeKey: true
-											}).then( function(result) {
+						swal({
+//							  title: 'ID: '+IDstring,
+							  title: IDshortname,
+							  html: ""+IDdescription+"<br><br><button type='submit' id='editButton' class='bx--btn bx--btn--primary margin-lr'>Edit classifier</button>",
+//							  type: 'warning',
+							  showCancelButton: true,
+							  buttonsStyling: false,
+							  customClass: 'modal-container',
+							  confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+							  cancelButtonClass: 'bx--btn bx--btn--secondary margin-lr',
+							  confirmButtonText: 'Delete it!',
+							  cancelButtonText: 'Cancel'
+							}).then(function (isConfirm) {
+							  
+								if(isConfirm){
+									
+									swal({
+										  title: "Are you sure?",
+										  html: "Are you really sure you want to delete this classifier?<br><br>",
+										  type: "warning",
+										  buttonsStyling: false,
+										  customClass: 'modal-container',
+										  confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+										  cancelButtonClass: 'bx--btn bx--btn--secondary margin-lr',
+										  confirmButtonText: 'Delete it!',
+										  cancelButtonText: 'Cancel',
+										  showCancelButton: true,
+										  allowOutsideClick: false,
+										  allowEscapeKey: true
+										}).then( function(result) {
+											
+											//User really wants to delete the classifier
+											if(result){
 												
-												//User really wants to delete the classifier
-												if(result){
-													
-													$.ajax({
+												$.ajax({
 
-														   	contentType : "application/json",
-														   	dataType : "json",
-														  	data : "classifierId=" + IDstring + "",
-														  	url : 'DeleteClassifier',
-														   	async : false,
-														   	success : function(result) {
-														   		
-										   						swal('Deleted!','Classifier ' + IDshortname + ' (ID: '+IDstring+') has been deleted.','success').then(function(){location.reload();})
-											   				
-														   	}
-													
-								   					});
-													
-												}//User really wants to delete the classifier {END}
-													
-											});
-										
-										}
-								})
-							
-						}//Not ready classifier handling {END}
-						
+													   	contentType : "application/json",
+													   	dataType : "json",
+													  	data : "classifierId=" + IDstring + "",
+													  	url : 'DeleteClassifier',
+													   	async : false,
+													   	success : function(result) {
+													   		
+//									   						swal('Deleted!','Classifier ' + IDshortname + ' (ID: '+IDstring+') has been deleted.','success').then(function(){location.reload();})
+									   						
+									   						swal({
+															  title: "Deleted!",
+															  html: "Classifier " + IDshortname + " (ID: "+IDstring+") has been deleted.<br><br>",
+															  type: "success",
+															  buttonsStyling: false,
+															  customClass: 'modal-container',
+															  confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+															  cancelButtonClass: 'bx--btn bx--btn--secondary margin-lr',
+															  confirmButtonText: 'Delete it!',
+															  cancelButtonText: 'Cancel',
+															  showCancelButton: true,
+															  allowOutsideClick: false,
+															  allowEscapeKey: true
+															}).then( function(result) { location.reload(); });
+										   				
+													   	}
+												
+							   					});
+												
+											}//User really wants to delete the classifier {END}
+												
+										});
+									
+									}
+							})
 					});
 
 							block.setAttribute("class",'smoothrectangle '+table[i][j][k].status+'');
@@ -236,19 +246,20 @@ function addClassifierTable(IDelement,table){
 		tableElement.appendChild(row);
 	}
 	document.getElementById(IDelement).appendChild(tableElement);
-	
-	flag = true;
-	classifierClass = "";
 }
 
 function deleteClassifierFromDetailPage(classID, shortName){
 	
 	swal({
 		  title: "Are you sure?",
-		  text: "Are you really sure you want to delete this classifier?",
+		  html: "Are you really sure you want to delete this classifier?<br><br>",
 		  type: "warning",
-		  confirmButtonColor: '#d33',
-		  confirmButtonText: 'Delete!',
+		  customClass: 'modal-container',
+		  buttonsStyling: false,
+		  confirmButtonClass: 'bx--btn bx--btn--primary',
+		  cancelButtonClass: 'bx--btn bx--btn--secondary',
+		  confirmButtonText: 'Yes, delete it!',
+		  cancelButtontext: 'No, cancel',
 		  showCancelButton: true,
 		  allowOutsideClick: false,
 		  allowEscapeKey: true
@@ -264,8 +275,19 @@ function deleteClassifierFromDetailPage(classID, shortName){
 				  	url : 'DeleteClassifier',
 				   	async : false,
 				   	success : function(result) {
-				   		
-   						swal('Deleted!','Classifier ' + shortName + ' (ID: '+classID+') has been deleted.','success').then(function(){window.location.href = 'home.html';})
+				   		   						
+						swal({
+   							title: 'Deleted!',
+   							html: 'Classifier ' + shortName + ' (ID: '+classID+') has been deleted.<br><br>',
+   							type: 'success',
+   							buttonsStyling: false,
+   							customClass: 'modal-container',
+							confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+							confirmButtonText: 'Yeah!',
+							showCancelButton: false,
+							allowOutsideClick: false,
+							allowEscapeKey: false
+   						}).then(function(){window.location.href = 'home.html';})   						
 	   				
 				   	}
 			

@@ -15,6 +15,7 @@
 <script src="js/svgxuse.min.js"></script>
 <!-- Utilities -->
 <script src="js/jquery.lazy.min.js"></script>
+<script src="js/FileSaver.min.js"></script>
 <script src="js/tingle.min.js"></script>
 <script src="js/progressbar.js"></script>
 <script src="js/circle.js"></script>
@@ -330,14 +331,15 @@ if(TOTALROWSFILLED < 10){
     } else {
     		swal({
 				title: "Warning",
-				text: "Max number of entries reached. You can run max 10 tests simultaneously.",
+				html: "Max number of entries reached. You can run max 10 tests simultaneously.<br><br>",
 				type: "warning",
 				showCloseButton: false,
 				showCancelButton: true,
 				showConfirmButton: false,
 				buttonsStyling: false,
-				canceluttonClass: 'bx--btn bx--btn--primary',
-				cancelButtonText: 'OK'
+				customClass: 'modal-container',
+				cancelButtonClass: 'bx--btn bx--btn--primary',
+				cancelButtonText: 'Got it'
 			});
     }
     TOTALROWSFILLED++;
@@ -402,8 +404,16 @@ $('body').on("click","img[id*=garbage]",function(){
 	}
 	else swal({
 				title: "Warning",
-				text: "You have to run at least one test",
-				type: "warning"});
+				html: "You have to run at least one test.<br><br>",
+				type: "warning",
+				showCloseButton: false,
+				showCancelButton: true,
+				showConfirmButton: false,
+				buttonsStyling: false,
+				customClass: 'modal-container',
+				cancelButtonClass: 'bx--btn bx--btn--primary margin-lr',
+				cancelButtonText: 'Got it'
+			});
 });
 
 //WARNING overlap images between test dataset and classifier dataset
@@ -429,19 +439,35 @@ $('body').on("change","select[id*=testset]",function(){
 		success: function(result){
 		if(result.hasOwnProperty('error'))
 				{
-				swal({
-					title: 'Warning',
-					text: result.error,
-					type: 'warning',});
+					swal({
+						title: "Warning",
+						html: result.error + '<br><br>',
+						type: "warning",
+						showCloseButton: false,
+						showCancelButton: true,
+						showConfirmButton: false,
+						buttonsStyling: false,
+						customClass: 'modal-container',
+						cancelButtonClass: 'bx--btn bx--btn--primary margin-lr',
+						cancelButtonText: 'Got it'
+					});
 				}
 			else{
 			console.log(result.images);
 						console.log(result.size);
 			if(result.size>0){
-			swal({
-				title: "Warning",
-				text: "This test-dataset shares "+result.size+" images with this training-classifier dataset",
-				type: "warning"});
+					swal({
+						title: "Warning",
+						html: "This test-dataset shares "+result.size+" images with this training-classifier dataset<br><br>",
+						type: "warning",
+						showCloseButton: false,
+						showCancelButton: true,
+						showConfirmButton: false,
+						buttonsStyling: false,
+						customClass: 'modal-container',
+						cancelButtonClass: 'bx--btn bx--btn--primary margin-lr',
+						cancelButtonText: 'Got it'
+					});	
 				}
 				}
 				}});
@@ -470,19 +496,35 @@ $('body').on("change","select[id*=testclassifier]",function(){
 		success: function(result){
 		if(result.hasOwnProperty('error'))
 				{
-				swal({
-					title: 'Warning',
-					text: result.error,
-					type: 'warning',});
+					swal({
+						title: "Warning",
+						html: result.error + '<br><br>',
+						type: "warning",
+						showCloseButton: false,
+						showCancelButton: true,
+						showConfirmButton: false,
+						buttonsStyling: false,
+						customClass: 'modal-container',
+						cancelButtonClass: 'bx--btn bx--btn--primary margin-lr',
+						cancelButtonText: 'Got it'
+					});
 				}
 			else{
 			console.log(result.images);
 						console.log(result.size);
-			if(result.size>0){
-			swal({
-				title: "Warning",
-				text: "This test-dataset shares "+result.size+" images with this training-classifier dataset",
-				type: "warning"});
+			if(result.size>0){			
+					swal({
+						title: "Warning",
+						html: "This test-dataset shares "+result.size+" images with this training-classifier dataset<br><br>",
+						type: "warning",
+						showCloseButton: false,
+						showCancelButton: true,
+						showConfirmButton: false,
+						buttonsStyling: false,
+						customClass: 'modal-container',
+						cancelButtonClass: 'bx--btn bx--btn--primary margin-lr',
+						cancelButtonText: 'Got it'
+					});		
 				}
 				}
 				}});
@@ -518,11 +560,18 @@ $('#saveJSON').click(function(){
 });
 
 $('#saveJSONDB').click(function(){
- 			swal({
- 			
-				title: "Warning",
-				text: "We are working hard on this feature... just relax and run a new simulation.",
-				type: "warning"});
+					swal({
+						title: "Too much guys...",
+						html: "We are already working on this feature! Keep calm and start a new test.<br><br>",
+						type: "warning",
+						showCloseButton: false,
+						showCancelButton: true,
+						showConfirmButton: false,
+						buttonsStyling: false,
+						customClass: 'modal-container',
+						cancelButtonClass: 'bx--btn bx--btn--primary margin-lr',
+						cancelButtonText: 'Got it'
+					});
 				
 				});
 				

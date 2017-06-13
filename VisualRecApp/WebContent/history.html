@@ -170,11 +170,16 @@ $('body').on("click","img[id*=garbage]",function(){
 	if( deletable <= 1 ){
 	
 		 swal({
-		 
 				title: "Warning",
-				text: "You have to load at least one test!",
-				type: "warning"
-				
+				html: "You have to load at least one test.<br><br>",
+				type: "warning",
+				showCloseButton: false,
+				showCancelButton: true,
+				showConfirmButton: false,
+				buttonsStyling: false,
+				customClass: 'modal-container',
+				cancelButtonClass: 'bx--btn bx--btn--primary margin-lr',
+				cancelButtonText: 'Got it'
 			});
 		
 	}
