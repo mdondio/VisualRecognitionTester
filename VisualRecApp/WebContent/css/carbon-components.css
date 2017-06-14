@@ -2152,8 +2152,8 @@ select[data-invalid] ~ .bx--form-requirement {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  width: 12.5rem;
-  height: 15rem;
+  width: 10rem; /*12.5rem*/
+  height: 12rem; /*15rem*/
   background-color: #fff;
   border: 1px solid #dfe3e6;
 }

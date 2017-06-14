@@ -22,13 +22,33 @@
   position: relative;
 }
 
-.modal-container {
-  border-radius: 1px!important;
+.modal-container { border-radius: 1px!important; }
+.margin-lr { margin-right: 8px; margin-right: 8px; }
+
+.bx--card:hover{
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.10);	
 }
 
-.margin-lr {
-  margin-right: 8px;
-  margin-right: 8px;	
+.bx--card.minimal {
+  margin: 5px;
+  width: 5rem; /*12.5rem*/
+  height: 5rem; /*15rem*/
+  padding-top: 35%;
+}
+
+.bx--card.minimal.ready { cursor: pointer; }
+.bx--card.minimal.training { background: #ECECEC; cursor: wait; }
+.bx--card.minimal.zombie { background: transparent; cursor: wait; }
+
+.bx--card.large {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 20px;
+  margin-right: 20px;
+  width: 90%;
+  height: 35px;
+  cursor: pointer;
+  padding-top: 2%;
 }
 /* END ADDENDUM TO CARBON DESIGN */
 

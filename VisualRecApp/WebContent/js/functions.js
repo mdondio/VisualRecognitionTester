@@ -63,7 +63,7 @@ function printTestResults(){
 						  buttonsStyling: false,
 						  showCancelButton: false,
 						  customClass: 'modal-container',
-						  cancelButtonClass: 'bx--btn bx--btn--primary margin-lr',
+						  confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
 						  confirmButtonText: 'Got it'
 						})
 					
@@ -232,10 +232,34 @@ function addClassifierTable(IDelement,table){
 							})
 					});
 
-							block.setAttribute("class",'smoothrectangle '+table[i][j][k].status+'');
-							block.setAttribute("data-tooltip","ID: "+table[i][j][k]._id+" status:"+table[i][j][k].status+" - label:"+table[i][j][k].label);
+//							block.setAttribute("class",'smoothrectangle '+table[i][j][k].status+'');
+							block.setAttribute("class",'bx--card minimal '+table[i][j][k].status+'');
+							block.setAttribute("data-tooltip","ID: "+table[i][j][k]._id+" status: "+table[i][j][k].status+" - label: "+table[i][j][k].label);
 					
 //					block.appendChild(document.createTextNode(table[i][j][k].training_size+"_"+"v"+k));
+							
+							
+//							<div class="bx--card-overview__about">
+//						      <header class="bx--about__title">
+//						        <h3 id="card-title-1" class="bx--about__title--name">Shortname</h3>
+//						        <a href="" class="bx--link bx--about__title--link">Number of images</a>
+//						      </header>
+//						    </div>
+							
+							
+//					block.appendChild("<div class='bx--card-overview__about'><header class='bx--about__title'><h3 id='card-title-1' class='bx--about__title--name'>");	    
+						    
+//					var tt = document.createElement('div');
+//					tt.setAttribute("class", 'bx--card-overview__about');
+//					var hh = document.createElement('header');
+//					hh.setAttribute("class", 'bx--about__title');
+//					var h3 = document.createElement('h3');
+//					h3.setAttribute("class", 'bx--about__title--name');
+//					h3.document.createTextNode("ciao");
+//					tt.appendChild(hh);
+//					hh.appendChild(h3);					
+//					block.appendChild(tt);
+							
 					block.appendChild(document.createTextNode(table[i][j][k].shortname+" "+table[i][j][k].training_size));
 					td.appendChild(block);
 				}
@@ -303,21 +327,28 @@ function deleteDataset(e, datasetID){
 	
 	swal({
         title: 'Are you sure?',
-        text: 'Are you sure you want to delete dataset\n\n [' + datasetID + '] ?\n\n',
+        html: 'Are you sure you want to delete dataset<br><br> [' + datasetID + ']?<br><br>',
         type: 'warning',
+        buttonsStyling: false,
+        customClass: 'modal-container',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Delete!',
-        cancelButtonText: 'No!'
+        confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+        cancelButtonClass: 'bx--btn bx--btn--secondary margin-lr',
+        confirmButtonText: 'Yes, delete it',
+        cancelButtonText: 'No, cancel'
     }).then(function(isConfirm) {
         if (isConfirm)
             handlerDeletion(e, datasetID);
         else {
             swal({
                 title: 'Operation Aborted',
-                text: 'This dataset is safe :)',
-                type: 'error'
+                html: 'This dataset is safe :)<br><br>',
+                type: 'error',
+                buttonsStyling: false,
+                showCancelButton: false,
+                customClass: 'modal-container',
+                confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+                confirmButtonText: 'Yeah!',
             })
         }
     })
@@ -338,9 +369,12 @@ function handlerDeletion(e, datasetID){
             if (this.status == 200) {
                 swal({
                     title: 'Succes!',
-                    text: 'Dataset [' + idgallery + '] has been correclty deleted!',
+                    html: 'Dataset [' + idgallery + '] has been correctly deleted!<br><br>',
                     type: "success",
-                    confirmButtonColor: '#5cb85c',
+                    showCancelButton: false,
+                    buttonsStyling: false,
+                    customClass: 'modal-container',
+                    confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
                     confirmButtonText: 'Yeah!'
                 }).then(function(isConfirm) {
                     if (isConfirm)
@@ -383,12 +417,14 @@ function handlerDeletion(e, datasetID){
                 }
                 swal({
                     title: '*** ' + alert_title + ' ***',
-                    text: alert_text,
+                    html: alert_text + '<br><br>',
                     type: 'error',
                     imageUrl: alert_img,
                     imageWidth: 800,
                     imageHeight: 200,
-                    confirmButtonColor: '#f0ad4e',
+                    showCancelButton: false,
+                    customClass: 'modal-container',
+                    confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
                     confirmButtonText: 'Ok :('
                 }).then(function(isConfirm) {
                     if (isConfirm)
@@ -497,12 +533,16 @@ function buildSelectTestResult(IDselector) {
 		if (obj.ID == null) {
 			swal({
 				title : "Warning",
+				html : "Classifier "
+					+ testdetails[testcount].classifier
+					+ " is exhausted. Wait 24h and you will regain your free API calls<br><br>",
 				imageUrl : "img/tired2.png",
 				imageWidth: 240,
 				imageHeight: 200,
-				text : "Classifier "
-					+ testdetails[testcount].classifier
-					+ " is exhausted. Wait 24h and you will regain your free API calls",
+				customClass: 'modal-container',
+				showCancelButton: false,
+				confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+                confirmButtonText: 'Got it'
 			});
 		} else {
 			$(IDselector).append($('<option>', {
@@ -1200,10 +1240,12 @@ function workingUpdate(flag){
 			
 	 		swal({
 				  title: "Saved!",
-				  text: "Your changes have been saved correctly!",
+				  html: "Your changes have been saved correctly!<br><br>",
 				  type: "success",
-				  confirmButtonColor: '#5cb85c',
-				  confirmButtonText: 'Set!',
+				  customClass: 'modal-container',
+				  showCancelButton: false,
+                  confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+				  confirmButtonText: 'Ok',
 				  allowOutsideClick: false,
 				  allowEscapeKey: true
 				}).then(function(result) {
@@ -1517,14 +1559,17 @@ function populateAPITable(){
 					var instanceId=result[i]._id;
 					var classifiers=result[i].classifiers;
 				btn.onclick = (function(instanceId,classifiers) {return function() {
-					console.log(instanceId);
-console.log(classifiers);
+//					console.log(instanceId);
+//					console.log(classifiers);
 					swal({
 						  title: "Are you sure?",
-						  text: "You are deleting also all classifiers ("+classifiers.length+") linked to this api_key. Are you really sure you want to delete this instance?",
+						  html: "You are deleting also all classifiers ("+classifiers.length+") linked to this api_key. Are you really sure you want to delete this instance?<br><br>",
 						  type: "warning",
-						  confirmButtonColor: '#d33',
+						  customClass: 'modal-container',
+		                  confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
 						  confirmButtonText: 'Delete!',
+						  cancelButtonClass: 'bx--btn bx--btn--secondary margin-lr',
+						  cancelButtonText: 'Cancel',
 						  showCancelButton: true,
 						  allowOutsideClick: false,
 						  allowEscapeKey: true
@@ -1559,14 +1604,29 @@ console.log(classifiers);
 									   	async : true,
 									   	success : function(result) {
 									   		if(result.hasOwnProperty('error'))
-									   			{
-									   				swal({
-									   					title: 'Warning',
-									   					text: result.error,
-									   					type: 'warning',});
-									   					}
+									   				{
+										   				swal({
+											   					title: 'Warning',
+											   					html: result.error + '<br><br>',
+											   					type: 'warning',
+											   					customClass: 'modal-container',
+											   					showCancelButton: false,
+											   					showConfirmButton: true,
+											   					confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+																confirmButtonText: 'Got it'
+										   					});
+									   				}
 									   		else{
-									   			swal('Deleted!','Instance has been deleted.','success').then(function(){location.reload();})
+									   					swal({
+										   						title: 'Deleted!',
+										   						html: 'Instance has been deleted.',
+										   						type: 'success',
+										   						customClass: 'modal-container',
+											   					showCancelButton: false,
+											   					showConfirmButton: true,
+											   					confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+																confirmButtonText: 'Yeah!'
+									   						}).then(function(){location.reload();})
 									   		}
 									   	}
 			   					});
@@ -1821,7 +1881,8 @@ function generateHome(){
 			for ( var i in result) {
 				
 				var circle = document.createElement("div");
-				circle.setAttribute("class","smoothrectangle ready");
+//				circle.setAttribute("class","smoothrectangle ready");
+				circle.setAttribute("class","bx--card large ready");
 				circle.setAttribute("id","showdatasetID"+result[i]._id);
 				circle.appendChild(document.createTextNode(result[i]._id));
 				$("#listdataset").append(circle);
@@ -1858,22 +1919,44 @@ function startTrain(){
 			if(result.hasOwnProperty('error'))
 				{
 				swal({
-					title: 'Warning',
-					text: result.error,
-					type: 'warning',});
+						title: 'Warning',
+						html: result.error + '<br><br>',
+						type: 'warning',
+						customClass: 'modal-container',
+						buttonsStyling: false,
+	   					showCancelButton: false,
+	   					showConfirmButton: true,
+	   					confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+						confirmButtonText: 'Got it'
+					});
 				}
 			else{
-			swal('Launched!',
-					'Your classifier training has been launched!',
-					'success').then(function(){window.location.href="home.html"})
+				swal({
+						title: 'Launched!',
+						html: 'Your classifier training has been launched!<br><br>',
+						type: 'success',
+						customClass: 'modal-container',
+						buttonsStyling: false,
+	   					showCancelButton: false,
+	   					showConfirmButton: true,
+	   					confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+						confirmButtonText: 'Yeah!'
+					}).then(function(){window.location.href="home.html"})
 		}
 			}
 	});
 		}else{
 			swal({
-				title: 'Warning',
-				text: 'You have to select a valid dataset of images!',
-				type: 'warning',});
+					title: 'Warning',
+					html: 'You have to select a valid image dataset.<br><br>',
+					type: 'warning',
+					customClass: 'modal-container',
+					buttonsStyling: false,
+					showCancelButton: false,
+					showConfirmButton: true,
+					confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+					confirmButtonText: 'Got it'
+				});
 		} 	
 }
 

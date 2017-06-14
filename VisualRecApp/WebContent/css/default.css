@@ -643,7 +643,7 @@ img#waiting{
     margin: auto;
 }
 	
-	.smoothrectangle.training {
+.smoothrectangle.training {
 	background: #ECECEC;
 	color: #d9d9d9;
 	border-color: #d9d9d9;
@@ -665,7 +665,6 @@ img#waiting{
 /* Add this attribute to the element that needs a tooltip */
 [data-tooltip] {
   position: relative;
-/*   z-index: 2000000000000000; */
   cursor: pointer;
 }
 
@@ -682,7 +681,7 @@ img#waiting{
 /* Position tooltip above the element */
 [data-tooltip]:before {
   position: absolute;
-  bottom: 150%;
+  bottom: 130%;
   left: 50%;
   margin-bottom: -10px; /* tooltip container position */
   margin-left: -80px;
@@ -698,12 +697,13 @@ img#waiting{
   text-align: left;
   font-size: 14px;
   line-height: 1.2;
+  z-index: 20000000; /*avoid tooltip to be under cards*/
 }
 
 /* Triangle hack to make tooltip look like a speech bubble */
 [data-tooltip]:after {
   position: absolute;
-  bottom: 119%; /* down arrow position */
+  bottom: 110%; /* down arrow position */
   left: 50%;
   margin-left: -5px;
   width: 0;
