@@ -169,8 +169,8 @@ p.paragraph.left {
 
 /* ================== GESTIONE TABELLE ============== */
 table, td, th {
-	border-top: 1px solid #343b43;
-	border-bottom: 1px solid #343b43;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
 	font-family: IBM;
 	background-color: transparent;
 	color: #343b43;
