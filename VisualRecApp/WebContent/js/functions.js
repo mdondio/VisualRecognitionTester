@@ -1723,7 +1723,6 @@ function buildSelectDataSet(dataset_type,IDselector){
 			
 			for(var i in result){
 				var obj = result[i];
-				
 				if((obj.images.positive.length + obj.images.negative.length)*(dataset_type=="test_set")<250){
 					$(IDselector).append($('<option>', {
 						value: obj._id,

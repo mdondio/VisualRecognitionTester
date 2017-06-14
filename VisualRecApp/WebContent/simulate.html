@@ -584,6 +584,7 @@ $('#saveJSONDB').click(function(){
 </script>
 
 <script>
+// load only dataset with less than 250 images (exluding very dangerous case for watson)
 buildSelectDataSet("test_set",'[id*="testset"]');
 buildSelectClassifier("ready",'[id*="testclassifier"]');
 </script>

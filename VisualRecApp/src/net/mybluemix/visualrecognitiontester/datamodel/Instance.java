@@ -38,6 +38,22 @@ public class Instance {
 		return api_key;
 	}
 	
+	public String setType(String type) {
+		return this.type = type;
+	}
+	
+	public String setAccount(String account) {
+		return this.account = account;
+	}
+	
+	public String setRegion(String region) {
+		return this.region = region;
+	}
+	
+	public String setApikey(String apiKey) {
+		return this.api_key = apiKey;
+	}
+	
 	public void addClassifier(String classifierId){
 		if(!classifiers.contains(classifierId))
 			classifiers.add(classifierId);

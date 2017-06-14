@@ -175,6 +175,7 @@ createCarbonHeader();
   	var values = [];
   	var k = 0;
   	
+  	// when add API key button will be clicked all the API will be added to the values vector
   	$('#insertAPI').click(function(){
 		
 		$("#test :input").each(function(e){	
@@ -182,9 +183,36 @@ createCarbonHeader();
 		  values[k] = this.value;
 		  k++;
 
+		$.ajax({													
+				dataType: "json",
+				url: 'AddInstance',
+				data: "api_key="+this.value,
+				async: true,
+				success: function(result){
+					if(result.hasOwnProperty('error'))
+						{
+						swal({
+								title: 'Warning',
+								html: result.error + '<br><br>',
+								type: 'warning',
+								customClass: 'modal-container',
+								buttonsStyling: false,
+			   					showCancelButton: false,
+			   					showConfirmButton: true,
+			   					confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+								confirmButtonText: 'Got it'
+							});
+						}
+					else{}	
+		}
+	
+	});
+	
 		});
 		
 		console.log(values)
+		
+		
 		
 	});
 	
