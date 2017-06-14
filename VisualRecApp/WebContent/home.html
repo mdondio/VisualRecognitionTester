@@ -85,7 +85,17 @@ createCarbonHeader();
 			
 				<strong class="bx--label">Available dataset</strong>
 				<p class="bx--label-description">Test and training dataset available. Click to edit.</p>
-<!-- 				<hr class="lineseparator"> -->
+					<div class="bx--form-item">
+<!-- 					  <label for="select-id" class="bx--label">filter dataset</label> -->
+					  <div class="bx--select">
+					    <select id="filterDataset" class="bx--select-input" onchange="getFilter(this)" >
+					      <option class="bx--select-option" disabled selected hidden>Filter dataset</option>
+					    </select>
+					    <svg class="bx--select__arrow" width="10" height="5" viewBox="0 0 10 5" fill-rule="evenodd">
+					      <path d="M10 0L5 5 0 0z"></path>
+					    </svg>
+					  </div>
+					</div>
 				<div class="post-preview" id="listdataset"></div>
 
 			</div>
@@ -114,6 +124,7 @@ createCarbonHeader();
 
 <script>
 	generateHome();
+	populateFilterDataset( $("#filterDataset") );
 	
 	//per vedere la galleria di immagini di un certo testset clickato
 	$('body').on("click", "[id*=showdatasetID]", function() {
@@ -130,6 +141,92 @@ createCarbonHeader();
 		window.location.href = 'classifierdetails.html';
 
 	});
+	
+	$.ajax({
+				contentType : "application/json",
+				dataType : "json",
+				url : 'GetDataset',
+				data : "_id=",
+				async : true,
+				success : function(result) {
+				
+					for ( var i in result) {
+
+						$("#listdataset").html(result[i]);
+						
+					}
+					
+				}
+				
+			});
+	
+	var dArray = [];
+	var k;
+	var value;
+	
+	//Filter dataset
+	function getFilter( filter ){
+	
+		k = 0;
+		dArray = [];
+    
+    	value = filter.value;
+    	
+    	console.log("you selected " + value)
+    	console.log()
+    	
+    	//cleaning procedure
+    	$("#listdataset").html("");
+    	
+    		$.ajax({
+				contentType : "application/json",
+				dataType : "json",
+				url : 'GetDataset',
+				data : "_id=",
+				async : true,
+				success : function(result) {
+				
+					for ( var i in result) {
+
+						var label = result[k];
+						
+						dArray[k] = label;
+						k++;
+						
+					}
+					
+				}
+				
+			});
+	
+	}
+	
+	$(document).ajaxStop(function () {
+	
+      	manipulateArray(value);
+  	
+  	});
+	
+function manipulateArray(selectedOption){
+
+	var resultLabel = dArray.map(function(a) {return a.label;});
+	var resultID = dArray.map(function(a) {return a._id;});
+	
+	for( var t = 0; t < dArray.length; t++ ){
+	
+		if( resultLabel[t].includes(selectedOption) ){
+		
+			var circle = document.createElement("div");
+			circle.setAttribute("class","bx--card large ready");
+			circle.setAttribute("id","showdatasetID"+resultID[t]);
+			circle.appendChild(document.createTextNode(resultID[t]));
+			$("#listdataset").append(circle);
+		
+		}
+		
+	} 
+		
+}
 
 </script>
 

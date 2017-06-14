@@ -1739,6 +1739,46 @@ function buildSelectDataSet(dataset_type,IDselector){
 	
 }
 
+function populateFilterDataset(IDselector){
+	
+	var obj = [];
+
+	$.ajax({													
+		dataType: "json",
+		url: 'GetDataset',
+		data: "_id=",
+		async: true,
+		success: function(result){
+			
+			for(var i in result){
+				obj = result[i];
+				
+//				for( var k = 0; k < old.size; k++ ){
+//					
+//					if( old[k] == result[i] )
+//						console.log()
+//					else{
+//
+//						old[k] = result[i]
+//						
+//					}
+//						
+//					
+//				}
+				
+//				$(IDselector).append($('<option>', {
+//					value: old.label,
+//					text: old.label
+//				}));		
+			
+			}
+			
+		}
+	
+	});
+	
+}
+
 /**
  * @param status (ready,training,zombie)
  * @param IDselector
