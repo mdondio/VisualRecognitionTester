@@ -737,10 +737,10 @@ img#waiting{
 }
 
 .blocktesticon{
-width:14%;
-height:90%;
-display:inline-block;
-position:relative;
+	width:14%;
+	height:90%;
+	display:inline-block;
+	position:relative;
 }
 
 .blockgallery{

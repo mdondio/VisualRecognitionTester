@@ -464,11 +464,11 @@ var numberBlock = 0;
 function createBlockTest(IDappend,testname,label,classifier){
 	
 	var block = document.createElement("div");
-	block.setAttribute("class","blocktest");
+	block.setAttribute("class","bx--card medium");
 	
 //	======================
 	var blocktest = document.createElement("div");
-	blocktest.setAttribute("class","blocktestattribute");
+	blocktest.setAttribute("class","attribute");
 	
 	var pblockT1 = document.createElement("p");
 	pblockT1.setAttribute("class","smalltitle");
@@ -487,7 +487,7 @@ function createBlockTest(IDappend,testname,label,classifier){
 	blocktest.appendChild(pblockP2);
 //	===========================
 	var blockicon1 = document.createElement("div");
-	blockicon1.setAttribute("class","blocktesticon");
+	blockicon1.setAttribute("class","icon");
 	
 	var icon1 = document.createElement("img");
 	icon1.setAttribute("class","icon verysmall blocktest");
@@ -1570,6 +1570,7 @@ function populateAPITable(){
 						  confirmButtonText: 'Delete!',
 						  cancelButtonClass: 'bx--btn bx--btn--secondary margin-lr',
 						  cancelButtonText: 'Cancel',
+						  buttonsStyling: false,
 						  showCancelButton: true,
 						  allowOutsideClick: false,
 						  allowEscapeKey: true
