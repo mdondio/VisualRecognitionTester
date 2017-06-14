@@ -464,54 +464,54 @@ var numberBlock = 0;
 function createBlockTest(IDappend,testname,label,classifier){
 	
 	var block = document.createElement("div");
-	block.setAttribute("class","bx--card medium");
+	block.setAttribute("class", "bx--card medium");
 	
 //	======================
 	var blocktest = document.createElement("div");
-	blocktest.setAttribute("class","attribute");
+	blocktest.setAttribute("class", "attribute");
 	
-	var pblockT1 = document.createElement("p");
-	pblockT1.setAttribute("class","smalltitle");
+	var pblockT1 = document.createElement("strong");
+	pblockT1.setAttribute("class", "bx--label");
 	pblockT1.appendChild(document.createTextNode(testname));
 	
 	var pblockP1 = document.createElement("p");
-	pblockP1.setAttribute("class","paragraph");
-	pblockP1.appendChild(document.createTextNode("LABEL: "+label));
+//	pblockP1.setAttribute("class", "paragraph");
+	pblockP1.appendChild(document.createTextNode("Label: "+label));
 	
 	var pblockP2 = document.createElement("p");
-	pblockP2.setAttribute("class","paragraph");	
-	pblockP2.appendChild(document.createTextNode("CLASSIFIER: "+classifier));
+//	pblockP2.setAttribute("class", "paragraph");	
+	pblockP2.appendChild(document.createTextNode("Classifier: "+classifier));
 	
 	blocktest.appendChild(pblockT1);
 	blocktest.appendChild(pblockP1);
 	blocktest.appendChild(pblockP2);
 //	===========================
-	var blockicon1 = document.createElement("div");
-	blockicon1.setAttribute("class","icon");
+//	var blockicon1 = document.createElement("div");
+//	blockicon1.setAttribute("class", "card-icon");
 	
 	var icon1 = document.createElement("img");
-	icon1.setAttribute("class","icon verysmall blocktest");
-	icon1.setAttribute("src","ico/garbageDARK.png");
+	icon1.setAttribute("class", "card-icon");
+	icon1.setAttribute("src", "ico/garbageDARK.png");
 	icon1.setAttribute("number", numberBlock);
-	icon1.setAttribute("id","garbage"+testname);
+	icon1.setAttribute("id", "garbage"+testname);
 	
 	numberBlock++;
 	
-	blockicon1.appendChild(icon1);
+//	blockicon1.appendChild(icon1);
 	
-	var blockicon2 = document.createElement("div");
-	blockicon2.setAttribute("class","blocktesticon");
-	
-	var icon2 = document.createElement("img");
-	icon2.setAttribute("class","icon verysmall blocktest");
-	icon2.setAttribute("src","ico/plus-symbol.png");
-	icon2.setAttribute("id","plus"+testname);
-	
-	blockicon2.appendChild(icon2);
+//	var blockicon2 = document.createElement("div");
+//	blockicon2.setAttribute("class","blocktesticon");
+//	
+//	var icon2 = document.createElement("img");
+//	icon2.setAttribute("class","icon verysmall blocktest");
+//	icon2.setAttribute("src","ico/plus-symbol.png");
+//	icon2.setAttribute("id","plus"+testname);
+//	
+//	blockicon2.appendChild(icon2);
 //	===========================
 	block.appendChild(blocktest);
-	block.appendChild(blockicon1);
-	block.appendChild(blockicon2);
+	block.appendChild(icon1);
+//	block.appendChild(blockicon2);
 	
 	$("#"+IDappend+"").append(block);
 }

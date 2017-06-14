@@ -50,29 +50,31 @@
 }
 
 .bx--card.medium {
-  margin-top: 15px;
-  margin-bottom: 15px;
-  width: 400px;
+  margin: 5px;
+  width: 32%;
   height: 100px;
-  cursor: pointer;
-  padding-top: 2%;
+  display: inline-flex;
 }
 
-.bx--card.attribute{
+.attribute {
     width: 65%;
     line-height: 25px;
     display: inline-block;
     position: relative;
-    vertical-align: super;
-    margin-left: 20px;
-    height:100%;
+    margin-top: 10px;
+    margin-left: 15px;
+    margin-bottom: 10px;
+    height: 100%;
 }
 
-.bx--card.icon{
-	width:14%;
-	height:90%;
-	display:inline-block;
-	position:relative;
+.card-icon {
+    display: block;
+    position: relative;
+    width: 30px;
+    height: auto;
+    top: -70px;
+    left: 90%;
+    cursor: pointer;
 }
 
 /* END ADDENDUM TO CARBON DESIGN */

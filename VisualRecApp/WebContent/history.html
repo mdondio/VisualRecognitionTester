@@ -37,20 +37,30 @@ createCarbonHeader();
 
 	<div class="row clearfix">
 
-		<div class="column half">
+		<div class="column three-fourths">
 			<input type="file" id="selectFiles" value="Import">
-		
-			<div id="caricatest"></div>
 			
 		</div>
 		
-		<div class="column half">
+		<div class="column fourth">
 		
 			<button id="import" class="bx--btn bx--btn--secondary" type="button">Import file</button>
 			<button id="viewresult" class="bx--btn bx--btn--primary" type="button">View test results</button>
 		
 		</div>
 		
+	</div>
+	
+	<br><br><br>
+	
+	<div class="row clearfix">
+	
+		<div class="column full">
+		
+		<div id="caricatest"></div>
+		
+		</div>
+	
 	</div>
 
 </div>
@@ -186,7 +196,7 @@ $('body').on("click","img[id*=garbage]",function(){
 		
 	else{
 	
-		var parent = this.parentNode.parentNode;
+		var parent = this.parentNode;
 		
 		var parent_not_primary = this.getAttribute("id");
 		

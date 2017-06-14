@@ -159,9 +159,14 @@ createCarbonHeader();
 			
 			<div class="row clearfix">
 				<div class="column full">
-					<select id="show_test" class="bx--select-input">
-						<option class="bx--select-option" disabled selected hidden value="">Select test</option>
-					</select>
+					<div class="bx--select">
+					    <select id="show_test" class="bx--select-input">
+					      <option class="bx--select-option" disabled selected hidden value="">Select test</option>
+					    </select>
+					    <svg class="bx--select__arrow">
+					      <use xlink:href="./ico/bluemix-icons.svg#icon--caret--down"></use>
+					    </svg>
+					  </div>
 					<br><br>
 					<div style="text-align:center;">
 						<button class="bx--btn bx--btn--primary" id="saveJSON" type="sumbit">Download JSON</button>
@@ -230,15 +235,16 @@ createCarbonHeader();
 					  		<div class="column half">
 					  			<strong class="bx--label">Distribution</strong>
 					  			
-					  			<a class="bx--tooltip__trigger">
-								  <svg tabindex="0" data-tooltip-trigger data-tooltip-target="#unique-tooltip" width="16" height="16">
-								    <use xlink:href="./ico/bluemix-icons.svg#icon--info--glyph"></use>
-								  </svg>
-								</a>
-								<div id="unique-tooltip" data-floating-menu-direction="top" class="bx--tooltip">
-								  <p class="bx--tooltip__label">Distribution graph</p>
-								  <p>Thanks to Visual Recognition scores, we can draw the negative and the positive distribution curves. Classifier effectiveness increases if VR instance is able to better separate the positive population from the negative one.</p>
-								</div>
+<!-- 					  			<a class="bx--tooltip__trigger"> -->
+<!-- 								  <svg tabindex="0" data-tooltip-trigger data-tooltip-target="#unique-tooltip" width="16" height="16"> -->
+<!-- 								    <use xlink:href="./ico/bluemix-icons.svg#icon--info--glyph"></use> -->
+<!-- 								  </svg> -->
+<!-- 								</a> -->
+<!-- 								<div id="unique-tooltip" data-floating-menu-direction="top" class="bx--tooltip"> -->
+<!-- 								  <p class="bx--tooltip__label">Distribution graph</p> -->
+<!-- 								  <p>Thanks to Visual Recognition scores, we can draw the negative and the positive distribution curves. Classifier effectiveness increases if VR instance is able to better separate the positive population from the negative one.</p> -->
+<!-- 								</div> -->
+								
 					  			<div class="selecttest"><br><br><br>Select a test to view distribution graph</div>		
 					  			<div class="displayresults" id="graph_histogram"></div>
 					  		</div>
