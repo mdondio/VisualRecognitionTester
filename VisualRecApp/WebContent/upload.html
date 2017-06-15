@@ -122,6 +122,7 @@ createCarbonHeader();
 
 	var datasetID, datasetLabel;
 	var flag = false;
+	var empty = true;
 
     $(document).ready(function(){
 
@@ -130,9 +131,14 @@ createCarbonHeader();
         $("#negFiles").on("change", handlerSelectedFiles);
 
         $("#submit").click( function(e){
-        
-        	executionFormInputFromUser(e);
-        			
+
+        	if( !empty ){
+
+        		executionFormInputFromUser(e);
+
+        	}else
+        		null;
+
         });
 
         $("body").on("click", ".selFile", handlerFileRemove);
@@ -144,20 +150,21 @@ createCarbonHeader();
 		var tmpDatasetID = null , tmpDatasetLabel = null;
 
 		swal({
-		  title: "Insert Dataset ID",
-		  html: "Give your Dataset an ID:<br><br>",
-		  type: "info",
-		  input: "text",
-		  customClass: 'modal-container',
-		  confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
-		  confirmButtonText: 'Set ID',
-		  cancelButtonClass: 'bx--btn bx--btn--secondary margin-lr',
-		  cancelButtonText: 'Cancel',
-		  buttonsStyling: false,
-		  showCancelButton: true,
-		  allowOutsideClick: false,
-		  allowEscapeKey: true,
-		  inputPlaceholder: "Hint ID here..."
+			  title: "Insert Dataset ID",
+			  html: "Give your Dataset an ID (max 30 chars):<br><br>",
+			  type: "info",
+			  input: "text",
+			  customClass: 'modal-container',
+			  confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+			  confirmButtonText: 'Set ID',
+			  cancelButtonClass: 'bx--btn bx--btn--secondary margin-lr',
+			  cancelButtonText: 'Cancel',
+			  buttonsStyling: false,
+			  showCancelButton: true,
+			  allowOutsideClick: false,
+			  allowEscapeKey: true,
+			  inputPlaceholder: "Hint ID here...",
+			  inputAttributes: { 'maxlength': '30'}
 		}).then( function (result) {
 
 			if( result == null || result == ""){
@@ -175,7 +182,7 @@ createCarbonHeader();
 				//Second alert for Dataset label
 				swal({
 				  title: "Insert Dataset Label",
-				  html: "Give your Dataset a Label:<br><br>",
+				  html: "Give your Dataset a Label (max 15 chars):<br><br>",
 				  type: "info",
 				  input: "text",
 				  customClass: 'modal-container',
@@ -187,7 +194,8 @@ createCarbonHeader();
 				  showCancelButton: true,
 				  allowOutsideClick: false,
 				  allowEscapeKey: true,
-				  inputPlaceholder: "Hint label here..."
+				  inputPlaceholder: "Hint label here...",
+				  inputAttributes: { 'maxlength': '15'}
 				}).then( function(result) {
 
 					if( result == null || result == "" )
@@ -210,8 +218,7 @@ createCarbonHeader();
 
 							}
 
-					}
-
+						}
 
 					})
 
@@ -223,6 +230,8 @@ createCarbonHeader();
 
     function handlerSelectedFiles(e){
 
+		empty = false;
+		
         var files = e.target.files;
         var filesArr = Array.prototype.slice.call(files);
         filesArr.forEach(function(f) {
