@@ -89,7 +89,7 @@ createCarbonHeader();
 <!-- 					  <label for="select-id" class="bx--label">filter dataset</label> -->
 					  <div class="bx--select">
 					    <select id="filterDataset" class="bx--select-input" onchange="getFilter(this)" >
-					      <option class="bx--select-option" disabled selected hidden>Filter dataset</option>
+					      <option class="bx--select-option" selected hidden>Filter dataset</option>
 					    </select>
 					    <svg class="bx--select__arrow" width="10" height="5" viewBox="0 0 10 5" fill-rule="evenodd">
 					      <path d="M10 0L5 5 0 0z"></path>
@@ -152,9 +152,15 @@ createCarbonHeader();
 				
 					for ( var i in result) {
 
-						$("#listdataset").html(result[i]);
+						var circle = document.createElement("div");
+						circle.setAttribute("class","bx--card large ready");
+						circle.setAttribute("id","showdatasetID"+result[i]._id);
+						circle.appendChild(document.createTextNode(result[i]._id));
+						$("#listdataset").append(circle);
 						
 					}
+					
+					populateFiltering();
 					
 				}
 				
@@ -186,7 +192,7 @@ createCarbonHeader();
 				async : true,
 				success : function(result) {
 				
-					for ( var i in result) {
+					for ( var i in result ){
 
 						var label = result[k];
 						
@@ -201,7 +207,7 @@ createCarbonHeader();
 	
 	}
 	
-	$(document).ajaxStop(function () {
+	$(document).ajaxStop(function() {
 	
       	manipulateArray(value);
   	

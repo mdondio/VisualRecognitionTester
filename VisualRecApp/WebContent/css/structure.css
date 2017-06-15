@@ -8,13 +8,11 @@
   text-decoration: none;
 }
 
-
 body{ 
-	background-color: #F6F6F6; 
-	text-rendering: optimizeLegibility; 
-	-webkit-font-smoothing: antialiased; 
-	}
-
+  background-color: #F6F6F6; 
+  text-rendering: optimizeLegibility; 
+  -webkit-font-smoothing: antialiased; 
+}
 
 .content {
   position: relative;
@@ -23,9 +21,9 @@ body{
   margin: 0 auto;
   max-width: 95rem;
   width: 100%;
-  font-family: "IBM";
+  font-family: "IBM Helvetica";
   font-style: normal;
-  font-weight: 100;
+  font-weight: 400;
   font-size: 15px;
   text-transform: none;
   color: #5a6872;
@@ -91,6 +89,9 @@ body { min-width: 1024px; }
 .column.half { 		 	width: 50%; }
 .column.third { 	 	width: 33.3%; }
 .column.fourth { 		width: 25%; display: block; }
-.column.half-fourth { 		width: 12.5%; display: block; }
+.column.half-fourth { 	width: 12.5%; display: block; }
 .column.three-fourths { width: 75%; }
 .column.halfthird { 	width: 16.6%; text-align: left;	}
+
+
+

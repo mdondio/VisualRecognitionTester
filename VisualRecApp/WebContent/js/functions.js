@@ -127,6 +127,11 @@ function addClassifierTable(IDelement,table){
 	var tableElement = document.createElement('table');
 	var columnCount = table[0].length;
 	var rowCount = table.length;
+	
+	//flag for disabling swal buttons in case of a training classifier
+	 var flag = true;
+	
+	
 	//Add the data rows.
 	for (var i = 0; i < rowCount; i++) {
 		//row = tableElement.insertRow(-1);
@@ -155,10 +160,42 @@ function addClassifierTable(IDelement,table){
 					block.addEventListener("click", function(){
 						var IDstring = $(this).prop("id");
 						
+						var classifierClass = $(this).prop("class");
+						
+						var status;
+						 						
+						if( classifierClass.includes("ready") ){
+							
+							flag = false; 
+							
+						} else {
+							
+							if(classifierClass.includes("training"))
+								status = "training";
+							else
+								status = "zombie";
+							
+						}
+						
+						
 						setClassID(IDstring);
 												
 						var IDshortname = returnClassifierDetail(IDstring, "shortname");
 						var IDdescription = returnClassifierDetail(IDstring, "description");
+						
+						if (flag){
+							
+							swal({
+								title: IDshortname,
+								html: 'Your classifier is ' + status +'!<br><br>',
+								buttonsStyling: false,
+								customClass: 'modal-container',
+								showCancelButton: false,
+								confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+								confirmButtonText: 'Ok'
+							})
+							
+						} else {
 						
 						swal({
 //							  title: 'ID: '+IDstring,
@@ -212,10 +249,10 @@ function addClassifierTable(IDelement,table){
 															  buttonsStyling: false,
 															  customClass: 'modal-container',
 															  confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
-															  cancelButtonClass: 'bx--btn bx--btn--secondary margin-lr',
-															  confirmButtonText: 'Delete it!',
-															  cancelButtonText: 'Cancel',
-															  showCancelButton: true,
+//															  cancelButtonClass: 'bx--btn bx--btn--secondary margin-lr',
+															  confirmButtonText: 'Yeah!',
+//															  cancelButtonText: 'Cancel',
+															  showCancelButton: false,
 															  allowOutsideClick: false,
 															  allowEscapeKey: true
 															}).then( function(result) { location.reload(); });
@@ -230,36 +267,14 @@ function addClassifierTable(IDelement,table){
 									
 									}
 							})
+							
+						}
+							
 					});
 
-//							block.setAttribute("class",'smoothrectangle '+table[i][j][k].status+'');
-							block.setAttribute("class",'bx--card minimal '+table[i][j][k].status+'');
-							block.setAttribute("data-tooltip","ID: "+table[i][j][k]._id+" status: "+table[i][j][k].status+" - label: "+table[i][j][k].label);
-					
-//					block.appendChild(document.createTextNode(table[i][j][k].training_size+"_"+"v"+k));
-							
-							
-//							<div class="bx--card-overview__about">
-//						      <header class="bx--about__title">
-//						        <h3 id="card-title-1" class="bx--about__title--name">Shortname</h3>
-//						        <a href="" class="bx--link bx--about__title--link">Number of images</a>
-//						      </header>
-//						    </div>
-							
-							
-//					block.appendChild("<div class='bx--card-overview__about'><header class='bx--about__title'><h3 id='card-title-1' class='bx--about__title--name'>");	    
-						    
-//					var tt = document.createElement('div');
-//					tt.setAttribute("class", 'bx--card-overview__about');
-//					var hh = document.createElement('header');
-//					hh.setAttribute("class", 'bx--about__title');
-//					var h3 = document.createElement('h3');
-//					h3.setAttribute("class", 'bx--about__title--name');
-//					h3.document.createTextNode("ciao");
-//					tt.appendChild(hh);
-//					hh.appendChild(h3);					
-//					block.appendChild(tt);
-							
+					block.setAttribute("class",'bx--card minimal '+table[i][j][k].status+'');
+					block.setAttribute("data-tooltip","ID: "+table[i][j][k]._id+" status: "+table[i][j][k].status+" - label: "+table[i][j][k].label);
+												
 					block.appendChild(document.createTextNode(table[i][j][k].shortname+" "+table[i][j][k].training_size));
 					td.appendChild(block);
 				}
@@ -280,10 +295,10 @@ function deleteClassifierFromDetailPage(classID, shortName){
 		  type: "warning",
 		  customClass: 'modal-container',
 		  buttonsStyling: false,
-		  confirmButtonClass: 'bx--btn bx--btn--primary',
-		  cancelButtonClass: 'bx--btn bx--btn--secondary',
+		  confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+		  cancelButtonClass: 'bx--btn bx--btn--secondary margin-lr',
 		  confirmButtonText: 'Yes, delete it!',
-		  cancelButtontext: 'No, cancel',
+		  cancelButtonText: 'No, cancel',
 		  showCancelButton: true,
 		  allowOutsideClick: false,
 		  allowEscapeKey: true
@@ -1244,6 +1259,7 @@ function workingUpdate(flag){
 				  type: "success",
 				  customClass: 'modal-container',
 				  showCancelButton: false,
+				  buttonsStyling: false,
                   confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
 				  confirmButtonText: 'Ok',
 				  allowOutsideClick: false,
@@ -1738,10 +1754,14 @@ function buildSelectDataSet(dataset_type,IDselector){
 	
 }
 
-function populateFilterDataset(IDselector){
-	
-	var obj = [];
+var list = [];
+var k = 0;
+var IDselector;
 
+function populateFilterDataset(ID_s){
+	
+	IDselector = ID_s;
+	
 	$.ajax({													
 		dataType: "json",
 		url: 'GetDataset',
@@ -1750,26 +1770,14 @@ function populateFilterDataset(IDselector){
 		success: function(result){
 			
 			for(var i in result){
-				obj = result[i];
 				
-//				for( var k = 0; k < old.size; k++ ){
-//					
-//					if( old[k] == result[i] )
-//						console.log()
-//					else{
-//
-//						old[k] = result[i]
-//						
-//					}
-//						
-//					
-//				}
+				var obj = result[i];
+								
+				var str = ""+obj.label;
 				
-//				$(IDselector).append($('<option>', {
-//					value: old.label,
-//					text: old.label
-//				}));		
-			
+				list[k] = str;
+				k++;	
+				
 			}
 			
 		}
@@ -1777,6 +1785,52 @@ function populateFilterDataset(IDselector){
 	});
 	
 }
+
+function populateFiltering(){
+
+	var arrayTest = [];
+	var flag = false;
+	
+	if( !flag ){
+		
+		arrayTest[0] = list[0];
+		flag = true;
+		
+	}else{
+		
+		flag = true;
+		
+	}
+		
+	//Check other values
+	if( flag ){
+		
+		for( var i = 1; i < list.length; i++ ){
+			
+			var temp = list[i];
+			
+			if( arrayTest[ arrayTest.length - 1 ]  == temp )
+				null;
+			else
+				arrayTest.push( list[i] );
+			
+		}
+		
+		
+	}
+	
+	for( var i = 0; i < arrayTest.length; i++ ){
+		
+		$(IDselector).append($('<option>', {
+			value: arrayTest[i],
+			text: arrayTest[i]
+		}));	
+		
+	}
+			
+	
+}
+
 
 /**
  * @param status (ready,training,zombie)
@@ -1973,7 +2027,7 @@ function startTrain(){
 			else{
 				swal({
 						title: 'Launched!',
-						html: 'Your classifier training has been launched!<br><br>',
+						html: 'Your classifier training has been launched! It will appear shortly in home page.<br><br>',
 						type: 'success',
 						customClass: 'modal-container',
 						buttonsStyling: false,
