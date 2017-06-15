@@ -1739,9 +1739,13 @@ function buildSelectDataSet(dataset_type,IDselector){
 	
 }
 
-var list;
+var list = [];
+var k = 0;
+var IDselector;
 
-function populateFilterDataset(IDselector){
+function populateFilterDataset(ID_s){
+	
+	IDselector = ID_s;
 	
 	$.ajax({													
 		dataType: "json",
@@ -1753,24 +1757,65 @@ function populateFilterDataset(IDselector){
 			for(var i in result){
 				
 				var obj = result[i];
+								
+				var str = ""+obj.label;
 				
-				$(IDselector).append($('<option>', {
-					value: obj.label,
-					text: obj.label
-				}));	
+				list[k] = str;
+				k++;	
 				
 			}
 			
-//			$(IDselector).append($('<option>', {
-//				value: arr.label,
-//				text: arr.label
-//			}));	
-//			
 		}
 	
 	});
 	
 }
+
+function populateFiltering(){
+
+	var arrayTest = [];
+	var flag = false;
+	
+	if( !flag ){
+		
+		arrayTest[0] = list[0];
+		flag = true;
+		
+	}else{
+		
+		flag = true;
+		
+	}
+		
+	//Check other values
+	if( flag ){
+		
+		for( var i = 1; i < list.length; i++ ){
+			
+			var temp = list[i];
+			
+			if( arrayTest[ arrayTest.length - 1 ]  == temp )
+				null;
+			else
+				arrayTest.push( list[i] );
+			
+		}
+		
+		
+	}
+	
+	for( var i = 0; i < arrayTest.length; i++ ){
+		
+		$(IDselector).append($('<option>', {
+			value: arrayTest[i],
+			text: arrayTest[i]
+		}));	
+		
+	}
+			
+	
+}
+
 
 /**
  * @param status (ready,training,zombie)
