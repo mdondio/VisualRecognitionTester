@@ -1739,10 +1739,10 @@ function buildSelectDataSet(dataset_type,IDselector){
 	
 }
 
+var list;
+
 function populateFilterDataset(IDselector){
 	
-	var obj = [];
-
 	$.ajax({													
 		dataType: "json",
 		url: 'GetDataset',
@@ -1751,28 +1751,21 @@ function populateFilterDataset(IDselector){
 		success: function(result){
 			
 			for(var i in result){
-				obj = result[i];
 				
-//				for( var k = 0; k < old.size; k++ ){
-//					
-//					if( old[k] == result[i] )
-//						console.log()
-//					else{
-//
-//						old[k] = result[i]
-//						
-//					}
-//						
-//					
-//				}
+				var obj = result[i];
 				
-//				$(IDselector).append($('<option>', {
-//					value: old.label,
-//					text: old.label
-//				}));		
-			
+				$(IDselector).append($('<option>', {
+					value: obj.label,
+					text: obj.label
+				}));	
+				
 			}
 			
+//			$(IDselector).append($('<option>', {
+//				value: arr.label,
+//				text: arr.label
+//			}));	
+//			
 		}
 	
 	});
