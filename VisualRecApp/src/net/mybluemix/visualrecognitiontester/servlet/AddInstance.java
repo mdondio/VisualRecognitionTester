@@ -50,7 +50,7 @@ public class AddInstance extends HttpServlet {
 	 *      response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws ServletException, IOException{
 
 		System.out.println("[AddInstance doGet()] Function called");
 		
@@ -67,24 +67,32 @@ public class AddInstance extends HttpServlet {
 
 //		Database db = CloudantClientMgr.getCloudantDB();
 		
-		Instance newInstance = new Instance();
-		newInstance.setType("visual recognition instance");
-//		newInstance.setAccount(account);
-//		newInstance.setRegion(region);
-		newInstance.setApikey(apiKey);
+
 		VisualRecognition service = new VisualRecognition(VisualRecognition.VERSION_DATE_2016_05_20);
 		service.setApiKey(apiKey);
 //		System.out.println("[AddInstance doGet()] risultato getEndPoint: "+service.getEndPoint());
 
 		List<VisualClassifier> result = null;
-		result=service.getClassifiers().execute();
+		//result=service.getClassifiers().execute();
 		try{
 		result=service.getClassifiers().execute();
 //		result = service.classify(options).execute();
 		}		
-		catch(BadRequestException e) {
-				throw new VisualClassifierException("[AddInstance] VisualClassification: Bad request - " + e.getMessage());
+		catch(Exception e) {
+				System.out.println("[AddInstance] "+e.getMessage());
+				JsonObject o = new JsonObject();
+				o.addProperty("error", e.getMessage());
+				response.getWriter().println(o);
+				return;
 		}
+		
+
+		Instance newInstance = new Instance();
+		newInstance.setType("visual recognition instance");
+		newInstance.setAccount("account");
+		newInstance.setRegion("region");
+		newInstance.setApikey(apiKey);
+		
 		
 	}
 

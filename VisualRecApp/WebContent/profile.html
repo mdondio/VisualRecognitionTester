@@ -180,9 +180,8 @@ createCarbonHeader();
 		
 		$("#test :input").each(function(e){	
 
-		  values[k] = this.value;
-		  k++;
-
+if(this.value!="")
+{
 		$.ajax({													
 				dataType: "json",
 				url: 'AddInstance',
@@ -207,11 +206,8 @@ createCarbonHeader();
 		}
 	
 	});
-	
-		});
-		
-		console.log(values)
-		
+	}
+		});	
 		
 		
 	});
