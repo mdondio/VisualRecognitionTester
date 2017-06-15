@@ -188,6 +188,7 @@ if(this.value!="")
 				data: "api_key="+this.value,
 				async: true,
 				success: function(result){
+				console.log("DENTRO");
 					if(result.hasOwnProperty('error'))
 						{
 						swal({
@@ -201,11 +202,23 @@ if(this.value!="")
 			   					confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
 								confirmButtonText: 'Got it'
 							});
-						}
-					else{}	
+						}else{
+						console.log("ADDED")
+					swal({
+										   						title: 'Completed!',
+										   						html: 'Instance has been included, you have a new free instance available.',
+										   						type: 'success',
+										   						customClass: 'modal-container',
+											   					showCancelButton: false,
+											   					showConfirmButton: true,
+											   					confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+																confirmButtonText: 'Yeah!'
+									   						}).then(function(){location.reload();});
+									   						
+									   						}	
 		}
-	
 	});
+	
 	}
 		});	
 		

@@ -2,6 +2,7 @@ package net.mybluemix.visualrecognitiontester.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -89,11 +90,16 @@ public class AddInstance extends HttpServlet {
 
 		Instance newInstance = new Instance();
 		newInstance.setType("visual recognition instance");
-		newInstance.setAccount("account");
+		newInstance.setAccount("account_account");
 		newInstance.setRegion("region");
+		newInstance.setClassifier(new LinkedList<String>());
 		newInstance.setApikey(apiKey);
-		
-		
+		Database db = CloudantClientMgr.getCloudantDB();
+		Response responsePost = db.post(newInstance);
+		System.out.println("[AddInstance] New instance added to DB: "+responsePost);
+		JsonObject o = new JsonObject();
+		o.addProperty("message", "New instance added, done!");
+		response.getWriter().println(o);
 	}
 
 	/**

@@ -54,6 +54,10 @@ public class Instance {
 		return this.api_key = apiKey;
 	}
 	
+	public List<String> setClassifier(List<String> classifiers) {
+		return this.classifiers = classifiers;
+	}
+	
 	public void addClassifier(String classifierId){
 		if(!classifiers.contains(classifierId))
 			classifiers.add(classifierId);
