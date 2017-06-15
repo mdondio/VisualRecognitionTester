@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.cloudant.client.api.Database;
 import com.cloudant.client.api.model.FindByIndexOptions;
 import com.cloudant.client.api.model.Response;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.ibm.watson.developer_cloud.service.exception.BadRequestException;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.VisualRecognition;
@@ -88,13 +89,26 @@ public class AddInstance extends HttpServlet {
 		}
 		
 
+		String selector;
+		selector = "{\"selector\": {\"type\":\"visual recognition instance\", \"api_key\":\"" + apiKey + "\"}}";
+		Database db = CloudantClientMgr.getCloudantDB();
+        FindByIndexOptions opt = new FindByIndexOptions().fields("_id");
+        List<Instance> instances = db.findByIndex(selector, Instance.class, opt);
+        System.out.println(instances);
+        if(instances.size()>0){
+        	System.out.println("[AddInstance] api_key already available");
+			JsonObject o = new JsonObject();
+			o.addProperty("error", "api_key already available");
+			response.getWriter().println(o);
+			return;
+        }
+        
 		Instance newInstance = new Instance();
 		newInstance.setType("visual recognition instance");
 		newInstance.setAccount("account_account");
 		newInstance.setRegion("region");
 		newInstance.setClassifier(new LinkedList<String>());
 		newInstance.setApikey(apiKey);
-		Database db = CloudantClientMgr.getCloudantDB();
 		Response responsePost = db.post(newInstance);
 		System.out.println("[AddInstance] New instance added to DB: "+responsePost);
 		JsonObject o = new JsonObject();

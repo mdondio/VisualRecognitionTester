@@ -186,7 +186,7 @@ if(this.value!="")
 				dataType: "json",
 				url: 'AddInstance',
 				data: "api_key="+this.value,
-				async: true,
+				async: false,
 				success: function(result){
 				console.log("DENTRO");
 					if(result.hasOwnProperty('error'))
