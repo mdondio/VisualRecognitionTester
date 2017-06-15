@@ -662,7 +662,7 @@
 /*   pointer-events: none; */
 /* } */
 
-/* /* Position tooltip above the element */ */
+/* /* Position tooltip above the element */
 /* [data-tooltip]:before { */
 /*   position: absolute; */
 /*   bottom: 141%; */
@@ -684,7 +684,7 @@
 /*   z-index: 20000000; avoid tooltip to be under cards */
 /* } */
 
-/* /* Triangle hack to make tooltip look like a speech bubble */ */
+/* /* Triangle hack to make tooltip look like a speech bubble */
 /* [data-tooltip]:after { */
 /*   position: absolute; */
 /*   bottom: 110%; down arrow position */
@@ -700,7 +700,7 @@
 /*   line-height: 0; */
 /* } */
 
-/* /* Show tooltip content on hover */ */
+/* /* Show tooltip content on hover */
 /* [data-tooltip]:hover:before, */
 /* [data-tooltip]:hover:after { */
 /*   visibility: visible; */
