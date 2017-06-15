@@ -3760,6 +3760,7 @@ select[data-invalid] ~ .bx--form-requirement {
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
   background-color: #fff;
   border: 1px solid transparent;
+  margin-bottom: 20px;
 }
 
 .bx--module .bx--module__header {
