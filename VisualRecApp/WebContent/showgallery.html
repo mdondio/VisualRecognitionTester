@@ -223,8 +223,9 @@ createCarbonHeader();
   	
   		var shortName = ( $("#shortnameedit").val() );
   		var label = ( $("#labeledit").val() );
+  		var description = ( $("#descriptionedit").val() );
   	
-		updateDataset(idgallery, label);
+		updateDataset(idgallery, label); //should be(once servelt is ready) updateDataset(idgallery, label, shortname, description)
   		
   		$('#saveButton').attr("disabled", true);
     	$('#saveButton').addClass("disabled");
@@ -251,11 +252,14 @@ createCarbonHeader();
 	
 	shortName = returnDatasetDetail(idgallery, "_id");
 	label = returnDatasetDetail(idgallery, "label");
+	description = returnDatasetDetail(idgallery, "description");
+	
 	var set = returnDatasetDetail(idgallery, "images");
 	
 	// Populate page with dataset attributes
 	$("#shortnameedit").val(shortName);
 	$("#labeledit").val(label);		
+	$("#descriptionedeit").val(description);
 
     //**************************************************************************
     //********* GET FROM THE SERVER TESTSET ***************************

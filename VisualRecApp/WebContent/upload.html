@@ -120,7 +120,7 @@ createCarbonHeader();
 	var selDiv = "";
     var storedFiles = [];
 
-	var datasetID, datasetLabel;
+	var datasetID, datasetLabel, datasetDescription;
 	var flag = false;
 	var empty = true;
 
@@ -211,7 +211,8 @@ createCarbonHeader();
 							if( flag ){
 
 								datasetID = tmpDatasetID;
-								datasetLabel = tmpDatasetLabel;
+								datasetLabel = tmpDatasetLabel.toLowerCase();
+								datasetDescription = ( $("#descriptionedit").val() );
 								flag = false;
 
 								handlerPostCall(e);
@@ -271,6 +272,11 @@ createCarbonHeader();
 	       data.append('type', 'insert');
 	       data.append('datasetId', datasetID);
 	       data.append('label', datasetLabel);
+	       
+	       //Field description is not, as of right now, in the DB, has to be included {GIAN told me that is something that can be done from the BE team!}
+	       //As the code logic is already in place(not only in this page), naming the field
+	       //other than 'description' would break down a few things...FYI
+	       data.append('description', datasetDescription);
 
 	       filesNumber = storedFiles.length;
 
