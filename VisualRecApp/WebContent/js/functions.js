@@ -1766,17 +1766,13 @@ function populateFilterDataset(ID_s){
 		dataType: "json",
 		url: 'GetDataset',
 		data: "_id=",
-		async: true,
+		async: false,
 		success: function(result){
 			
 			for(var i in result){
 				
-				var obj = result[i];
-								
-				var str = ""+obj.label;
-				
-				list[k] = str;
-				k++;	
+				list[k] = ""+result[i].label;
+				k++;
 				
 			}
 			
@@ -1787,47 +1783,90 @@ function populateFilterDataset(ID_s){
 }
 
 function populateFiltering(){
-
-	var arrayTest = [];
-	var flag = false;
 	
-	if( !flag ){
+	var arrayTest = [];
+	var flag = false; 
+	
+	for( var i = 0; i < list.length; i++ ){
 		
-		arrayTest[0] = list[0];
-		flag = true;
+		arrayTest.push( list[i] );
 		
-	}else{
+	}
+	
+	if(list.length == 0){
+		
+		console.log("***ERROR***")
+	
+		var test= [];
+		
+		test = forcingTest();
+		
+		console.log("This is my FORCED list: " + test)
 		
 		flag = true;
 		
 	}
+	
+	if(!flag){
 		
-	//Check other values
-	if( flag ){
+		console.log("This is my NORMAL list: " + list)
 		
-		for( var i = 1; i < list.length; i++ ){
+		var uniqueDataset = [];
+		$.each(arrayTest, function(i, el){
+		    if($.inArray(el, uniqueDataset) === -1) uniqueDataset.push(el);
+		});
+		
+		for( var i = 0; i < uniqueDataset.length; i++ ){
 			
-			var temp = list[i];
-			
-			if( arrayTest[ arrayTest.length - 1 ]  == temp )
-				null;
-			else
-				arrayTest.push( list[i] );
+			$("#filterDataset").append($('<option>', {
+				value: uniqueDataset[i],
+				text: uniqueDataset[i]
+			}));	
 			
 		}
 		
-		
-	}
+	}		
 	
-	for( var i = 0; i < arrayTest.length; i++ ){
+}
+
+function forcingTest(){
+	
+	var newArray = [];
+	var f = 0;
+	
+	$.ajax({													
+		dataType: "json",
+		url: 'GetDataset',
+		data: "_id=",
+		async: true,
+		success: function(result){
+			
+			for(var i in result){
+				
+				newArray[f] = ""+result[i].label;
+				f++;
+				
+			}
+			
+		}
+	
+	});
+	
+	var uniqueDataset = [];
+	$.each(newArray, function(i, el){
+	    if($.inArray(el, uniqueDataset) === -1) uniqueDataset.push(el);
+	});	
+	
+	for( var i = 0; i < uniqueDataset.length; i++ ){
 		
-		$(IDselector).append($('<option>', {
-			value: arrayTest[i],
-			text: arrayTest[i]
+		$("#filterDataset").append($('<option>', {
+			value: uniqueDataset[i],
+			text: uniqueDataset[i]
 		}));	
 		
 	}
-			
+
+	return newArray;
 	
 }
 
