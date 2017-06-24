@@ -535,38 +535,59 @@ function createBlockTest(IDappend,testname,label,classifier){
 /**
  * @returns build the select menu base on good testresults object
  */
-function buildSelectTestResult(IDselector) {
+function buildSelectTestResult(IDselector, index) {
 	
 	//carica i file da local storage
+//	var result = JSON.parse(localStorage.getItem("resultJSON"));
 	var result = JSON.parse(localStorage.getItem("resultJSON"));
 	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
+	
+	var test = result[index];
+	
+//	console.log("I'M HERE {buildSelectTestResult} result: " +  JSON.stringify(test) )
+	
+	$(IDselector).append($('<option>', {
+				value : testdetails[index].name,
+				text : testdetails[index].name,
+				key: index
+			}));
+	
+//	console.log("I'm currently building this: " + Object.keys(result)[index] ) 
+	
+	
+	
+//	for( var j in result ){
+//		
+//		console.log("Inside the loop: " + JSON.stringify(result[j]) )
+//		
+//	}
 
 	//verifica che non ci siano vuoti e costruisce il select test panel
-	var testcount = 0;
-	for ( var j in result) {
-		var obj = result[j];
-		if (obj.ID == null) {
-			swal({
-				title : "Warning",
-				html : "Classifier "
-					+ testdetails[testcount].classifier
-					+ " is exhausted. Wait 24h and you will regain your free API calls<br><br>",
-				imageUrl : "img/tired2.png",
-				imageWidth: 240,
-				imageHeight: 200,
-				customClass: 'modal-container',
-				showCancelButton: false,
-				confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
-                confirmButtonText: 'Got it'
-			});
-		} else {
-			$(IDselector).append($('<option>', {
-				value : testdetails[testcount].name,
-				text : testdetails[testcount].name
-			}));
-		}
-		testcount++;
-	}
+//	var testcount = 0;
+//	for ( var j in result) {
+//		var obj = result[j];
+//		if (obj.ID == null) {
+//			swal({
+//				title : "Warning",
+//				html : "Classifier "
+//					+ testdetails[testcount].classifier
+//					+ " is exhausted. Wait 24h and you will regain your free API calls<br><br>",
+//				imageUrl : "img/tired2.png",
+//				imageWidth: 240,
+//				imageHeight: 200,
+//				customClass: 'modal-container',
+//				showCancelButton: false,
+//				confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+//                confirmButtonText: 'Got it'
+//			});
+//		} else {
+//			$(IDselector).append($('<option>', {
+//				value : testdetails[testcount].name,
+//				text : testdetails[testcount].name
+//			}));
+//		}
+//		testcount++;
+//	}
 	
 }
 
@@ -577,39 +598,71 @@ function buildSelectTestResult(IDselector) {
 function updateTestFields(IDselector) {
 	
 	//carica i file da local storage
+//	var result = JSON.parse(localStorage.getItem("resultJSON"));
 	var result = JSON.parse(localStorage.getItem("resultJSON"));
 	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
-
+	
 	//disegna gli oggetti dipendenti dal test selezionato
 	var testname = $(IDselector).val();
 //	console.log(testname);
 	drawRocCurves(testname);
 	drawIndexes(testname);
 	
-	for ( var j in testdetails) {
-		if (testdetails[j].name == testname) {
-			setParameters(result[j]);
+	for( var j in testdetails ){
 			
-			//var positive_images = [];
-//            positive_images = [];
-//            for (k = 0; k < result[i].images.positive.length; k++)
-//                positive_images.push("GetImage?image_id=" + result[i].images.positive[k]);
+			if(testdetails[j].name == testname){
+				
+				var index = j;
+				
+				var test = result[index];
+				
+				setParameters(test);
+				
+//				var negative_images = [];
+//				for(var i=0;i<result[index].falseNegativeOpt.length;i++) 
+//					negative_images.push("GetImage?image_id="+result[index].falseNegativeOpt[i]);
+//				$("#galleryFN").empty()
+//				createGallery('galleryFN',negative_images,"showtestNEG");
+//				
+//				var positive_images = [];
+//				for(var i=0;i<result[index].falsePositiveOpt.length;i++) 
+//					positive_images.push("GetImage?image_id="+result[index].falsePositiveOpt[i]);
+//				$("#galleryFP").empty()
+//				createGallery('galleryFP',positive_images,"showtestPOS");
+//				
+//				DrawHistogram(result[index].histogramNegative,result[index].histogramPositive);
+				
+			}
+		
 			
-			var negative_images = [];
-			for(var i=0;i<result[j].falseNegativeOpt.length;i++) 
-				negative_images.push("GetImage?image_id="+result[j].falseNegativeOpt[i]);
-			$("#galleryFN").empty()
-			createGallery('galleryFN',negative_images,"showtestNEG");
-			
-			var positive_images = [];
-			for(var i=0;i<result[j].falsePositiveOpt.length;i++) 
-				positive_images.push("GetImage?image_id="+result[j].falsePositiveOpt[i]);
-			$("#galleryFP").empty()
-			createGallery('galleryFP',positive_images,"showtestPOS");
-			
-			DrawHistogram(result[j].histogramNegative,result[j].histogramPositive);
-		}
 	}
+	
+	
+//	for ( var j in testdetails) {
+//		if (testdetails[j].name == testname) {
+//			setParameters(result[j]);
+//			
+//			//var positive_images = [];
+////            positive_images = [];
+////            for (k = 0; k < result[i].images.positive.length; k++)
+////                positive_images.push("GetImage?image_id=" + result[i].images.positive[k]);
+//			
+//			var negative_images = [];
+//			for(var i=0;i<result[j].falseNegativeOpt.length;i++) 
+//				negative_images.push("GetImage?image_id="+result[j].falseNegativeOpt[i]);
+//			$("#galleryFN").empty()
+//			createGallery('galleryFN',negative_images,"showtestNEG");
+//			
+//			var positive_images = [];
+//			for(var i=0;i<result[j].falsePositiveOpt.length;i++) 
+//				positive_images.push("GetImage?image_id="+result[j].falsePositiveOpt[i]);
+//			$("#galleryFP").empty()
+//			createGallery('galleryFP',positive_images,"showtestPOS");
+//			
+//			DrawHistogram(result[j].histogramNegative,result[j].histogramPositive);
+//		}
+//	}
+	
 }
 
 function drawIndexes(testname){
@@ -1701,25 +1754,181 @@ function startSimulation(){
 			    setTimeout(function(){$("#waiting").fadeIn(500)},500);
 
 				var testdetails = localStorage.getItem("listJSON");
-
-				$.ajax(
+			    
+//				console.log("THIS IS testdetails: " + testdetails)
+				
+				//INSERTING NEW METHOD WHERE WE SPLIT THE AJAX CALLS
+				var parsedSimulationData = JSON.parse(testdetails);
+				var simulationSize = Object.keys(directJSON).length;
+				
+				var finalJSON = []; 
+				
+//				console.log( "size: " + simulationSize )
+//				console.log("maybe this: " + JSON.stringify(parsedSimulationData[0]) )
+				
+				localStorage.removeItem("resultJSON");
+				
+				for( var i = 0; i < simulationSize; i++ ){
+					
+//					var questo = [];
+//					
+//					questo[0] = JSON.stringify( parsedSimulationData[i] );
+					
+//					var questo = JSON.stringify( parsedSimulationData[i] );
+					
+					var questo = [];
+					
+					questo[0] = JSON.stringify( parsedSimulationData[i] );
+					
+					
+					
+//					if( jQuery.isEmptyObject(finalJSON) ){
+//						
+//						finalJSON = finalJSON + ( JSON.parse(questo) );
+//						
+////						finalJSON = finalJSON.concat(JSON.parse(questo));
+//						
+//						console.log("...second: " + questo)
+//						
+//						
+//					}else{
+//						
+//						finalJSON = JSON.parse(questo);
+//						
+//						console.log("..partial finalJSON : " + finalJSON)
+//						
+//					}
+					
+					
+//					console.log("TEST: " + JSON.stringify(JSON.parse(questo) ) )
+					
+//					var manipulated = "[" + JSON.stringify( JSON.parse(questo) ) + "]";
+					var test = JSON.stringify( JSON.parse(questo) );
+					
+					finalJSON.push(test);
+					
+					var manipulated = "[" + JSON.stringify( JSON.parse(questo) ) + "]";
+					
+					console.log("This is manipulated: " + manipulated ) 
+					
+					
+					
+					//WHY THE F**K IS resultJSON already populated at this point?!
+//					console.log("Should be null: " + localStorage.getItem("resultJSON"))
+					
+					$.ajax(
 						{
 							url: 'GetTestResult',
 							type: 'GET',
-							data:{ array: testdetails },
+							data:{ array: manipulated },
 							dataType: 'json',
+							indexValue: i,
 							async: true,
-							success: function(result)
-							{
+//							success: function(result)
+//							{
+//								
+//								
+//							},
+							complete: function (result) {
+								
+								
+								if( localStorage.getItem("resultJSON") === null ){
+									
+									localStorage.setItem("resultJSON", JSON.stringify(result.responseJSON) );
+									
+									console.log("... I'm the first one ...")
+									console.log("Setting resultJSON to: " + JSON.stringify(result.responseJSON) )
+									
+								}
+								else{
+									
+									console.log("... I'm the second one ...")
+									
+									var temp = localStorage.getItem("resultJSON");
+									
+									console.log("resultJSON: " + temp )
+									
+									var other = JSON.stringify(result.responseJSON);
+									
+									console.log("other: " + other)
+									
+									var otherCorrect = (other).slice(1, -1);
+									
+									console.log("This has to be added: " + otherCorrect)
+									
+									var e = JSON.parse(temp);
+									
+									e.push(JSON.parse(otherCorrect) );
+									
+									localStorage.setItem("resultJSON", JSON.stringify(e) );
+									
+									console.log("Setting resultJSON to: " + JSON.stringify(e) )
+									
+//									var other = "," + JSON.stringify( result.responseJSON );
+//									
+////									console.log("This has to be added: " + other)
+//									
+//									temp = temp.concat( other ); 
+//									
+//									console.log("resultJSON [AFTER]: " + temp)
+//									
+//									console.log();
+//									
+//									console.log("Setting resultJSON to: " + temp)
+//									
+//									localStorage.setItem("resultJSON", JSON.stringify(temp) );
+									
+								}
+								
+								
+//								console.log("I'M HERE SETTING resultJSON: " + localStorage.getItem("resultJSON") )
+								
+								
+								console.log( "I HAVE FINISHED AJAX CALL #" + this.indexValue ) 
 								$("#waiting").fadeOut(1000);
 								$("#showtest").fadeIn(2000);
-								localStorage.setItem("resultJSON", JSON.stringify(result));
+//								localStorage.setItem("resultJSON", JSON.stringify(result) );
 								
-								buildSelectTestResult('#show_test');
+								buildSelectTestResult('#show_test', this.indexValue);
 								updateTestFields('#show_test');
-
+								
 							}
 						});
+					
+					
+					
+				}
+				
+				//OLD GetTestResult Handling
+//				$.ajax(
+//						{
+//							url: 'GetTestResult',
+//							type: 'GET',
+//							data:{ array: testdetails },
+//							dataType: 'json',
+//							async: true,
+//							success: function(result)
+//							{
+//								$("#waiting").fadeOut(1000);
+//								$("#showtest").fadeIn(2000);
+//								localStorage.setItem("resultJSON", JSON.stringify(result));
+//								
+//								console.log("I'M HERE SETTING resultJSON: " + JSON.stringify(result))
+//								
+//								buildSelectTestResult('#show_test');
+//								updateTestFields('#show_test');
+//
+//							}
+//						});
+				
+//				console.log("FINAL JSON: (stringified)" + JSON.stringify(finalJSON) )
+				
+				
+				console.log("FINAL JSON: " + finalJSON )
+				
+//				var parsed = JSON.parse(finalJSON);
+//				
+//				console.log("Trying to access second test: " + parsed)
 
 	}
 
@@ -1793,24 +2002,22 @@ function populateFiltering(){
 		
 	}
 	
+	//Preparing to force dataset fetcing if some error(s) occured
 	if(list.length == 0){
 		
-		console.log("***ERROR***")
-	
 		var test= [];
 		
+		//Forcing procedure
 		test = forcingTest();
-		
-		console.log("This is my FORCED list: " + test)
 		
 		flag = true;
 		
 	}
 	
+	//No error occured
 	if(!flag){
 		
-		console.log("This is my NORMAL list: " + list)
-		
+		//Removing label duplicates
 		var uniqueDataset = [];
 		$.each(arrayTest, function(i, el){
 		    if($.inArray(el, uniqueDataset) === -1) uniqueDataset.push(el);
@@ -1829,6 +2036,7 @@ function populateFiltering(){
 	
 }
 
+//Handling possible fetch errors during populating dataset in select in home
 function forcingTest(){
 	
 	var newArray = [];
