@@ -542,25 +542,55 @@ function buildSelectTestResult(IDselector, index) {
 	var result = JSON.parse(localStorage.getItem("resultJSON"));
 	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
 	
-	var test = result[index];
+	console.log("*** THIS IS testdetails *** : " + JSON.stringify(testdetails) )
 	
-//	console.log("I'M HERE {buildSelectTestResult} result: " +  JSON.stringify(test) )
+	//Handling exploring old test(s)
+	if( index == -1 ){
+		
+		var testcount = 0;
+		for ( var j in result) {
+			var obj = result[j];
+//			if (obj.ID == null) {
+//				swal({
+//					title : "Warning",
+//					html : "Classifier "
+//						+ testdetails[testcount].classifier
+//						+ " is exhausted. Wait 24h and you will regain your free API calls<br><br>",
+//					imageUrl : "img/tired2.png",
+//					imageWidth: 240,
+//					imageHeight: 200,
+//					customClass: 'modal-container',
+//					showCancelButton: false,
+//					confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+//	                confirmButtonText: 'Got it'
+//				});
+//			} else {
+				$(IDselector).append($('<option>', {
+					value : testdetails[testcount].name,
+					text : testdetails[testcount].name
+				}));
+//			}
+			testcount++;
+		}
+		
+	}
+	else{
+		
+		var test = result[index];
+		
+//		console.log("I'M HERE {buildSelectTestResult} result: " +  JSON.stringify(test) )
+			
+		$(IDselector).append($('<option>', {
+			value : testdetails[index].name,
+			text : testdetails[index].name
+		}));
+		
+		$(IDselector).data('key', index);
+		
+	}
+
 	
-	$(IDselector).append($('<option>', {
-				value : testdetails[index].name,
-				text : testdetails[index].name,
-				key: index
-			}));
-	
-//	console.log("I'm currently building this: " + Object.keys(result)[index] ) 
-	
-	
-	
-//	for( var j in result ){
-//		
-//		console.log("Inside the loop: " + JSON.stringify(result[j]) )
-//		
-//	}
+
 
 	//verifica che non ci siano vuoti e costruisce il select test panel
 //	var testcount = 0;
@@ -604,20 +634,72 @@ function updateTestFields(IDselector) {
 	
 	//disegna gli oggetti dipendenti dal test selezionato
 	var testname = $(IDselector).val();
-//	console.log(testname);
+//	var key = $(IDselector).data('key');
+	
+	console.log("This is the value of IDselector: " + testname);
+	console.log("This is the value of result : " + JSON.stringify(result));
+	console.log("This is the value of testdetails : " + JSON.stringify(testdetails));
+	
 	drawRocCurves(testname);
 	drawIndexes(testname);
 	
-	for( var j in testdetails ){
-			
-			if(testdetails[j].name == testname){
-				
-				var index = j;
-				
-				var test = result[index];
-				
-				setParameters(test);
-				
+//	for( var j in testdetails ){
+//		
+//		if( testdetails[j].name == testname ){
+//			
+//			for( var f in result ){
+//				
+//				if( result[f].ID == testname ){
+//					
+//					console.log("****FOUND ***")
+//					
+//					console.log("This is what I'm passing to setParameters: " + result[f])
+//					console.log("... This should be accuracy: " + result[f].accuracyOpt.toFixed(2) )
+//					
+//					setParameters(result[f]);
+//						
+//					var negative_images = [];
+//					for(var i=0;i<result[f].falseNegativeOpt.length;i++) 
+//						negative_images.push("GetImage?image_id="+result[f].falseNegativeOpt[i]);
+//					$("#galleryFN").empty()
+//					createGallery('galleryFN',negative_images,"showtestNEG");
+//					
+//					var positive_images = [];
+//					for(var i=0;i<result[f].falsePositiveOpt.length;i++) 
+//						positive_images.push("GetImage?image_id="+result[f].falsePositiveOpt[i]);
+//					$("#galleryFP").empty()
+//					createGallery('galleryFP',positive_images,"showtestPOS");
+//
+//					DrawHistogram(result[f].histogramNegative,result[f].histogramPositive);
+//					
+//				}//Closing if statement on result
+//				
+//			}//Closing for loop inside result
+//			
+//		}//Closing if statement on testdetails
+//		
+//	}
+	
+	
+//	for( var j in testdetails ){
+//			
+//			if(testdetails[j].name == testname){
+//				
+////				console.log("**** FOUND *** --> : " + testdetails[j].name )
+//				
+//				var index = j;
+////				
+//				var test = result[index];
+//				
+////				var index = key;
+////				
+////				var test = result[index];
+////				
+////				console.log("This is what I'm passing to setParameters: " + test)
+////				console.log("... This should be accuracy: " + result[index].accuracyOpt.toFixed(2) )
+//				
+//				setParameters(test);
+//				
 //				var negative_images = [];
 //				for(var i=0;i<result[index].falseNegativeOpt.length;i++) 
 //					negative_images.push("GetImage?image_id="+result[index].falseNegativeOpt[i]);
@@ -629,39 +711,75 @@ function updateTestFields(IDselector) {
 //					positive_images.push("GetImage?image_id="+result[index].falsePositiveOpt[i]);
 //				$("#galleryFP").empty()
 //				createGallery('galleryFP',positive_images,"showtestPOS");
-//				
+////				
 //				DrawHistogram(result[index].histogramNegative,result[index].histogramPositive);
-				
-			}
-		
-			
-	}
-	
-	
-//	for ( var j in testdetails) {
-//		if (testdetails[j].name == testname) {
-//			setParameters(result[j]);
+//				
+//			}
+//		
 //			
-//			//var positive_images = [];
-////            positive_images = [];
-////            for (k = 0; k < result[i].images.positive.length; k++)
-////                positive_images.push("GetImage?image_id=" + result[i].images.positive[k]);
-//			
-//			var negative_images = [];
-//			for(var i=0;i<result[j].falseNegativeOpt.length;i++) 
-//				negative_images.push("GetImage?image_id="+result[j].falseNegativeOpt[i]);
-//			$("#galleryFN").empty()
-//			createGallery('galleryFN',negative_images,"showtestNEG");
-//			
-//			var positive_images = [];
-//			for(var i=0;i<result[j].falsePositiveOpt.length;i++) 
-//				positive_images.push("GetImage?image_id="+result[j].falsePositiveOpt[i]);
-//			$("#galleryFP").empty()
-//			createGallery('galleryFP',positive_images,"showtestPOS");
-//			
-//			DrawHistogram(result[j].histogramNegative,result[j].histogramPositive);
-//		}
 //	}
+	
+	var key = $(IDselector).data('key');
+	
+	if( key != null ){
+		
+		for( var j in testdetails ){
+			
+			if( testdetails[j].name == testname ){
+				
+						console.log("****FOUND ***")
+						
+						console.log("This is what I'm passing to setParameters: " + result[key])
+						console.log("... This should be accuracy: " + result[key].accuracyOpt.toFixed(2) )
+						
+						setParameters(result[key]);
+							
+						var negative_images = [];
+						for(var i=0;i<result[key].falseNegativeOpt.length;i++) 
+							negative_images.push("GetImage?image_id="+result[key].falseNegativeOpt[i]);
+						$("#galleryFN").empty()
+						createGallery('galleryFN',negative_images,"showtestNEG");
+						
+						var positive_images = [];
+						for(var i=0;i<result[key].falsePositiveOpt.length;i++) 
+							positive_images.push("GetImage?image_id="+result[key].falsePositiveOpt[i]);
+						$("#galleryFP").empty()
+						createGallery('galleryFP',positive_images,"showtestPOS");
+	
+						DrawHistogram(result[key].histogramNegative,result[key].histogramPositive);
+				
+			}//Closing if statement on testdetails
+			
+		}
+		
+	}else{
+		
+		for ( var j in testdetails) {
+			if (testdetails[j].name == testname) {
+				setParameters(result[j]);
+				
+				//var positive_images = [];
+//	            positive_images = [];
+//	            for (k = 0; k < result[i].images.positive.length; k++)
+//	                positive_images.push("GetImage?image_id=" + result[i].images.positive[k]);
+				
+				var negative_images = [];
+				for(var i=0;i<result[j].falseNegativeOpt.length;i++) 
+					negative_images.push("GetImage?image_id="+result[j].falseNegativeOpt[i]);
+				$("#galleryFN").empty()
+				createGallery('galleryFN',negative_images,"showtestNEG");
+				
+				var positive_images = [];
+				for(var i=0;i<result[j].falsePositiveOpt.length;i++) 
+					positive_images.push("GetImage?image_id="+result[j].falsePositiveOpt[i]);
+				$("#galleryFP").empty()
+				createGallery('galleryFP',positive_images,"showtestPOS");
+				
+				DrawHistogram(result[j].histogramNegative,result[j].histogramPositive);
+			}
+		}
+		
+	}
 	
 }
 
@@ -1050,9 +1168,7 @@ function setParameters(result) {
 			setTreshold( result.thresholdOpt.toFixed(2) );
 			setAUC( result.AUC.toFixed(2) );
 			
-			console.log(result.accuracyOpt.toFixed(2))
-			console.log(result.thresholdOpt.toFixed(2))
-			console.log(result.AUC.toFixed(2))
+//			console.log("Setting ACCURACY: " + result.accuracyOpt.toFixed(2)+ ", TRESHOLD: " + result.thresholdOpt.toFixed(2) + ", AUC: " + result.AUC.toFixed(2))
 			
 			$("#accuracy").empty();
 			$("#threshold").empty();
@@ -1071,6 +1187,7 @@ function setAccuracy( a ){
 
 function getAccuracy(){
 
+	console.log("Retrieving ACCURACY: " + acc)
 	return acc;
 
 }
@@ -1083,6 +1200,7 @@ function setTreshold( t ){
 
 function getTreshold(){
 	
+	console.log("Retrieving TRESHOLD: " + tres)
 	return tres;
 	
 }
@@ -1095,6 +1213,7 @@ function setAUC( au ){
 
 function getAUC(){
 	
+	console.log("Retrieving AUC: " + auc)
 	return auc;
 	
 }
@@ -1755,7 +1874,7 @@ function startSimulation(){
 
 				var testdetails = localStorage.getItem("listJSON");
 			    
-//				console.log("THIS IS testdetails: " + testdetails)
+				console.log("THIS IS testdetails: {startSimulation}" + testdetails)
 				
 				//INSERTING NEW METHOD WHERE WE SPLIT THE AJAX CALLS
 				var parsedSimulationData = JSON.parse(testdetails);
@@ -1780,41 +1899,15 @@ function startSimulation(){
 					
 					questo[0] = JSON.stringify( parsedSimulationData[i] );
 					
-					
-					
-//					if( jQuery.isEmptyObject(finalJSON) ){
-//						
-//						finalJSON = finalJSON + ( JSON.parse(questo) );
-//						
-////						finalJSON = finalJSON.concat(JSON.parse(questo));
-//						
-//						console.log("...second: " + questo)
-//						
-//						
-//					}else{
-//						
-//						finalJSON = JSON.parse(questo);
-//						
-//						console.log("..partial finalJSON : " + finalJSON)
-//						
-//					}
-					
-					
-//					console.log("TEST: " + JSON.stringify(JSON.parse(questo) ) )
-					
-//					var manipulated = "[" + JSON.stringify( JSON.parse(questo) ) + "]";
+					console.log( "questo: " + questo)
+
 					var test = JSON.stringify( JSON.parse(questo) );
 					
 					finalJSON.push(test);
 					
 					var manipulated = "[" + JSON.stringify( JSON.parse(questo) ) + "]";
 					
-					console.log("This is manipulated: " + manipulated ) 
-					
-					
-					
-					//WHY THE F**K IS resultJSON already populated at this point?!
-//					console.log("Should be null: " + localStorage.getItem("resultJSON"))
+					console.log("This is manipulated: " + manipulated ) 					
 					
 					$.ajax(
 						{
@@ -1831,8 +1924,16 @@ function startSimulation(){
 //							},
 							complete: function (result) {
 								
-								
 								if( localStorage.getItem("resultJSON") === null ){
+									
+									var nameToAdd = JSON.parse(questo).name;
+									
+									console.log("Name: " + nameToAdd);
+
+									var test3 = result.responseJSON;
+									
+									test3[0].name = nameToAdd;
+
 									
 									localStorage.setItem("resultJSON", JSON.stringify(result.responseJSON) );
 									
@@ -1841,6 +1942,14 @@ function startSimulation(){
 									
 								}
 								else{
+									
+									var nameToAdd = JSON.parse(questo).name;
+									
+									console.log("Name: " + nameToAdd);
+									
+									var test3 = result.responseJSON;
+									
+									test3[0].name = nameToAdd;
 									
 									console.log("... I'm the second one ...")
 									
@@ -1864,20 +1973,6 @@ function startSimulation(){
 									
 									console.log("Setting resultJSON to: " + JSON.stringify(e) )
 									
-//									var other = "," + JSON.stringify( result.responseJSON );
-//									
-////									console.log("This has to be added: " + other)
-//									
-//									temp = temp.concat( other ); 
-//									
-//									console.log("resultJSON [AFTER]: " + temp)
-//									
-//									console.log();
-//									
-//									console.log("Setting resultJSON to: " + temp)
-//									
-//									localStorage.setItem("resultJSON", JSON.stringify(temp) );
-									
 								}
 								
 								
@@ -1890,7 +1985,7 @@ function startSimulation(){
 //								localStorage.setItem("resultJSON", JSON.stringify(result) );
 								
 								buildSelectTestResult('#show_test', this.indexValue);
-								updateTestFields('#show_test');
+//								updateTestFields('#show_test');
 								
 							}
 						});

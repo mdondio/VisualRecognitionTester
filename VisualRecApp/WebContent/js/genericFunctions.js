@@ -47,6 +47,7 @@ function createHead(){
 
 
 function createProgress(div_id, toColor, number){
+	
 	var bar = new ProgressBar.Circle(div_id, {
 		  color: '#aaa',
 		  // This has to be the same size as the maximum width to
