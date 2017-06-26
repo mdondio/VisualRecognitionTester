@@ -633,52 +633,91 @@ function updateTestFields(IDselector) {
 	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
 	
 	//disegna gli oggetti dipendenti dal test selezionato
-	var testname = $(IDselector).val();
+	var valoreOptions = $(IDselector).val();
 //	var key = $(IDselector).data('key');
 	
-	console.log("This is the value of IDselector: " + testname);
+	console.log("This is the value of IDselector: " + valoreOptions);
 	console.log("This is the value of result : " + JSON.stringify(result));
 	console.log("This is the value of testdetails : " + JSON.stringify(testdetails));
 	
-	drawRocCurves(testname);
-	drawIndexes(testname);
+	drawRocCurves(valoreOptions);
+	drawIndexes(valoreOptions);
 	
-//	for( var j in testdetails ){
-//		
-//		if( testdetails[j].name == testname ){
-//			
-//			for( var f in result ){
-//				
-//				if( result[f].ID == testname ){
-//					
-//					console.log("****FOUND ***")
-//					
-//					console.log("This is what I'm passing to setParameters: " + result[f])
-//					console.log("... This should be accuracy: " + result[f].accuracyOpt.toFixed(2) )
-//					
-//					setParameters(result[f]);
-//						
-//					var negative_images = [];
-//					for(var i=0;i<result[f].falseNegativeOpt.length;i++) 
-//						negative_images.push("GetImage?image_id="+result[f].falseNegativeOpt[i]);
-//					$("#galleryFN").empty()
-//					createGallery('galleryFN',negative_images,"showtestNEG");
-//					
-//					var positive_images = [];
-//					for(var i=0;i<result[f].falsePositiveOpt.length;i++) 
-//						positive_images.push("GetImage?image_id="+result[f].falsePositiveOpt[i]);
-//					$("#galleryFP").empty()
-//					createGallery('galleryFP',positive_images,"showtestPOS");
-//
-//					DrawHistogram(result[f].histogramNegative,result[f].histogramPositive);
-//					
-//				}//Closing if statement on result
-//				
-//			}//Closing for loop inside result
-//			
-//		}//Closing if statement on testdetails
-//		
-//	}
+	var key = $(IDselector).data('key');
+	
+	if( key != null ){
+		
+		for( var j in testdetails ){
+			
+			if( testdetails[j].name == valoreOptions ){
+				
+				for( var f in result ){
+					
+					if( result[f].name == valoreOptions ){
+						
+						console.log("*************************************")
+						console.log("This is the value of name: " + result[f].name )
+						
+						console.log("****FOUND ***")
+						
+						console.log("This is what I'm passing to setParameters: " + JSON.stringify(result[f]) )
+						console.log("... This should be accuracy: " + result[f].accuracyOpt.toFixed(2) )
+						
+						setParameters(result[f]);
+							
+						var negative_images = [];
+						for(var i=0;i<result[f].falseNegativeOpt.length;i++) 
+							negative_images.push("GetImage?image_id="+result[f].falseNegativeOpt[i]);
+						$("#galleryFN").empty()
+						createGallery('galleryFN',negative_images,"showtestNEG");
+						
+						var positive_images = [];
+						for(var i=0;i<result[f].falsePositiveOpt.length;i++) 
+							positive_images.push("GetImage?image_id="+result[f].falsePositiveOpt[i]);
+						$("#galleryFP").empty()
+						createGallery('galleryFP',positive_images,"showtestPOS");
+
+						DrawHistogram(result[f].histogramNegative,result[f].histogramPositive);
+						
+					}//Closing if statement on result
+					
+				}//Closing for loop inside result
+				
+			}//Closing if statement on testdetails
+			
+		}
+		
+	}else{
+		
+		for ( var j in testdetails) {
+			
+			if (testdetails[j].name == valoreOptions) {
+				setParameters(result[j]);
+				
+				//var positive_images = [];
+	//            positive_images = [];
+	//            for (k = 0; k < result[i].images.positive.length; k++)
+	//                positive_images.push("GetImage?image_id=" + result[i].images.positive[k]);
+				
+				var negative_images = [];
+				for(var i=0;i<result[j].falseNegativeOpt.length;i++) 
+					negative_images.push("GetImage?image_id="+result[j].falseNegativeOpt[i]);
+				$("#galleryFN").empty()
+				createGallery('galleryFN',negative_images,"showtestNEG");
+				
+				var positive_images = [];
+				for(var i=0;i<result[j].falsePositiveOpt.length;i++) 
+					positive_images.push("GetImage?image_id="+result[j].falsePositiveOpt[i]);
+				$("#galleryFP").empty()
+				createGallery('galleryFP',positive_images,"showtestPOS");
+				
+				DrawHistogram(result[j].histogramNegative,result[j].histogramPositive);
+			}
+	
+		}
+		
+	}
+	
 	
 	
 //	for( var j in testdetails ){
@@ -719,67 +758,76 @@ function updateTestFields(IDselector) {
 //			
 //	}
 	
-	var key = $(IDselector).data('key');
-	
-	if( key != null ){
-		
-		for( var j in testdetails ){
-			
-			if( testdetails[j].name == testname ){
-				
-						console.log("****FOUND ***")
-						
-						console.log("This is what I'm passing to setParameters: " + result[key])
-						console.log("... This should be accuracy: " + result[key].accuracyOpt.toFixed(2) )
-						
-						setParameters(result[key]);
-							
-						var negative_images = [];
-						for(var i=0;i<result[key].falseNegativeOpt.length;i++) 
-							negative_images.push("GetImage?image_id="+result[key].falseNegativeOpt[i]);
-						$("#galleryFN").empty()
-						createGallery('galleryFN',negative_images,"showtestNEG");
-						
-						var positive_images = [];
-						for(var i=0;i<result[key].falsePositiveOpt.length;i++) 
-							positive_images.push("GetImage?image_id="+result[key].falsePositiveOpt[i]);
-						$("#galleryFP").empty()
-						createGallery('galleryFP',positive_images,"showtestPOS");
-	
-						DrawHistogram(result[key].histogramNegative,result[key].histogramPositive);
-				
-			}//Closing if statement on testdetails
-			
-		}
-		
-	}else{
-		
-		for ( var j in testdetails) {
-			if (testdetails[j].name == testname) {
-				setParameters(result[j]);
-				
-				//var positive_images = [];
-//	            positive_images = [];
-//	            for (k = 0; k < result[i].images.positive.length; k++)
-//	                positive_images.push("GetImage?image_id=" + result[i].images.positive[k]);
-				
-				var negative_images = [];
-				for(var i=0;i<result[j].falseNegativeOpt.length;i++) 
-					negative_images.push("GetImage?image_id="+result[j].falseNegativeOpt[i]);
-				$("#galleryFN").empty()
-				createGallery('galleryFN',negative_images,"showtestNEG");
-				
-				var positive_images = [];
-				for(var i=0;i<result[j].falsePositiveOpt.length;i++) 
-					positive_images.push("GetImage?image_id="+result[j].falsePositiveOpt[i]);
-				$("#galleryFP").empty()
-				createGallery('galleryFP',positive_images,"showtestPOS");
-				
-				DrawHistogram(result[j].histogramNegative,result[j].histogramPositive);
-			}
-		}
-		
-	}
+//	var key = $(IDselector).data('key');
+//	
+//	if( key != null ){
+//		
+//		for( var j in testdetails ){
+//			
+//			if( testdetails[j].name == testname ){
+//				
+//				for( var k in result ){
+//					
+//					if( result[k].name == testname ){
+//						
+//						console.log("****FOUND ***")
+//						
+//						console.log("This is what I'm passing to setParameters: " + result[k])
+//						console.log("... This should be accuracy: " + result[k].accuracyOpt.toFixed(2) )
+//						
+//						setParameters(result[k]);
+//							
+//						var negative_images = [];
+//						for(var i=0;i<result[k].falseNegativeOpt.length;i++) 
+//							negative_images.push("GetImage?image_id="+result[k].falseNegativeOpt[i]);
+//						$("#galleryFN").empty()
+//						createGallery('galleryFN',negative_images,"showtestNEG");
+//						
+//						var positive_images = [];
+//						for(var i=0;i<result[k].falsePositiveOpt.length;i++) 
+//							positive_images.push("GetImage?image_id="+result[k].falsePositiveOpt[i]);
+//						$("#galleryFP").empty()
+//						createGallery('galleryFP',positive_images,"showtestPOS");
+//	
+//						DrawHistogram(result[k].histogramNegative,result[k].histogramPositive);
+//						
+//					}//Closing if statement on result
+//					
+//				}//Closing for loop on result
+//				
+//				
+//			}//Closing if statement on testdetails
+//			
+//		}//Closing for loop on testdetails
+//		
+//	}else{
+//		
+//		for ( var j in testdetails) {
+//			if (testdetails[j].name == testname) {
+//				setParameters(result[j]);
+//				
+//				//var positive_images = [];
+////	            positive_images = [];
+////	            for (k = 0; k < result[i].images.positive.length; k++)
+////	                positive_images.push("GetImage?image_id=" + result[i].images.positive[k]);
+//				
+//				var negative_images = [];
+//				for(var i=0;i<result[j].falseNegativeOpt.length;i++) 
+//					negative_images.push("GetImage?image_id="+result[j].falseNegativeOpt[i]);
+//				$("#galleryFN").empty()
+//				createGallery('galleryFN',negative_images,"showtestNEG");
+//				
+//				var positive_images = [];
+//				for(var i=0;i<result[j].falsePositiveOpt.length;i++) 
+//					positive_images.push("GetImage?image_id="+result[j].falsePositiveOpt[i]);
+//				$("#galleryFP").empty()
+//				createGallery('galleryFP',positive_images,"showtestPOS");
+//				
+//				DrawHistogram(result[j].histogramNegative,result[j].histogramPositive);
+//			}
+//		}
+//		
+//	}
 	
 }
 
@@ -1880,30 +1928,13 @@ function startSimulation(){
 				var parsedSimulationData = JSON.parse(testdetails);
 				var simulationSize = Object.keys(directJSON).length;
 				
-				var finalJSON = []; 
-				
-//				console.log( "size: " + simulationSize )
-//				console.log("maybe this: " + JSON.stringify(parsedSimulationData[0]) )
-				
 				localStorage.removeItem("resultJSON");
 				
 				for( var i = 0; i < simulationSize; i++ ){
 					
-//					var questo = [];
-//					
-//					questo[0] = JSON.stringify( parsedSimulationData[i] );
-					
-//					var questo = JSON.stringify( parsedSimulationData[i] );
-					
 					var questo = [];
 					
 					questo[0] = JSON.stringify( parsedSimulationData[i] );
-					
-					console.log( "questo: " + questo)
-
-					var test = JSON.stringify( JSON.parse(questo) );
-					
-					finalJSON.push(test);
 					
 					var manipulated = "[" + JSON.stringify( JSON.parse(questo) ) + "]";
 					
@@ -1926,15 +1957,6 @@ function startSimulation(){
 								
 								if( localStorage.getItem("resultJSON") === null ){
 									
-									var nameToAdd = JSON.parse(questo).name;
-									
-									console.log("Name: " + nameToAdd);
-
-									var test3 = result.responseJSON;
-									
-									test3[0].name = nameToAdd;
-
-									
 									localStorage.setItem("resultJSON", JSON.stringify(result.responseJSON) );
 									
 									console.log("... I'm the first one ...")
@@ -1942,14 +1964,6 @@ function startSimulation(){
 									
 								}
 								else{
-									
-									var nameToAdd = JSON.parse(questo).name;
-									
-									console.log("Name: " + nameToAdd);
-									
-									var test3 = result.responseJSON;
-									
-									test3[0].name = nameToAdd;
 									
 									console.log("... I'm the second one ...")
 									
@@ -1974,9 +1988,6 @@ function startSimulation(){
 									console.log("Setting resultJSON to: " + JSON.stringify(e) )
 									
 								}
-								
-								
-//								console.log("I'M HERE SETTING resultJSON: " + localStorage.getItem("resultJSON") )
 								
 								
 								console.log( "I HAVE FINISHED AJAX CALL #" + this.indexValue ) 
@@ -2015,15 +2026,6 @@ function startSimulation(){
 //
 //							}
 //						});
-				
-//				console.log("FINAL JSON: (stringified)" + JSON.stringify(finalJSON) )
-				
-				
-				console.log("FINAL JSON: " + finalJSON )
-				
-//				var parsed = JSON.parse(finalJSON);
-//				
-//				console.log("Trying to access second test: " + parsed)
 
 	}
 

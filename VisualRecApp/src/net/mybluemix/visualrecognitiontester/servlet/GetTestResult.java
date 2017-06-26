@@ -58,6 +58,9 @@ public class GetTestResult extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
+	
+	protected String testname;
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -78,6 +81,10 @@ public class GetTestResult extends HttpServlet {
 
 			String testSetId = test.get("test").getAsString();
 			String classifierId = test.get("classifier").getAsString();
+			
+			testname = test.get("name").getAsString();
+			
+//			System.out.println("QUESTO E' TESTNAME:" + testname);
 
 			// retrieve dataset and classifier object
 			Dataset testSet = retrieveDataset(testSetId);
@@ -255,16 +262,18 @@ public class GetTestResult extends HttpServlet {
 		String id = testSet.getLabel() + " " + testSet.getSize() + " - " + classifierJson.getLabel() + " "
 				+ classifierJson.getTrainingSize();
 
-		JsonObject result = buildJsonResult(id, optResult, tprTrace, fprTrace, computeAuc(tprTrace, fprTrace));
+		JsonObject result = buildJsonResult(id, testname, optResult, tprTrace, fprTrace, computeAuc(tprTrace, fprTrace));
 
 		return result;
 	}
 
-	private JsonObject buildJsonResult(String id, WatsonBinaryClassificationResult optResult, List<Double> tprTrace,
+	private JsonObject buildJsonResult(String id, String testname, WatsonBinaryClassificationResult optResult, List<Double> tprTrace,
 			List<Double> fprTrace, double auc) {
 		JsonObject result = new JsonObject();
-
+		
 		result.addProperty("ID", id);
+		
+		result.addProperty("name", testname);
 
 		result.addProperty("accuracyOpt", optResult.computeMetric(METRIC.accuracy));
 
