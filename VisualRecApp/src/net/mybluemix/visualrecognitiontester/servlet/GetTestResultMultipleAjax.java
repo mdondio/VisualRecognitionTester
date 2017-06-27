@@ -43,85 +43,124 @@ import net.mybluemix.visualrecognitiontester.datamodel.Dataset;
  * This servlet will launch a classification on Watson Visual Recognition
  * Service
  */
-@WebServlet("/GetTestResult")
-public class GetTestResult extends HttpServlet {
+@WebServlet("/GetTestResultMultipleAjax")
+public class GetTestResultMultipleAjax extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	//This is the name I'm going to attach to the resultJSON in output!
+//	protected TestName tn = new TestName();
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public GetTestResult() {
+	public GetTestResultMultipleAjax() {
 		super();
 	}
+	
+	/**
+	 * 
+	 * @author Alessandro Pogliaghi { Dondy, creo una classe per rendere accessibile il nome del test,
+	 *								non è il massimo ma spero che il Dio dell'Informatica sia benevolo con me :) }
+	 */
+//	protected class TestName {
+//		
+//	    private String name;
+//	    
+//	    protected String getTestName(){
+//	    	
+//	        return name;
+//	        
+//	    }
+//	    
+//	    protected void setTestname(String name){
+//	    	
+//	    	this.name = name;
+//	    	
+//	    }
+//	    
+//	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		System.out.println("[GetTestResult doGet()] Function called");
+		System.out.println("[GetTestResultMultipleAjax doGet()] Function called");
 
-		// System.out.println(request.getParameter("array"));
+//		System.out.println("This is request name: " + request.getParameter("array"));
 
 		JsonParser parser = new JsonParser();
 		JsonArray tests = parser.parse(request.getParameter("array")).getAsJsonArray();
 
-		System.out.println(tests);
+		System.out.println("Here: " + tests);
 		JsonArray results = new JsonArray();
-
-		// For each test
+		
 		for (int i = 0; i < tests.size(); i++) {
 
-			JsonObject test = tests.get(i).getAsJsonObject();
+			JsonObject JSONObj = tests.get(i).getAsJsonObject();
 
-			String testSetId = test.get("test").getAsString();
-			String classifierId = test.get("classifier").getAsString();
-
+			String testSetId = JSONObj.get("test").getAsString();
+			String classifierId = JSONObj.get("classifier").getAsString();
+			
+			String testName = JSONObj.get("name").getAsString();
+			
 			// retrieve dataset and classifier object
 			Dataset testSet = retrieveDataset(testSetId);
-
-			// -----------------------
-			// debug
-			// System.out.println("------------------------");
-			// System.out.println(testSet.getId());
-			//
-			// for(Long img : testSet.getImages().getPositives())
-			// System.out.println("positive: " + Long.toUnsignedString(img));
-			// for(Long img : testSet.getImages().getNegatives())
-			// System.out.println("negative: " + Long.toUnsignedString(img));
-			// System.out.println("------------------------");
-
-			// -----------------------
-
+	
 			Classifier classifier = retrieveClassifier(classifierId);
-
-			if (testSet == null || classifier == null)
-				continue;
-
+	
 			// Generate the zip files (20 images per file max)
 			List<byte[]> zipFiles = generateZipTestSet(testSet);
-
+	
 			// We can run a classification
-			JsonObject classificationResult = runClassification(classifier, testSet, zipFiles);
-
+			JsonObject classificationResult = runClassification(testName, classifier, testSet, zipFiles);
+	
 			// Add result to array
 			results.add(classificationResult);
+	
+			System.out.println("This is results {doGet}: " + results);
+	
+			response.getWriter().append(results.toString());
+			
 		}
 
-		System.out.println(results);
-
-		response.getWriter().append(results.toString());
+//		String testSetId = JSONObj.get("test").getAsString();
+//		String classifierId = JSONObj.get("classifier").getAsString();
+//		
+//		//This is the name I'm going to attach to the resultJSON in output!
+//		tn.setTestname( root.get("name").getAsString() );
+//		System.out.println("This is the name of the test I'm setting {doGet}: " + root.get("name").getAsString() );
+//		System.out.println("This is the name of the test I'm getting {doGet}: " + tn.getTestName());
+//
+//		// retrieve dataset and classifier object
+//		Dataset testSet = retrieveDataset(testSetId);
+//
+//		Classifier classifier = retrieveClassifier(classifierId);
+//
+//		// Generate the zip files (20 images per file max)
+//		List<byte[]> zipFiles = generateZipTestSet(testSet);
+//
+//		// We can run a classification
+//		JsonObject classificationResult = runClassification(classifier, testSet, zipFiles);
+//
+//		// Add result to array
+//		results.add(classificationResult);
+//
+//		System.out.println("This is results {doGet}: " + results);
+//
+//		response.getWriter().append(results.toString());
+		
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		doGet(request, response);
+		
 	}
 
 	private Dataset retrieveDataset(String id) {
@@ -138,10 +177,12 @@ public class GetTestResult extends HttpServlet {
 		List<Dataset> datasets = db.findByIndex(selector, Dataset.class, opt);
 
 		return datasets == null ? null : datasets.get(0);
+		
 	}
 
 	// Recupera il classificatore
 	private Classifier retrieveClassifier(String id) {
+		
 		Database db = CloudantClientMgr.getCloudantDB();
 
 		// Condizione
@@ -155,6 +196,7 @@ public class GetTestResult extends HttpServlet {
 		List<Classifier> classifiers = db.findByIndex(selector, Classifier.class, opt);
 
 		return classifiers == null ? null : classifiers.get(0);
+		
 	}
 
 	// Generate zip files from a dataset
@@ -170,18 +212,18 @@ public class GetTestResult extends HttpServlet {
 
 		// return list of zips: each zip contains 20 images (max per call)
 		return Utils.buildCompressedStreamBlocks(oo, Configs.OO_DEFAULTCONTAINER, images);
+		
 	}
 
 	// This method runs a classification on watson
-	private JsonObject runClassification(Classifier classifierJson, Dataset testSet, List<byte[]> zipFiles)
-			throws IOException {
+	private JsonObject runClassification(String testName, Classifier classifierJson, Dataset testSet, List<byte[]> zipFiles) throws IOException {
 
 		// Istantiate service on BlueMix
 		String classifierId = classifierJson.getID();
 		WatsonBinaryClassifier classifier = new WatsonBinaryClassifier(classifierJson.getApiKey());
 		classifier.setClassifierId(classifierId);
 		classifier.setLabel(classifierJson.getLabel());
-
+		
 		// Classify all zips against Watson instance
 		List<VisualClassification> watsonres;
 		try {
@@ -191,9 +233,9 @@ public class GetTestResult extends HttpServlet {
 			// if we have an error, we exhausted
 			// classification calls
 			// TODO rendere più robusto
-			System.out.println("[GetTestResult runClassification()] VisualClassifierException: " + e.getMessage());
+			System.out.println("[GetTestResultMultipleAjax runClassification()] VisualClassifierException: " + e.getMessage());
 
-			System.out.println("[GetTestResult runClassification()] Setting classifierId: " + classifierId + " as zombie!");
+			System.out.println("[GetTestResultMultipleAjax runClassification()] Setting classifierId: " + classifierId + " as zombie!");
 			setAsZombie(classifierId);
 			
 			// return an empty object to client
@@ -238,7 +280,7 @@ public class GetTestResult extends HttpServlet {
 			// Compute distance.. perfect classificator -> tpr = 1, fpr = 0
 			double distance = Math.sqrt(Math.pow(fpr, 2) + Math.pow(1 - tpr, 2));
 
-			System.out.println("[GetTestResult runClassification()] threshold = " + df.format(stepSize * i) + " tpr = "
+			System.out.println("[GetTestResultMultipleAjax runClassification()] threshold = " + df.format(stepSize * i) + " tpr = "
 					+ df.format(tpr) + " fpr = " + df.format(fpr) + " distance = " + df.format(distance));
 
 			// Update best result
@@ -249,22 +291,27 @@ public class GetTestResult extends HttpServlet {
 		}
 
 		// debug
-		System.out.println("[GetTestResult runClassification()] selected threshold = "
+		System.out.println("[GetTestResultMultipleAjax runClassification()] selected threshold = "
 				+ df.format(optResult.getThreshold()) + " and optDistance = " + df.format(optDistance));
 
 		String id = testSet.getLabel() + " " + testSet.getSize() + " - " + classifierJson.getLabel() + " "
 				+ classifierJson.getTrainingSize();
 
-		JsonObject result = buildJsonResult(id, optResult, tprTrace, fprTrace, computeAuc(tprTrace, fprTrace));
+		System.out.println( "Sto usando come testName: " + testName );
+		
+		JsonObject result = buildJsonResult(id, testName, optResult, tprTrace, fprTrace, computeAuc(tprTrace, fprTrace));
 
 		return result;
+		
 	}
 
-	private JsonObject buildJsonResult(String id, WatsonBinaryClassificationResult optResult, List<Double> tprTrace,
+	private JsonObject buildJsonResult(String id, String testname, WatsonBinaryClassificationResult optResult, List<Double> tprTrace,
 			List<Double> fprTrace, double auc) {
 		JsonObject result = new JsonObject();
-
+		
 		result.addProperty("ID", id);
+		
+		result.addProperty("name", testname);
 
 		result.addProperty("accuracyOpt", optResult.computeMetric(METRIC.accuracy));
 
@@ -310,7 +357,7 @@ public class GetTestResult extends HttpServlet {
 		for (int i = 0; i < (tprTrace.size() - 1); i++)
 			auc += ((fprTrace.get(i + 1) - fprTrace.get(i)) * (tprTrace.get(i + 1) + tprTrace.get(i)) / 2);
 
-		// System.out.println("[GetTestResult computeAUCAndrea()] auc = " +
+		// System.out.println("[GetTestResultMultipleAjax computeAUCAndrea()] auc = " +
 		// auc);
 
 		return auc;

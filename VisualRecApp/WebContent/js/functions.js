@@ -538,7 +538,6 @@ function createBlockTest(IDappend,testname,label,classifier){
 function buildSelectTestResult(IDselector, index) {
 	
 	//carica i file da local storage
-//	var result = JSON.parse(localStorage.getItem("resultJSON"));
 	var result = JSON.parse(localStorage.getItem("resultJSON"));
 	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
 	
@@ -575,10 +574,6 @@ function buildSelectTestResult(IDselector, index) {
 		
 	}
 	else{
-		
-		var test = result[index];
-		
-//		console.log("I'M HERE {buildSelectTestResult} result: " +  JSON.stringify(test) )
 			
 		$(IDselector).append($('<option>', {
 			value : testdetails[index].name,
@@ -628,13 +623,12 @@ function buildSelectTestResult(IDselector, index) {
 function updateTestFields(IDselector) {
 	
 	//carica i file da local storage
-//	var result = JSON.parse(localStorage.getItem("resultJSON"));
 	var result = JSON.parse(localStorage.getItem("resultJSON"));
 	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
 	
 	//disegna gli oggetti dipendenti dal test selezionato
 	var valoreOptions = $(IDselector).val();
-//	var key = $(IDselector).data('key');
+	var key = $(IDselector).data('key');
 	
 	console.log("This is the value of IDselector: " + valoreOptions);
 	console.log("This is the value of result : " + JSON.stringify(result));
@@ -642,8 +636,6 @@ function updateTestFields(IDselector) {
 	
 	drawRocCurves(valoreOptions);
 	drawIndexes(valoreOptions);
-	
-	var key = $(IDselector).data('key');
 	
 	if( key != null ){
 		
@@ -693,11 +685,6 @@ function updateTestFields(IDselector) {
 			
 			if (testdetails[j].name == valoreOptions) {
 				setParameters(result[j]);
-				
-				//var positive_images = [];
-	//            positive_images = [];
-	//            for (k = 0; k < result[i].images.positive.length; k++)
-	//                positive_images.push("GetImage?image_id=" + result[i].images.positive[k]);
 				
 				var negative_images = [];
 				for(var i=0;i<result[j].falseNegativeOpt.length;i++) 
@@ -1942,7 +1929,7 @@ function startSimulation(){
 					
 					$.ajax(
 						{
-							url: 'GetTestResult',
+							url: 'GetTestResultMultipleAjax',
 							type: 'GET',
 							data:{ array: manipulated },
 							dataType: 'json',
@@ -1989,14 +1976,12 @@ function startSimulation(){
 									
 								}
 								
-								
 								console.log( "I HAVE FINISHED AJAX CALL #" + this.indexValue ) 
 								$("#waiting").fadeOut(1000);
 								$("#showtest").fadeIn(2000);
-//								localStorage.setItem("resultJSON", JSON.stringify(result) );
 								
 								buildSelectTestResult('#show_test', this.indexValue);
-//								updateTestFields('#show_test');
+								updateTestFields('#show_test');
 								
 							}
 						});
