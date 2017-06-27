@@ -1925,7 +1925,9 @@ function startSimulation(){
 					
 					var manipulated = "[" + JSON.stringify( JSON.parse(questo) ) + "]";
 					
-					console.log("This is manipulated: " + manipulated ) 					
+					console.log("This is manipulated: " + manipulated ) 
+					
+					ajaxLoading.show();
 					
 					$.ajax(
 						{
@@ -1941,6 +1943,8 @@ function startSimulation(){
 //								
 //							},
 							complete: function (result) {
+								
+								ajaxLoading.hide();
 								
 								if( localStorage.getItem("resultJSON") === null ){
 									
@@ -2391,6 +2395,31 @@ function setListHeight(height){
 	$('#listdataset').css("height", height);		
 		
 }
+
+
+
+/**		
+* Functions called to show/hide Watson logo during ajax calls
+*/	
+	var ajaxLoading = {
+        _requestsInProcess: 0,
+
+        show: function () {
+            if (this._requestsInProcess == 0) {
+                $('#waiting_small').attr('style', 'display: block');
+            }
+
+            this._requestsInProcess++;
+        },
+
+        hide: function () {
+            this._requestsInProcess--;
+            if (this._requestsInProcess == 0) {
+                $('#waiting_small').fadeOut('1000');
+            }
+        }
+    };
+
 
 /*
  * ==============================================================================

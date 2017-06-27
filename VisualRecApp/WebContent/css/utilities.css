@@ -261,12 +261,11 @@ img#waiting{
   width: 15%;
 }
 
-.column > img.waiting2{
-  display: block;
-  position: relative;
+img#waiting_small{
+  position: absolute;
   margin: auto;
-  top: 60px;
-  left: 0%;
+  top: 0px;
+  left: 200px;
   width: 40px;
 }
 
