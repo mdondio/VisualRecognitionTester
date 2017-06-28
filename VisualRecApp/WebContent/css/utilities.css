@@ -12,6 +12,13 @@
 
 /* ---------------------------- ADDENDUM TO CARBON DESIGN ---------------------------- */
 
+.notification-error, .notification-info, .notification-success, .notification-warning {
+  width: 15%;
+  position: fixed;
+  top: 100px;
+  right: 20px;
+}
+
 .progressbar {
   margin: 20px;
   width: 80%;
