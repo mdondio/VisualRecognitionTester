@@ -92,12 +92,11 @@ public class GetTestResultMultipleAjax extends HttpServlet {
 
 		JsonParser parser = new JsonParser();
 		JsonArray tests = parser.parse(request.getParameter("array")).getAsJsonArray();
-
-		System.out.println("Here: " + tests);
-		JsonArray results = new JsonArray();
 		
-		for (int i = 0; i < tests.size(); i++) {
+		JsonArray results = new JsonArray();
 
+		for (int i = 0; i < tests.size(); i++) {
+			
 			JsonObject JSONObj = tests.get(i).getAsJsonObject();
 
 			String testSetId = JSONObj.get("test").getAsString();
@@ -124,32 +123,39 @@ public class GetTestResultMultipleAjax extends HttpServlet {
 			response.getWriter().append(results.toString());
 			
 		}
+			
 
-//		String testSetId = JSONObj.get("test").getAsString();
-//		String classifierId = JSONObj.get("classifier").getAsString();
+//		System.out.println("Here: " + tests);
+//		JsonArray results = new JsonArray();
 //		
-//		//This is the name I'm going to attach to the resultJSON in output!
-//		tn.setTestname( root.get("name").getAsString() );
-//		System.out.println("This is the name of the test I'm setting {doGet}: " + root.get("name").getAsString() );
-//		System.out.println("This is the name of the test I'm getting {doGet}: " + tn.getTestName());
+//		for (int i = 0; i < tests.size(); i++) {
 //
-//		// retrieve dataset and classifier object
-//		Dataset testSet = retrieveDataset(testSetId);
+//			JsonObject JSONObj = tests.get(i).getAsJsonObject();
 //
-//		Classifier classifier = retrieveClassifier(classifierId);
-//
-//		// Generate the zip files (20 images per file max)
-//		List<byte[]> zipFiles = generateZipTestSet(testSet);
-//
-//		// We can run a classification
-//		JsonObject classificationResult = runClassification(classifier, testSet, zipFiles);
-//
-//		// Add result to array
-//		results.add(classificationResult);
-//
-//		System.out.println("This is results {doGet}: " + results);
-//
-//		response.getWriter().append(results.toString());
+//			String testSetId = JSONObj.get("test").getAsString();
+//			String classifierId = JSONObj.get("classifier").getAsString();
+//			
+//			String testName = JSONObj.get("name").getAsString();
+//			
+//			// retrieve dataset and classifier object
+//			Dataset testSet = retrieveDataset(testSetId);
+//	
+//			Classifier classifier = retrieveClassifier(classifierId);
+//	
+//			// Generate the zip files (20 images per file max)
+//			List<byte[]> zipFiles = generateZipTestSet(testSet);
+//	
+//			// We can run a classification
+//			JsonObject classificationResult = runClassification(testName, classifier, testSet, zipFiles);
+//	
+//			// Add result to array
+//			results.add(classificationResult);
+//	
+//			System.out.println("This is results {doGet}: " + results);
+//	
+//			response.getWriter().append(results.toString());
+//			
+//		}
 		
 	}
 
@@ -299,14 +305,21 @@ public class GetTestResultMultipleAjax extends HttpServlet {
 
 		System.out.println( "Sto usando come testName: " + testName );
 		
-		JsonObject result = buildJsonResult(id, testName, optResult, tprTrace, fprTrace, computeAuc(tprTrace, fprTrace));
+		JsonObject result = buildJsonResult(id, testName, optResult, tprTrace, fprTrace, computeAuc(tprTrace, fprTrace), "success");
+		
+		//Error checking
+		if( computeAuc(tprTrace, fprTrace) == 0 ){
+			
+			result = buildJsonResult(id, testName, optResult, tprTrace, fprTrace, computeAuc(tprTrace, fprTrace), "error");
+			
+		}
 
 		return result;
 		
 	}
 
 	private JsonObject buildJsonResult(String id, String testname, WatsonBinaryClassificationResult optResult, List<Double> tprTrace,
-			List<Double> fprTrace, double auc) {
+			List<Double> fprTrace, double auc, String error) {
 		JsonObject result = new JsonObject();
 		
 		result.addProperty("ID", id);
@@ -330,6 +343,8 @@ public class GetTestResultMultipleAjax extends HttpServlet {
 
 		result.add("histogramPositive", buildArrayFromList(optResult.getHistogramPositive()));
 		result.add("histogramNegative", buildArrayFromList(optResult.getHistogramNegative()));
+		
+		result.addProperty("notification", error);
 
 		return result;
 	}
