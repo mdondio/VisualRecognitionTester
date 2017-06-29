@@ -1,5 +1,3 @@
-
-
 /**
  * @returns save locally the result file depending on the checkboxes selected
  */
@@ -132,9 +130,8 @@ function addClassifierTable(IDelement,table){
 	 var flag = true;
 	
 	
-	//Add the data rows.
+	//Add the data rows
 	for (var i = 0; i < rowCount; i++) {
-		//row = tableElement.insertRow(-1);
 		var row = document.createElement('tr');
 		for (var j = 0; j < columnCount; j++) {
 
@@ -198,10 +195,8 @@ function addClassifierTable(IDelement,table){
 						} else {
 						
 						swal({
-//							  title: 'ID: '+IDstring,
 							  title: IDshortname,
 							  html: ""+IDdescription+"<br><br><button type='submit' id='editButton' class='bx--btn bx--btn--primary margin-lr'>Edit classifier</button>",
-//							  type: 'warning',
 							  showCancelButton: true,
 							  buttonsStyling: false,
 							  customClass: 'modal-container',
@@ -239,9 +234,7 @@ function addClassifierTable(IDelement,table){
 													  	url : 'DeleteClassifier',
 													   	async : false,
 													   	success : function(result) {
-													   		
-//									   						swal('Deleted!','Classifier ' + IDshortname + ' (ID: '+IDstring+') has been deleted.','success').then(function(){location.reload();})
-									   						
+													   											   						
 									   						swal({
 															  title: "Deleted!",
 															  html: "Classifier " + IDshortname + " (ID: "+IDstring+") has been deleted.<br><br>",
@@ -249,9 +242,7 @@ function addClassifierTable(IDelement,table){
 															  buttonsStyling: false,
 															  customClass: 'modal-container',
 															  confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
-//															  cancelButtonClass: 'bx--btn bx--btn--secondary margin-lr',
 															  confirmButtonText: 'Yeah!',
-//															  cancelButtonText: 'Cancel',
 															  showCancelButton: false,
 															  allowOutsideClick: false,
 															  allowEscapeKey: true
@@ -261,7 +252,7 @@ function addClassifierTable(IDelement,table){
 												
 							   					});
 												
-											}//User really wants to delete the classifier {END}
+											} //User really wants to delete the classifier {END}
 												
 										});
 									
@@ -490,19 +481,15 @@ function createBlockTest(IDappend,testname,label,classifier){
 	pblockT1.appendChild(document.createTextNode(testname));
 	
 	var pblockP1 = document.createElement("p");
-//	pblockP1.setAttribute("class", "paragraph");
 	pblockP1.appendChild(document.createTextNode("Label: "+label));
 	
 	var pblockP2 = document.createElement("p");
-//	pblockP2.setAttribute("class", "paragraph");	
 	pblockP2.appendChild(document.createTextNode("Classifier: "+classifier));
 	
 	blocktest.appendChild(pblockT1);
 	blocktest.appendChild(pblockP1);
 	blocktest.appendChild(pblockP2);
 //	===========================
-//	var blockicon1 = document.createElement("div");
-//	blockicon1.setAttribute("class", "card-icon");
 	
 	var icon1 = document.createElement("img");
 	icon1.setAttribute("class", "card-icon");
@@ -512,21 +499,8 @@ function createBlockTest(IDappend,testname,label,classifier){
 	
 	numberBlock++;
 	
-//	blockicon1.appendChild(icon1);
-	
-//	var blockicon2 = document.createElement("div");
-//	blockicon2.setAttribute("class","blocktesticon");
-//	
-//	var icon2 = document.createElement("img");
-//	icon2.setAttribute("class","icon verysmall blocktest");
-//	icon2.setAttribute("src","ico/plus-symbol.png");
-//	icon2.setAttribute("id","plus"+testname);
-//	
-//	blockicon2.appendChild(icon2);
-//	===========================
 	block.appendChild(blocktest);
 	block.appendChild(icon1);
-//	block.appendChild(blockicon2);
 	
 	$("#"+IDappend+"").append(block);
 }
@@ -549,26 +523,10 @@ function buildSelectTestResult(IDselector, index) {
 		var testcount = 0;
 		for ( var j in result) {
 			var obj = result[j];
-//			if (obj.ID == null) {
-//				swal({
-//					title : "Warning",
-//					html : "Classifier "
-//						+ testdetails[testcount].classifier
-//						+ " is exhausted. Wait 24h and you will regain your free API calls<br><br>",
-//					imageUrl : "img/tired2.png",
-//					imageWidth: 240,
-//					imageHeight: 200,
-//					customClass: 'modal-container',
-//					showCancelButton: false,
-//					confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
-//	                confirmButtonText: 'Got it'
-//				});
-//			} else {
 				$(IDselector).append($('<option>', {
 					value : testdetails[testcount].name,
 					text : testdetails[testcount].name
 				}));
-//			}
 			testcount++;
 		}
 		
@@ -582,59 +540,19 @@ function buildSelectTestResult(IDselector, index) {
 		
 		$(IDselector).data('key', index);
 		
-		
-		
-//		if( testdetails[index].name == "ciccio" ) {
-			
-//			$('#notification-error').css("display", "flex");
-//			$('#notification-error').delay(40000).fadeOut(300);
-//			
-//			console.log("Notification shown!")
-		
-			if(result[index].notification == "error"){
-				popNotification(testdetails[index].name, "Some problems occurred.", "Please check your test!", "error");
-			}
-			if(result[index].notification == "success"){
-				popNotification(testdetails[index].name, "Test was successful!", "Results displayed.", "success");
-			}
-			if(result[index].notification == "warning"){
-				popNotification(testdetails[index].name, "Beware", "Results displayed.", "warning");
-			}
-			
-//		}
+		// Manage notifications in simulate page
+		if(result[index].notification == "error"){
+			popNotification(testdetails[index].name, "Some problems occurred.", "Please check your test!", "error");
+		}
+		else if(result[index].notification == "success"){
+			popNotification(testdetails[index].name, "Test was successful!", "Results displayed.", "success");
+		}
+		else if(result[index].ID == null){
+			popNotification(testdetails[index].name, "Classifier went zombie!", "API calls limit reached.", "warning");
+		}
 				
 		
 	}
-
-	
-
-
-	//verifica che non ci siano vuoti e costruisce il select test panel
-//	var testcount = 0;
-//	for ( var j in result) {
-//		var obj = result[j];
-//		if (obj.ID == null) {
-//			swal({
-//				title : "Warning",
-//				html : "Classifier "
-//					+ testdetails[testcount].classifier
-//					+ " is exhausted. Wait 24h and you will regain your free API calls<br><br>",
-//				imageUrl : "img/tired2.png",
-//				imageWidth: 240,
-//				imageHeight: 200,
-//				customClass: 'modal-container',
-//				showCancelButton: false,
-//				confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
-//                confirmButtonText: 'Got it'
-//			});
-//		} else {
-//			$(IDselector).append($('<option>', {
-//				value : testdetails[testcount].name,
-//				text : testdetails[testcount].name
-//			}));
-//		}
-//		testcount++;
-//	}
 	
 }
 
@@ -713,11 +631,11 @@ function updateTestFields(IDselector) {
 
 						DrawHistogram(result[f].histogramNegative,result[f].histogramPositive);
 						
-					}//Closing if statement on result
+					} //Closing if statement on result
 					
-				}//Closing for loop inside result
+				} //Closing for loop inside result
 				
-			}//Closing if statement on testdetails
+			} //Closing if statement on testdetails
 			
 		}
 		
@@ -746,117 +664,6 @@ function updateTestFields(IDselector) {
 		}
 		
 	}
-	
-	
-	
-//	for( var j in testdetails ){
-//			
-//			if(testdetails[j].name == testname){
-//				
-////				console.log("**** FOUND *** --> : " + testdetails[j].name )
-//				
-//				var index = j;
-////				
-//				var test = result[index];
-//				
-////				var index = key;
-////				
-////				var test = result[index];
-////				
-////				console.log("This is what I'm passing to setParameters: " + test)
-////				console.log("... This should be accuracy: " + result[index].accuracyOpt.toFixed(2) )
-//				
-//				setParameters(test);
-//				
-//				var negative_images = [];
-//				for(var i=0;i<result[index].falseNegativeOpt.length;i++) 
-//					negative_images.push("GetImage?image_id="+result[index].falseNegativeOpt[i]);
-//				$("#galleryFN").empty()
-//				createGallery('galleryFN',negative_images,"showtestNEG");
-//				
-//				var positive_images = [];
-//				for(var i=0;i<result[index].falsePositiveOpt.length;i++) 
-//					positive_images.push("GetImage?image_id="+result[index].falsePositiveOpt[i]);
-//				$("#galleryFP").empty()
-//				createGallery('galleryFP',positive_images,"showtestPOS");
-////				
-//				DrawHistogram(result[index].histogramNegative,result[index].histogramPositive);
-//				
-//			}
-//		
-//			
-//	}
-	
-//	var key = $(IDselector).data('key');
-//	
-//	if( key != null ){
-//		
-//		for( var j in testdetails ){
-//			
-//			if( testdetails[j].name == testname ){
-//				
-//				for( var k in result ){
-//					
-//					if( result[k].name == testname ){
-//						
-//						console.log("****FOUND ***")
-//						
-//						console.log("This is what I'm passing to setParameters: " + result[k])
-//						console.log("... This should be accuracy: " + result[k].accuracyOpt.toFixed(2) )
-//						
-//						setParameters(result[k]);
-//							
-//						var negative_images = [];
-//						for(var i=0;i<result[k].falseNegativeOpt.length;i++) 
-//							negative_images.push("GetImage?image_id="+result[k].falseNegativeOpt[i]);
-//						$("#galleryFN").empty()
-//						createGallery('galleryFN',negative_images,"showtestNEG");
-//						
-//						var positive_images = [];
-//						for(var i=0;i<result[k].falsePositiveOpt.length;i++) 
-//							positive_images.push("GetImage?image_id="+result[k].falsePositiveOpt[i]);
-//						$("#galleryFP").empty()
-//						createGallery('galleryFP',positive_images,"showtestPOS");
-//	
-//						DrawHistogram(result[k].histogramNegative,result[k].histogramPositive);
-//						
-//					}//Closing if statement on result
-//					
-//				}//Closing for loop on result
-//				
-//				
-//			}//Closing if statement on testdetails
-//			
-//		}//Closing for loop on testdetails
-//		
-//	}else{
-//		
-//		for ( var j in testdetails) {
-//			if (testdetails[j].name == testname) {
-//				setParameters(result[j]);
-//				
-//				//var positive_images = [];
-////	            positive_images = [];
-////	            for (k = 0; k < result[i].images.positive.length; k++)
-////	                positive_images.push("GetImage?image_id=" + result[i].images.positive[k]);
-//				
-//				var negative_images = [];
-//				for(var i=0;i<result[j].falseNegativeOpt.length;i++) 
-//					negative_images.push("GetImage?image_id="+result[j].falseNegativeOpt[i]);
-//				$("#galleryFN").empty()
-//				createGallery('galleryFN',negative_images,"showtestNEG");
-//				
-//				var positive_images = [];
-//				for(var i=0;i<result[j].falsePositiveOpt.length;i++) 
-//					positive_images.push("GetImage?image_id="+result[j].falsePositiveOpt[i]);
-//				$("#galleryFP").empty()
-//				createGallery('galleryFP',positive_images,"showtestPOS");
-//				
-//				DrawHistogram(result[j].histogramNegative,result[j].histogramPositive);
-//			}
-//		}
-//		
-//	}
 	
 }
 
@@ -1055,7 +862,6 @@ function drawRocCurves(testname){
 	var count = 0;
 	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
 	var result = JSON.parse(localStorage.getItem("resultJSON"));
-//	var testname = $("#show_test").val();
 
 	for(var i in result){
 		var obj = result[i];
@@ -1379,18 +1185,12 @@ function openIt(modal, content){
 
 function openModal2() {
 	populateListTestResult();
-//	$('#savetestmodal').show("slow");
-//	$('#savetestmodalbackground').show("slow");
-//	$('#savetestmodalcontent').show("slow");
 	$('#savetestmodal').fadeIn(100);
 	$('#savetestmodalbackground').fadeIn(100);
 	$('#savetestmodalcontent').fadeIn(100);
 }
 
 function closeModal2() {
-//	$('#savetestmodal').hide("slow");
-//	$('#savetestmodalbackground').hide("slow");
-//	$('#savetestmodalcontent').hide("slow");
 	$('#savetestmodal').fadeOut(100);
 	$('#savetestmodalbackground').fadeOut(100);
 	$('#savetestmodalcontent').fadeOut(100);
@@ -1584,12 +1384,9 @@ function showGallery(result,inputgallery) {
 						"<div class='mySlides" + GALLERY
 								+ "'><div class='numbertext'>" + slidenumber
 								+ " / " + totalslide
-//								+ "</div><h1>"+gian_str+"</h1><img class='modal-img' src="
-//								+ img_path + result[i] + "></div>");
 								+ "</div><id-image>"+gian_str+"</id-image><img class='modal-img' data-src="
 								+ img_path + result[i] + "></div>");
 				
-								//+ img_path + result[i] + " src="+ img_path + result[i] + " ></div>");
 				slidenumber++;
 				
 			}
@@ -1638,7 +1435,6 @@ function showGallery(result,inputgallery) {
 
 				var x = document.createElement("IMG");
 				x.setAttribute("data-src", img_path + result[i]);
-//				x.setAttribute("src", img_path + result[i]);
 				x.addEventListener("click", function(event) {
 					newImgZoom(inputgallery, slidenumber);
 					event.preventDefault();
@@ -1706,7 +1502,6 @@ function showSlides(n) {
 	} else {
 		var i;
 		var slides = document.getElementsByClassName("mySlides" + GALLERY);
-//		console.log("HERE --> " + GALLERY);
 		var changeForLazy = document.getElementsByClassName("modal-img");
 		var dots = document.getElementsByClassName("demo" + GALLERY);
 		var captionText = document.getElementById("caption" + GALLERY);
@@ -1824,8 +1619,7 @@ function populateAPITable(){
 					var instanceId=result[i]._id;
 					var classifiers=result[i].classifiers;
 				btn.onclick = (function(instanceId,classifiers) {return function() {
-//					console.log(instanceId);
-//					console.log(classifiers);
+					
 					swal({
 						  title: "Are you sure?",
 						  html: "You are deleting also all classifiers ("+classifiers.length+") linked to this api_key. Are you really sure you want to delete this instance?<br><br>",
@@ -2036,27 +1830,6 @@ function startSimulation(){
 					
 				}
 				
-				//OLD GetTestResult Handling
-//				$.ajax(
-//						{
-//							url: 'GetTestResult',
-//							type: 'GET',
-//							data:{ array: testdetails },
-//							dataType: 'json',
-//							async: true,
-//							success: function(result)
-//							{
-//								$("#waiting").fadeOut(1000);
-//								$("#showtest").fadeIn(2000);
-//								localStorage.setItem("resultJSON", JSON.stringify(result));
-//								
-//								console.log("I'M HERE SETTING resultJSON: " + JSON.stringify(result))
-//								
-//								buildSelectTestResult('#show_test');
-//								updateTestFields('#show_test');
-//
-//							}
-//						});
 
 	}
 
@@ -2433,7 +2206,6 @@ function startTrain(){
 * Function called in generateHome to set the height of the dataset list equal to the height of the classifier table		
 */		
 function setListHeight(height){		
-//	console.log(height);		
 	$('#listdataset').css("height", height);		
 		
 }

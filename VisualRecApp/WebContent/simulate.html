@@ -135,11 +135,9 @@ createCarbonHeader();
 <!--   ====================== WAITING LOGO ============================ -->
 <!--   ================================================================ -->
   
-  <!-- Icona Watson -->
-<!--    	<div class="content" id="waiting" style="display:none;"> -->
-<!-- 		<img src='ico/load.svg' id="logowait waiting" style="display: none"> -->
-		<img src='ico/load.svg' id="waiting" style="display: none;">
-<!-- 	</div> -->
+  	<!-- Icona Watson -->
+	<img src='ico/load.svg' id="waiting" style="display: none;">
+
 		
 <!--   ================================================================ -->
 <!--   ====================== SHOW PAGE =============================== -->
@@ -155,10 +153,6 @@ createCarbonHeader();
 			<img src='ico/load.svg' id="waiting_small" style="display: none;">
 			
 			<br><br>
-			
-<!-- 			<select id="testset1" class="bx--select-input" required> -->
-<!-- 			      <option class="bx--select-option" disabled selected hidden value="">Select test set</option> -->
-<!-- 			</select> -->
 			
 			<div class="row clearfix">
 				<div class="column full">
@@ -236,18 +230,7 @@ createCarbonHeader();
 					  	<div class="row clearfix">
 					  		<div class="column half"><strong class="bx--label">ROC curve</strong><div id="graph1"></div></div>
 					  		<div class="column half">
-					  			<strong class="bx--label">Distribution</strong>
-					  			
-<!-- 					  			<a class="bx--tooltip__trigger"> -->
-<!-- 								  <svg tabindex="0" data-tooltip-trigger data-tooltip-target="#unique-tooltip" width="16" height="16"> -->
-<!-- 								    <use xlink:href="./ico/bluemix-icons.svg#icon--info--glyph"></use> -->
-<!-- 								  </svg> -->
-<!-- 								</a> -->
-<!-- 								<div id="unique-tooltip" data-floating-menu-direction="top" class="bx--tooltip"> -->
-<!-- 								  <p class="bx--tooltip__label">Distribution graph</p> -->
-<!-- 								  <p>Thanks to Visual Recognition scores, we can draw the negative and the positive distribution curves. Classifier effectiveness increases if VR instance is able to better separate the positive population from the negative one.</p> -->
-<!-- 								</div> -->
-								
+					  			<strong class="bx--label">Distribution</strong>								
 					  			<div class="selecttest"><br><br><br>Select a test to view distribution graph</div>		
 					  			<div class="displayresults" id="graph_histogram"></div>
 					  		</div>
@@ -520,7 +503,7 @@ $('body').on("change","select[id*=testclassifier]",function(){
 				}
 			else{
 			console.log(result.images);
-						console.log(result.size);
+			console.log(result.size);
 			if(result.size>0){			
 					swal({
 						title: "Warning",
