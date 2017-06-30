@@ -107,6 +107,7 @@ public class AddInstance extends HttpServlet {
 		newInstance.setType("visual recognition instance");
 		newInstance.setAccount("account_account");
 		newInstance.setRegion("region");
+		newInstance.setId("vr_instance_"+apiKey);
 		newInstance.setClassifier(new LinkedList<String>());
 		newInstance.setApikey(apiKey);
 		Response responsePost = db.post(newInstance);

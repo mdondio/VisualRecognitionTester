@@ -73,19 +73,19 @@ public class Classifier {
 	}
 
 	 public void setZombieSince(Date zombie_since) {
-	this.zombie_since = zombie_since;
+		 this.zombie_since = zombie_since;
 	}
 
-	public String setDescription(String description) {
-		return this.description = description;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
-	public String setComments(String comments) {
-		return this.comments = comments;
+	public void setComments(String comments) {
+		this.comments = comments;
 	}
 
-	public String setShortname(String shortname) {
-		return this.shortname = shortname;
+	public void setShortname(String shortname) {
+		this.shortname = shortname;
 	}
 		
 	public String toString(){
@@ -101,7 +101,7 @@ public class Classifier {
 	}
 
 	public void setLabel(String label) {
-this.label = label;		
+		this.label = label;		
 	}
 
 	public void setTrainingSize(int size) {

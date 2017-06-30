@@ -595,15 +595,13 @@ function buildSelectTestResult(IDselector, index) {
 
 function popNotification(title, subtitle, caption, type){
 	
-	var id_notif = title.replace(/\s/g, "");
-		
 	var number = $('.bx--toast-notification:visible').length; 
-	var notification = '<div id="notification-'+id_notif+'" style="display:flex" data-notification class="notification-'+type+' bx--toast-notification bx--toast-notification--'+type+'" role="alert"><div class="bx--toast-notification__details"><h3 class="bx--toast-notification__title">'+title+'</h3><p class="bx--toast-notification__subtitle">'+subtitle+'</p><p class="bx--toast-notification__caption">'+caption+'</p></div><button data-notification-btn class="bx--toast-notification__close-button" type="button"><svg class="bx--toast-notification__icon" aria-label="close" width="10" height="10" viewBox="0 0 10 10" fill-rule="evenodd"><path d="M9.8 8.6L8.4 10 5 6.4 1.4 10 0 8.6 3.6 5 .1 1.4 1.5 0 5 3.6 8.6 0 10 1.4 6.4 5z"></path></svg></button></div>';
+	var notification = '<div id="notification-'+title+'" style="display:flex" data-notification class="notification-'+type+' bx--toast-notification bx--toast-notification--'+type+'" role="alert"><div class="bx--toast-notification__details"><h3 class="bx--toast-notification__title">'+title+'</h3><p class="bx--toast-notification__subtitle">'+subtitle+'</p><p class="bx--toast-notification__caption">'+caption+'</p></div><button data-notification-btn class="bx--toast-notification__close-button" type="button"><svg class="bx--toast-notification__icon" aria-label="close" width="10" height="10" viewBox="0 0 10 10" fill-rule="evenodd"><path d="M9.8 8.6L8.4 10 5 6.4 1.4 10 0 8.6 3.6 5 .1 1.4 1.5 0 5 3.6 8.6 0 10 1.4 6.4 5z"></path></svg></button></div>';
 	
 	$("body").append(notification);
 		
-	$('#notification-'+id_notif).css( "margin-top", (number*100)+"px" );
-	$('#notification-'+id_notif).delay(8000).fadeOut(300);
+	$('#notification-'+title).css( "margin-top", (number*100)+"px" );
+	$('#notification-'+title).delay(8000).fadeOut(300);
 	
 	$('.bx--toast-notification__close-button').click(function(){
 		$(this).parent().css("display", "none");
@@ -697,6 +695,7 @@ function updateTestFields(IDselector) {
 				createGallery('galleryFP',positive_images,"showtestPOS");
 				
 				DrawHistogram(result[j].histogramNegative,result[j].histogramPositive);
+				
 			}
 	
 		}

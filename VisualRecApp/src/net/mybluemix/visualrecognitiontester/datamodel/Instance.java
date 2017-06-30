@@ -38,24 +38,30 @@ public class Instance {
 		return api_key;
 	}
 	
-	public String setType(String type) {
-		return this.type = type;
+	public void setType(String type) {
+		this.type = type;
 	}
 	
-	public String setAccount(String account) {
-		return this.account = account;
+	public void setAccount(String account) {
+		this.account = account;
 	}
 	
-	public String setRegion(String region) {
-		return this.region = region;
+	public void setRegion(String region) {
+		this.region = region;
 	}
 	
-	public String setApikey(String apiKey) {
-		return this.api_key = apiKey;
+	public void setApikey(String apiKey) {
+		this.api_key = apiKey;
 	}
 	
-	public List<String> setClassifier(List<String> classifiers) {
-		return this.classifiers = classifiers;
+	public void setId(String id){
+		
+		this._id = id;
+		
+	}
+	
+	public void setClassifier(List<String> classifiers) {
+		this.classifiers = classifiers;
 	}
 	
 	public void addClassifier(String classifierId){
