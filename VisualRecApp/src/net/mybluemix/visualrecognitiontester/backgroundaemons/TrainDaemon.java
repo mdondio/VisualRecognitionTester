@@ -114,13 +114,13 @@ public class TrainDaemon implements Runnable {
 				System.out.println("[TrainDaemon] Error while training on Watson. Skip job.");
 				continue;
 			}
-
+		
 			// Now check result: must be training
 			if (wbc.getLastStatus() != VisualClassifier.Status.TRAINING) {
 				System.out.println("[TrainDaemon] Error while training. Status of classifier: " + wbc.getLastStatus());
 				continue;
 			}
-
+		
 			// If im here, training was succesfull!
 
 			// Now update cloudant...
