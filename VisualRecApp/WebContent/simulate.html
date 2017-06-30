@@ -228,10 +228,14 @@ createCarbonHeader();
 					<div style="padding: 1rem;"> 
 					  <div id="tab-panel-1" class="tab-1" role="tabpanel" aria-labelledby="tab-link-1" aria-hidden="false">
 					  	<div class="row clearfix">
-					  		<div class="column half"><strong class="bx--label">ROC curve</strong><div id="graph1"></div></div>
+					  		<div class="column half">
+					  			<strong class="bx--label">ROC curve</strong>
+					  			<div class="selecttest grey" id="selecttest-gray-roc"><br><br><br>Select a test to view ROC curve</div>	
+					  			<div class="displayresults" id="graph1"></div>
+					  		</div>
 					  		<div class="column half">
 					  			<strong class="bx--label">Distribution</strong>								
-					  			<div class="selecttest"><br><br><br>Select a test to view distribution graph</div>		
+					  			<div class="selecttest grey" id="selecttest-gray-distribution"><br><br><br>Select a test to view distribution graph</div>		
 					  			<div class="displayresults" id="graph_histogram"></div>
 					  		</div>
 					  		
@@ -526,9 +530,7 @@ $('body').on("change","select[id*=testclassifier]",function(){
 //=========================== Showresult part ===================
 
 // ON CHANGE select test SHOW SIDE
-	$('#show_test').on(
-			'change',
-			function() {
+	$('#show_test').on('change', function() {
 			updateTestFields('#show_test');
 			
 			$('.selecttest').css("display", "none");

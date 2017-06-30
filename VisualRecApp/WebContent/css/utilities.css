@@ -19,6 +19,13 @@
   right: 20px;
 }
 
+.grey {
+  width: 450px;
+  height: 550px;
+  background-color: rgb(242, 242, 242);
+  text-align: center;
+}
+
 .progressbar {
   margin: 20px;
   width: 80%;
