@@ -1,87 +1,151 @@
 <!DOCTYPE html>
 <html>
+
 <head></head>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> <!-- ACCORDION -->
+<!-- Main inclusions -->
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<!-- Functions -->
 <script src="js/genericFunctions.js"></script>
 <script src="js/functions.js"></script>
+<!-- Carbon design scripts -->
+<script src="js/index.js"></script>
+<script src="js/bluemix-components.min.js"></script>
+<script src="js/svgxuse.min.js"></script>
+<!-- Utilities -->
 
-<script>createHead();</script>
+
+<script>
+createHead();
+createCarbonHeader();
+</script>
 
 <body>
-<header></header><script>createHeader();</script>
 
-  <script>
-$(function() {
-    $("#accordion" ).accordion({
-        collapsible: true,
-        heightStyle: "content"
-    });
-});
-  </script>
-  
+	<div id="carbon-header"></div>
 
-
+	<br>
+	<br>
+	<br>
 
 	<div class="content">
 
 		<div class="row clearfix">
 
-			<div class="column three-fourths">
-			
-				<div class="post-preview">
-									
-						<div id="accordion">
-					
-						  <h3>Introduction to Bellosguardo</h3>
-						  <div>
-						    <p>Cras dictum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia mauris vel est. </p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.</p>
-						  </div>
-						  <h3>Description of the analysis</h3>
-						  <div>
-						    <p>Cras dictum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia mauris vel est. </p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In suscipit faucibus urna. </p>
-						  </div>
-						  <h3>Brief mathematical notions</h3>
-						  <div>
-						    <p>Cras dictum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia mauris vel est. </p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.Cras dictum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia mauris vel est. </p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis. Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac libero ac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quis lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui. </p>
-						    <ul>
-						      <li>List item one</li>
-						      <li>List item two</li>
-						      <li>List item three</li>
-						    </ul>
-						  </div>
-						  <h3>Getting started</h3>
-						  <div>
-						    <p>Cras dictum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia mauris vel est. </p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Cras dictum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia mauris vel est. </p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.Cras dictum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia mauris vel est. </p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.Cras dictum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia mauris vel est. </p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.Cras dictum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia mauris vel est. </p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
-						  </div>
-						</div>
-				
+			<div class="column three-fourths"><h1>Documentation</h1><br>
+
+				<div class="bx--module bx--module--double">
+				  <div class="bx--module__inner">
+				    <div class="bx--module__header">
+				      <h1 class="bx--module__title">What is Bellosguardo?</h1>
+				    </div>
+				    <div class="bx--module__content">
+				      <p>
+				        Bellosguardo is a web application that helps decision makers and subject matter experts in finding decision thresholds that maximize the accuracy of images classification.
+						<br><br>
+						<strong>How?</strong><br>
+						Without any coding skill required, in Bellosguardo is possible to:<br>
+						- upload image sets (that you will use as test or training sets)<br>
+						- train and test classifiers (with IBM Watson Visual Recognition)<br>
+						- evaluate performances and fine-tune classifiers (leveraging Bellosguardo's metrics)<br><br> 
+						<strong>Why?</strong><br>
+						Most public-available image recognition services produce a score between 0.0 and 1.0 for each image (and for each class). This value is not a percentage or a probability, but a unitless number that indicates the confidence of the service in recognizing a specific class.
+						Depending on the goal of the application, a specific score may be requested in order to take actions or generate decisions upon it. This value is called "decision threshold" and it is not (and cannot be) computed by image recognition services automatically.
+				      	<br><br>
+				      	<img class="center" src="img/docs/ciuaua.jpg" width="350px">
+				      	<br>
+				      	Bellosguardo uses the IBM Watson Visual Recognition service to train classifiers and statistical methods to evaluate them. The results is a user friendly environment that gives control along the whole image classification journey. 
+						<br><br>
+						For details about statistical testing, please see the section below.<br><br>
+						
+						<strong>Statistical Testing</strong><br>
+						In order to evaluate classifiers performances, Bellosguardo measures:<br>
+						1.	Receiver Operating Characteristics curve (ROC) and Distribution Curve<br>
+						2.	Accuracy and Area Under the Curve (AUC)<br>
+						3.	Optimal Threshold<br>
+						4.	False Positive and False Negative results<br>
+						<br>
+						A ROC curve is "a graphical plot that illustrates the diagnostic ability of a binary classifier system as its discrimination threshold is varied."<br><br>
+						In the case of Bellosguardo, the curve is created by plotting the true positive rate (TPR) against the false positive rate (FPR) at various Watson's score variations.
+						The true-positive rate is also known as sensitivity, recall or probability of detection; the false-positive rate is also known as the fall-out or probability of false alarm and can be calculated as (1 - specificity). TPR defines how many correct positive results occur among all positive samples available during the test; FPR defines how many incorrect positive results occur among all negative samples available during the test: TPR = TP/(TP+FN); FPR = FP/(FP+TN)				         
+				      </p>
+				    </div>
+				  </div>
 				</div>
-				
-			</div>
-					
-			<div class="column fourth">
-			
-				<div class="post-preview">
-				<h3>Docs</h3>
-				
-				<div id="card">Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis. Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac libero ac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quis lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui.</div>
-				
+
+				<div class="bx--module bx--module--double">
+				  <div class="bx--module__inner">
+				    <div class="bx--module__header">
+				      <h1 class="bx--module__title">How to use Bellosguardo</h1>
+				    </div>
+				    <div class="bx--module__content">
+				      <p>
+				        Bellosguardo is a web application that helps decision makers and subject matter experts in finding decision thresholds that maximize the accuracy of images classification.
+						<br><br>
+						<strong>How to upload images</strong><br>
+						You can upload images that can be used for training or test purposes by clicking on the drop down menu "upload dataset".
+						Once in the page, in the TAB of the positive images click on Browse to upload the positive images, select the images from your PC and click OK. Repeat the same task for the negative images. When you have browsed both positive and negative images you must click upload button. When you have finished to browse the images specify if the images will be used for training or test, the click "Upload image set" button.
+						You must give a name to the set of images and you give the label of the images to categorize them.
+						Once you have entered those info you just wait the message that confirm you that the images are successfully uploaded and then you are able to see them in the dashboard.<br><br>
+						<strong>How you train IBM Watson with your training set pics</strong><br>
+						After you have uploaded your images you are able to train IBM Watson with them. Click on "train - train a new classifier" of the drop down menu in the home page.
+						In the page displayed you have to click on "select train dataset". A dropdown menu is displayed and you can choose the image set between the ones you have uploaded. The positive and negative images are displayed in the page so you can check if there is any mistake. You can put a short name and a short description of the classifier in order to summarize the characteristic. 
+						When you're done you click on "start training". The train will start, you can return to the dashboard page and the classifier will appear in the classifier list when training process is complete. The operation can take few minutes so remember to re-load the dashboard sometimes.<br><br>
+						<strong>How to run a test</strong><br>
+						After you have uploaded the images set, and you have trained at least one classifier you can run a test. You click on "simulate - run new test".
+						You need to put a name for the test, select a test dataset (the images you want to test) and select a classifier (the images you have trained). It is not suggested to use the same picture set for classifier are test.
+						You can make more than one test run in parallel by clicking the   add test icon: a new row will appear where you can input other test images and other classifier. If you run more contemporary test you can easily compare the results. 
+						You can also delete a test by clicking the   icon if you decide you don't want to run it.
+						Once you have finished to select all the images for test and training you can start your test by clicking the   run simulation icon. The result will be displayed as soon as the test is finished.<br><br>
+						<strong>How to save test result</strong><br>
+						If you want to save the result of the test you ran, you can choose to save to DB or to save the JSON file.
+						Save to DB: …
+						Save to JSON file: click on "save to JSON file" button. A pop up will open asking you to open or save file. Click on Save option. The JSON file will be downloaded on your PC. 
+						If you want to see the result you must click on "simulate - explore previous test". Click on "browse" and select the file with the test you want to display. Click on "import". You can click on the   icon if you don't want to see the result of one specific test. Then click on “view test result” to have the result displayed.
+					  </p>
+				    </div>
+				  </div>
 				</div>
+
 			</div>
+			
+			<div class="column fourth"><h1>&ensp;</h1><br>
+
 				
-			
-			
+				<div class="bx--module bx--module--single">
+				  <div class="bx--module__inner">
+				    <div class="bx--module__content">
+				    	<ol class="bx--list--ordered">
+							<li class="bx--list__item">What is Bellosguardo?
+							   <ol class="bx--list--nested">
+							      <li class="bx--list__item">How?</li>
+							      <li class="bx--list__item">Why?</li>
+							      <li class="bx--list__item">Statistical testing</li>
+							    </ol>
+							 </li>
+							 <li class="bx--list__item">How to use Bellosguardo</li>
+							 	<ol class="bx--list--nested">
+							      <li class="bx--list__item">How to upload images</li>
+							      <li class="bx--list__item">How you train IBM Watson with your training set pics</li>
+							      <li class="bx--list__item">How to run a test</li>
+							      <li class="bx--list__item">How to save test result</li>
+							    </ol>
+						</ol>
+				    </div>
+				  </div>
+				</div>
+
+
+			</div>
+
 		</div>
-		
+
 	</div>
-				
-								
+
+
+
 
 </body>
 
-<script>
-</script>
 
 </html>

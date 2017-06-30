@@ -1,33 +1,70 @@
 <!DOCTYPE html>
 <html>
+
 <head></head>
 
+<!-- Main inclusions -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<!-- Functions -->
 <script src="js/genericFunctions.js"></script>
 <script src="js/functions.js"></script>
+<!-- Carbon design scripts -->
+<script src="js/index.js"></script>
+<script src="js/bluemix-components.min.js"></script>
+<script src="js/svgxuse.min.js"></script>
+<!-- Utilities -->
 <script src="js/jquery.lazy.min.js"></script>
 
-<script>createHead();</script>
+
+<script>
+createHead();
+createCarbonHeader();
+</script>
 
 <body>
-<header></header><script>createHeader();</script>
+
+<div id="carbon-header"></div><br><br><br>
+
 
 	<div class="content">
 
-		<br>
+	<div class="row clearfix">
+
+		<div class="column half"><h1>Classifier details</h1><br>
+		</div>
+
+	</div>
+	
+	<br>
 
 			<div class="column fourth">
-				<input class="title" type="text" id="shortnameedit" maxlength="5">
+				<div class="bx--form-item">
+				  <input id="shortnameedit" type="text" class="bx--text-input" maxlenght="5">
+				</div>
 			</div>
 			<div class="column fourth">
-				<input class="title" type="text" id="labeledit" maxlength="5">
+				<div class="bx--form-item">
+				  <input id="labeledit" type="text" class="bx--text-input" maxlenght="5">
+				</div>			
 			</div>
 			<div class="column fourth">
-				<button id="saveButton" disabled class="import">Save</button>
+				<button id="backicon" class="bx--btn bx--btn--secondary" type="button">
+					Back
+				  <svg class="bx--btn__icon">
+				    <use xlink:href="./ico/bluemix-icons.svg#icon--arrow--left"></use>
+				  </svg>
+				</button>
+				<button id="saveButton" class="bx--btn bx--btn--secondary" type="button" disabled>Save</button>			
 			</div>
 			<div class="column fourth">
-<!-- 				<button type="submit" class="import">Use</button> -->
-				<button type="submit" class="import">Retrain</button><button id="deleteButton" type="submit" class="import">Delete</button>
+				<button class="bx--btn bx--btn--primary" type="sumbit" id="datasetButton">View dataset</button>
+				<button id="backicon" class="bx--btn bx--btn--primary" type="button" disabled>
+					Retrain
+				  <svg class="bx--btn__icon">
+				    <use xlink:href="./ico/bluemix-icons.svg#icon--watson"></use>
+				  </svg>
+				</button>
+				<button class="bx--btn bx--btn--primary" type="submit" id="deleteButton">Delete</button>
 			</div>
 	
 		
@@ -37,17 +74,23 @@
 	<div class="row clearfix">
 
 		<div class="column half">
-			<p class='title center'>description</p>
-			<p class='paragraph center'>this is a short description of the classifier</p>
+			<strong class="bx--label">Description</strong>
+			<p class="bx--label-description">This is the description of the classifier</p>
 			<hr class="lineseparator">
-			<textarea id="descriptionedit" rows="8" style="width:100%" maxlength="500"></textarea>
+			<div class="bx--form-item">
+			  <textarea id="descriptionedit" class="bx--text-area" rows="6" width="100%"></textarea>
+			</div>
+
+
 		</div>
 
 		<div class="column half">
-			<p class='title center'>comments</p>
-			<p class='paragraph center'>you can put comments on the behaviour of the classifier</p>
+			<strong class="bx--label">Comments</strong>
+			<p class="bx--label-description">Put here comments on the behaviour of the classifier</p>
 			<hr class="lineseparator">
-			<textarea id="commentsedit" rows="8" style="width:100%" maxlength="500"></textarea>
+			<div class="bx--form-item">
+			  <textarea id="commentsedit" class="bx--text-area" rows="6" width="100%"></textarea>
+			</div>
 		</div>
 		
 	</div>
@@ -57,17 +100,15 @@
 	<div class="row clearfix">
 
 		<div class="column half">
-			<p class='title center'>positive images</p>
-			<p class='paragraph center'>list of all the pictures containing
-				an object representing the category</p>
+			<strong class="bx--label">Positive images</strong>
+			<p class="bx--label-description">List of images containing an object of the selected category</p>
 			<hr class="lineseparator">
 			<div id=positiveTrainingGallery></div>
 		</div>
 
 		<div class="column half">
-			<p class='title center'>negative images</p>
-			<p class='paragraph center'>list of all the pictures not
-				containing any object representing the category, but similar ones</p>
+			<strong class="bx--label">Negative images</strong>
+			<p class="bx--label-description">List of images not containing an object of the selected category</p>
 			<hr class="lineseparator">
 			<div id=negativeTrainingGallery></div>
 		</div>
@@ -79,25 +120,25 @@
 
 </body>
 
+
+
 <script>
 	
+	// Lazy loading management
 	$(document).ajaxStop(function () {
       testingLoading();
   	});
   	
+  	// Save button management
   	var flag = 0;
   	
   	if( flag == 0 ){
   		 	
 	 	if( $('#saveButton').attr("disabled") ){
-	 	
 	 		$('#saveButton').addClass("disabled");
-	 	
 	 	}else
 	 		$('#saveButton').removeClass("disabled");
-  	
   		flag = 1;
-  		
   	}
 
 
@@ -128,84 +169,93 @@
     	$('#saveButton').removeClass("disabled");
 	
 	});
-	
-	var shortName = ( $("#shortnameedit").val() );
-  	var descr = ( $("#descriptionedit").val() );
-  	var comm = ( $("#commentsedit").val() );
-  	var label = ( $("#labeledit").val() );;
-	
+		
 	$('#deleteButton').click(function(){
 	
+		// Actual delete of classifier
 		deleteClassifierFromDetailPage(classID, shortName);
 	
 	});
   	
   	$('#saveButton').click(function(){
   	
+  		var shortName = ( $("#shortnameedit").val() );
+  		var descr = ( $("#descriptionedit").val() );
+  		var comm = ( $("#commentsedit").val() );
+  		var label = ( $("#labeledit").val() );
+  	
+  		// Actual update of classifier
   		updateClassifierDetail(classID, shortName, label, descr, comm);
   		
   		$('#saveButton').attr("disabled", true);
     	$('#saveButton').addClass("disabled");
 	
 	});
-  	
+	
+	$('#backicon').click(function() {
+    	window.history.back();
+    });
+	
+	// Retrieve from local storage  	
 	var classID = localStorage.getItem("classID");
 	
-	var shortName = returnClassifierDetail(classID, "shortname");
-	var label = returnClassifierDetail(classID, "label");
-	var descr = returnClassifierDetail(classID, "description");
-	var comm = returnClassifierDetail(classID, "comments");
+	// Retrieve classifier attributes
+	shortName = returnClassifierDetail(classID, "shortname");
+	label = returnClassifierDetail(classID, "label");
+	descr = returnClassifierDetail(classID, "description");
+	comm = returnClassifierDetail(classID, "comments");
 	var set = returnClassifierDetail(classID, "training_set");
 	
-
+	// Populate page with classifier attributes
 	$("#shortnameedit").val(shortName);
 	$("#labeledit").val(label);
 	$("#descriptionedit").text(descr);
 	$("#commentsedit").text(comm);
 
-buildSelectDataSet("all",'#trainingdataset');
+	// Retrieve images and create gallery				
+	$.ajax({
+		contentType : "application/json",
+		dataType : "json",
+		url : 'GetDataset',
+		data : "_id=",
+		async : true,
+		success : function(result) {
+		
+			$("#negativeTrainingGallery").empty();
+			$("#positiveTrainingGallery").empty();
 
+			for ( var i in result ){
+
+				if (result[i]._id == set) {
 				
-				$.ajax({
-					contentType : "application/json",
-					dataType : "json",
-					url : 'GetDataset',
-					data : "_id=",
-					async : true,
-					success : function(result) {
+					console.log(result[i]._id);
 					
-					console.log("err1");
-					
-						$("#negativeTrainingGallery").empty();
-						$("#positiveTrainingGallery").empty();
+					var positive_images = [];
+					for( var k = 0; k < result[i].images.positive.length; k++ )								
+						positive_images.push("GetImage?image_id="+result[i].images.positive[k]);
 						
-					console.log("err2");
+					var negative_images = [];
+					for( var j = 0; j < result[i].images.negative.length; j++ )
+						negative_images.push("GetImage?image_id="+result[i].images.negative[j]);
+					
+					createGallery('negativeTrainingGallery', negative_images, result[i]._id + "NEG");
+					createGallery('positiveTrainingGallery', positive_images, result[i]._id + "POS");
 
-						for ( var i in result ){
+				}
 
-							if (result[i]._id == set) {
-							
-								console.log(result[i]._id);
-								
-								var positive_images = [];
-								for( var k = 0; k < result[i].images.positive.length; k++ )								
-									positive_images.push("GetImage?image_id="+result[i].images.positive[k]);
-									
-								var negative_images = [];
-								for( var j = 0; j < result[i].images.negative.length; j++ )
-									negative_images.push("GetImage?image_id="+result[i].images.negative[j]);
-								
-								createGallery('negativeTrainingGallery', negative_images, result[i]._id + "NEG");
-								createGallery('positiveTrainingGallery', positive_images, result[i]._id + "POS");
+			}
 
-							}
+		}
+	});
+	
+	// View dataset details
+	$('#datasetButton').on("click", function() {
 
+		window.location.href = 'showgallery.html';
+		localStorage.setItem("idgallery", set);
 
-						}
-
-					}
-				});
-
+	});
+				
 			
 </script>
 

@@ -1,30 +1,74 @@
 <!DOCTYPE html>
 <html>
+
 <head></head>
 
+<!-- Main inclusions -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<!-- Functions -->
 <script src="js/genericFunctions.js"></script>
 <script src="js/functions.js"></script>
-<script src="js/jquery.lazy.min.js"></script>
+<!-- Carbon design scripts -->
+<script src="js/index.js"></script>
+<script src="js/bluemix-components.min.js"></script>
+<script src="js/svgxuse.min.js"></script>
+<!-- Utilities -->
 
-<script>createHead();</script>
+
+<script>
+createHead();
+createCarbonHeader();
+</script>
 
 <body>
-<header></header><script>createHeader();</script>
+
+<div id="carbon-header"></div><br><br><br>
 
 <div class="content">
 
-<div class="column two-thirds">
-	<input type="file" id="selectFiles" value="Import">
-	<button id="import" class="import">Import</button>
-	<button id="viewresult" class="import">View results</button>
-	<div id="caricatest"></div>
-</div>
+	<div class="row clearfix">
+
+		<div class="column fourth"><h1>Explore previous tests</h1><br>
+		</div>
+
+	</div>
+	
+	<br>
+
+	<div class="row clearfix">
+
+		<div class="column three-fourths">
+			<input type="file" id="selectFiles" value="Import">
+			
+		</div>
+		
+		<div class="column fourth">
+		
+			<button id="import" class="bx--btn bx--btn--secondary" type="button">Import file</button>
+			<button id="viewresult" class="bx--btn bx--btn--primary" type="button">View test results</button>
+		
+		</div>
+		
+	</div>
+	
+	<br><br><br>
+	
+	<div class="row clearfix">
+	
+		<div class="column full">
+		
+		<div id="caricatest"></div>
+		
+		</div>
+	
+	</div>
 
 </div>
 
 
 </body>
+
+
 
 <script>
 
@@ -71,17 +115,12 @@ $('#import').click(function() {
             
     createBlockTest("caricatest",obj.ID,"TBD","TBD");
     
-//     console.log( "RESULT: " + JSON.stringify( result[i]) )
-    
     ready = true;
     
     }
     
-    //verrà spostato da qui perchè dobbiamo implementare la personalizzazione dei dati da caricare
     localStorage.setItem("resultJSON", e.target.result);
-    
-//  	test = JSON.stringify( e.target.result );
-	//test = e.target.result;
+
 	test = result;
     resultJSON = result;
 
@@ -106,25 +145,8 @@ $('#import').click(function() {
 
 //cambio pagina
 $('#viewresult').click(function() {
-
-// 	console.log("**********************************")
-	
-// 	console.log("OLD listJSON: " + oldVersion)
-// 	console.log("NEW: listJSON" + localStorage.getItem("listJSON") )
-	
-// 	if( oldVersion != localStorage.getItem("listJSON") )
-// 		console.log("COOL!")
-
-// 	console.log("**********************************")
-   
-   	console.log("OLD resultJSON " +  JSON.stringify( test ) )
    	
    	var editable = test;
-   	
-   	console.log("Deleted Ones: " + deletedOnes)
-   	
-   	console.log("**********************************")
-	console.log("DELETING PROCESS")
    	
    	for( var i = 0; i < deletedOnes.length; i++ ){
    	
@@ -145,10 +167,6 @@ $('#viewresult').click(function() {
    	
    	}
 	
-	console.log("**********************************")
-	
-	console.log("Entire JSON: " + JSON.stringify( cleanJSON ) )
-	
 	localStorage.setItem("resultJSON", JSON.stringify( cleanJSON ) );
    
     // Store
@@ -162,18 +180,23 @@ $('body').on("click","img[id*=garbage]",function(){
 	if( deletable <= 1 ){
 	
 		 swal({
-		 
 				title: "Warning",
-				text: "You have to load at least one test!",
-				type: "warning"
-				
+				html: "You have to load at least one test.<br><br>",
+				type: "warning",
+				showCloseButton: false,
+				showCancelButton: true,
+				showConfirmButton: false,
+				buttonsStyling: false,
+				customClass: 'modal-container',
+				cancelButtonClass: 'bx--btn bx--btn--primary margin-lr',
+				cancelButtonText: 'Got it'
 			});
 		
 	}
 		
 	else{
 	
-		var parent = this.parentNode.parentNode;
+		var parent = this.parentNode;
 		
 		var parent_not_primary = this.getAttribute("id");
 		
@@ -182,31 +205,17 @@ $('body').on("click","img[id*=garbage]",function(){
 		deletedOnes[t] = this.getAttribute("number");
 		t++;
 		
-		console.log( "BEFORE:  " + JSON.stringify(directJSON) )
-		
-		//var index = directJSON.indexOf(stringToBeDeleted);
-		
 		var finalJSON = directJSON.filter(function (elem) { return elem.name !== stringToBeDeleted  });
-		
-		//console.log( "HERE: " + JSON.stringify( finalJSON ) )
-		
+
 		directJSON = finalJSON;
-				
-		console.log( "AFTER:  " + JSON.stringify(directJSON) )
-		
-		console.log("####################################################")
 		
 		var first = false;
 		
 		for( var k = 0; k < newJSON.length; k++ ){
 		
-			console.log("THIS: " + newJSON[k].ID)
-			console.log("To be deleted: " + stringToBeDeleted)
-		
 			if( newJSON[k].ID == stringToBeDeleted ){
 				
 				finalResultJSON = "";
-				//finalResultJSON = JSON.stringify( newJSON[k] );
 				
 			}else{
 				
@@ -222,10 +231,6 @@ $('body').on("click","img[id*=garbage]",function(){
 			
 		}
 			
-		console.log( "FINAL: ----------> " + finalResultJSON )
-		
-		console.log("####################################################")
-		
 		parent.remove();
 		
 		localStorage.setItem("listJSON",JSON.stringify(directJSON));

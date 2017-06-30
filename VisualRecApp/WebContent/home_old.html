@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head></head>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="js/genericFunctions.js"></script>
+<script src="js/functions.js"></script>
+
+<script>createHead();</script>
+
+
+<body>
+	<header></header>
+	<script>
+		createHeader();
+	</script>
+
+	<div class="content">
+
+		<div class="row clearfix">
+
+			<div class="column fourth">
+
+				<div class="post-preview">
+					<div class="circumference medium" style="margin: auto;"	id="readyclass"></div>
+				</div>
+
+				<hr class="lineseparator">
+
+				<div class="column half">
+					<div class="post-preview">
+						<p class="title right">
+							ready <br> classifiers
+						</p>
+					</div>
+				</div>
+
+				<div class="column half">
+					<div class="post-preview">
+						<p class="paragraph left">You can use these classifiers for
+							your simulations.</p>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="column fourth">
+
+				<div class="post-preview">
+					<div class="circumference medium" style="margin: auto;"	id="freeclass"></div>
+				</div>
+				<hr class="lineseparator">
+
+				<div class="column half">
+					<div class="post-preview">
+						<p class="title right">
+							free <br> classifiers
+						</p>
+					</div>
+				</div>
+
+				<div class="column half">
+					<div class="post-preview">
+						<p class="paragraph left">These instances are free to train.
+							Let's go to the train panel!</p>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="column fourth">
+
+				<div class="post-preview">
+					<div class="circumference medium" style="margin: auto;"	id="trainingclass"></div>
+				</div>
+
+				<hr class="lineseparator">
+
+				<div class="column half">
+					<div class="post-preview">
+						<p class="title right">
+							classifiers <br> in training
+						</p>
+					</div>
+				</div>
+
+				<div class="column half">
+					<div class="post-preview">
+						<p class="paragraph left">We are building new classifiers for
+							you, just relax and prepare your next simulation.</p>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="column fourth">
+
+				<div class="post-preview">
+					<div class="circumference medium" style="margin: auto;"
+						id="zombieclass"></div>
+				</div>
+
+				<hr class="lineseparator">
+
+				<div class="column half">
+					<div class="post-preview">
+						<p class="title right">
+							zombie <br> classifiers
+						</p>
+					</div>
+				</div>
+
+				<div class="column half">
+					<div class="post-preview">
+						<p class="paragraph left">Wait 24h or switch to a premium
+							Bluemix account.</p>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<br> <br>
+
+		<div class="row clearfix">
+
+			<div class="column fourth">
+			
+				<p class="title center topborder">Available Datasets</p>
+				<div class="post-preview" id="listdataset"></div>
+
+			</div>
+
+			<div class="column three-fourths">
+			
+				<div class="post-preview">
+					<p class="title center topborder">Classifier list</p>
+					<div id="dvTable"></div>
+
+				</div>
+			</div>
+
+
+		</div>
+
+	</div>
+
+
+
+</body>
+
+<script>
+	generateHome();
+	
+	//per vedere la galleria di immagini di un certo testset clickato
+	$('body').on("click", "[id*=showdatasetID]", function() {
+
+		window.location.href = 'showgallery.html';
+		console.log($(this).attr("id"));
+		var ID = $(this).attr("id").substring(13);
+		localStorage.setItem("idgallery", ID);
+
+		// 	console.log("num reload "+num);
+
+	});
+	
+	$('body').on("click", "[id*=editButton]", function() {
+
+		localStorage.setItem("classID", getClassID());
+		window.location.href = 'classifierdetails2.html';
+
+	});
+	
+// 	var table_height = 0; 
+// 	table_height = $('#dvTable').height();
+	
+// 	setListHeight(table_height);
+		
+// 	jQuery(window).on("load", function(){
+// 	    console.log(table_height);
+// 	    // 	$('#listdataset').css("height", table_height);
+// 	});
+	
+
+</script>
+
+</html>

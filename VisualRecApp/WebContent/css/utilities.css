@@ -1,16 +1,104 @@
-/* ================ DEFAULT =====================*/
-
 /* ---------------------------- DESIGN SCROLLBAR for webkit browsers ---------------------------- */
+
 ::-webkit-scrollbar { width: 8px; }
+ ::-webkit-scrollbar:horizontal { height: 8px; }
 /* Track */
-::-webkit-scrollbar-track { -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); -webkit-border-radius: 1px; border-radius: 1px; }
+/* ::-webkit-scrollbar-track { -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); -webkit-border-radius: 1px; border-radius: 1px; } */
 /* Handle */
-::-webkit-scrollbar-thumb { -webkit-border-radius: 1px; border-radius: 1px; background: #776980; -webkit-box-shadow: inset 0 0 6px rgb(66,66,66); }
+::-webkit-scrollbar-thumb { -webkit-border-radius: 0px; border-radius: 0px; background: #999; /*-webkit-box-shadow: inset 0 0 6px rgb(66,66,66);*/ }
 ::-webkit-scrollbar-thumb:window-inactive { background: rgb(66,66,66); }
+
 /* ---------------------------- END DESIGN SCROLLBAR for webkit browsers ---------------------------- */
 
+/* ---------------------------- ADDENDUM TO CARBON DESIGN ---------------------------- */
+
+.notification-error, .notification-info, .notification-success, .notification-warning {
+  width: 15%;
+  position: fixed;
+  top: 100px;
+  right: 20px;
+}
+
+.grey {
+  width: 450px;
+  height: 550px;
+  background-color: rgb(242, 242, 242);
+  text-align: center;
+}
+
+.progressbar {
+  margin: 20px;
+  width: 80%;
+  height: 80%;
+  position: relative;
+}
+.progressbar.home {
+  margin: auto;
+  width: 70%;
+  height: 70%;
+  position: relative;
+}
+
+.modal-container { border-radius: 1px!important; }
+.margin-lr { margin-right: 8px; margin-right: 8px; }
+
+.bx--card:hover { box-shadow: 0 4px 8px 0 rgba(0,0,0,0.10); }
+
+.bx--card.minimal {
+  margin: 5px;
+  max-width: 5rem;
+  padding-top: 15%;
+  height: 50px;
+/*   display: table-cell; */
+}
+
+.bx--card.minimal.ready { cursor: pointer; }
+.bx--card.minimal.training { background: #ECECEC; cursor: wait; }
+.bx--card.minimal.zombie { background: transparent; cursor: wait; }
+
+.bx--card.large {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  /* margin-left: 7%; */
+  /* margin-right: 5%; */
+  width: 98%;
+  height: 35px;
+  cursor: pointer;
+  padding-top: 2%;
+}
+
+.bx--card.medium {
+  margin: 5px;
+  width: 32%;
+  height: 100px;
+  display: inline-flex;
+}
+
+.attribute {
+  width: 65%;
+  line-height: 25px;
+  display: inline-block;
+  position: relative;
+  margin-top: 10px;
+  margin-left: 15px;
+  margin-bottom: 10px;
+  height: 100%;
+}
+
+.card-icon {
+  display: block;
+  position: relative;
+  width: 30px;
+  height: auto;
+  top: -70px;
+  left: 90%;
+  cursor: pointer;
+}
+
+/* ---------------------------- END ADDENDUM TO CARBON DESIGN ---------------------------- */
 
 /* ---------------------------- CSS GALLERY ---------------------------- */
+
 body { font: 10px sans-serif; }
 
 .axis path, .axis line { fill: none; stroke: #000; shape-rendering: crispEdges; }
@@ -88,113 +176,217 @@ body.modal { overflow: hidden; }
 img.hover-shadow { transition: 0.3s; }
 .hover-shadow:hover { box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); }
 
+/* Show images boxes in pages */
+img.galleryimg {
+  height: 60px;
+  width:auto;
+  margin-left:10px;
+  margin-right:10px;
+  margin-top:10px;
+  padding:5px;
+  background: #ECECEC;
+  -webkit-transition-duration: 0.3s; -moz-transition-duration: 0.3s; transition-duration: 0.3s;
+}
+
+img.galleryimg:hover {
+  background: #00A6A0;
+  -webkit-transition-duration: 0.3s;
+  -moz-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+}
+
+img.icon.inline { display: inline; }
+
+/* To abilitate lazy loading */
+img.test {
+  width: 100px;
+  height: 100px;
+  float: left;
+  margin-top: 10px;
+  margin-right: 11px;
+}
+
+.blockgallery { display: inline-block; }
+
 /* ---------------------------- END CSS GALLERY ---------------------------- */
 
+/* ---------------------------- TABLE MANAGEMENT ---------------------------- */
 
-/* ---------------------------- MATERIAL ICONS ---------------------------- */
-.material-icons {
-  font-family: 'Material Icons';
-  font-weight: normal;
-  font-style: normal;
-  font-size: 28px;  /* Preferred icon size */ /* 24px default */
-  display: inline-block;
-  line-height: 1;
-  text-transform: none;
-  letter-spacing: normal;
-  word-wrap: normal;
-  white-space: nowrap;
-  direction: ltr;
-  position: relative; bottom: -5px; /* sistemazione in linea con testo */
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-  -moz-osx-font-smoothing: grayscale;
-  font-feature-settings: 'liga';
-}
-fieldset { border: 0px; }
-/* ---------------------------- END MATERIAL ICONS ---------------------------- */
-
-
-/* ---------------------------- FORMS ---------------------------- */
-input[type=text], input[type=url], input[type=datetime-local], input[type=time], input[type=password] {
-  border: 0;
-  outline: 0;
-  background: transparent;
-  border-bottom: 1px solid black;
-  padding: 13px 4px;
-  font-family: "IBM"; font-size: 15px; color: #000000;
-}
-
-::-webkit-input-placeholder { /* Chrome/Opera/Safari */
- color: #000000; font-family: "IBM"; font-size: 15px;
-}
-::-moz-placeholder { /* Firefox 19+ */
- color: #000000; font-family: "IBM"; font-size: 15px;
-}
-
-select {
-  border: 0;
-  outline: 0;
-  background: transparent;
-  border-bottom: 1px solid black;
-  padding: 12px 4px;
-  -webkit-appearance: none; -moz-appearance: none; appearance: none;
-  background: url(../ico/down-arrow.png) no-repeat right;
-  color: #000000; font-family: "IBM"; font-size: 15px;
-}
-
-input[type=text]:focus { background-color: transparent; }
-input[type=url]:focus { background-color: #FFFFFF; }
-input[type=datetime-local]:focus { background-color: #FFFFFF; }
-input[type=time]:focus { background-color: #FFFFFF; }
-input[type=password]:focus { background-color: #FFFFFF; }
-
-/* input[type=button], input[type=submit], input[type=reset] { */
-/*   background-color: #CCCCCC; */
-/*   border: none; */
-/*   color: #000000; */
-/*   border-radius: 1px; */
-/*   padding: 12px 16px; */
-/*   text-decoration: none; */
-/*   margin: 4px 2px; */
-/*   cursor: pointer; */
-/* } */
-
-textarea {
+table, td, th {
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
   background-color: transparent;
-  border: none;
-  color: #000000;
-  border-radius: 1px;
-  padding: 12px 16px;
-  text-decoration: none;
-  margin: 4px 2px;
-  overflow: scroll; overflow-x: hidden;
-  resize: none;
-  font-family: "IBM";
-  font-size: 18px;
+  color: #343b43;
 }
-textarea:focus { background-color: #FFFFFF; }
 
-
-/* select.test_set { */
-/*   -webkit-appearance: none; -moz-appearance: none; appearance: none; */
-/*   background: url(../ico/menu-overflow_32.png) no-repeat right; */
-/* } */
-
-select:focus { background-color: transparent; }
-/*
-input[type=email] {
-background-color: #F6F6F6;
-border: solid 0px #F6F6F6;
-color: #000000;
-border-radius: 1px;
-padding: 12px 16px;
-text-decoration: none;
-margin: 4px 2px;
-cursor: pointer;
-width: 30%;
-text-align: center;
-font-size: 15px;
+table {
+  border-collapse: collapse;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
 }
-input[type=email]:focus { background-color: #F6F6F6; }
-*/
-/* ---------------------------- END FORMS ---------------------------- */
+
+td {
+  padding: 10px;
+}
+
+tr:hover {
+  background-color: #f2f2f2;
+}
+
+th {
+  padding: 10px;
+  font-family: 'IBM Helvetica', Helvetica Neue, HelveticaNeue, Helvetica, sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: left;
+  color: #5a6872;
+}
+
+.topborder {
+  border-top: 3px solid #343b43;
+  padding-top: 15px;
+  margin-bottom: 30px;
+}
+
+/* ---------------------------- END TABLE MANAGEMENT ---------------------------- */
+
+/* ---------------------------- CUSTOM STRUCTURE ---------------------------- */
+
+/* hr styling */
+.lineseparator {
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  align: center;
+  width: 75%;
+}
+
+/* Logo Watson */
+img#waiting{
+  top: 35%;
+  left: 43%;
+  position: absolute;
+  margin: auto;
+  width: 15%;
+}
+
+img#waiting_small{
+  position: absolute;
+  margin: auto;
+  top: 0px;
+  left: 200px;
+  width: 40px;
+}
+
+/* Scroll dataset list */
+#listdataset { overflow: scroll; overflow-x: hidden; }
+#dvTable { overflow: scroll; overflow-y: hidden; }
+
+
+/* File input area styling */
+input[type=file]{
+  border: dashed 1px #666666;
+  background-color: #ECECEC;
+  width: 100%;
+  text-align: center;
+  margin: auto;
+  padding: 9px;
+  cursor: pointer;
+}
+
+/* Cards (used in login page) */
+.card {
+	width: 95%;
+	height: auto;
+	margin: auto;
+	background-color: #FFFFFF;
+	font-family: "museo-sans", sans-serif;
+	font-style: normal;
+	font-weight: 100;
+	font-size: 15px;
+	text-transform: none;
+}
+
+.card>img {
+	width: 100%;
+	margin: auto;
+	padding: 0;
+}
+
+.clearfix:before, .clearfix:after { content: " "; display: table; }
+.clearfix:after { clear: both; }
+.clearfix { *zoom: 1; }
+
+/* ---------------------------- END CUSTOM STRUCTURE ---------------------------- */
+
+/* ---------------------------- CUSTOM TOOLTIP ---------------------------- */
+
+/* Add this attribute to the element that needs a tooltip */
+[data-tooltip] {
+  position: relative;
+  cursor: pointer;
+}
+
+/* Hide the tooltip content by default */
+[data-tooltip]:before,
+[data-tooltip]:after {
+  visibility: hidden;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Position tooltip above the element */
+[data-tooltip]:before {
+  position: absolute;
+  bottom: 60%;
+  left: 0%;
+  margin-bottom: -10px; /* tooltip container position */
+  margin-left: -80px;
+  padding: 7px;
+  width: 210px; /* width of tooltip */
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #000;
+  background-color: hsla(0, 0%, 20%, 0.7);
+  color: #fff;
+  content: attr(data-tooltip);
+  text-align: left;
+  font-size: 14px;
+  line-height: 1.2;
+  z-index: 20000000; /*avoid tooltip to be under cards*/
+}
+
+/* Triangle hack to make tooltip look like a speech bubble */
+[data-tooltip]:after {
+  position: absolute;
+  bottom: 30%; /* down arrow position */
+  left: 50%;
+  margin-left: -5px;
+  width: 0;
+  border-top: 5px solid #000;
+  border-top: 5px solid hsla(0, 0%, 20%, 0.7);
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
+  content: " ";
+  font-size: 0;
+  line-height: 0;
+}
+
+/* Show tooltip content on hover */
+[data-tooltip]:hover:before,
+[data-tooltip]:hover:after {
+  visibility: visible;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+  filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1;
+}
+
+/* ---------------------------- END CUSTOM TOOLTIP ---------------------------- */

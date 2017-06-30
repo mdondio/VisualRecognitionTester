@@ -1,42 +1,53 @@
 <!DOCTYPE html>
 <html>
+
 <head></head>
 
+<!-- Main inclusions -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<!-- Functions -->
 <script src="js/genericFunctions.js"></script>
 <script src="js/functions.js"></script>
+<!-- Carbon design scripts -->
+<script src="js/index.js"></script>
+<script src="js/bluemix-components.min.js"></script>
+<script src="js/svgxuse.min.js"></script>
+<!-- Utilities -->
 
-<script>createHead();</script>
-
+<script>
+createHead();
+</script>
 
 <body style="background-image:url('images/loginpage.png'); overflow: hidden;">
-	<header></header>
-<script>
-		createHeaderforLogin();
-	</script>
-	
-	<div class="content">
+
+<!-- <div id="carbon-header"></div><br><br><br> -->
+
+<div class="content">
+
 	<br>
 	<div class="card" style="width:30%;padding:20px;">
 		<br>
 		<br>
 		<img src="images/VRimage.png" class="imglogin"> <br>
 		<br>
-		<form action="loginservlet" name="login_form" id="login_form" method="post"
-			style="margin: 0 auto; width: 100%; text-align: center;">
-			<input required type="text" name="username" id="username" placeholder="Username" size="50"> 
+		<form action="loginservlet" name="login_form" id="login_form" method="post" style="margin: 0 auto; width: 100%; text-align: center;">
+
+				<div class="bx--form-item">
+				  <input id="username" type="text" class="bx--text-input" placeholder="Username" name="username" maxlenght="50" required>
+				  <br>
+				  <input id="password" type="password" class="bx--text-input" placeholder="Password" name="password" maxlenght="50" required>  
+				</div>
+				
 			<br> 
-			<input required type="password" name="password" id="password" placeholder="Password" size="50"> 
-			<br> 
-			<input type="submit" value="login" name="login" id="login" class="rectangle">
+			<br>
+				<button class="bx--btn bx--btn--primary" type="submit" id="login">Login to Bellosguardo</button>
 		</form>
 		<br>
 		<br>
 		<br>
 		<br>
 		<div style="text-align: center">
-			<font size="2">powered by </font><img src="img/bluemix.png"
-				width="150px" align="middle">
+			<font size="2">powered by </font><br><br><img src="img/bluemix.png" width="150px">
 		</div>
 		<br>
 		<br>
@@ -45,7 +56,15 @@
 
 </body>
 
+
 <script>
+
+	$("#login").click(function() {
+
+		localStorage.setItem("user",  document.getElementById('username').value);
+	
+	});
+
 // 	$("#login").click(function() {
 // 		var user = $("#username").val();
 // 		var pass = $("#password").val();

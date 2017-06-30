@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+
+<head></head>
+
+<!-- Main inclusions -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<!-- Functions -->
+<script src="js/genericFunctions.js"></script>
+<script src="js/functions.js"></script>
+<!-- Carbon design scripts -->
+<script src="js/index.js"></script>
+<script src="js/bluemix-components.min.js"></script>
+<script src="js/svgxuse.min.js"></script>
+<!-- Utilities -->
+
+
+<script>
+createHead();
+createCarbonHeader();
+</script>
+
+<body>
+		
+<div id="carbon-header"></div>
+				
+<br><br><br>
+
+	<div class="content">
+
+		<div class="row clearfix">
+
+			<div class="column half">
+			
+				<div id="user" class="post-preview"><h1></h1>
+				
+				<br><br><br>
+
+						<div id="test" class="bx--form-item">
+							 <label for="apiKeysTitle" class="bx--label">Insert API key</label>
+						     <input type="text" id="apiKeys" class="bx--text-input" placeholder="...API keys..."/>
+						</div>
+					  	
+					<br>
+					
+					<button id="insertAPI" class="bx--btn bx--btn--primary" type="button" disabled>Add APIs</button>
+				
+				</div>
+				
+				</div>
+				
+				<!-- APIs TABLE -->
+				<div class="column half">
+				
+				<div class="post-preview"><h1>&ensp;</h1>
+				
+				<br><br><br>
+			
+					<strong class="bx--label">Your current APIs</strong>
+					<p class="bx--label-description">These are your APIs which are already linked to your account</p>
+	
+					<div class="bx--responsive-table-container" data-responsive-table>
+					  <table class="bx--responsive-table bx--responsive-table--static-size" data-table>
+					    <thead class="bx--table-head">
+					      <tr class="bx--table-row">
+					        <th tabindex="0" class="bx--table-header bx--table-sort" data-event="sort">
+					          <span>Account</span>
+					          <svg class="bx--table-sort__svg" width="10" height="5" viewBox="0 0 10 5" fill-rule="evenodd">
+					            <path d="M10 0L5 5 0 0z"></path>
+					          </svg>
+					        </th>
+					        <th tabindex="0" class="bx--table-header bx--table-sort" data-event="sort">
+					          <span>Region</span>
+					          <svg class="bx--table-sort__svg" width="10" height="5" viewBox="0 0 10 5" fill-rule="evenodd">
+					            <path d="M10 0L5 5 0 0z"></path>
+					          </svg>
+					        </th>
+					        <th tabindex="0" class="bx--table-header bx--table-sort" data-event="sort">
+					          <span>API Key</span>
+					          <svg class="bx--table-sort__svg" width="10" height="5" viewBox="0 0 10 5" fill-rule="evenodd">
+					            <path d="M10 0L5 5 0 0z"></path>
+					          </svg>
+					        </th>
+					        <th tabindex="0" class="bx--table-header bx--table-sort" data-event="sort">
+					          <span>Delete</span>
+					          <svg class="bx--table-sort__svg" width="10" height="5" viewBox="0 0 10 5" fill-rule="evenodd">
+					            <path d="M10 0L5 5 0 0z"></path>
+					          </svg>
+					        </th>
+					      </tr>
+					    </thead>
+					    <tbody id="APITable" class="bx--table-body">
+					    
+<!-- 					      <tr tabindex="0" class="bx--table-row bx--parent-row" data-parent-row> -->
+<!-- 					        <td>Harry</td> -->
+<!-- 					        <td>Potter</td> -->
+<!-- 					      </tr> -->
+					      
+					    </tbody>
+					  </table>
+					</div>
+
+				</div><!-- CLOSING APIs TABLE -->
+		
+		</div>
+				
+								
+
+</body>
+
+ <script>
+ 
+ 	populateAPITable();
+ 
+ 	var flag = 0;
+ 	
+ 	var i = 1;
+ 	
+ 	var num;
+
+    $("#user > h1").text(localStorage.getItem("user"));
+    
+	$('#test').on('keyup', 'input', function() {
+	
+	    if($(this).val() == ''){
+	    	
+	    	$(this).next().remove();
+	        i--;
+		
+			num = document.getElementById('test').getElementsByTagName('input').length;	
+			
+			if( num == 1 ){
+			
+				$('#insertAPI').addClass("disabled");
+    			$('#insertAPI').attr("disabled", true);
+			
+			}        
+
+	        return;
+	        
+	    }
+	    
+	    else if($(this).next().val() == '') {
+	    
+	    	$('#insertAPI').addClass("disabled");
+	        return;
+	        
+	    }
+
+	    var newTxt = $(this).clone();
+	    var id = newTxt.attr('id');
+	    newTxt.attr('id', 'apiKeys_' + (i));
+	    newTxt.val('');
+	    $(this).parent().append(newTxt);
+	    i++;
+	    
+	    $('#insertAPI').removeClass("disabled");
+    	$('#insertAPI').attr("disabled", false);		
+
+	});
+  	
+  	if( flag == 0 ){
+  		 	
+	 	if( $('#insertAPI').attr("disabled") ){
+	 	
+	 		$('#insertAPI').addClass("disabled");
+	 	
+	 	}else
+	 		$('#insertAPI').removeClass("disabled");
+  	
+  		flag = 1;
+  		
+  	}
+  	
+  	var values = [];
+  	var k = 0;
+  	
+  	// when add API key button will be clicked all the API will be added to the values vector
+  	$('#insertAPI').click(function(){
+		
+		$("#test :input").each(function(e){	
+
+if(this.value!="")
+{
+		$.ajax({													
+				dataType: "json",
+				url: 'AddInstance',
+				data: "api_key="+this.value,
+				async: false,
+				success: function(result){
+				console.log("DENTRO");
+					if(result.hasOwnProperty('error'))
+						{
+						swal({
+								title: 'Warning',
+								html: result.error + '<br><br>',
+								type: 'warning',
+								customClass: 'modal-container',
+								buttonsStyling: false,
+			   					showCancelButton: false,
+			   					showConfirmButton: true,
+			   					confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+								confirmButtonText: 'Got it'
+							});
+						}else{
+						console.log("ADDED")
+					swal({
+										   						title: 'Completed!',
+										   						html: 'Instance has been included, you have a new free instance available.',
+										   						type: 'success',
+										   						customClass: 'modal-container',
+											   					showCancelButton: false,
+											   					showConfirmButton: true,
+											   					confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+																confirmButtonText: 'Yeah!'
+									   						}).then(function(){location.reload();});
+									   						
+									   						}	
+		}
+	});
+	
+	}
+		});	
+		
+		
+	});
+	
+  	
+</script>
+
+
+</html>

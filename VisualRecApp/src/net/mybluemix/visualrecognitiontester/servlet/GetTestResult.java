@@ -190,7 +190,7 @@ public class GetTestResult extends HttpServlet {
 
 			// if we have an error, we exhausted
 			// classification calls
-			// TODO rendere più robusto
+			// TODO rendere pi� robusto
 			System.out.println("[GetTestResult runClassification()] VisualClassifierException: " + e.getMessage());
 
 			System.out.println("[GetTestResult runClassification()] Setting classifierId: " + classifierId + " as zombie!");

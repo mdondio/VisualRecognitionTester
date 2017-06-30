@@ -1,5 +1,3 @@
-
-
 /**
  * @returns save locally the result file depending on the checkboxes selected
  */
@@ -36,15 +34,19 @@ function printTestResults(){
 		 
 	     swal({
 			  title: "Insert File Name",
-			  text: "Give JSON file a name:",
+			  html: "Give JSON file a name:<br><br>",
 			  type: "info",
 			  input: "text",
-			  confirmButtonColor: '#5cb85c',
-			  confirmButtonText: 'Save!',
+			  buttonsStyling: false,
+			  customClass: 'modal-container',
+			  confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+			  confirmButtonText: 'Save file',
+			  cancelButtonClass: 'bx--btn bx--btn--secondary margin-lr',
+			  cancelButtonText: 'Cancel',
 			  showCancelButton: true,
 			  allowOutsideClick: false,
 			  allowEscapeKey: true,
-			  inputPlaceholder: "...filename..."
+			  inputPlaceholder: "Hint filename here..."
 			}).then( function (result) {
 				
 				if( result != null && result != "" )
@@ -54,10 +56,13 @@ function printTestResults(){
 					
 					swal({
 						  title: 'Error!',
-						  text: 'For correctly saving a JSON file you have to insert a file name!',
+						  html: 'For correctly saving a JSON file you have to insert a file name!<br><br>',
 						  type: 'error',
-						  confirmButtonColor: '#f0ad4e',
-						  confirmButtonText: 'Ok'
+						  buttonsStyling: false,
+						  showCancelButton: false,
+						  customClass: 'modal-container',
+						  confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+						  confirmButtonText: 'Got it'
 						})
 					
 				}
@@ -69,10 +74,13 @@ function printTestResults(){
 		 
 		 swal({
 			  title: 'Error!',
-			  text: 'For correctly saving a JSON file you have to select at least a result!',
+			  html: 'For correctly saving a JSON file you have to select at least one result!<br><br>',
 			  type: 'error',
-			  confirmButtonColor: '#f0ad4e',
-			  confirmButtonText: 'Ok'
+			  buttonsStyling: false,
+			  showCancelButton: false,
+			  customClass: 'modal-container',
+			  cancelButtonClass: 'bx--btn bx--btn--primary margin-lr',
+			  confirmButtonText: 'Got it'
 			})
 		 
 	 }
@@ -117,9 +125,13 @@ function addClassifierTable(IDelement,table){
 	var tableElement = document.createElement('table');
 	var columnCount = table[0].length;
 	var rowCount = table.length;
-	//Add the data rows.
+	
+	//flag for disabling swal buttons in case of a training classifier
+	 var flag = true;
+	
+	
+	//Add the data rows
 	for (var i = 0; i < rowCount; i++) {
-		//row = tableElement.insertRow(-1);
 		var row = document.createElement('tr');
 		for (var j = 0; j < columnCount; j++) {
 
@@ -145,20 +157,52 @@ function addClassifierTable(IDelement,table){
 					block.addEventListener("click", function(){
 						var IDstring = $(this).prop("id");
 						
+						var classifierClass = $(this).prop("class");
+						
+						var status;
+						 						
+						if( classifierClass.includes("ready") ){
+							
+							flag = false; 
+							
+						} else {
+							
+							if(classifierClass.includes("training"))
+								status = "training";
+							else
+								status = "zombie";
+							
+						}
+						
+						
 						setClassID(IDstring);
 												
 						var IDshortname = returnClassifierDetail(IDstring, "shortname");
 						var IDdescription = returnClassifierDetail(IDstring, "description");
 						
+						if (flag){
+							
+							swal({
+								title: IDshortname,
+								html: 'Your classifier is ' + status +'!<br><br>',
+								buttonsStyling: false,
+								customClass: 'modal-container',
+								showCancelButton: false,
+								confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+								confirmButtonText: 'Ok'
+							})
+							
+						} else {
+						
 						swal({
-//							  title: 'ID: '+IDstring,
 							  title: IDshortname,
-							  text: ""+IDdescription+"\n\n<input type='submit' id='editButton' class='submitmodal2' value='Edit'>",
-//							  type: 'warning',
+							  html: ""+IDdescription+"<br><br><button type='submit' id='editButton' class='bx--btn bx--btn--primary margin-lr'>Edit classifier</button>",
 							  showCancelButton: true,
-							  confirmButtonColor: '#3085d6',
-							  cancelButtonColor: '#d33',
-							  confirmButtonText: 'Delete!',
+							  buttonsStyling: false,
+							  customClass: 'modal-container',
+							  confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+							  cancelButtonClass: 'bx--btn bx--btn--secondary margin-lr',
+							  confirmButtonText: 'Delete it!',
 							  cancelButtonText: 'Cancel'
 							}).then(function (isConfirm) {
 							  
@@ -166,10 +210,14 @@ function addClassifierTable(IDelement,table){
 									
 									swal({
 										  title: "Are you sure?",
-										  text: "Are you really sure you want to delete this classifier?",
+										  html: "Are you really sure you want to delete this classifier?<br><br>",
 										  type: "warning",
-										  confirmButtonColor: '#d33',
-										  confirmButtonText: 'Delete!',
+										  buttonsStyling: false,
+										  customClass: 'modal-container',
+										  confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+										  cancelButtonClass: 'bx--btn bx--btn--secondary margin-lr',
+										  confirmButtonText: 'Delete it!',
+										  cancelButtonText: 'Cancel',
 										  showCancelButton: true,
 										  allowOutsideClick: false,
 										  allowEscapeKey: true
@@ -186,25 +234,38 @@ function addClassifierTable(IDelement,table){
 													  	url : 'DeleteClassifier',
 													   	async : false,
 													   	success : function(result) {
-													   		
-									   						swal('Deleted!','Classifier ' + IDshortname + ' (ID: '+IDstring+') has been deleted.','success').then(function(){location.reload();})
+													   											   						
+									   						swal({
+															  title: "Deleted!",
+															  html: "Classifier " + IDshortname + " (ID: "+IDstring+") has been deleted.<br><br>",
+															  type: "success",
+															  buttonsStyling: false,
+															  customClass: 'modal-container',
+															  confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+															  confirmButtonText: 'Yeah!',
+															  showCancelButton: false,
+															  allowOutsideClick: false,
+															  allowEscapeKey: true
+															}).then( function(result) { location.reload(); });
 										   				
 													   	}
 												
 							   					});
 												
-											}//User really wants to delete the classifier {END}
+											} //User really wants to delete the classifier {END}
 												
 										});
 									
 									}
 							})
+							
+						}
+							
 					});
 
-							block.setAttribute("class",'smoothrectangle '+table[i][j][k].status+'');
-							block.setAttribute("data-tooltip","ID: "+table[i][j][k]._id+" status:"+table[i][j][k].status+" - label:"+table[i][j][k].label);
-					
-//					block.appendChild(document.createTextNode(table[i][j][k].training_size+"_"+"v"+k));
+					block.setAttribute("class",'bx--card minimal '+table[i][j][k].status+'');
+					block.setAttribute("data-tooltip","ID: "+table[i][j][k]._id+" status: "+table[i][j][k].status+" - label: "+table[i][j][k].label);
+												
 					block.appendChild(document.createTextNode(table[i][j][k].shortname+" "+table[i][j][k].training_size));
 					td.appendChild(block);
 				}
@@ -221,10 +282,14 @@ function deleteClassifierFromDetailPage(classID, shortName){
 	
 	swal({
 		  title: "Are you sure?",
-		  text: "Are you really sure you want to delete this classifier?",
+		  html: "Are you really sure you want to delete this classifier?<br><br>",
 		  type: "warning",
-		  confirmButtonColor: '#d33',
-		  confirmButtonText: 'Delete!',
+		  customClass: 'modal-container',
+		  buttonsStyling: false,
+		  confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+		  cancelButtonClass: 'bx--btn bx--btn--secondary margin-lr',
+		  confirmButtonText: 'Yes, delete it!',
+		  cancelButtonText: 'No, cancel',
 		  showCancelButton: true,
 		  allowOutsideClick: false,
 		  allowEscapeKey: true
@@ -240,8 +305,19 @@ function deleteClassifierFromDetailPage(classID, shortName){
 				  	url : 'DeleteClassifier',
 				   	async : false,
 				   	success : function(result) {
-				   		
-   						swal('Deleted!','Classifier ' + shortName + ' (ID: '+classID+') has been deleted.','success').then(function(){window.location.href = 'home.html';})
+				   		   						
+						swal({
+   							title: 'Deleted!',
+   							html: 'Classifier ' + shortName + ' (ID: '+classID+') has been deleted.<br><br>',
+   							type: 'success',
+   							buttonsStyling: false,
+   							customClass: 'modal-container',
+							confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+							confirmButtonText: 'Yeah!',
+							showCancelButton: false,
+							allowOutsideClick: false,
+							allowEscapeKey: false
+   						}).then(function(){window.location.href = 'home.html';})   						
 	   				
 				   	}
 			
@@ -250,6 +326,120 @@ function deleteClassifierFromDetailPage(classID, shortName){
 				
 							
 		});
+	
+}
+
+function deleteDataset(e, datasetID){
+	
+	swal({
+        title: 'Are you sure?',
+        html: 'Are you sure you want to delete dataset<br><br> [' + datasetID + ']?<br><br>',
+        type: 'warning',
+        buttonsStyling: false,
+        customClass: 'modal-container',
+        showCancelButton: true,
+        confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+        cancelButtonClass: 'bx--btn bx--btn--secondary margin-lr',
+        confirmButtonText: 'Yes, delete it',
+        cancelButtonText: 'No, cancel'
+    }).then(function(isConfirm) {
+        if (isConfirm)
+            handlerDeletion(e, datasetID);
+        else {
+            swal({
+                title: 'Operation Aborted',
+                html: 'This dataset is safe :)<br><br>',
+                type: 'error',
+                buttonsStyling: false,
+                showCancelButton: false,
+                customClass: 'modal-container',
+                confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+                confirmButtonText: 'Yeah!',
+            })
+        }
+    })
+
+}
+
+function handlerDeletion(e, datasetID){
+	
+	e.preventDefault();
+    var data = new FormData();
+    data.append('type', 'delete');
+    data.append('datasetId', datasetID);
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'SubmitDatasetJob', true);
+    //Operation communication progress
+    xhr.onload = function(e) {
+            //Everything seems to be OK
+            if (this.status == 200) {
+                swal({
+                    title: 'Succes!',
+                    html: 'Dataset [' + idgallery + '] has been correctly deleted!<br><br>',
+                    type: "success",
+                    showCancelButton: false,
+                    buttonsStyling: false,
+                    customClass: 'modal-container',
+                    confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+                    confirmButtonText: 'Yeah!'
+                }).then(function(isConfirm) {
+                    if (isConfirm)
+                        window.location.href = 'home.html';
+                })
+            } else {
+                var err_type = this.status;
+                var alert_title, alert_text, alert_img = null;
+                switch (err_type) {
+                    //BAD (cit. the Donald) request
+                    case 400:
+                        alert_title = "BAD REQUEST";
+                        alert_text = "Our server could not understand the request...\nSorry about that.\n\n";
+                        break;
+                    case 401:
+                        alert_title = "UNAUTHORIZED";
+                        alert_text = "Authentication is needed to get requested response.\n\n";
+                        break;
+                    case 404:
+                        alert_title = "NOT FOUND";
+                        alert_text = "Our Server wasn't able to retrieve the requested resource. \n\nI know right?!\n";
+                        break;
+                    case 408:
+                        alert_title = "REQUEST TIMEOUT";
+                        alert_text = "Our server did not receive a complete request message within the time that it was prepared to wait.\nHe's impatient...\n\n";
+                        break;
+                        //This is serious
+                    case 500:
+                        alert_title = "INTERNAL ERROR";
+                        alert_text = "This is on our side...sorry about that!\n\n";
+                        alert_img = 'images/internal_error.jpg';
+                        break;
+                    case 503:
+                        alert_title = "SERVICE'S OVERLOADED";
+                        alert_text = "Our server is really busy at the moment, try again in a few minutes...\n\n";
+                        break;
+                    default:
+                        alert_title = "GENERIC ERROR";
+                        alert_text = "An error occured...try again please!\n";
+                }
+                swal({
+                    title: '*** ' + alert_title + ' ***',
+                    html: alert_text + '<br><br>',
+                    type: 'error',
+                    imageUrl: alert_img,
+                    imageWidth: 800,
+                    imageHeight: 200,
+                    showCancelButton: false,
+                    customClass: 'modal-container',
+                    confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+                    confirmButtonText: 'Ok :('
+                }).then(function(isConfirm) {
+                    if (isConfirm)
+                        location.reload();
+                })
+            }
+        } //Operation communication progress END
+    
+    xhr.send(data);
 	
 }
 
@@ -280,92 +470,145 @@ var numberBlock = 0;
 function createBlockTest(IDappend,testname,label,classifier){
 	
 	var block = document.createElement("div");
-	block.setAttribute("class","blocktest");
+	block.setAttribute("class", "bx--card medium");
 	
 //	======================
 	var blocktest = document.createElement("div");
-	blocktest.setAttribute("class","blocktestattribute");
+	blocktest.setAttribute("class", "attribute");
 	
-	var pblockT1 = document.createElement("p");
-	pblockT1.setAttribute("class","smalltitle");
+	var pblockT1 = document.createElement("strong");
+	pblockT1.setAttribute("class", "bx--label");
 	pblockT1.appendChild(document.createTextNode(testname));
 	
 	var pblockP1 = document.createElement("p");
-	pblockP1.setAttribute("class","paragraph");
-	pblockP1.appendChild(document.createTextNode("LABEL: "+label));
+	pblockP1.appendChild(document.createTextNode("Label: "+label));
 	
 	var pblockP2 = document.createElement("p");
-	pblockP2.setAttribute("class","paragraph");	
-	pblockP2.appendChild(document.createTextNode("CLASSIFIER: "+classifier));
+	pblockP2.appendChild(document.createTextNode("Classifier: "+classifier));
 	
 	blocktest.appendChild(pblockT1);
 	blocktest.appendChild(pblockP1);
 	blocktest.appendChild(pblockP2);
 //	===========================
-	var blockicon1 = document.createElement("div");
-	blockicon1.setAttribute("class","blocktesticon");
 	
 	var icon1 = document.createElement("img");
-	icon1.setAttribute("class","icon verysmall blocktest");
-	icon1.setAttribute("src","ico/garbageDARK.png");
+	icon1.setAttribute("class", "card-icon");
+	icon1.setAttribute("src", "ico/garbageDARK.png");
 	icon1.setAttribute("number", numberBlock);
-	icon1.setAttribute("id","garbage"+testname);
+	icon1.setAttribute("id", "garbage"+testname);
 	
 	numberBlock++;
 	
-	blockicon1.appendChild(icon1);
-	
-	var blockicon2 = document.createElement("div");
-	blockicon2.setAttribute("class","blocktesticon");
-	
-	var icon2 = document.createElement("img");
-	icon2.setAttribute("class","icon verysmall blocktest");
-	icon2.setAttribute("src","ico/plus-symbol.png");
-	icon2.setAttribute("id","plus"+testname);
-	
-	blockicon2.appendChild(icon2);
-//	===========================
 	block.appendChild(blocktest);
-	block.appendChild(blockicon1);
-	block.appendChild(blockicon2);
+	block.appendChild(icon1);
 	
 	$("#"+IDappend+"").append(block);
 }
 
 
 /**
+ * flag to hide tests in case of errors
+ */
+var hideresult = false;
+
+
+/**
  * @returns build the select menu base on good testresults object
  */
-function buildSelectTestResult(IDselector) {
+function buildSelectTestResult(IDselector, index) {
 	
 	//carica i file da local storage
 	var result = JSON.parse(localStorage.getItem("resultJSON"));
 	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
-
-	//verifica che non ci siano vuoti e costruisce il select test panel
-	var testcount = 0;
-	for ( var j in result) {
-		var obj = result[j];
-		if (obj.ID == null) {
-			swal({
-				title : "Warning",
-				imageUrl : "img/tired2.png",
-				imageWidth: 240,
-				imageHeight: 200,
-				text : "Classifier "
-					+ testdetails[testcount].classifier
-					+ " is exhausted. Wait 24h and you will regain your free API calls",
-			});
-		} else {
-			$(IDselector).append($('<option>', {
-				value : testdetails[testcount].name,
-				text : testdetails[testcount].name
-			}));
+	
+	console.log("*** THIS IS testdetails *** : " + JSON.stringify(testdetails) )
+	
+	//Handling exploring old test(s)
+	if( index == -1 ){
+		
+		var testcount = 0;
+		for ( var j in result) {
+			var obj = result[j];
+				$(IDselector).append($('<option>', {
+					value : testdetails[testcount].name,
+					text : testdetails[testcount].name
+				}));
+			testcount++;
 		}
-		testcount++;
+		
+	}
+	else{
+	
+		//Manage notifications and filter population in simulate page
+		if(result[index].notification == "success"){
+			
+			$(IDselector).append($('<option>', {
+				value : testdetails[index].name,
+				text : testdetails[index].name,
+				id : testdetails[index].name
+			}));
+			
+			popNotification(testdetails[index].name, "Test was successful!", "Results displayed.", "success");
+			$(IDselector).data('key', index);
+			
+			hideresult = false;
+			
+			$('#selecttest-gray-roc').css("display", "none");
+			
+		}
+		
+		else if(result[index].notification == "error"){
+			
+			$(IDselector).append($('<option>', {
+				value : testdetails[index].name,
+				text : testdetails[index].name,
+				id : testdetails[index].name
+			}));
+			
+			$('#'+testdetails[index].name).attr("disabled", "disabled");
+			
+			popNotification(testdetails[index].name, "Some problems occurred: test results not displayed.", "Please check your test!", "error");
+			hideresult = true;
+		
+		}
+		
+		else if(result[index].ID == null){
+			
+			$(IDselector).append($('<option>', {
+				value : testdetails[index].name,
+				text : testdetails[index].name,
+				id : testdetails[index].name
+			}));
+			
+			$('#'+testdetails[index].name).attr("disabled", "disabled");
+			
+			popNotification(testdetails[index].name, "Classifier went zombie: test results not displayed.", "API calls limit reached.", "warning");
+			hideresult = true;
+		
+		}
+				
+		
 	}
 	
 }
+
+
+function popNotification(title, subtitle, caption, type){
+	
+	var number = $('.bx--toast-notification:visible').length; 
+	var notification = '<div id="notification-'+title+'" style="display:flex" data-notification class="notification-'+type+' bx--toast-notification bx--toast-notification--'+type+'" role="alert"><div class="bx--toast-notification__details"><h3 class="bx--toast-notification__title">'+title+'</h3><p class="bx--toast-notification__subtitle">'+subtitle+'</p><p class="bx--toast-notification__caption">'+caption+'</p></div><button data-notification-btn class="bx--toast-notification__close-button" type="button"><svg class="bx--toast-notification__icon" aria-label="close" width="10" height="10" viewBox="0 0 10 10" fill-rule="evenodd"><path d="M9.8 8.6L8.4 10 5 6.4 1.4 10 0 8.6 3.6 5 .1 1.4 1.5 0 5 3.6 8.6 0 10 1.4 6.4 5z"></path></svg></button></div>';
+	
+	$("body").append(notification);
+		
+	$('#notification-'+title).css( "margin-top", (number*100)+"px" );
+	$('#notification-'+title).delay(8000).fadeOut(300);
+	
+	$('.bx--toast-notification__close-button').click(function(){
+		$(this).parent().css("display", "none");
+	});
+	
+}
+
 
 /**
  * @returns update only the fields related to the single test of the result section (simulate.html - div id=showtest) starting from the JSON file stored in
@@ -376,37 +619,89 @@ function updateTestFields(IDselector) {
 	//carica i file da local storage
 	var result = JSON.parse(localStorage.getItem("resultJSON"));
 	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
-
-	//disegna gli oggetti dipendenti dal test selezionato
-	var testname = $(IDselector).val();
-	console.log(testname)
-	drawRocCurves(testname);
-	drawIndexes(testname);
 	
-	for ( var j in testdetails) {
-		if (testdetails[j].name == testname) {
-			setParameters(result[j]);
-			
-			//var positive_images = [];
-//            positive_images = [];
-//            for (k = 0; k < result[i].images.positive.length; k++)
-//                positive_images.push("GetImage?image_id=" + result[i].images.positive[k]);
-			
-			var negative_images = [];
-			for(var i=0;i<result[j].falseNegativeOpt.length;i++) 
-				negative_images.push("GetImage?image_id="+result[j].falseNegativeOpt[i]);
-			$("#galleryFN").empty()
-			createGallery('galleryFN',negative_images,"showtestNEG");
-			
-			var positive_images = [];
-			for(var i=0;i<result[j].falsePositiveOpt.length;i++) 
-				positive_images.push("GetImage?image_id="+result[j].falsePositiveOpt[i]);
-			$("#galleryFP").empty()
-			createGallery('galleryFP',positive_images,"showtestPOS");
-			
-			DrawHistogram(result[j].histogramNegative,result[j].histogramPositive);
-		}
+	//disegna gli oggetti dipendenti dal test selezionato
+	var valoreOptions = $(IDselector).val();
+	var key = $(IDselector).data('key');
+	
+	console.log("This is the value of IDselector: " + valoreOptions);
+	console.log("This is the value of result : " + JSON.stringify(result));
+	console.log("This is the value of testdetails : " + JSON.stringify(testdetails));
+	
+	if(!hideresult){
+		drawRocCurves(valoreOptions);
+		drawIndexes(valoreOptions);
 	}
+	
+	if( key != null ){
+		
+		for( var j in testdetails ){
+			
+			if( testdetails[j].name == valoreOptions ){
+				
+				for( var f in result ){
+					
+					if( result[f].name == valoreOptions ){
+						
+						console.log("*************************************")
+						console.log("This is the value of name: " + result[f].name )
+						
+						console.log("****FOUND ***")
+						
+						console.log("This is what I'm passing to setParameters: " + JSON.stringify(result[f]) )
+						console.log("... This should be accuracy: " + result[f].accuracyOpt.toFixed(2) )
+						
+						setParameters(result[f]);
+							
+						var negative_images = [];
+						for(var i=0;i<result[f].falseNegativeOpt.length;i++) 
+							negative_images.push("GetImage?image_id="+result[f].falseNegativeOpt[i]);
+						$("#galleryFN").empty()
+						createGallery('galleryFN',negative_images,"showtestNEG");
+						
+						var positive_images = [];
+						for(var i=0;i<result[f].falsePositiveOpt.length;i++) 
+							positive_images.push("GetImage?image_id="+result[f].falsePositiveOpt[i]);
+						$("#galleryFP").empty()
+						createGallery('galleryFP',positive_images,"showtestPOS");
+
+						DrawHistogram(result[f].histogramNegative,result[f].histogramPositive);
+						
+					} //Closing if statement on result
+					
+				} //Closing for loop inside result
+				
+			} //Closing if statement on testdetails
+			
+		}
+		
+	}else{
+		
+		for ( var j in testdetails) {
+			
+			if (testdetails[j].name == valoreOptions) {
+				setParameters(result[j]);
+				
+				var negative_images = [];
+				for(var i=0;i<result[j].falseNegativeOpt.length;i++) 
+					negative_images.push("GetImage?image_id="+result[j].falseNegativeOpt[i]);
+				$("#galleryFN").empty()
+				createGallery('galleryFN',negative_images,"showtestNEG");
+				
+				var positive_images = [];
+				for(var i=0;i<result[j].falsePositiveOpt.length;i++) 
+					positive_images.push("GetImage?image_id="+result[j].falsePositiveOpt[i]);
+				$("#galleryFP").empty()
+				createGallery('galleryFP',positive_images,"showtestPOS");
+				
+				DrawHistogram(result[j].histogramNegative,result[j].histogramPositive);
+				
+			}
+	
+		}
+		
+	}
+	
 }
 
 function drawIndexes(testname){
@@ -604,7 +899,6 @@ function drawRocCurves(testname){
 	var count = 0;
 	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
 	var result = JSON.parse(localStorage.getItem("resultJSON"));
-//	var testname = $("#show_test").val();
 
 	for(var i in result){
 		var obj = result[i];
@@ -789,11 +1083,59 @@ function DrawHistogram(histogramNegative,histogramPositive){
  * @param object including all the information of a single test
  */
 function setParameters(result) {
+	
+			setAccuracy( result.accuracyOpt.toFixed(2) );
+			setTreshold( result.thresholdOpt.toFixed(2) );
+			setAUC( result.AUC.toFixed(2) );
+			
+//			console.log("Setting ACCURACY: " + result.accuracyOpt.toFixed(2)+ ", TRESHOLD: " + result.thresholdOpt.toFixed(2) + ", AUC: " + result.AUC.toFixed(2))
+			
 			$("#accuracy").empty();
 			$("#threshold").empty();
 			$("#accuracy").html(result.accuracyOpt.toFixed(2));
 			$("#threshold").html(result.thresholdOpt.toFixed(2));
 			$("#auctest").html(result.AUC.toFixed(2));
+}
+
+var acc, tres, auc;
+
+function setAccuracy( a ){
+	
+	acc = a;
+	
+}
+
+function getAccuracy(){
+
+	console.log("Retrieving ACCURACY: " + acc)
+	return acc;
+
+}
+
+function setTreshold( t ){
+	
+	tres = t;
+	
+}
+
+function getTreshold(){
+	
+	console.log("Retrieving TRESHOLD: " + tres)
+	return tres;
+	
+}
+
+function setAUC( au ){
+	
+	auc = au;
+	
+}
+
+function getAUC(){
+	
+	console.log("Retrieving AUC: " + auc)
+	return auc;
+	
 }
 
 function createMyModal(){
@@ -842,12 +1184,12 @@ function createMyModal(){
 		
 		if(!flag){
 		
-			toBeImplemented = "<h2> Select test to be saved: </h2> <br> <input style= 'width:25px; height:25px' value='" + testNames[i] + "' class='formcheckbox' type='checkbox' >     " + testNames[i] + "<br><br>";
+			toBeImplemented = "<h1 style='color:#5a6872'> Select test to be saved: </h1> <br> <input style='color:#5a6872; width:25px; height:25px' value='" + testNames[i] + "' class='formcheckbox' type='checkbox' ><span style='color:#5a6872'>" + testNames[i] + "</span><br><br>";
 			flag = true;
 			
 		}
 		else
-			toBeImplemented = toBeImplemented + "<input style= 'width:25px; height:25px' value='" + testNames[i] + "' class='formcheckbox' type='checkbox' >     " + testNames[i] + "<br><br>"; 
+			toBeImplemented = toBeImplemented + "<input style='color:#5a6872; width:25px; height:25px;' value='" + testNames[i] + "' class='formcheckbox' type='checkbox' ><span style='color:#5a6872'>" + testNames[i] + "</span><br><br>"; 
 		
 	}
 	
@@ -880,18 +1222,12 @@ function openIt(modal, content){
 
 function openModal2() {
 	populateListTestResult();
-//	$('#savetestmodal').show("slow");
-//	$('#savetestmodalbackground').show("slow");
-//	$('#savetestmodalcontent').show("slow");
 	$('#savetestmodal').fadeIn(100);
 	$('#savetestmodalbackground').fadeIn(100);
 	$('#savetestmodalcontent').fadeIn(100);
 }
 
 function closeModal2() {
-//	$('#savetestmodal').hide("slow");
-//	$('#savetestmodalbackground').hide("slow");
-//	$('#savetestmodalcontent').hide("slow");
 	$('#savetestmodal').fadeOut(100);
 	$('#savetestmodalbackground').fadeOut(100);
 	$('#savetestmodalcontent').fadeOut(100);
@@ -911,6 +1247,32 @@ function returnClassifierDetail(ID, param){
 		contentType: "application/json",
 		dataType: "json",
 		url: 'GetClassifier',
+		data: "_id="+ID,
+		async: false,
+		success: function(result)
+		{
+			tiramifuori = result[0][param];			
+		}
+	});
+	
+	return tiramifuori;
+	
+}
+
+
+/**
+ * @param detail (_id,shortname,description, ...)
+ * @param ID
+ * @returns the selected detail of the classifier
+ */
+function returnDatasetDetail(ID, param){
+	
+	var tiramifuori;
+	
+	$.ajax({												
+		contentType: "application/json",
+		dataType: "json",
+		url: 'GetDataset',
 		data: "_id="+ID,
 		async: false,
 		success: function(result)
@@ -952,16 +1314,40 @@ function updateClassifierDetail(ID, shortName, label, descr, comm){
 		
 }
 
+function updateDataset(ID, label){
+	
+//	$.ajax({												
+//		contentType: "application/json",
+//		dataType: "json",
+//		url: 'UpdateClassifier',
+//		data: "_id="+ID+"&shortname="+shortName+"&label="+label+"&description="+descr+"&comments="+comm,
+//		async: true,
+//		success: function(result)
+//		{
+//		},
+//		complete: function (data) {
+//	    
+//			workingUpdate(true); 
+//	     
+//		}
+//
+//	});
+	
+}
+
 function workingUpdate(flag){
 	
 	if( flag ){
 			
 	 		swal({
 				  title: "Saved!",
-				  text: "Your changes have been saved correctly!",
+				  html: "Your changes have been saved correctly!<br><br>",
 				  type: "success",
-				  confirmButtonColor: '#5cb85c',
-				  confirmButtonText: 'Set!',
+				  customClass: 'modal-container',
+				  showCancelButton: false,
+				  buttonsStyling: false,
+                  confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+				  confirmButtonText: 'Ok',
 				  allowOutsideClick: false,
 				  allowEscapeKey: true
 				}).then(function(result) {
@@ -1001,7 +1387,7 @@ function showGallery(result,inputgallery) {
 			var totalslide = result.length;
 			
 			var simulate_lazy = false;
-
+			
 			//Aggiungo le immagini nella modalità preview (elemento div con id gallery)
 			for ( var i in result) {
 				
@@ -1021,6 +1407,7 @@ function showGallery(result,inputgallery) {
 					newImg(inputgallery, slidenumber);
 					event.preventDefault();					
 				});
+				x.setAttribute("id", result[i].substring(result[i].indexOf("=") + 1) );
 				x.setAttribute("class", "test hover-shadow cursor"); //was test hover-shadow cursor
 				x.setAttribute("onclick", 'currentSlide('+slidenumber+')');
 				document.getElementById("gallery" + GALLERY).appendChild(x);
@@ -1034,12 +1421,9 @@ function showGallery(result,inputgallery) {
 						"<div class='mySlides" + GALLERY
 								+ "'><div class='numbertext'>" + slidenumber
 								+ " / " + totalslide
-//								+ "</div><h1>"+gian_str+"</h1><img class='modal-img' src="
-//								+ img_path + result[i] + "></div>");
-								+ "</div><h1>"+gian_str+"</h1>><img class='modal-img' data-src="
+								+ "</div><id-image>"+gian_str+"</id-image><img class='modal-img' data-src="
 								+ img_path + result[i] + "></div>");
 				
-								//+ img_path + result[i] + " src="+ img_path + result[i] + " ></div>");
 				slidenumber++;
 				
 			}
@@ -1088,7 +1472,6 @@ function showGallery(result,inputgallery) {
 
 				var x = document.createElement("IMG");
 				x.setAttribute("data-src", img_path + result[i]);
-//				x.setAttribute("src", img_path + result[i]);
 				x.addEventListener("click", function(event) {
 					newImgZoom(inputgallery, slidenumber);
 					event.preventDefault();
@@ -1152,14 +1535,10 @@ function currentSlide(n) {
 
 function showSlides(n) {
 	if (GALLERY == "") {
-	    swal({
-			title: 'Warning',
-			text: 'You are trying to access a gallery that does not exist!',
-			type: 'warning',});
+		
 	} else {
 		var i;
 		var slides = document.getElementsByClassName("mySlides" + GALLERY);
-//		console.log("HERE --> " + GALLERY);
 		var changeForLazy = document.getElementsByClassName("modal-img");
 		var dots = document.getElementsByClassName("demo" + GALLERY);
 		var captionText = document.getElementById("caption" + GALLERY);
@@ -1239,6 +1618,139 @@ function testingLoading(){
 }
 
 /*
+ * POPULATION OF APIs KEYS TABLE IN PROFILE PAGE
+ */
+function populateAPITable(){
+
+	//chiamata ajax per ottenere le istanze
+	$.ajax({
+		contentType: "application/json",
+		dataType: "json",
+		url: 'GetInstance',
+		async: true,
+		success: function(result){
+			
+			var table = document.getElementById('APITable');
+			
+			for(var i in result)
+			{
+				var tr = document.createElement("tr");
+				
+				tr.setAttribute("tabindex","0");
+				tr.setAttribute("class","bx--table-row bx--parent-row");
+				tr.setAttribute("data-parent-row", "");
+				
+				var td1 = document.createElement("td");
+				var td2 = document.createElement("td");
+				var td3 = document.createElement("td");
+				var td4 = document.createElement("td");
+				
+				var text1 = document.createTextNode(result[i].account.substring(8));
+				var text2 = document.createTextNode(result[i].region);
+				var text3 = document.createTextNode(result[i].api_key);
+				
+				var btn = document.createElement('input');
+				btn.type = "button";
+				btn.className = "btn";
+				btn.value = "delete"; 
+					var instanceId=result[i]._id;
+					var classifiers=result[i].classifiers;
+				btn.onclick = (function(instanceId,classifiers) {return function() {
+					
+					swal({
+						  title: "Are you sure?",
+						  html: "You are deleting also all classifiers ("+classifiers.length+") linked to this api_key. Are you really sure you want to delete this instance?<br><br>",
+						  type: "warning",
+						  customClass: 'modal-container',
+		                  confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+						  confirmButtonText: 'Delete!',
+						  cancelButtonClass: 'bx--btn bx--btn--secondary margin-lr',
+						  cancelButtonText: 'Cancel',
+						  buttonsStyling: false,
+						  showCancelButton: true,
+						  allowOutsideClick: false,
+						  allowEscapeKey: true
+						}).then( function(result) {
+							
+							//User really wants to delete the classifier
+							if(result){
+								
+								for(var j in classifiers)
+									{
+									console.log(classifiers[j]);
+//									TODO esiste un modo per verificare se un classificatore è in uso? In questo momento se un altro sta usando il classificatore si trova magari mezza simulazione fatta e mezza no
+									$.ajax({
+
+									   	contentType : "application/json",
+									   	dataType : "json",
+									  	data : "classifierId=" + classifiers[j] + "",
+									  	url : 'DeleteClassifier',
+									   	async : false,
+									   	success : function(result) {
+//										TODO bisogno assolutamente gestire il caso in cui dia errore (esempio cancella 1 classifier e il 2 invece non riesce, a quel punto non cancello l'istanza
+//										TODO si potrebbe pensare di mettere uno stato progressivo della cancellazione dei classificatori
+									   	}								
+			   					});
+									}
+								//TODO verificare se con swal interrompo l'esecuzione delle chiamate e quindi posso mettere un intermezzo ogni volta che viene cancellato un classificatore
+								$.ajax({
+									   	contentType : "application/json",
+									   	dataType : "json",
+									  	data : "instanceId=" + instanceId + "",
+									  	url : 'DeleteInstance',
+									   	async : true,
+									   	success : function(result) {
+									   		if(result.hasOwnProperty('error'))
+									   				{
+										   				swal({
+											   					title: 'Warning',
+											   					html: result.error + '<br><br>',
+											   					type: 'warning',
+											   					customClass: 'modal-container',
+											   					showCancelButton: false,
+											   					showConfirmButton: true,
+											   					confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+																confirmButtonText: 'Got it'
+										   					});
+									   				}
+									   		else{
+									   					swal({
+										   						title: 'Deleted!',
+										   						html: 'Instance has been deleted.',
+										   						type: 'success',
+										   						customClass: 'modal-container',
+											   					showCancelButton: false,
+											   					showConfirmButton: true,
+											   					confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+																confirmButtonText: 'Yeah!'
+									   						}).then(function(){location.reload();})
+									   		}
+									   	}
+			   					});
+								
+							}
+								
+						});
+					}})(instanceId,classifiers);
+				
+				
+				td1.appendChild(text1);
+				td2.appendChild(text2);
+				td3.appendChild(text3);
+				td4.appendChild(btn);
+				
+				tr.appendChild(td1);
+				tr.appendChild(td2);
+				tr.appendChild(td3);
+				tr.appendChild(td4);
+				
+				table.appendChild(tr);
+			}
+		}
+	});	
+}
+
+/*
  * ==============================================================================
  * ========================= AJAX CALLS =================================
  * ==============================================================================
@@ -1265,29 +1777,96 @@ function startSimulation(){
 			    
 			    localStorage.setItem("listJSON",JSON.stringify(directJSON));
 			    
-			    $("#simulate").fadeOut(1000);
-			    setTimeout(function(){$("#waiting").fadeIn(1000)},1000);
+			    $("#simulate").fadeOut(500);
+			    setTimeout(function(){$("#waiting").fadeIn(500)},500);
 
 				var testdetails = localStorage.getItem("listJSON");
-
-				$.ajax(
+			    
+				console.log("THIS IS testdetails: {startSimulation}" + testdetails)
+				
+				//INSERTING NEW METHOD WHERE WE SPLIT THE AJAX CALLS
+				var parsedSimulationData = JSON.parse(testdetails);
+				var simulationSize = Object.keys(directJSON).length;
+				
+				localStorage.removeItem("resultJSON");
+				
+				for( var i = 0; i < simulationSize; i++ ){
+					
+					var questo = [];
+					
+					questo[0] = JSON.stringify( parsedSimulationData[i] );
+					
+					var manipulated = "[" + JSON.stringify( JSON.parse(questo) ) + "]";
+					
+					console.log("This is manipulated: " + manipulated ) 
+					
+					ajaxLoading.show();
+					
+					$.ajax(
 						{
-							url: 'GetTestResult',
+							url: 'GetTestResultMultipleAjax',
 							type: 'GET',
-							data:{ array: testdetails },
+							data:{ array: manipulated },
 							dataType: 'json',
+							indexValue: i,
 							async: true,
-							success: function(result)
-							{
+//							success: function(result)
+//							{
+//								
+//								
+//							},
+							complete: function (result) {
+
+								ajaxLoading.hide();
+								
+								if( localStorage.getItem("resultJSON") === null ){
+									
+									localStorage.setItem("resultJSON", JSON.stringify(result.responseJSON) );
+									
+									console.log("... I'm the first one ...")
+									console.log("Setting resultJSON to: " + JSON.stringify(result.responseJSON) )
+									
+								}
+								else{
+									
+									console.log("... I'm the second one ...")
+									
+									var temp = localStorage.getItem("resultJSON");
+									
+									console.log("resultJSON: " + temp )
+									
+									var other = JSON.stringify(result.responseJSON);
+									
+									console.log("other: " + other)
+									
+									var otherCorrect = (other).slice(1, -1);
+									
+									console.log("This has to be added: " + otherCorrect)
+									
+									var e = JSON.parse(temp);
+									
+									e.push(JSON.parse(otherCorrect) );
+									
+									localStorage.setItem("resultJSON", JSON.stringify(e) );
+									
+									console.log("Setting resultJSON to: " + JSON.stringify(e) )
+									
+								}
+								
+								console.log( "I HAVE FINISHED AJAX CALL #" + this.indexValue ) 
 								$("#waiting").fadeOut(1000);
 								$("#showtest").fadeIn(2000);
-								localStorage.setItem("resultJSON", JSON.stringify(result));
 								
-								buildSelectTestResult('#show_test');
+								buildSelectTestResult('#show_test', this.indexValue);
 								updateTestFields('#show_test');
-
+								
 							}
 						});
+					
+					
+					
+				}
+				
 
 	}
 
@@ -1307,14 +1886,11 @@ function buildSelectDataSet(dataset_type,IDselector){
 			
 			for(var i in result){
 				var obj = result[i];
-				
 				if((obj.images.positive.length + obj.images.negative.length)*(dataset_type=="test_set")<250){
-						
 					$(IDselector).append($('<option>', {
-							value: obj._id,
-							text: obj._id
-					}));
-					
+						value: obj._id,
+						text: obj._id
+					}));				
 				}
 			
 			}
@@ -1324,6 +1900,122 @@ function buildSelectDataSet(dataset_type,IDselector){
 	});
 	
 }
+
+var list = [];
+var k = 0;
+var IDselector;
+
+function populateFilterDataset(ID_s){
+	
+	IDselector = ID_s;
+	
+	$.ajax({													
+		dataType: "json",
+		url: 'GetDataset',
+		data: "_id=",
+		async: false,
+		success: function(result){
+			
+			for(var i in result){
+				
+				list[k] = ""+result[i].label;
+				k++;
+				
+			}
+			
+		}
+	
+	});
+	
+}
+
+function populateFiltering(){
+	
+	var arrayTest = [];
+	var flag = false; 
+	
+	for( var i = 0; i < list.length; i++ ){
+		
+		arrayTest.push( list[i] );
+		
+	}
+	
+	//Preparing to force dataset fetcing if some error(s) occured
+	if(list.length == 0){
+		
+		var test= [];
+		
+		//Forcing procedure
+		test = forcingTest();
+		
+		flag = true;
+		
+	}
+	
+	//No error occured
+	if(!flag){
+		
+		//Removing label duplicates
+		var uniqueDataset = [];
+		$.each(arrayTest, function(i, el){
+		    if($.inArray(el, uniqueDataset) === -1) uniqueDataset.push(el);
+		});
+		
+		for( var i = 0; i < uniqueDataset.length; i++ ){
+			
+			$("#filterDataset").append($('<option>', {
+				value: uniqueDataset[i],
+				text: uniqueDataset[i]
+			}));	
+			
+		}
+		
+	}		
+	
+}
+
+//Handling possible fetch errors during populating dataset in select in home
+function forcingTest(){
+	
+	var newArray = [];
+	var f = 0;
+	
+	$.ajax({													
+		dataType: "json",
+		url: 'GetDataset',
+		data: "_id=",
+		async: true,
+		success: function(result){
+			
+			for(var i in result){
+				
+				newArray[f] = ""+result[i].label;
+				f++;
+				
+			}
+			
+		}
+	
+	});
+	
+	var uniqueDataset = [];
+	$.each(newArray, function(i, el){
+	    if($.inArray(el, uniqueDataset) === -1) uniqueDataset.push(el);
+	});	
+	
+	for( var i = 0; i < uniqueDataset.length; i++ ){
+		
+		$("#filterDataset").append($('<option>', {
+			value: uniqueDataset[i],
+			text: uniqueDataset[i]
+		}));	
+		
+	}
+
+	return newArray;
+	
+}
+
 
 /**
  * @param status (ready,training,zombie)
@@ -1375,7 +2067,7 @@ function generateHome(){
 				var obj = result[i].classifiers;
 				if(obj.length == 0) free++;
 			}
-			$('#freeclass').html(free);
+			createCircle(freeclassifiers, '#5596e6', free);
 		}
 	});
 
@@ -1401,9 +2093,11 @@ function generateHome(){
 				if(obj.status == "training") training++;
 				if(obj.status == "zombie") zombie++;
 			}
-			$('#readyclass').html(ready);
-			$('#trainingclass').html(training);
-			$('#zombieclass').html(zombie);
+
+			createCircle(readyclassifiers, '#3d70b2', ready);
+			createCircle(trainingclassifiers, '#41d6c3', training);
+			createCircle(zombieclassifiers, '#8c9ba5', zombie);
+			
 			//PRINT TABLE OF CLASSIFIERS
 			var label = [];
 			var n_img = [];
@@ -1466,7 +2160,8 @@ function generateHome(){
 			for ( var i in result) {
 				
 				var circle = document.createElement("div");
-				circle.setAttribute("class","smoothrectangle ready");
+//				circle.setAttribute("class","smoothrectangle ready");
+				circle.setAttribute("class","bx--card large ready");
 				circle.setAttribute("id","showdatasetID"+result[i]._id);
 				circle.appendChild(document.createTextNode(result[i]._id));
 				$("#listdataset").append(circle);
@@ -1503,22 +2198,44 @@ function startTrain(){
 			if(result.hasOwnProperty('error'))
 				{
 				swal({
-					title: 'Warning',
-					text: result.error,
-					type: 'warning',});
+						title: 'Warning',
+						html: result.error + '<br><br>',
+						type: 'warning',
+						customClass: 'modal-container',
+						buttonsStyling: false,
+	   					showCancelButton: false,
+	   					showConfirmButton: true,
+	   					confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+						confirmButtonText: 'Got it'
+					});
 				}
 			else{
-			swal('Launched!',
-					'Your classifier training has been launched!',
-					'success').then(function(){window.location.href="home.html"})
+				swal({
+						title: 'Launched!',
+						html: 'Your classifier training has been launched! It will appear shortly in home page.<br><br>',
+						type: 'success',
+						customClass: 'modal-container',
+						buttonsStyling: false,
+	   					showCancelButton: false,
+	   					showConfirmButton: true,
+	   					confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+						confirmButtonText: 'Yeah!'
+					}).then(function(){window.location.href="home.html"})
 		}
 			}
 	});
 		}else{
 			swal({
-				title: 'Warning',
-				text: 'You have to select a valid dataset of images!',
-				type: 'warning',});
+					title: 'Warning',
+					html: 'You have to select a valid image dataset.<br><br>',
+					type: 'warning',
+					customClass: 'modal-container',
+					buttonsStyling: false,
+					showCancelButton: false,
+					showConfirmButton: true,
+					confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+					confirmButtonText: 'Got it'
+				});
 		} 	
 }
 
@@ -1526,28 +2243,37 @@ function startTrain(){
 * Function called in generateHome to set the height of the dataset list equal to the height of the classifier table		
 */		
 function setListHeight(height){		
-	console.log(height);		
 	$('#listdataset').css("height", height);		
 		
 }
 
+
+
+/**		
+* Functions called to show/hide Watson logo during ajax calls
+*/	
+	var ajaxLoading = {
+        _requestsInProcess: 0,
+
+        show: function () {
+            if (this._requestsInProcess == 0) {
+                $('#waiting_small').attr('style', 'display: block');
+            }
+
+            this._requestsInProcess++;
+        },
+
+        hide: function () {
+            this._requestsInProcess--;
+            if (this._requestsInProcess == 0) {
+                $('#waiting_small').fadeOut('1000');
+            }
+        }
+    };
+
+
 /*
  * ==============================================================================
  * ========================= END OF AJAX CALLS =================================
- * ==============================================================================
-*/
-
-
-/*
- * ==============================================================================
- * ========================= UPLOAD FUNCTIONS ===================================
- * ==============================================================================
-*/
-
-
-
-/*
- * ==============================================================================
- * ========================= UPLOAD FUNCTIONS {END} =============================
  * ==============================================================================
 */

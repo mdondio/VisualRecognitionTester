@@ -1,92 +1,131 @@
 <!DOCTYPE html>
 <html>
+
 <head></head>
 
+<!-- Main inclusions -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+<!-- Functions -->
 <script src="js/genericFunctions.js"></script>
 <script src="js/functions.js"></script>
+<!-- Carbon design scripts -->
+<script src="js/index.js"></script>
+<script src="js/bluemix-components.min.js"></script>
+<script src="js/svgxuse.min.js"></script>
+<!-- Utilities -->
 <script src="js/jquery.lazy.min.js"></script>
+<script src="js/FileSaver.min.js"></script>
 <script src="js/tingle.min.js"></script>
+<script src="js/progressbar.js"></script>
+<script src="js/circle.js"></script>
 <link rel="stylesheet" href="css/tingle.min.css">
-<!-- <script src="js/checkboxradio.min.js"></script> -->
 
-<script>createHead();</script>
+<script>
+createHead();
+createCarbonHeader();
+</script>
 
 <body>
-  <header id="header" style="animation-duration:2s"></header>
-  <script>createHeader();</script>
+		
+<div id="carbon-header"></div>
+				
+<br><br><br>
   
 <div class="content" id="simulate">
+
 	<div class="row clearfix">
+
+		<div class="column fourth"><h1>Simulate</h1>
+		</div>
+	</div>
 	
-		<div class="column third">
-			<div class="post-preview" style="width:100%;">
-				<img src="ico/addDARK.png" class="icon small centeralign">
-				<br>
-					<p class="title center">Add one more test</p>
-					<p class="paragraph center">You can run 10 test at the same time</p>
-			</div>
-		</div>
-							
-	    <div class="column third">
-			<div class="post-preview" style="width:100%;">
-					<img src="ico/uploadDARK.png" class="icon small centeralign">
-					<br>
-					<p class="title center">Upload a new test dataset</p>
-					<p class="paragraph center">Upload two .zip files with positive and negative images to set-up a new test data set</p>
-			</div>
-		</div>
-							
-	    <div class="column third">
-			<div class="post-preview" style="width:100%">
-				<img src="ico/play-buttonDARK.png" class="icon small centeralign">
-					<br>
-					<p class="title center">Run your simulation</p>
-					<p class="paragraph center">When you are ready start your simulation</p>		
-			</div>
+	<div class="row clearfix">
+
+		<div class="column third"><h1>&ensp;</h1><strong class="bx--label">Add tests</strong><br>
+			You can run up to 10 VR test at the same time; reset or delete unnecessary tests
 		</div>
 		
+		<div class="column third"><h1>&ensp;</h1><strong class="bx--label">Upload image set</strong><br>
+			Upload images to test the Watson VR classifiers or use a preloaded image dataset
+		</div>
+		
+		<div class="column third"><h1>&ensp;</h1><strong class="bx--label">Run simulation</strong><br>
+			Click to start simulation with selected dataset and VR classifiers, and view test results
+		</div>
+
 	</div>
+
+ 	<br>
  
     <div class="row clearfix">
     	<div class="column full">
+    	
 				<form id="myForm" action="javascript:startSimulation();">
 					<br>
 					<hr class="lineseparator">
 					
 					<div style="text-align:center;">
-					<input type="image" id="addicon" src="ico/addDARK.png" style="width:70px;height:auto;margin-left:15px;margin-right:15px;">
-					<input type="image" id="uploadicon" src="ico/uploadDARK.png" style="width:70px;height:auto;margin-left:15px;margin-right:15px;">
-					<input type="image" id="playicon" src="ico/play-buttonDARK.png" style="width:70px;height:auto;margin-left:15px;margin-right:15px;">
+						<button id="addicon" class="bx--btn bx--btn--secondary" type="button">
+						  Add test
+						  <svg class="bx--btn__icon">
+						    <use xlink:href="./ico/bluemix-icons.svg#icon--add--glyph"></use>
+						  </svg>
+						</button>
+						<button id="uploadicon" class="bx--btn bx--btn--secondary" type="button">
+						  Upload image set
+						  <svg class="bx--btn__icon">
+						    <use xlink:href="./ico/bluemix-icons.svg#icon--upload"></use>
+						  </svg>
+						</button>
+						<button id="playicon" class="bx--btn bx--btn--primary" type="submit">Run simulation</button>
 					</div>
 					
 					<hr class="lineseparator">
 					<br>
 
-					<div class="row clearfix moltiplicandum" id="moltiplicandum1"
-						style="margin-bottom: 20px; margin-left: 200px;">
+					<div class="row clearfix moltiplicandum" id="moltiplicandum1" style="margin-bottom: 20px; margin-left: 200px;">
 
+						<div class="column fourth">						
+								<div class="bx--form-item">
+								  <input id="testname1" type="text" class="bx--text-input" placeholder="TEST_1" required>
+								</div>	
+						</div>						
+						
 						<div class="column fourth">
-							<input class="title" id="testname1" type="text"
-								placeholder="TEST_1">
+								<div class="bx--form-item">
+								  <div class="bx--select">
+								    <select id="testset1" class="bx--select-input" required>
+								      <option class="bx--select-option" disabled selected hidden value="">Select test set</option>
+								    </select>
+								    <svg class="bx--select__arrow">
+								      <use xlink:href="./ico/bluemix-icons.svg#icon--caret--down"></use>
+								    </svg>
+								  </div>
+								</div>
 						</div>
+							
+						<div class="column fourth">			
+								<div class="bx--form-item">
+								  <div class="bx--select">
+								    <select id="testclassifier1" class="bx--select-input" required>
+								      <option class="bx--select-option" disabled selected hidden value="">Select classifier</option>
+								    </select>
+								    <svg class="bx--select__arrow">
+								      <use xlink:href="./ico/bluemix-icons.svg#icon--caret--down"></use>
+								    </svg>
+								  </div>
+								</div>
+						</div>
+						
 						<div class="column fourth">
-							<select required class="title" id="testset1">
-								<option selected disabled value="">Select test dataset</option>
-							</select>
+								<img id="reload1" data-alt-src="ico/reload.png" src="ico/reloadDARK.png" style="width:40px;height:auto;margin-left:15px;margin-right:15px;">
+								<img id="garbage1" data-alt-src="ico/garbage.png" src="ico/garbageDARK.png" style="width:40px;height:auto;margin-left:15px;margin-right:15px;">
 						</div>
-						<div class="column fourth">
-							<select required class="title" id="testclassifier1">
-								<option selected disabled value="">Select classifier</option>
-							</select>
-						</div>
-						<div class="column fourth">
-							<img id="reload1" data-alt-src="ico/reload.png" src="ico/reloadDARK.png" style="width:40px;height:auto;margin-left:15px;margin-right:15px;">
-							<img id="garbage1" data-alt-src="ico/garbage.png" src="ico/garbageDARK.png" style="width:40px;height:auto;margin-left:15px;margin-right:15px;">
-						</div>
+						
 					</div>
 				</form>
+				
       </div>
     </div>
     
@@ -96,11 +135,9 @@
 <!--   ====================== WAITING LOGO ============================ -->
 <!--   ================================================================ -->
   
-  <!-- Icona Watson -->
-<!--    	<div class="content" id="waiting" style="display:none;"> -->
-<!-- 		<img src='ico/load.svg' id="logowait waiting" style="display: none"> -->
-		<img src='ico/load.svg' id="waiting" style="display: none;">
-<!-- 	</div> -->
+  	<!-- Icona Watson -->
+	<img src='ico/load.svg' id="waiting" style="display: none;">
+
 		
 <!--   ================================================================ -->
 <!--   ====================== SHOW PAGE =============================== -->
@@ -108,207 +145,147 @@
 
 	<div class="content" id="showtest" style="display: none;">
 	
-<!-- 	==================================================================== -->
-<!-- 	===================== PRIMA COLONNA ================================ -->
-<!-- 	==================================================================== -->
-		<div class="column third">
-
+	
+		<div class="row clearfix">
+			
+			<div class="column fourth"><h1>Test results</h1>
+			
+			<img src='ico/load.svg' id="waiting_small" style="display: none;">
+			
+			<br><br>
+			
 			<div class="row clearfix">
 				<div class="column full">
-					<select id="show_test"></select>
+					<div class="bx--select">
+					    <select id="show_test" class="bx--select-input">
+					      <option class="bx--select-option" disabled selected hidden value="">Select test</option>
+					    </select>
+					    <svg class="bx--select__arrow">
+					      <use xlink:href="./ico/bluemix-icons.svg#icon--caret--down"></use>
+					    </svg>
+					  </div>
 					<br><br>
-					<div class="post-preview" style="text-align:center;">
-					<button class="rectangle" id="saveJSON">Save to JSON file</button>
-					<button class="rectangle" id="saveJSONDB">Save to DB</button>
+					<div style="text-align:center;">
+						<button class="bx--btn bx--btn--primary" id="saveJSON" type="sumbit">Download JSON</button>
+						<button class="bx--btn bx--btn--primary" id="saveJSONDB" type="sumbit">Save to DB</button>
 					</div>
 				</div>
 			</div>
-<hr class="lineseparator">
-			<div class="row clearfix">
+		<hr class="lineseparator">
+		
+			<div class="row clearfix selecttest" style="">
+				<br><br><br><center>Select a test to view results</center>
+			</div>
+		
+			<div class="row clearfix displayresults" style="display: none;">
 
 				<div class="column half">
 					<div class="post-preview" style="width: 100%; height: auto">
-						<div class="circumference large" style="margin:auto;" id=accuracy>--.--</div>
-						<p class="title center">accuracy</p>
+						<div class="progressbar" id="accuracyscore"></div>
+						<center><strong class="bx--label">Accuracy</strong></center>
 					</div>
 					<br>
 					<div class="post-preview" style="width: 100%; height: auto">
-						<div class="circumference large" style="margin:auto;" id=auctest>--.--</div>
-						<p class="title center">AUC</p>
+						<div class="progressbar" id="thresholdscore"></div>
+						<center><strong class="bx--label">Threshold</strong></center>
 					</div>
 				</div>
 
 				<div class="column half">
 					<div class="post-preview" style="width: 100%; height: auto">
-						<div class="circumference large" style="margin:auto;" id=threshold>--.--</div>
-						<p class="title center">threshold</p>
+						<div class="progressbar" id="aucscore"></div>
+						<center><strong class="bx--label">AUC</strong></center>
 					</div>
 					<br>
-					<div class="post-preview" style="width: 100%; height: auto">
-						<div class="circumference large" style="margin:auto;" id=indice>--.--</div>
-						<p class="title center">F-positive</p>
-					</div>
+
 				</div>
-
+				
 			</div>
-
-			<br> <br>
-
-			<hr class="lineseparator">
-
-			<div class="row clearfix">
-				<div class="column full">
-					<p class='title left'>
-						false positives
-					</p>
-					<p class='paragraph left'>is a result that indicates a given condition
-						has been fulfilled, when it has not</p>
-				<br>
-					<div class="post-preview" id="galleryFP"></div>
-				</div>
-			</div>
-
-			<hr class="lineseparator">
-
-			<div class="row clearfix">
-				<div class="column full">
-					<p class='title left'>
-						false negatives
-					</p>
-					<p class='paragraph left'>is where a test result indicates that a
-						condition failed, while it was successful</p>
-				<br>
-					<div class="post-preview" id="galleryFN"></div>
-				</div>
-			</div>
-
-			<hr class="lineseparator">
-
+				
 		</div>
+			
+				<div class="column three-fourths">
+				
+	
+					<nav data-tabs class="bx--tabs" role="navigation">
+					
+						  <div class="bx--tabs-trigger" tabindex="0">
+						    <a href="javascript:void(0)" class="bx--tabs-trigger-text" tabindex="-1"></a>
 
-<!-- 		==================================================================== -->
-<!-- 		===================== SECONDA COLONNA ================================ -->
-<!-- 		==================================================================== -->
-		<div class="column third">
+						  </div>
+						  
+						  <ul class="bx--tabs__nav bx--tabs__nav--hidden" role="tablist">
+						    <li class="bx--tabs__nav-item bx--tabs__nav-item--selected" data-target=".tab-1" role="presentation">
+						      <a id="tab-link-1" class="bx--tabs__nav-link" href="javascript:void(0)" role="tab" aria-controls="tab-panel-1" aria-selected="true">Selected test results</a>
+						    </li>
+						    <li class="bx--tabs__nav-item" data-target=".tab-3" role="presentation">
+						      <a id="tab-link-3" class="bx--tabs__nav-link" href="javascript:void(0)" role="tab" aria-controls="tab-panel-3" aria-selected="false">Overview of all tests</a>
+						    </li>
+						  </ul>
+						  
+					</nav>
+					
+					<div style="padding: 1rem;"> 
+					  <div id="tab-panel-1" class="tab-1" role="tabpanel" aria-labelledby="tab-link-1" aria-hidden="false">
+					  	<div class="row clearfix">
+					  		<div class="column half">
+					  			<strong class="bx--label">ROC curve</strong>
+					  			<div class="selecttest grey" id="selecttest-gray-roc"><br><br><br>Wait for test to load...</div>	
+					  			<div class="displayresults" id="graph1"></div>
+					  		</div>
+					  		<div class="column half">
+					  			<strong class="bx--label">Distribution</strong>								
+					  			<div class="selecttest grey" id="selecttest-gray-distribution"><br><br><br>Select a test to view distribution graph</div>		
+					  			<div class="displayresults" id="graph_histogram"></div>
+					  		</div>
+					  		
+					  	</div>
+					    
+					  </div>
+					  <div id="tab-panel-3" class="tab-3" role="tabpanel" aria-labelledby="tab-link-3" aria-hidden="true" hidden>
+					    <div id="graph2"></div>
+					  </div>
 
-			<div class="column full">
-				<!-- 	===========================		GRAFICO ROC CURVE ============================= -->
-				<div class="row clearfix">
-						<div class="post-preview">
-							<div>
-								<p class="title left">ROC curve</p>
-								<p class="paragraph left">In
-									statistics, a receiver operating characteristic curve, or ROC
-									curve, is a graphical plot that illustrates the performance of
-									a binary classifier system as its discrimination threshold is
-									varied.</p>
-							</div>
-						</div>
-				</div>
-				<br>
-				<div class="row clearfix">
-					<div class="post-preview" id="graph1"></div>
-				</div>
-				<!-- 	============================= FINE ROC CURVE ============================= -->
-				<hr class="lineseparator">
-								<!-- 	===========================		GRAFICO AUC CURVE ============================= -->
-				<div class="row clearfix">
-					<div class="post-preview">
-						<div>
-							<p class="title left">AUC curve</p>
-							<p class="paragraph left">The
-								area under the curve (often referred to as simply the AUC) is
-								equal to the probability that a classifier will rank a randomly
-								chosen positive instance higher than a randomly chosen negative
-								one</p>
-						</div>
 					</div>
+				
+				
+				
 				</div>
-				<br>
-
-				<div class="row clearfix">
-					<div class="post-preview" id="graph2"></div>
-				</div>
-<!-- 	============================= FINE AUC CURVE ============================= -->
-				<hr class="lineseparator">
-
-			</div>
-
-<br><br><br>
-
+		
 		</div>
 		
-<!-- 		==================================================================== -->
-<!-- 		===================== TERZA COLONNA ================================ -->
-<!-- 		==================================================================== -->
-
-		<div class="column third">
-
-			<div class="column full">
-<!-- 	============================= DISTRIBUTION CURVE ============================= -->
-				<div class="row clearfix">
-					<div class="post-preview">
-						<div>
-							<p class="title left">Distribution
-								curve</p>
-							<p class="paragraph left">Thanks to Visual Recognition scores, we can draw the negative and the positive distribution curves. Classifier effectiveness increases if VR instance is able to better separate the positive population from the negative one.</p>
-						</div>
-					</div>
-				</div>
-				<br>
-				<div class="row clearfix">
-					<div class="post-preview" id="graph_histogram"></div>
-				</div>
-				<!-- 	============================= FINE DISTRIBUTION CURVE ============================= -->
-
+		<br><br>
+		
+		<div class="row clearfix">
+	
+			<div class="column half">
+				<strong class="bx--label">False positive</strong>
+				<p class="bx--label-description">Images wrongly recognized as part of the category</p>
 				<hr class="lineseparator">
+				<div id="galleryFP"></div>
 			</div>
-
-
-
+	
+			<div class="column half">
+				<strong class="bx--label">False negatives</strong>
+				<p class="bx--label-description">Images not recognized as part of the category</p>
+				<hr class="lineseparator">
+				<div id="galleryFN"></div>
+			</div>
+			
 		</div>
-
+		
 
 	</div>
-
-	<!-- gestione della preview immagini -->
-
-<!-- 	<div id="myModalFP" class="modal"> -->
-<!-- 		<span class="close cursor" onclick="closeModal()">&#10005;</span> -->
-<!-- 		<div class="modal-content" id="modalcontentFP"></div> -->
-<!-- 	</div> -->
-
-<!-- 	<div id="myModalFN" class="modal"> -->
-<!-- 		<span class="close cursor" onclick="closeModal()">&#10005;</span> -->
-<!-- 		<div class="modal-content" id="modalcontentFN"></div> -->
-<!-- 	</div> -->
-	
-<!-- 	SI POTREBBE GENERALIZZARE CREANDO L'INTERFACCIA MODAL PER POPUP WINDOWS -->
-
-<!-- 		<div id="myModalTest" class="modalTest"> -->
-
-<!-- 	<div id="savetestmodal" style="display:none;"> -->
-<!-- 		<div class="modal2" id="savetestmodalbackground"></div> -->
-<!-- 		<div class="modal-content2" id="savetestmodalcontent">	 -->
-<!-- 		<span class="titlemodal">Select which test result save on your PC</span> -->
-<!-- 		<span class="cursormodal" onclick="closeModal2()">&#10005;</span>  -->
-<!-- 		<form id="listatest" action="javascript:printTestResults();" class="formmodal"> -->
-<!-- 		</form> -->
-<!-- 	</div>  -->
-		
-
-<!-- 	</div> -->
 
 
 </body>
 
-<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script>
-<script src="https://cdn.jsdelivr.net/jquery.validation/1.15.0/additional-methods.min.js"></script>
-<script src="js/jquery.lazy.min.js"></script>
+
+
 
 
 <script>
+
 
 $( document ).ready(function() {
 
@@ -318,11 +295,12 @@ localStorage.setItem("viewresult", "simulation");
 //mostro subito la parte di show
 $("#simulate").hide();
 $("#showtest").show("slow");
-buildSelectTestResult('#show_test');
+buildSelectTestResult('#show_test', -1);
 updateTestFields('#show_test');
 }
 });
 
+//=========================== Simulate part ===================
 
 //ADD button actions
 $('#addicon').mouseover(function(){
@@ -347,10 +325,18 @@ if(TOTALROWSFILLED < 10){
       $("#moltiplicandum"+nextrow).find("img#reload"+currentrow).attr("id","reload"+nextrow);
       $("#moltiplicandum"+nextrow).find("img#garbage"+currentrow).attr("id","garbage"+nextrow);
     } else {
-    swal({
+    		swal({
 				title: "Warning",
-				text: "Max number of entries reached. You can run max 10 tests simultaneously.",
-				type: "warning"});
+				html: "Max number of entries reached. You can run max 10 tests simultaneously.<br><br>",
+				type: "warning",
+				showCloseButton: false,
+				showCancelButton: true,
+				showConfirmButton: false,
+				buttonsStyling: false,
+				customClass: 'modal-container',
+				cancelButtonClass: 'bx--btn bx--btn--primary',
+				cancelButtonText: 'Got it'
+			});
     }
     TOTALROWSFILLED++;
 });
@@ -414,15 +400,150 @@ $('body').on("click","img[id*=garbage]",function(){
 	}
 	else swal({
 				title: "Warning",
-				text: "You have to run at least one test",
-				type: "warning"});
+				html: "You have to run at least one test.<br><br>",
+				type: "warning",
+				showCloseButton: false,
+				showCancelButton: true,
+				showConfirmButton: false,
+				buttonsStyling: false,
+				customClass: 'modal-container',
+				cancelButtonClass: 'bx--btn bx--btn--primary margin-lr',
+				cancelButtonText: 'Got it'
+			});
 });
 
-// ON CHANGE select test
-	$('#show_test').on(
-			'change',
-			function() {
+//WARNING overlap images between test dataset and classifier dataset
+$('body').on("change","select[id*=testset]",function(){
+ 	var $this = $(this);
+	var num = parseInt($this.prop("id").substring(7));
+	
+	var IDdataset = $("#testset"+num).val();
+	var IDclassifier = $("#testclassifier"+num).val();
+	
+	console.log("ID dataset= "+IDdataset);
+	console.log("ID classifier= "+IDclassifier);
+		
+	if(IDclassifier != null)
+	{
+
+		$.ajax({
+		contentType: "application/json",
+		dataType: "json",
+		url: 'CheckOverlapImages',
+		data : "dataset="+IDdataset+"&classifier="+IDclassifier,
+		async: false,
+		success: function(result){
+		if(result.hasOwnProperty('error'))
+				{
+					swal({
+						title: "Warning",
+						html: result.error + '<br><br>',
+						type: "warning",
+						showCloseButton: false,
+						showCancelButton: true,
+						showConfirmButton: false,
+						buttonsStyling: false,
+						customClass: 'modal-container',
+						cancelButtonClass: 'bx--btn bx--btn--primary margin-lr',
+						cancelButtonText: 'Got it'
+					});
+				}
+			else{
+			console.log(result.images);
+						console.log(result.size);
+			if(result.size>0){
+					swal({
+						title: "Warning",
+						html: "This test-dataset shares "+result.size+" images with this training-classifier dataset<br><br>",
+						type: "warning",
+						showCloseButton: false,
+						showCancelButton: true,
+						showConfirmButton: false,
+						buttonsStyling: false,
+						customClass: 'modal-container',
+						cancelButtonClass: 'bx--btn bx--btn--primary margin-lr',
+						cancelButtonText: 'Got it'
+					});	
+				}
+				}
+				}});
+		}
+	});
+
+$('body').on("change","select[id*=testclassifier]",function(){
+ 	 	var $this = $(this);
+	var num = parseInt($this.prop("id").substring(14));
+	
+	var IDdataset = $("#testset"+num).val();
+	var IDclassifier = $("#testclassifier"+num).val();
+	
+	console.log("ID dataset= "+IDdataset);
+	console.log("ID classifier= "+IDclassifier);
+		
+	if(IDdataset != null)
+	{
+
+		$.ajax({
+		contentType: "application/json",
+		dataType: "json",
+		url: 'CheckOverlapImages',
+		data : "dataset="+IDdataset+"&classifier="+IDclassifier,
+		async: true,
+		success: function(result){
+		if(result.hasOwnProperty('error'))
+				{
+					swal({
+						title: "Warning",
+						html: result.error + '<br><br>',
+						type: "warning",
+						showCloseButton: false,
+						showCancelButton: true,
+						showConfirmButton: false,
+						buttonsStyling: false,
+						customClass: 'modal-container',
+						cancelButtonClass: 'bx--btn bx--btn--primary margin-lr',
+						cancelButtonText: 'Got it'
+					});
+				}
+			else{
+			console.log(result.images);
+			console.log(result.size);
+			if(result.size>0){			
+					swal({
+						title: "Warning",
+						html: "This test-dataset shares "+result.size+" images with this training-classifier dataset<br><br>",
+						type: "warning",
+						showCloseButton: false,
+						showCancelButton: true,
+						showConfirmButton: false,
+						buttonsStyling: false,
+						customClass: 'modal-container',
+						cancelButtonClass: 'bx--btn bx--btn--primary margin-lr',
+						cancelButtonText: 'Got it'
+					});		
+				}
+				}
+				}});
+		}
+});
+
+//=========================== Showresult part ===================
+
+// ON CHANGE select test SHOW SIDE
+	$('#show_test').on('change', function() {
 			updateTestFields('#show_test');
+			
+			$('.selecttest').css("display", "none");
+			$('.displayresults').css("display", "block");
+			
+			$('#accuracyscore').empty();
+			$('#aucscore').empty();
+			$('#thresholdscore').empty();			
+			
+			createProgress(accuracyscore, '#3d70b2', getAccuracy());
+			createProgress(aucscore, '#41d6c3', getAUC());
+			createProgress(thresholdscore, '#5596e6', getTreshold());
+// 			createProgress(indice, '#8c9ba5', '0');
 });   
 
 $('#saveJSON').click(function(){
@@ -433,18 +554,26 @@ $('#saveJSON').click(function(){
 });
 
 $('#saveJSONDB').click(function(){
- 			swal({
- 			
-				title: "Warning",
-				text: "We are working hard on this feature... just relax and run a new simulation.",
-				type: "warning"});
+					swal({
+						title: "Too much guys...",
+						html: "We are already working on this feature! Keep calm and start a new test.<br><br>",
+						type: "warning",
+						showCloseButton: false,
+						showCancelButton: true,
+						showConfirmButton: false,
+						buttonsStyling: false,
+						customClass: 'modal-container',
+						cancelButtonClass: 'bx--btn bx--btn--primary margin-lr',
+						cancelButtonText: 'Got it'
+					});
 				
-				});
+				});	
 				
 </script>
 
 <script>
-buildSelectDataSet("test_set",'[id*="testset"]')
+// load only dataset with less than 250 images (exluding very dangerous case for watson)
+buildSelectDataSet("test_set",'[id*="testset"]');
 buildSelectClassifier("ready",'[id*="testclassifier"]');
 </script>
 

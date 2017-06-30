@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head></head>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="js/genericFunctions.js"></script>
+<script src="js/functions.js"></script>
+<script src="js/jquery.lazy.min.js"></script>
+
+<script>createHead();</script>
+
+<body>
+<header></header><script>createHeader();</script>
+
+	<div class="content">
+
+		<br>
+
+		<form action="javascript:startTrain();">
+			<div class="column fourth">
+				<select required class="title" id="trainingdataset">
+					<option selected disabled value="">Select training dataset</option>
+				</select>
+			</div>
+			<div class="column fourth">
+				<p class="title center" id="labelselected" style="display:none;">dataset label</p>
+				<input class="title" id="classifiershortname" type="text" placeholder="Put classifier name here" maxlength="10">
+			</div>
+			<div class="column fourth">
+				<input class="title" id="classifierdesc" type="text" placeholder="Put classifier description here">
+			</div>
+			<div class="column fourth">
+				</center><button type="submit" class="import">Start training</button>
+			</div>
+		</form>
+
+		<br> <br> <br> <br> <br> <br>
+
+		<div class="column half">
+			<p class='title center'>positive images</p>
+			<p class='paragraph center'>list of all the pictures containing
+				an object representing the category</p>
+			<hr class="lineseparator">
+			<div id=positiveTrainingGallery></div>
+		</div>
+
+		<div class="column half">
+			<p class='title center'>negative images</p>
+			<p class='paragraph center'>list of all the pictures not
+				containing any object representing the category, but similar ones</p>
+			<hr class="lineseparator">
+			<div id=negativeTrainingGallery></div>
+		</div>
+
+
+	</div>
+
+</body>
+
+<script>
+
+	$(document).ajaxStop(function () {
+      testingLoading();
+  	});
+
+buildSelectDataSet("all",'#trainingdataset');
+
+	$('#trainingdataset').on(
+			'change',
+			function() {
+			
+				var testsetID = $(this).val();
+				
+				$.ajax({
+					contentType : "application/json",
+					dataType : "json",
+					url : 'GetDataset',
+					data : "_id=",
+					async : true,
+					success : function(result) {
+					
+						$("#negativeTrainingGallery").empty();
+						$("#positiveTrainingGallery").empty();
+
+						for ( var i in result ){
+
+							if (result[i]._id == testsetID) {
+								
+								var positive_images = [];
+								for( var k = 0; k < result[i].images.positive.length; k++ )								
+									positive_images.push("GetImage?image_id="+result[i].images.positive[k]);
+									
+								var negative_images = [];
+								for( var j = 0; j < result[i].images.negative.length; j++ )
+									negative_images.push("GetImage?image_id="+result[i].images.negative[j]);
+								
+								createGallery('negativeTrainingGallery', negative_images, result[i]._id + "NEG");
+								createGallery('positiveTrainingGallery', positive_images, result[i]._id + "POS");
+								$("#labelselected").html(result[i].label);
+								$("#labelselected").val(result[i]._id);
+
+							}
+
+
+						}
+
+					}
+				});
+				
+			});
+			
+</script>
+
+</html>

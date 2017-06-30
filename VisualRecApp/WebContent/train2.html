@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head></head>
+
+<!-- Main inclusions -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<!-- Functions -->
+<script src="js/genericFunctions.js"></script>
+<script src="js/functions.js"></script>
+<!-- Carbon design scripts -->
+<script src="js/index.js"></script>
+<script src="js/bluemix-components.min.js"></script>
+<script src="js/svgxuse.min.js"></script>
+<!-- Utilities -->
+<script src="js/jquery.lazy.min.js"></script>
+
+
+<script>
+createHead();
+createCarbonHeader();
+</script>
+
+<body>
+
+<div id="carbon-header"></div><br><br><br>
+
+<div class="content">
+
+	<div class="row clearfix">
+
+		<div class="column half"><h1>Train a classifier</h1><br>
+		</div>
+
+	</div>
+	
+		<form action="javascript:startTrain();">
+			<div class="column fourth">
+					<div class="bx--form-item">
+					  <div class="bx--select">
+					    <select id="trainingdataset" class="bx--select-input">
+					      <option class="bx--select-option" disabled selected hidden value="">Select training dataset</option>
+					    </select>
+					    <svg class="bx--select__arrow">
+					      <use xlink:href="/carbon-icons/bluemix-icons.svg#icon--caret--down"></use>
+					    </svg>
+					  </div>
+					</div>
+			</div>
+			<div class="column fourth">
+				<p class="title center" id="labelselected" style="display:none;">dataset label</p>
+				<div class="bx--form-item">
+				  <input id="classifiershortname" type="text" class="bx--text-input" placeholder="Hint shortname (max 5 char)" maxlenght="5">
+				</div>
+				
+			</div>
+			<div class="column fourth">
+				<div class="bx--form-item">
+				  <input id="classifierdesc" type="text" class="bx--text-input" placeholder="Hint description">
+				</div>
+			</div>
+			<div class="column fourth">
+				<center><button class="bx--btn bx--btn--primary" type="submit">Start training</button></center>
+			</div>
+		</form>
+
+		<br> <br> <br> <br> <br> <br>
+
+		<div class="column half">
+			<strong class="bx--label">Positive images</strong>
+			<p class="bx--label-description">images containing an object of the selected category</p>
+			<hr class="lineseparator">
+			<div id=positiveTrainingGallery></div>
+		</div>
+
+		<div class="column half">
+			<strong class="bx--label">Negative images</strong>
+			<p class="bx--label-description">images not containing an object of the selected category, but a similar one</p>
+			<hr class="lineseparator">
+			<div id=negativeTrainingGallery></div>
+		</div>
+
+
+	</div>
+
+</body>
+
+
+<script>
+
+	$(document).ajaxStop(function () {
+      testingLoading();
+  	});
+
+buildSelectDataSet("all",'#trainingdataset');
+
+	$('#trainingdataset').on(
+			'change',
+			function() {
+			
+				var testsetID = $(this).val();
+				
+				$.ajax({
+					contentType : "application/json",
+					dataType : "json",
+					url : 'GetDataset',
+					data : "_id=",
+					async : true,
+					success : function(result) {
+					
+						$("#negativeTrainingGallery").empty();
+						$("#positiveTrainingGallery").empty();
+
+						for ( var i in result ){
+
+							if (result[i]._id == testsetID) {
+								
+								var positive_images = [];
+								for( var k = 0; k < result[i].images.positive.length; k++ )								
+									positive_images.push("GetImage?image_id="+result[i].images.positive[k]);
+									
+								var negative_images = [];
+								for( var j = 0; j < result[i].images.negative.length; j++ )
+									negative_images.push("GetImage?image_id="+result[i].images.negative[j]);
+								
+								createGallery('negativeTrainingGallery', negative_images, result[i]._id + "NEG");
+								createGallery('positiveTrainingGallery', positive_images, result[i]._id + "POS");
+								$("#labelselected").html(result[i].label);
+								$("#labelselected").val(result[i]._id);
+
+							}
+
+
+						}
+
+					}
+				});
+				
+			});
+			
+</script>
+
+</html>
