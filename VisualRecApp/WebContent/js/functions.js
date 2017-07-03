@@ -879,20 +879,35 @@ function drawIndexes(testname){
 	
 }
 
+
+var colorpalette = [
+	[0, 166, 160], //verde acqua
+	[138, 196, 62], //verde pisello
+	[52, 59, 67], //grigio scuro
+	[196, 43, 19], //rosso scarlatto
+	[40, 71, 166], //blu scuro
+	[255, 186, 58], //arancione chiaro
+	[169, 52, 255], //lilla
+	[59, 175, 255], //azzurro
+	[79, 217, 21], //verde brillante
+	[217, 145, 196] //rosa
+	];
+
+
 function drawRocCurves(testname){
 	
-	var colorpalette = [
-		[0, 166, 160], //verde acqua
-		[138, 196, 62], //verde pisello
-		[52, 59, 67], //grigio scuro
-		[196, 43, 19], //rosso scarlatto
-		[40, 71, 166], //blu scuro
-		[255, 186, 58], //arancione chiaro
-		[169, 52, 255], //lilla
-		[59, 175, 255], //azzurro
-		[79, 217, 21], //verde brillante
-		[217, 145, 196] //rosa
-		];
+//	var colorpalette = [
+//		[0, 166, 160], //verde acqua
+//		[138, 196, 62], //verde pisello
+//		[52, 59, 67], //grigio scuro
+//		[196, 43, 19], //rosso scarlatto
+//		[40, 71, 166], //blu scuro
+//		[255, 186, 58], //arancione chiaro
+//		[169, 52, 255], //lilla
+//		[59, 175, 255], //azzurro
+//		[79, 217, 21], //verde brillante
+//		[217, 145, 196] //rosa
+//		];
 
 	//CREAZIONE DELL'INPUT PER GRAFICO ROC -------------------------------------
 	var ROCcurves = []; //INPUT PER PLOT
@@ -909,7 +924,7 @@ function drawRocCurves(testname){
 		var objJSON = testdetails[count];
 		
 		
-			if (testdetails[count].name == testname) {
+		if (testdetails[count].name == testname) {
 
 		ROCcurves.push(
 				{
@@ -995,18 +1010,72 @@ function drawRocCurves(testname){
 	Plotly.newPlot('graph1',ROCcurves,layout);
 }
 
-function DrawHistogram(histogramNegative,histogramPositive){
+
+
+//--------------- START WORK IN PROGRESS -------------------------------------------------------------------------
+function DrawScatterMulticlass() {
+	
+	var trace1 = {
+	  x: [-0.7, -0.6, -0.5, -0,5, -0.4, -0,4, -0.3, -0.2, 0, 0.1, 0.3, 0.4, 0.6, 0.6, 0.7],
+	  y: [1, 0.8, 0.2, 0.7, 0.4, 0.6, 0.5, 0.6, 0.7, 0.6, 0.5, 0.9, 1.2, 0.9, 0.6],
+	  mode: 'markers',
+	  type: 'scatter',
+	  name: 'Team A',
+//	  text: ['A-1', 'A-2', 'A-3', 'A-4', 'A-5'],
+	  marker: { size: 8 }
+	};
+
+	var trace2 = {
+	  x: [-0.5, -0.4, -0.3, 0.2, -0.1, 0, 0.1, 0.2, 0.3, 0.8, 0.9, 1, 1.1, 1.2, 1.3],
+	  y: [1, 0.9, 1, 1.4, 1.2, 1, 1.1, 1.2, 1, 1.2, 0.8, 1, 1.1, 1.3, 1.2],
+	  mode: 'markers',
+	  type: 'scatter',
+	  name: 'Team B',
+//	  text: ['B-a', 'B-b', 'B-c', 'B-d', 'B-e'],
+	  marker: { size: 8 }
+	};
+	
+	var trace3 = {
+	  x: [0, 0.1, 0.2, 0.2, 0.3, 0.4, 0.5, 0.5, 0.6, 0.7, 0.7, 0.8, 0.9, 1, 1.1],
+	  y: [0.5, 0.4, 0.5, 0.1, 0.2, 0, 0.4, 0.3, 0.1, 0, 0.2, 0.4, 0.5, 0.1, 0.2],
+	  mode: 'markers',
+	  type: 'scatter',
+	  name: 'Team B',
+//	  text: ['B-a', 'B-b', 'B-c', 'B-d', 'B-e'],
+	  marker: { size: 8 }
+	};
+
+	var data = [ trace1, trace2, trace3 ];
+
+	var layout = {
+	  xaxis: {
+	    range: [ -1, 1.5 ]
+	  },
+	  yaxis: {
+	    range: [-0.5, 2]
+	  },
+	  title:'Data Labels Hover'
+	};
+
+	Plotly.newPlot('myDiv', data, layout);
+			
+}
+//--------------- END WORK IN PROGRESS -------------------------------------------------------------------------
+
+
+
+
+function DrawHistogram(histogramNegative, histogramPositive){
 		
 	var negative = [];
 	var positive = [];
-	for(var i=0;i<histogramNegative.length;i++)
-		{
-		negative.push(histogramNegative[i]);
-		}
 	
-	for(var i=0;i<histogramPositive.length;i++)
-	{
-	positive.push(histogramPositive[i]);
+	for(var i=0; i<histogramNegative.length; i++)	{
+		negative.push(histogramNegative[i]);
+	}
+	
+	for(var i=0; i<histogramPositive.length; i++)	{
+		positive.push(histogramPositive[i]);
 	}
 	
 	//ADD negative histogram
@@ -1077,6 +1146,7 @@ function DrawHistogram(histogramNegative,histogramPositive){
 	
 	Plotly.newPlot('graph_histogram', data, layout);
 }
+
 
 
 /**
