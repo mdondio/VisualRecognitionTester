@@ -628,6 +628,7 @@ function updateTestFields(IDselector) {
 	console.log("This is the value of result : " + JSON.stringify(result));
 	console.log("This is the value of testdetails : " + JSON.stringify(testdetails));
 	
+	// flag to hide tests in case of errors
 	if(!hideresult){
 		drawRocCurves(valoreOptions);
 		drawIndexes(valoreOptions);
@@ -694,7 +695,14 @@ function updateTestFields(IDselector) {
 				$("#galleryFP").empty()
 				createGallery('galleryFP',positive_images,"showtestPOS");
 				
-				DrawHistogram(result[j].histogramNegative,result[j].histogramPositive);
+		// CHECK IF SINGLECLASS OR MULTICLASS -----------> CHECK TO BE UPDATED
+				if( 'scatterTraceNegative' in result[j] ){
+					// Histogram for multiclass
+					DrawScatterMulticlass();
+				} else {
+					// Histogram for singleclass
+					DrawHistogram(result[j].histogramNegative,result[j].histogramPositive);
+				}
 				
 			}
 	
@@ -1014,51 +1022,91 @@ function drawRocCurves(testname){
 
 //--------------- START WORK IN PROGRESS -------------------------------------------------------------------------
 function DrawScatterMulticlass() {
-	
-	var trace1 = {
-	  x: [-0.7, -0.6, -0.5, -0,5, -0.4, -0,4, -0.3, -0.2, 0, 0.1, 0.3, 0.4, 0.6, 0.6, 0.7],
-	  y: [1, 0.8, 0.2, 0.7, 0.4, 0.6, 0.5, 0.6, 0.7, 0.6, 0.5, 0.9, 1.2, 0.9, 0.6],
-	  mode: 'markers',
-	  type: 'scatter',
-	  name: 'Team A',
-//	  text: ['A-1', 'A-2', 'A-3', 'A-4', 'A-5'],
-	  marker: { size: 8 }
-	};
+		
+	//CREAZIONE DELL'INPUT PER GRAFICO ROC -------------------------------------
+	var CloudGraph = []; //INPUT PER PLOT
+	var count = 0;
+	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
+	var result = JSON.parse(localStorage.getItem("resultJSON"));
+//	var result = JSON.parse('[{"ID":"ID_MULTI_CLASS","accuracyOpt":0.5,"classes":["class 1","class 2"],"tprTrace":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.7,1,1,1],"fprTrace":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.1,0.3,1,1,1,1],"AUC":0.24499999999999997,"trainingSize":34,"thresholdOpt":1,"falsePositiveOpt":[],"falseNegativeOpt":["900","901","902","903","904","905","906","907","908","909"],"histogramPositive":[0.133012,0.183013,0.126254,0.151558,0.157769,0.159577,0.164071,0.1302,0.168125,0.185369],"histogramNegative":[0.190988,0.254536,0.191663,0.162518,0.231673,0.17737,0.205462,0.172088,0.17034,0.181672],"scatterTracePositive":{"Class1":{"x":[-0.7,-0.6,-0.5,0.5,-0.4,0.4,-0.3,-0.2,0,0.1,0.3,0.4,0.6,0.6,0.7],"y":[1,0.8,0.2,0.7,0.4,0.6,0.5,0.6,0.7,0.6,0.5,0.9,1.2,0.9,0.6]},"Class2":{"x":[-0.5,-0.4,-0.3,0.2,-0.1,0,0.1,0.2,0.3,0.8,0.9,1,1.1,1.2,1.3],"y":[1,0.9,1,1.4,1.2,1,1.1,1.2,1,1.2,0.8,1,1.1,1.3,1.2]}},"scatterTraceNegative":{"x":[0, 0.1, 0.2, 0.2, 0.3, 0.4, 0.5, 0.5, 0.6, 0.7, 0.7, 0.8, 0.9, 1, 1.1],"y":[0.5, 0.4, 0.5, 0.1, 0.2, 0, 0.4, 0.3, 0.1, 0, 0.2, 0.4, 0.5, 0.1, 0.2]}}]');
 
-	var trace2 = {
-	  x: [-0.5, -0.4, -0.3, 0.2, -0.1, 0, 0.1, 0.2, 0.3, 0.8, 0.9, 1, 1.1, 1.2, 1.3],
-	  y: [1, 0.9, 1, 1.4, 1.2, 1, 1.1, 1.2, 1, 1.2, 0.8, 1, 1.1, 1.3, 1.2],
-	  mode: 'markers',
-	  type: 'scatter',
-	  name: 'Team B',
-//	  text: ['B-a', 'B-b', 'B-c', 'B-d', 'B-e'],
-	  marker: { size: 8 }
-	};
-	
-	var trace3 = {
-	  x: [0, 0.1, 0.2, 0.2, 0.3, 0.4, 0.5, 0.5, 0.6, 0.7, 0.7, 0.8, 0.9, 1, 1.1],
-	  y: [0.5, 0.4, 0.5, 0.1, 0.2, 0, 0.4, 0.3, 0.1, 0, 0.2, 0.4, 0.5, 0.1, 0.2],
-	  mode: 'markers',
-	  type: 'scatter',
-	  name: 'Team B',
-//	  text: ['B-a', 'B-b', 'B-c', 'B-d', 'B-e'],
-	  marker: { size: 8 }
-	};
-
-	var data = [ trace1, trace2, trace3 ];
-
-	var layout = {
-	  xaxis: {
-	    range: [ -1, 1.5 ]
-	  },
-	  yaxis: {
-	    range: [-0.5, 2]
-	  },
-	  title:'Data Labels Hover'
-	};
-
-	Plotly.newPlot('myDiv', data, layout);
+	for(var i in result){
+		
+		var obj = result[i];
+				
+		for(var h = 1 in obj.scatterTracePositive){
+		
+			var x = [];
+			var y = [];
 			
+			for(var j in obj.scatterTracePositive[h].x) x.push(obj.scatterTracePositive[h].x[j]);
+			for(var j in obj.scatterTracePositive[h].y) y.push(obj.scatterTracePositive[h].y[j]);
+						
+			CloudGraph.push(
+					{
+						type: "scatter",
+						x: x,
+						y: y,
+						mode: "markers",
+						name: obj.classes[count],
+						marker: { 
+							size: 8,
+							"color": "rgb("+colorpalette[count][0]+","+colorpalette[count][1]+","+colorpalette[count][2]+")",
+						}
+					}
+			);
+		
+			count++;
+		}
+						
+		CloudGraph.push(
+				{
+					type: "scatter",
+					x: obj.scatterTraceNegative.x,
+					y: obj.scatterTraceNegative.y,
+					mode: "markers",
+					name: "Negative",
+					marker: { 
+						size: 8 ,
+						"color": "rgb(168, 168, 168)",
+					}
+				}
+		);
+		
+	}
+
+	//LAYOUT GRAFICO ROC
+	var layout = {
+			legend: {
+				x: 0.2,
+				y: -0.6,
+			},
+			xaxis: {
+				title: 'x1',
+//				range: [-1 , 1.5],
+				autorange: true
+			},
+			yaxis: {
+				title: 'x2',
+//				range: [-0.2 , 2],
+				autorange: true
+			},
+			autosize: false,
+			  width: 450,
+			  height: 550,
+			  margin: {
+			    l: 70,
+			    r: 50,
+			    b: 0,
+			    t: 30,
+			    pad: 0
+			  },
+			  paper_bgcolor: '#f2f2f2',
+			  plot_bgcolor: '#f2f2f2'
+	};
+
+	Plotly.newPlot('graph_histogram',CloudGraph,layout);
+		
 }
 //--------------- END WORK IN PROGRESS -------------------------------------------------------------------------
 
