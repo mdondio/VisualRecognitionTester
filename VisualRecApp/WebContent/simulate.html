@@ -318,7 +318,8 @@ if(TOTALROWSFILLED < 10){
       var nextrow = parseInt( $div.prop("id").match(/\d+/g), 10 ) +1; // estraggo il numero identificativo e lo incremento
       var currentrow = nextrow-1;       
       $("#moltiplicandum"+currentrow).clone().prop('id', 'moltiplicandum'+nextrow).appendTo("#myForm"); // clono, rinomino e appendo
-      $("#moltiplicandum"+nextrow).find('input:text').val("TEST_"+nextrow);
+      $("#moltiplicandum"+nextrow).find('input:text').val("");
+	  $("#moltiplicandum"+nextrow).find("input#testname"+currentrow).attr("placeholder","TEST_"+nextrow);
       $("#moltiplicandum"+nextrow).find("input#testname"+currentrow).attr("id","testname"+nextrow);
       $("#moltiplicandum"+nextrow).find("select#testset"+currentrow).attr("id","testset"+nextrow);
       $("#moltiplicandum"+nextrow).find("select#testclassifier"+currentrow).attr("id","testclassifier"+nextrow);

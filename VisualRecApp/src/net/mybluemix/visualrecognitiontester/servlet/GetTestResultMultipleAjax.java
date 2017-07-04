@@ -97,75 +97,34 @@ public class GetTestResultMultipleAjax extends HttpServlet {
 		JsonArray tests = parser.parse(request.getParameter("array")).getAsJsonArray();
 
 		JsonArray results = new JsonArray();
+		
+		JsonObject JSONObj = tests.get(0).getAsJsonObject();
 
-		// TODO promemoria Marco: qui deve essere tolto il for, non stiamo più iterando, l'input è un solo oggetto
-		for (int i = 0; i < tests.size(); i++) {
+		String testSetId = JSONObj.get("test").getAsString();
+		String classifierId = JSONObj.get("classifier").getAsString();
+		String testName = JSONObj.get("name").getAsString();
+		String error = null;
+		
+		// retrieve dataset and classifier object
+		Dataset testSet = retrieveDataset(testSetId);
 
-			JsonObject JSONObj = tests.get(i).getAsJsonObject();
+		Classifier classifier = retrieveClassifier(classifierId);
+		
+		// Generate the zip files (20 images per file max)
+		List<byte[]> zipFiles = generateZipTestSet(testSet);
+		
+		if (testSet == null || classifier == null)
+			error = "error";
+		
+		// We can run a classification
+		JsonObject classificationResult = runClassification(testName, classifier, testSet, zipFiles, error);
 
-			String testSetId = JSONObj.get("test").getAsString();
-			String classifierId = JSONObj.get("classifier").getAsString();
+		// Add result to array
+		results.add(classificationResult);
 
-			String testName = JSONObj.get("name").getAsString();
+		System.out.println("This is results {doGet}: " + results);
 
-			// retrieve dataset and classifier object
-			Dataset testSet = retrieveDataset(testSetId);
-
-			Classifier classifier = retrieveClassifier(classifierId);
-
-			
-//	TODO Promemoria Marco: aggiungere questo controllo, importante
-//			if (testSet == null || classifier == null)
-	//		// ritornare un JSON errore o vuoto, vedete voi
-			
-			
-			// Generate the zip files (20 images per file max)
-			List<byte[]> zipFiles = generateZipTestSet(testSet);
-
-			// We can run a classification
-			JsonObject classificationResult = runClassification(testName, classifier, testSet, zipFiles);
-
-			// Add result to array
-			results.add(classificationResult);
-
-			System.out.println("This is results {doGet}: " + results);
-
-			response.getWriter().append(results.toString());
-
-		}
-
-		// System.out.println("Here: " + tests);
-		// JsonArray results = new JsonArray();
-		//
-		// for (int i = 0; i < tests.size(); i++) {
-		//
-		// JsonObject JSONObj = tests.get(i).getAsJsonObject();
-		//
-		// String testSetId = JSONObj.get("test").getAsString();
-		// String classifierId = JSONObj.get("classifier").getAsString();
-		//
-		// String testName = JSONObj.get("name").getAsString();
-		//
-		// // retrieve dataset and classifier object
-		// Dataset testSet = retrieveDataset(testSetId);
-		//
-		// Classifier classifier = retrieveClassifier(classifierId);
-		//
-		// // Generate the zip files (20 images per file max)
-		// List<byte[]> zipFiles = generateZipTestSet(testSet);
-		//
-		// // We can run a classification
-		// JsonObject classificationResult = runClassification(testName,
-		// classifier, testSet, zipFiles);
-		//
-		// // Add result to array
-		// results.add(classificationResult);
-		//
-		// System.out.println("This is results {doGet}: " + results);
-		//
-		// response.getWriter().append(results.toString());
-		//
-		// }
+		response.getWriter().append(results.toString());
 
 	}
 
@@ -232,7 +191,7 @@ public class GetTestResultMultipleAjax extends HttpServlet {
 
 	// This method runs a classification on watson
 	private JsonObject runClassification(String testName, Classifier classifierJson, Dataset testSet,
-			List<byte[]> zipFiles) throws IOException {
+			List<byte[]> zipFiles, String error) throws IOException {
 
 		// Istantiate service on BlueMix
 		String classifierId = classifierJson.getID();
@@ -316,17 +275,11 @@ public class GetTestResultMultipleAjax extends HttpServlet {
 				+ classifierJson.getTrainingSize();
 
 		System.out.println("Sto usando come testName: " + testName);
+		
+		if( error == null )
+			error = "success";
 
-		JsonObject result = buildJsonResult(id, testName, optResult, tprTrace, fprTrace, computeAuc(tprTrace, fprTrace),
-				"success");
-
-		// Error checking
-		if (computeAuc(tprTrace, fprTrace) == 0) {
-
-			result = buildJsonResult(id, testName, optResult, tprTrace, fprTrace, computeAuc(tprTrace, fprTrace),
-					"error");
-
-		}
+		JsonObject result = buildJsonResult(id, testName, optResult, tprTrace, fprTrace, computeAuc(tprTrace, fprTrace), error);
 
 		return result;
 
@@ -361,6 +314,7 @@ public class GetTestResultMultipleAjax extends HttpServlet {
 		result.addProperty("notification", error);
 
 		return result;
+		
 	}
 
 	// Method to build array from list
