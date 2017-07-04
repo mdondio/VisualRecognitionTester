@@ -276,7 +276,9 @@ public class GetTestResultMultipleAjax extends HttpServlet {
 
 		System.out.println("Sto usando come testName: " + testName);
 		
-		if( error == null )
+		if (computeAuc(tprTrace, fprTrace) == 0) error = "error";
+		
+		if( error == null ) 
 			error = "success";
 
 		JsonObject result = buildJsonResult(id, testName, optResult, tprTrace, fprTrace, computeAuc(tprTrace, fprTrace), error);

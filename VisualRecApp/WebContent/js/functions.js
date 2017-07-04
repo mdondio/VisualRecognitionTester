@@ -509,7 +509,7 @@ function createBlockTest(IDappend,testname,label,classifier){
 /**
  * flag to hide tests in case of errors
  */
-var hideresult = false;
+//var hideresult = null;
 
 
 /**
@@ -551,7 +551,7 @@ function buildSelectTestResult(IDselector, index) {
 			popNotification(testdetails[index].name, "Test was successful!", "Results displayed.", "success");
 			$(IDselector).data('key', index);
 			
-			hideresult = false;
+//			hideresult = false;
 			
 			$('#selecttest-gray-roc').css("display", "none");
 			
@@ -568,24 +568,24 @@ function buildSelectTestResult(IDselector, index) {
 			$('#'+testdetails[index].name).attr("disabled", "disabled");
 			
 			popNotification(testdetails[index].name, "Some problems occurred: test results not displayed.", "Please check your test!", "error");
-			hideresult = true;
+//			hideresult = true;
 		
 		}
 		
-		else if(result[index].ID == null){
-			
-			$(IDselector).append($('<option>', {
-				value : testdetails[index].name,
-				text : testdetails[index].name,
-				id : testdetails[index].name
-			}));
-			
-			$('#'+testdetails[index].name).attr("disabled", "disabled");
-			
-			popNotification(testdetails[index].name, "Classifier went zombie: test results not displayed.", "API calls limit reached.", "warning");
-			hideresult = true;
-		
-		}
+//		else if(result[index].ID == null){
+//			
+//			$(IDselector).append($('<option>', {
+//				value : testdetails[index].name,
+//				text : testdetails[index].name,
+//				id : testdetails[index].name
+//			}));
+//			
+//			$('#'+testdetails[index].name).attr("disabled", "disabled");
+//			
+//			popNotification(testdetails[index].name, "Classifier went zombie: test results not displayed.", "API calls limit reached.", "warning");
+//			hideresult = true;
+//		
+//		}
 				
 		
 	}
@@ -624,14 +624,20 @@ function updateTestFields(IDselector) {
 	var valoreOptions = $(IDselector).val();
 	var key = $(IDselector).data('key');
 	
-	console.log("This is the value of IDselector: " + valoreOptions);
-	console.log("This is the value of result : " + JSON.stringify(result));
-	console.log("This is the value of testdetails : " + JSON.stringify(testdetails));
+//	console.log("This is the value of IDselector: " + valoreOptions);
+//	console.log("This is the value of result : " + JSON.stringify(result));
+//	console.log("This is the value of testdetails : " + JSON.stringify(testdetails));
 	
 	// flag to hide tests in case of errors
-	if(!hideresult){
-		drawRocCurves(valoreOptions);
-		drawIndexes(valoreOptions);
+//	if(!hideresult){
+	
+	for (var z in result){
+	
+		if(result[z].notification == "success"){
+			drawRocCurves(valoreOptions);
+			drawIndexes(valoreOptions);
+		}
+	
 	}
 	
 	if( key != null ){
@@ -644,13 +650,13 @@ function updateTestFields(IDselector) {
 					
 					if( result[f].name == valoreOptions ){
 						
-						console.log("*************************************")
-						console.log("This is the value of name: " + result[f].name )
-						
-						console.log("****FOUND ***")
-						
-						console.log("This is what I'm passing to setParameters: " + JSON.stringify(result[f]) )
-						console.log("... This should be accuracy: " + result[f].accuracyOpt.toFixed(2) )
+//						console.log("*************************************")
+//						console.log("This is the value of name: " + result[f].name )
+//						
+//						console.log("****FOUND ***")
+//						
+//						console.log("This is what I'm passing to setParameters: " + JSON.stringify(result[f]) )
+//						console.log("... This should be accuracy: " + result[f].accuracyOpt.toFixed(2) )
 						
 						setParameters(result[f]);
 							
@@ -712,21 +718,23 @@ function updateTestFields(IDselector) {
 	
 }
 
+
+var colorpalette = [
+	[0, 166, 160], //verde acqua
+	[138, 196, 62], //verde pisello
+	[52, 59, 67], //grigio scuro
+	[196, 43, 19], //rosso scarlatto
+	[40, 71, 166], //blu scuro
+	[255, 186, 58], //arancione chiaro
+	[169, 52, 255], //lilla
+	[59, 175, 255], //azzurro
+	[79, 217, 21], //verde brillante
+	[217, 145, 196] //rosa
+	];
+
+
 function drawIndexes(testname){
 	
-	var colorpalette = [
-		[0, 166, 160], //verde acqua
-		[138, 196, 62], //verde pisello
-		[52, 59, 67], //grigio scuro
-		[196, 43, 19], //rosso scarlatto
-		[40, 71, 166], //blu scuro
-		[255, 186, 58], //arancione chiaro
-		[169, 52, 255], //lilla
-		[59, 175, 255], //azzurro
-		[79, 217, 21], //verde brillante
-		[217, 145, 196] //rosa
-		];
-
 	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
 	var result = JSON.parse(localStorage.getItem("resultJSON"));
 
@@ -888,34 +896,7 @@ function drawIndexes(testname){
 }
 
 
-var colorpalette = [
-	[0, 166, 160], //verde acqua
-	[138, 196, 62], //verde pisello
-	[52, 59, 67], //grigio scuro
-	[196, 43, 19], //rosso scarlatto
-	[40, 71, 166], //blu scuro
-	[255, 186, 58], //arancione chiaro
-	[169, 52, 255], //lilla
-	[59, 175, 255], //azzurro
-	[79, 217, 21], //verde brillante
-	[217, 145, 196] //rosa
-	];
-
-
 function drawRocCurves(testname){
-	
-//	var colorpalette = [
-//		[0, 166, 160], //verde acqua
-//		[138, 196, 62], //verde pisello
-//		[52, 59, 67], //grigio scuro
-//		[196, 43, 19], //rosso scarlatto
-//		[40, 71, 166], //blu scuro
-//		[255, 186, 58], //arancione chiaro
-//		[169, 52, 255], //lilla
-//		[59, 175, 255], //azzurro
-//		[79, 217, 21], //verde brillante
-//		[217, 145, 196] //rosa
-//		];
 
 	//CREAZIONE DELL'INPUT PER GRAFICO ROC -------------------------------------
 	var ROCcurves = []; //INPUT PER PLOT
@@ -930,7 +911,6 @@ function drawRocCurves(testname){
 		for(var j in obj.fprTrace) x.push(obj.fprTrace[j]);
 		for(var j in obj.tprTrace) y.push(obj.tprTrace[j]);
 		var objJSON = testdetails[count];
-		
 		
 		if (testdetails[count].name == testname) {
 
