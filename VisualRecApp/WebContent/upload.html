@@ -22,17 +22,17 @@ createCarbonHeader();
 
 <body>
 
-<!-- <div class="bx--loading-overlay"> -->
-<!--   <div data-loading class="bx--loading"> -->
-<!--     <svg class="bx--loading__svg" viewBox="-75 -75 150 150"> -->
-<!--       <circle cx="0" cy="0" r="37.5" /> -->
-<!--     </svg> -->
-<!--   </div> -->
-<!-- </div>  -->
+<div id="fade-loader" class="bx--loading-overlay">
+  <div data-loading class="bx--loading">
+    <svg class="bx--loading__svg" viewBox="-75 -75 150 150">
+      <circle cx="0" cy="0" r="37.5" />
+    </svg>
+  </div>
+</div> 
 
 <div id="carbon-header"></div><br><br><br>
 
-<div class="content">
+<div class="content" id="fade-content" style="opacity: 0">
 
 <div class="form-container">
 
@@ -119,9 +119,9 @@ createCarbonHeader();
 
 	</div>
 
-<!-- <script> -->
-// loadingProcess();
-<!-- </script> -->
+<script>
+loadingProcess("#fade-loader", "#fade-content");
+</script>
 
 </body>
 

@@ -48,11 +48,11 @@ function createHead(){
 function loadingProcess(loader, IDcontent){
 	
 	window.onload = function(){ 
-
+		
 		setInterval(function(){
 			$(loader).fadeOut();
-			$(IDcontent).fadeTo("slow", 200);
-		}, 950);
+			$(IDcontent).fadeTo("slow", 100);
+		}, 2000);
 
 	}
 	
