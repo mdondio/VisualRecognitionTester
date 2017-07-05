@@ -633,7 +633,7 @@ function updateTestFields(IDselector) {
 	
 	for (var z in result){
 	
-		if(result[z].notification == "success"){
+		if(result[z].notification == "success" || key == null){
 			drawRocCurves(valoreOptions);
 			drawIndexes(valoreOptions);
 		}
