@@ -45,13 +45,13 @@ function createHead(){
 //	
 //}
 
-function loadingProcess(){
+function loadingProcess(loader, IDcontent){
 	
 	window.onload = function(){ 
 
 		setInterval(function(){
-			$(".bx--loading-overlay").fadeOut();
-			$(".content").fadeTo("slow", 200);
+			$(loader).fadeOut();
+			$(IDcontent).fadeTo("slow", 200);
 		}, 950);
 
 	}
