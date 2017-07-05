@@ -45,6 +45,18 @@ function createHead(){
 //	
 //}
 
+function loadingProcess(){
+	
+	window.onload = function(){ 
+
+		setInterval(function(){
+			$(".bx--loading-overlay").fadeOut();
+			$(".content").fadeTo("slow", 100);
+		}, 350);
+
+	}
+	
+}
 
 function createProgress(div_id, toColor, number){
 	
