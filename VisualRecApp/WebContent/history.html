@@ -22,17 +22,9 @@ createCarbonHeader();
 
 <body>
 
-<div id="fade-loader" class="bx--loading-overlay">
-  <div data-loading class="bx--loading">
-    <svg class="bx--loading__svg" viewBox="-75 -75 150 150">
-      <circle cx="0" cy="0" r="37.5" />
-    </svg>
-  </div>
-</div> 
-
 <div id="carbon-header"></div><br><br><br>
 
-<div class="content" id="fade-content" style="opacity: 0">
+<div class="content">
 
 	<div class="row clearfix">
 
@@ -73,15 +65,12 @@ createCarbonHeader();
 
 </div>
 
-<script>
-loadingProcess("#fade-loader", "#fade-content");
-</script>
+
 </body>
 
 
 
 <script>
-
 var directJSON = [];
 var resultJSON;
 var finalResultJSON;
@@ -101,7 +90,6 @@ $('#import').click(function() {
   }
 	
   var fr = new FileReader();
-
   fr.onload = function(e) { 
     var result = JSON.parse(e.target.result);
     var testname = [];
@@ -115,7 +103,6 @@ $('#import').click(function() {
     for(var i in result)
     {
     var obj=result[i];
-
 	obj.ID = obj.ID + "_" + i;
 	
     //TODO recuperare anche il nome del test e gli ID dei test set
@@ -130,10 +117,8 @@ $('#import').click(function() {
     }
     
     localStorage.setItem("resultJSON", e.target.result);
-
 	test = result;
     resultJSON = result;
-
     // creazione del nuovo file JSON dei testname
     for( k = 0; k < testname.length; k++ ){
        	item = {}
@@ -142,7 +127,6 @@ $('#import').click(function() {
     	item["classifier"] = testclassifier[k];
     	directJSON.push(item); 
     } 
-
 	localStorage.setItem("listJSON",JSON.stringify(directJSON));
 	
 	oldVersion = JSON.stringify(directJSON);
@@ -152,7 +136,6 @@ $('#import').click(function() {
   fr.readAsText(files.item(0));
   
 });
-
 //cambio pagina
 $('#viewresult').click(function() {
    	
@@ -186,7 +169,6 @@ $('#viewresult').click(function() {
 });
 	
 $('body').on("click","img[id*=garbage]",function(){
-
 	if( deletable <= 1 ){
 	
 		 swal({
@@ -216,7 +198,6 @@ $('body').on("click","img[id*=garbage]",function(){
 		t++;
 		
 		var finalJSON = directJSON.filter(function (elem) { return elem.name !== stringToBeDeleted  });
-
 		directJSON = finalJSON;
 		
 		var first = false;
@@ -250,7 +231,6 @@ $('body').on("click","img[id*=garbage]",function(){
 		}
 	
 });
-
 </script>
 
 </html>
