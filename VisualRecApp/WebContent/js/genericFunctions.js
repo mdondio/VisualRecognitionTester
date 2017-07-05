@@ -51,8 +51,8 @@ function loadingProcess(){
 
 		setInterval(function(){
 			$(".bx--loading-overlay").fadeOut();
-			$(".content").fadeTo("slow", 100);
-		}, 350);
+			$(".content").fadeTo("slow", 200);
+		}, 950);
 
 	}
 	
