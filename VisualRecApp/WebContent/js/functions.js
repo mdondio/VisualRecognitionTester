@@ -675,7 +675,7 @@ function updateTestFields(IDselector) {
 						$("#galleryFP").empty()
 						createGallery('galleryFP',positive_images,"showtestPOS");
 
-						DrawHistogram(result[f].histogramNegative,result[f].histogramPositive);
+						DrawHistogram(result[f].histogramNegative,result[f].histogramPositive, result[f].thresholdOpt);
 						
 					} //Closing if statement on result
 					
@@ -710,7 +710,7 @@ function updateTestFields(IDselector) {
 					DrawScatterMulticlass();
 				} else {
 					// Histogram for singleclass
-					DrawHistogram(result[j].histogramNegative,result[j].histogramPositive);
+					DrawHistogram(result[j].histogramNegative,result[j].histogramPositive, result[j].thresholdOpt);
 				}
 				
 			}
@@ -1093,10 +1093,7 @@ function DrawScatterMulticlass() {
 }
 //--------------- END WORK IN PROGRESS -------------------------------------------------------------------------
 
-
-
-
-function DrawHistogram(histogramNegative, histogramPositive){
+function DrawHistogram(histogramNegative, histogramPositive, threshold){
 		
 	var negative = [];
 	var positive = [];
@@ -1108,6 +1105,13 @@ function DrawHistogram(histogramNegative, histogramPositive){
 	for(var i=0; i<histogramPositive.length; i++)	{
 		positive.push(histogramPositive[i]);
 	}
+	
+	var maxFinal = null;
+	
+	if( positive.length >= negative.length )
+		maxFinal = positive.length / 2;
+	else
+		maxFinal = negative.length / 2;
 	
 	//ADD negative histogram
 	var negativeTrace = {
@@ -1141,7 +1145,18 @@ function DrawHistogram(histogramNegative, histogramPositive){
 		}
 	};
 	
-	var data = [negativeTrace , positiveTrace];
+	var thresholdHistogram = {
+			  x: [threshold, threshold],
+			  y: [0, maxFinal],
+			  mode: "lines",
+			  name: "Threshold",
+			  line: {
+					"dash": "dot",
+					"color": "rgb(168, 168, 168)"
+				}
+			}; 
+	
+	var data = [negativeTrace , positiveTrace, thresholdHistogram];
 
 		var layout = {
 //		showlegend : true,
