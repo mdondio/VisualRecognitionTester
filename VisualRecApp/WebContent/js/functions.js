@@ -595,8 +595,11 @@ function buildSelectTestResult(IDselector, index) {
 
 function popNotification(title, subtitle, caption, type){
 	
+	//Removing special characters from title for solving notification ID issues
+	var titleFixed = title.replace(/[^A-Z0-9]/ig, "_");
+	
 	var number = $('.bx--toast-notification:visible').length; 
-	var notification = '<div id="notification-'+title+'" style="display:flex" data-notification class="notification-'+type+' bx--toast-notification bx--toast-notification--'+type+'" role="alert"><div class="bx--toast-notification__details"><h3 class="bx--toast-notification__title">'+title+'</h3><p class="bx--toast-notification__subtitle">'+subtitle+'</p><p class="bx--toast-notification__caption">'+caption+'</p></div><button data-notification-btn class="bx--toast-notification__close-button" type="button"><svg class="bx--toast-notification__icon" aria-label="close" width="10" height="10" viewBox="0 0 10 10" fill-rule="evenodd"><path d="M9.8 8.6L8.4 10 5 6.4 1.4 10 0 8.6 3.6 5 .1 1.4 1.5 0 5 3.6 8.6 0 10 1.4 6.4 5z"></path></svg></button></div>';
+	var notification = '<div id="notification-'+titleFixed+'" style="display:flex" data-notification class="notification-'+type+' bx--toast-notification bx--toast-notification--'+type+'" role="alert"><div class="bx--toast-notification__details"><h3 class="bx--toast-notification__title">'+title+'</h3><p class="bx--toast-notification__subtitle">'+subtitle+'</p><p class="bx--toast-notification__caption">'+caption+'</p></div><button data-notification-btn class="bx--toast-notification__close-button" type="button"><svg class="bx--toast-notification__icon" aria-label="close" width="10" height="10" viewBox="0 0 10 10" fill-rule="evenodd"><path d="M9.8 8.6L8.4 10 5 6.4 1.4 10 0 8.6 3.6 5 .1 1.4 1.5 0 5 3.6 8.6 0 10 1.4 6.4 5z"></path></svg></button></div>';
 	
 	$("body").append(notification);
 		
