@@ -22,24 +22,69 @@ createCarbonHeader();
 
 <body>
 
+<div id="fade-loader" class="bx--loading-overlay">
+  <div data-loading class="bx--loading">
+    <svg class="bx--loading__svg" viewBox="-75 -75 150 150">
+      <circle cx="0" cy="0" r="37.5" />
+    </svg>
+  </div>
+</div> 
+
 <div id="carbon-header"></div><br><br><br>
 
-<div class="content">
+<div class="content" id="fade-content" style="opacity: 0">
 
 <div class="form-container">
 
 	<div class="row clearfix">
 
-		<div class="column fourth"><h1>Upload</h1><br>
-			<button id="submit" class="bx--btn bx--btn--primary" type="button">Upload dataset</button>
+		<div class="column half"><h1>Upload</h1><br>
+			Upload your positive and negative images and select dataset nature (Training or Test). You can delete images by clicking on them. When ready, press the button to rename the dataset, to give it a label and to upload.
 		</div>
 
-		<div class="column half"><h1>&ensp;</h1><br>
-			Upload your positive and negative images. You can delete images by clicking on them. When ready, press the button to rename the dataset, to give it a label and to upload.
+		<div class="column fourth"><h1>&ensp;</h1><br>
+
+		</div>
+		
+		<div class="column fourth"><h1>&ensp;</h1><br>
+			<center>
+				<button id="submit" class="bx--btn bx--btn--primary" type="button">
+				  Upload image set
+				  <svg class="bx--btn__icon">
+				    <use xlink:href="./ico/bluemix-icons.svg#icon--upload"></use>
+				  </svg>
+				</button>
+			</center>
 		</div>
 
 	</div>
 
+	<br><br><br>
+			
+	<div class="row clearfix">
+
+		<div class="column half">
+			<strong class="bx--label">Description</strong>
+			<p class="bx--label-description">This is the description of the dataset</p>
+			<hr class="lineseparator">
+			<div class="bx--form-item">
+			  <textarea id="descriptionedit" class="bx--text-area" rows="5" width="100%"></textarea>
+			</div>
+
+
+		</div>
+
+		<div class="column half">
+			<strong class="bx--label">Comments</strong>
+			<p class="bx--label-description">Put here comments on the dataset</p>
+			<hr class="lineseparator">
+			<div class="bx--form-item">
+			  <textarea id="commentsedit" class="bx--text-area" rows="5" width="100%" disabled></textarea>
+			</div>
+		</div>
+		
+	</div>
+	
 	<br><br><br>
 
 		<div class="row clearfix">
@@ -74,17 +119,22 @@ createCarbonHeader();
 
 	</div>
 
+<script>
+loadingProcess("#fade-loader", "#fade-content");
+</script>
+
 </body>
 
 
 
 <script>
-
+	
 	var selDiv = "";
     var storedFiles = [];
 
-	var datasetID, datasetLabel;
+	var datasetID, datasetLabel, datasetDescription;
 	var flag = false;
+	var empty = true;
 
     $(document).ready(function(){
 
@@ -93,7 +143,14 @@ createCarbonHeader();
         $("#negFiles").on("change", handlerSelectedFiles);
 
         $("#submit").click( function(e){
-        	executionFormInputFromUser(e);
+
+        	if( !empty ){
+
+        		executionFormInputFromUser(e);
+
+        	}else
+        		null;
+
         });
 
         $("body").on("click", ".selFile", handlerFileRemove);
@@ -105,16 +162,21 @@ createCarbonHeader();
 		var tmpDatasetID = null , tmpDatasetLabel = null;
 
 		swal({
-		  title: "Insert Dataset ID",
-		  text: "Give your Dataset an ID:",
-		  type: "info",
-		  input: "text",
-		  confirmButtonColor: '#5cb85c',
-		  confirmButtonText: 'Set!',
-		  showCancelButton: true,
-		  allowOutsideClick: false,
-		  allowEscapeKey: true,
-		  inputPlaceholder: "...ID..."
+			  title: "Insert Dataset ID",
+			  html: "Give your Dataset an ID (max 30 chars):<br><br>",
+			  type: "info",
+			  input: "text",
+			  customClass: 'modal-container',
+			  confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+			  confirmButtonText: 'Set ID',
+			  cancelButtonClass: 'bx--btn bx--btn--secondary margin-lr',
+			  cancelButtonText: 'Cancel',
+			  buttonsStyling: false,
+			  showCancelButton: true,
+			  allowOutsideClick: false,
+			  allowEscapeKey: true,
+			  inputPlaceholder: "Hint ID here...",
+			  inputAttributes: { 'maxlength': '30'}
 		}).then( function (result) {
 
 			if( result == null || result == ""){
@@ -132,15 +194,20 @@ createCarbonHeader();
 				//Second alert for Dataset label
 				swal({
 				  title: "Insert Dataset Label",
-				  text: "Give your Dataset a Label:",
+				  html: "Give your Dataset a Label (max 15 chars):<br><br>",
 				  type: "info",
 				  input: "text",
-				  confirmButtonColor: '#5cb85c',
-				  confirmButtonText: 'Set!',
+				  customClass: 'modal-container',
+				  confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+				  confirmButtonText: 'Set label',
+				  cancelButtonClass: 'bx--btn bx--btn--secondary margin-lr',
+				  cancelButtonText: 'Cancel',
+				  buttonsStyling: false,
 				  showCancelButton: true,
 				  allowOutsideClick: false,
 				  allowEscapeKey: true,
-				  inputPlaceholder: "...Label..."
+				  inputPlaceholder: "Hint label here...",
+				  inputAttributes: { 'maxlength': '15'}
 				}).then( function(result) {
 
 					if( result == null || result == "" )
@@ -156,15 +223,15 @@ createCarbonHeader();
 							if( flag ){
 
 								datasetID = tmpDatasetID;
-								datasetLabel = tmpDatasetLabel;
+								datasetLabel = tmpDatasetLabel.toLowerCase();
+								datasetDescription = ( $("#descriptionedit").val() );
 								flag = false;
 
 								handlerPostCall(e);
 
 							}
 
-					}
-
+						}
 
 					})
 
@@ -176,6 +243,8 @@ createCarbonHeader();
 
     function handlerSelectedFiles(e){
 
+		empty = false;
+		
         var files = e.target.files;
         var filesArr = Array.prototype.slice.call(files);
         filesArr.forEach(function(f) {
@@ -215,6 +284,11 @@ createCarbonHeader();
 	       data.append('type', 'insert');
 	       data.append('datasetId', datasetID);
 	       data.append('label', datasetLabel);
+	       
+	       //Field description is not, as of right now, in the DB, has to be included {GIAN told me that is something that can be done from the BE team!}
+	       //As the code logic is already in place(not only in this page), naming the field
+	       //other than 'description' would break down a few things...FYI
+	       data.append('description', datasetDescription);
 
 	       filesNumber = storedFiles.length;
 
@@ -231,17 +305,18 @@ createCarbonHeader();
 	           if(this.status == 200) {
 
 	               swal({
-						  title: 'Succes!',
-						  text: 'Your upload process has concluded succesfully!',
-						  type: 'info',
-						  confirmButtonColor: '#5cb85c',
+						  title: 'Done',
+						  html: 'Your upload process has concluded succesfully!<br><br>',
+						  type: 'success',
+						  buttonsStyling: false,
+						  showCancelButton: false,
+						  customClass: 'modal-container',
+						  confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
 						  confirmButtonText: 'Yeah!'
 						}).then(function (isConfirm) {
-
 							if(isConfirm)
 								location.reload();
-
-					})
+						})
 
 	           }
 
@@ -286,20 +361,22 @@ createCarbonHeader();
 					}
 
 		           	swal({
-							  title: '*** ' + alert_title + ' ***',
-							  text: alert_text,
-							  type: 'error',
-							  imageUrl: alert_img,
-							  imageWidth: 800,
-		 						  imageHeight: 200,
-							  confirmButtonColor: '#f0ad4e',
-							  confirmButtonText: 'Ok :('
-							}).then(function (isConfirm) {
+						  title: '*** ' + alert_title + ' ***',
+						  html: alert_text+'<br><br>',
+						  type: 'error',
+						  imageUrl: alert_img,
+						  imageWidth: 800,
+		 				  imageHeight: 200,
+		 				  customClass: 'modal-container',
+		 				  buttonsStyling: false,
+		 				  showCancelButton: false,
+						  confirmButtonClass: 'bx--btn bx--btn--primary',
+						  confirmButtonText: 'Ok :('
+						}).then(function (isConfirm) {
 
-								if(isConfirm)
-									location.reload();
-
-							})
+						if(isConfirm)
+							location.reload();
+						})
 
 	           	}
 

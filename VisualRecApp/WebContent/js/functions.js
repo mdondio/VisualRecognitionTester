@@ -545,6 +545,8 @@ function buildSelectTestResult(IDselector, index) {
 		
 		$(IDselector).data('key', index);
 		
+		$('#selecttest-gray-roc').css("display", "none");
+		
 		//NOTIFICATION SYSTEM
 //		//Manage notifications and filter population in simulate page
 //		if( typeof(result) == 'undefined' || result[index].notification == "success"){
