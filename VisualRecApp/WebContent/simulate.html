@@ -27,22 +27,12 @@ createCarbonHeader();
 </script>
 
 <body>
-
-<div id="fade-loader" class="bx--loading-overlay">
-  <div data-loading class="bx--loading">
-    <svg class="bx--loading__svg" viewBox="-75 -75 150 150">
-      <circle cx="0" cy="0" r="37.5" />
-    </svg>
-  </div>
-</div>
 		
 <div id="carbon-header"></div>
 				
 <br><br><br>
-
-<div id="simulate">
-<!-- <div class="content" id="simulate"> -->
-<div class="content fade-simulate" style="opacity: 0">
+  
+<div class="content" id="simulate">
 
 	<div class="row clearfix">
 
@@ -140,7 +130,6 @@ createCarbonHeader();
     </div>
     
   </div>
-  </div>  
   
 <!--   ================================================================ -->
 <!--   ====================== WAITING LOGO ============================ -->
@@ -289,13 +278,6 @@ createCarbonHeader();
 	</div>
 
 
-<script>
-if($('.fade-simulate').css('opacity') == 0) {
-	loadingProcess("#fade-loader", ".fade-simulate");
-}
-</script>
-
-
 </body>
 
 
@@ -308,7 +290,7 @@ if(localStorage.getItem("viewresult")=="history")
 {
 localStorage.setItem("viewresult", "simulation");
 //mostro subito la parte di show
-$("#simulate").css("display", "none!important");
+$("#simulate").hide();
 $("#showtest").show("slow");
 buildSelectTestResult('#show_test', -1);
 updateTestFields('#show_test');

@@ -655,7 +655,7 @@ function updateTestFields(IDselector) {
 	
 	if( key != null ){
 		
-for( var j in testdetails ){
+		for( var j in testdetails ){
 			
 			if( testdetails[j].name == valoreOptions ){
 				
@@ -685,7 +685,7 @@ for( var j in testdetails ){
 						$("#galleryFP").empty()
 						createGallery('galleryFP',positive_images,"showtestPOS");
 
-						DrawHistogram(result[f].histogramNegative,result[f].histogramPositive);
+						DrawHistogram(result[f].histogramNegative,result[f].histogramPositive, result[f].thresholdOpt);
 						
 					}//Closing if statement on result
 					
