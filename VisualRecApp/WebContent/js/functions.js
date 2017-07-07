@@ -97,7 +97,6 @@ function populateListTestResult(){
 		var input = document.createElement("input");
 		var linebreak = document.createElement("br");
 		
-		
 		input.value = obj.name;
 		input.type = "checkbox";
 		input.setAttribute("class","formcheckbox")
@@ -539,39 +538,46 @@ function buildSelectTestResult(IDselector, index) {
 	}
 	else{
 	
-		//Manage notifications and filter population in simulate page
-		if(result[index].notification == "success"){
-			
-			$(IDselector).append($('<option>', {
-				value : testdetails[index].name,
-				text : testdetails[index].name,
-				id : testdetails[index].name
-			}));
-			
-			popNotification(testdetails[index].name, "Test was successful!", "Results displayed.", "success");
-			$(IDselector).data('key', index);
-			
-//			hideresult = false;
-			
-			$('#selecttest-gray-roc').css("display", "none");
-			
-		}
+		$(IDselector).append($('<option>', {
+			value : testdetails[index].name,
+			text : testdetails[index].name
+		}));
 		
-		else if(result[index].notification == "error"){
-			
-			$(IDselector).append($('<option>', {
-				value : testdetails[index].name,
-				text : testdetails[index].name,
-				id : testdetails[index].name
-			}));
-			
-			$('#'+testdetails[index].name).attr("disabled", "disabled");
-			
-			popNotification(testdetails[index].name, "Some problems occurred: test results not displayed.", "Please check your test!", "error");
-//			hideresult = true;
+		$(IDselector).data('key', index);
 		
-		}
-		
+		//NOTIFICATION SYSTEM
+//		//Manage notifications and filter population in simulate page
+//		if( typeof(result) == 'undefined' || result[index].notification == "success"){
+//		  
+//		  $(IDselector).append($('<option>', {
+//		    value : testdetails[index].name,
+//		    text : testdetails[index].name,
+//		    id : testdetails[index].name
+//		  }));
+//		  
+//		  popNotification(testdetails[index].name, "Test was successful!", "Results displayed.", "success");
+//		  $(IDselector).data('key', index);
+//		  
+////					hideresult = false;
+//		  
+//		  $('#selecttest-gray-roc').css("display", "none");
+//		  
+//		}
+//
+//		else if(result[index].notification == "error"){
+//		  
+//		  $(IDselector).append($('<option>', {
+//		    value : testdetails[index].name,
+//		    text : testdetails[index].name,
+//		    id : testdetails[index].name
+//		  }));
+//		  
+//		  $('#'+testdetails[index].name).attr("disabled", "disabled");
+//		  
+//		  popNotification(testdetails[index].name, "Some problems occurred: test results not displayed.", "Please check your test!", "error");
+////					hideresult = true;
+//
+//		}
 //		else if(result[index].ID == null){
 //			
 //			$(IDselector).append($('<option>', {
@@ -634,18 +640,22 @@ function updateTestFields(IDselector) {
 	// flag to hide tests in case of errors
 //	if(!hideresult){
 	
-	for (var z in result){
+	//THIS WAS FOR DRAWING GRAPHS ONLY IF IT WAS A SUCCESS
+//	for (var z in result){
+//	
+//		if(result[z].notification == "success" || key == null || ( result[z].notification == "success" && result[z].AUC == 0 ) ){
+//			drawRocCurves(valoreOptions);
+//			drawIndexes(valoreOptions);
+//		}
+//	
+//	}
 	
-		if(result[z].notification == "success" || key == null){
-			drawRocCurves(valoreOptions);
-			drawIndexes(valoreOptions);
-		}
-	
-	}
+	drawRocCurves(valoreOptions);
+	drawIndexes(valoreOptions);
 	
 	if( key != null ){
 		
-		for( var j in testdetails ){
+for( var j in testdetails ){
 			
 			if( testdetails[j].name == valoreOptions ){
 				
@@ -653,13 +663,13 @@ function updateTestFields(IDselector) {
 					
 					if( result[f].name == valoreOptions ){
 						
-//						console.log("*************************************")
-//						console.log("This is the value of name: " + result[f].name )
-//						
-//						console.log("****FOUND ***")
-//						
-//						console.log("This is what I'm passing to setParameters: " + JSON.stringify(result[f]) )
-//						console.log("... This should be accuracy: " + result[f].accuracyOpt.toFixed(2) )
+						console.log("*************************************")
+						console.log("This is the value of name: " + result[f].name )
+						
+						console.log("****FOUND ***")
+						
+						console.log("This is what I'm passing to setParameters: " + JSON.stringify(result[f]) )
+						console.log("... This should be accuracy: " + result[f].accuracyOpt.toFixed(2) )
 						
 						setParameters(result[f]);
 							
@@ -675,13 +685,13 @@ function updateTestFields(IDselector) {
 						$("#galleryFP").empty()
 						createGallery('galleryFP',positive_images,"showtestPOS");
 
-						DrawHistogram(result[f].histogramNegative,result[f].histogramPositive, result[f].thresholdOpt);
+						DrawHistogram(result[f].histogramNegative,result[f].histogramPositive);
 						
-					} //Closing if statement on result
+					}//Closing if statement on result
 					
-				} //Closing for loop inside result
+				}//Closing for loop inside result
 				
-			} //Closing if statement on testdetails
+			}//Closing if statement on testdetails
 			
 		}
 		
@@ -1487,7 +1497,7 @@ var GALLERY = "";
 
 /**
  * @param filename nome del file json dove raccogliere le info per le immagini da caricare (falsipositivi e falsinegativi)
- * @returns permette di visionare nella pagina show.html i falsi positivi e i falsi negativi con anche una modalità preview
+ * @returns permette di visionare nella pagina show.html i falsi positivi e i falsi negativi con anche una modalitÃ  preview
  * @help you have to set two div element in your html page with specific id (gallery, myModal and modalcontent)
  */
 function showGallery(result,inputgallery) {
@@ -1504,7 +1514,7 @@ function showGallery(result,inputgallery) {
 			
 			var simulate_lazy = false;
 			
-			//Aggiungo le immagini nella modalità preview (elemento div con id gallery)
+			//Aggiungo le immagini nella modalitÃ  preview (elemento div con id gallery)
 			for ( var i in result) {
 				
 				var x = document.createElement("IMG");
@@ -1544,7 +1554,7 @@ function showGallery(result,inputgallery) {
 				
 			}
 			
-			//inserisco le frecce per scorrere la galleria in modalità ZOOM (elemento div con id modalcontent)
+			//inserisco le frecce per scorrere la galleria in modalitÃ  ZOOM (elemento div con id modalcontent)
 			var a_prev = document.createElement("a");
 			var a_next = document.createElement("a");
 			var div_caption = document.createElement("div");
@@ -1580,7 +1590,7 @@ function showGallery(result,inputgallery) {
 			$('#modalcontent' + GALLERY).append(a_prev);
 			$('#modalcontent' + GALLERY).append(a_next);
 			
-			//Aggiungo l'elemento div che conterrà la galleria di immagini da mostrare sotto l'immagine in ZOOM (elemento div con modalcontent)
+			//Aggiungo l'elemento div che conterrÃ  la galleria di immagini da mostrare sotto l'immagine in ZOOM (elemento div con modalcontent)
 			$('#modalcontent' + GALLERY).append("<div class='caption-container'><p id='caption" + GALLERY + "'></p></div>");
 			slidenumber = 1;
 			for ( var i in result) {
@@ -1794,7 +1804,7 @@ function populateAPITable(){
 								for(var j in classifiers)
 									{
 									console.log(classifiers[j]);
-//									TODO esiste un modo per verificare se un classificatore è in uso? In questo momento se un altro sta usando il classificatore si trova magari mezza simulazione fatta e mezza no
+//									TODO esiste un modo per verificare se un classificatore Ã¨ in uso? In questo momento se un altro sta usando il classificatore si trova magari mezza simulazione fatta e mezza no
 									$.ajax({
 
 									   	contentType : "application/json",
@@ -2241,7 +2251,7 @@ function generateHome(){
 				print_table[i] = new Array(sizeCol+1);
 				for(var j=0;j<(sizeCol+1);j++) print_table[i][j] = [];
 			}
-			//Riempimento della matrice più interna
+			//Riempimento della matrice piÃ¹ interna
 			for(var i in result)
 			{
 				var obj = result[i];
