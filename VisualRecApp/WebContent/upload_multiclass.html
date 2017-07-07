@@ -38,13 +38,10 @@ createCarbonHeader();
 
 	<div class="row clearfix">
 
-		<div class="column half"><h1>Upload</h1><br>
-			Upload your positive and negative images and select dataset nature (Training or Test). You can delete images by clicking on them. When ready, press the button to rename the dataset, to give it a label and to upload.
+		<div class="column three-fourths"><h1>Upload multiclass</h1><br>
+			Upload your positive and negative images; you can delete images by clicking on them. When ready, press the button to set name and parent class.
 		</div>
 
-		<div class="column fourth"><h1>&ensp;</h1><br>
-
-		</div>
 		
 		<div class="column fourth"><h1>&ensp;</h1><br>
 			<center>
@@ -59,16 +56,16 @@ createCarbonHeader();
 
 	</div>
 
-	<br><br><br>
+	<br>
 			
 	<div class="row clearfix">
 
 		<div class="column half">
 			<strong class="bx--label">Description</strong>
 			<p class="bx--label-description">This is the description of the dataset</p>
-			<hr class="lineseparator">
+<!-- 			<hr class="lineseparator"> -->
 			<div class="bx--form-item">
-			  <textarea id="descriptionedit" class="bx--text-area" rows="5" width="100%"></textarea>
+			  <textarea id="descriptionedit" class="bx--text-area" rows="3" width="100%"></textarea>
 			</div>
 
 
@@ -77,36 +74,83 @@ createCarbonHeader();
 		<div class="column half">
 			<strong class="bx--label">Comments</strong>
 			<p class="bx--label-description">Put here comments on the dataset</p>
-			<hr class="lineseparator">
+<!-- 			<hr class="lineseparator"> -->
 			<div class="bx--form-item">
-			  <textarea id="commentsedit" class="bx--text-area" rows="5" width="100%" disabled></textarea>
+			  <textarea id="commentsedit" class="bx--text-area" rows="3" width="100%" disabled></textarea>
 			</div>
 		</div>
 		
 	</div>
 	
-	<br><br><br>
+	<br><hr class="lineseparator">
 
 		<div class="row clearfix">
 
 			<form id="uploadForm" method="post" enctype="multipart/form-data">
 
-				<div class="column half">
+				<div class="column full">
+
+					<nav data-tabs class="bx--tabs" role="navigation">
+					  <div class="bx--tabs-trigger" tabindex="0">
+					    <a href="javascript:void(0)" class="bx--tabs-trigger-text" tabindex="-1"></a>
+					    <svg width="10" height="5" viewBox="0 0 10 5" fill-rule="evenodd">
+					      <path d="M10 0L5 5 0 0z"></path>
+					    </svg>
+					  </div>
+					  <ul class="bx--tabs__nav bx--tabs__nav--hidden" role="tablist">
+					    <li class="bx--tabs__nav-item bx--tabs__nav-item--selected" data-target=".tab-1" role="presentation">
+					      <a id="tab-link-1" class="bx--tabs__nav-link" href="javascript:void(0)" role="tab" aria-controls="tab-panel-1" aria-selected="true">Positive images</a>
+					    </li>
+					    <li class="bx--tabs__nav-item" data-target=".tab-2" role="presentation">
+					      <a id="tab-link-2" class="bx--tabs__nav-link" href="javascript:void(0)" role="tab" aria-controls="tab-panel-2" aria-selected="false">Positive images</a>
+					    </li>
+					    <li class="bx--tabs__nav-item" data-target=".tab-3" role="presentation">
+					      <a id="tab-link-3" class="bx--tabs__nav-link" href="javascript:void(0)" role="tab" aria-controls="tab-panel-3" aria-selected="false">Negative images</a>
+					    </li>
+					  </ul>
+					</nav>
+					<!-- The markup below is for demonstration purposes only -->
+					<div style="padding: 1rem;">
+					  <div id="tab-panel-1" class="tab-1" role="tabpanel" aria-labelledby="tab-link-1" aria-hidden="false">
+							<div class="column fourth">
+<!-- 						    	<p class="bx--label-description"><strong>List of images containing an object of the Class 1.</strong> Only .jpg and .png files. 500kb max file size.</p> -->
+						    	<div class="bx--form-item">
+								  <input id="classname1" type="text" class="bx--text-input" placeholder="Hint class 1 name here">
+								</div>
+						    </div>
+						    <div class="column three-fourths">
+						    	<input type='file' id="posFiles1" name="positives1[]" multiple />
+							    <br><br>
+							    <div id="chosenFilesPos1"></div>
+						    </div>
+					  </div>
+					  <div id="tab-panel-2" class="tab-2" role="tabpanel" aria-labelledby="tab-link-2" aria-hidden="true" hidden>
+							<div class="column fourth">
+<!-- 						    	<p class="bx--label-description"><strong>List of images containing an object of the Class 2.</strong> Only .jpg and .png files. 500kb max file size.</p> -->
+						    	<div class="bx--form-item">
+								  <input id="classname2" type="text" class="bx--text-input" placeholder="Hint class 2 name here">
+								</div>
+						    </div>
+						    <div class="column three-fourths">
+						    	<input type='file' id="posFiles2" name="positives2[]" multiple />
+							    <br><br>
+							    <div id="chosenFilesPos2"></div>
+						    </div>
+					  </div>
+					  <div id="tab-panel-3" class="tab-3" role="tabpanel" aria-labelledby="tab-link-3" aria-hidden="true" hidden>  
+						    <div class="column fourth">
+						    	<div class="bx--form-item">
+								  <input id="classnegative" type="text" class="bx--text-input" placeholder="Negative images" disabled>
+								</div>
+						    </div>
+						    <div class="column three-fourths">
+						    	<input type='file' id="negFiles" name="negatives[]" multiple />
+							    <br><br>
+							    <div id="chosenFilesNeg"></div>
+						    </div>
+					  </div>
+					</div>
 					
-					  <strong class="bx--label">Positive images</strong>
-					  <p class="bx--label-description">only .jpg and .png files. 500kb max file size.</p>
-					    <input type='file' id="posFiles" name="positives[]" multiple />
-					    <br><br>
-					    <div id="chosenFilesPos"></div>
-				</div>
-
-				<div class="column half">
-
-					  <strong class="bx--label">Negative images</strong>
-					  <p class="bx--label-description">only .jpg and .png files. 500kb max file size.</p>
-					    <input type='file' id="negFiles" name="negatives[]" multiple />
-					    <br><br>
-					    <div id="chosenFilesNeg"></div>
 				</div>
 
     		</form>
@@ -134,17 +178,21 @@ loadingProcess("#fade-loader", "#fade-content");
 
 	var datasetID, datasetLabel, datasetDescription;
 	var flag = false;
-	var empty = true;
+	var empty = 0;
 
     $(document).ready(function(){
 
-        $("#posFiles").on("change", handlerSelectedFiles);
-
+        $("#posFiles1").on("change", handlerSelectedFiles);
+		$("#posFiles2").on("change", handlerSelectedFiles);
         $("#negFiles").on("change", handlerSelectedFiles);
 
         $("#submit").click( function(e){
 
-        	if( !empty ){
+        	if( (empty == 3) && 
+        		( $('#classname1').attr("placeholder") != $('#classname1').val() ) && 
+        		( $('#classname2').attr("placeholder") != $('#classname2').val() ) &&
+        		( $('#classname1').val() != $('#classname2').val() )        		
+        	  ){
 
         		executionFormInputFromUser(e);
 
@@ -158,92 +206,94 @@ loadingProcess("#fade-loader", "#fade-content");
     });
 
 	function executionFormInputFromUser(e){
+	
+		handlerPostCall(e);
 
-		var tmpDatasetID = null , tmpDatasetLabel = null;
+// 		var tmpDatasetID = null , tmpDatasetLabel = null;
 
-		swal({
-			  title: "Insert Dataset ID",
-			  html: "Give your Dataset an ID (max 30 chars):<br><br>",
-			  type: "info",
-			  input: "text",
-			  customClass: 'modal-container',
-			  confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
-			  confirmButtonText: 'Set ID',
-			  cancelButtonClass: 'bx--btn bx--btn--secondary margin-lr',
-			  cancelButtonText: 'Cancel',
-			  buttonsStyling: false,
-			  showCancelButton: true,
-			  allowOutsideClick: false,
-			  allowEscapeKey: true,
-			  inputPlaceholder: "Hint ID here...",
-			  inputAttributes: { 'maxlength': '30'}
-		}).then( function (result) {
+// 		swal({
+// 			  title: "Insert Dataset ID",
+// 			  html: "Give your Dataset an ID (max 30 chars):<br><br>",
+// 			  type: "info",
+// 			  input: "text",
+// 			  customClass: 'modal-container',
+// 			  confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+// 			  confirmButtonText: 'Set ID',
+// 			  cancelButtonClass: 'bx--btn bx--btn--secondary margin-lr',
+// 			  cancelButtonText: 'Cancel',
+// 			  buttonsStyling: false,
+// 			  showCancelButton: true,
+// 			  allowOutsideClick: false,
+// 			  allowEscapeKey: true,
+// 			  inputPlaceholder: "Hint ID here...",
+// 			  inputAttributes: { 'maxlength': '30'}
+// 		}).then( function (result) {
 
-			if( result == null || result == ""){
+// 			if( result == null || result == ""){
 
-				console.log("*** ERROR on ID ***")
+// 				console.log("*** ERROR on ID ***")
 
-			}
-			//Confirm on first alert
-			else{
+// 			}
+// 			//Confirm on first alert
+// 			else{
 
-				console.log("*** Dataset ID: " + result + " ***")
+// 				console.log("*** Dataset ID: " + result + " ***")
 
-				tmpDatasetID = result;
+// 				tmpDatasetID = result;
 
-				//Second alert for Dataset label
-				swal({
-				  title: "Insert Dataset Label",
-				  html: "Give your Dataset a Label (max 15 chars):<br><br>",
-				  type: "info",
-				  input: "text",
-				  customClass: 'modal-container',
-				  confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
-				  confirmButtonText: 'Set label',
-				  cancelButtonClass: 'bx--btn bx--btn--secondary margin-lr',
-				  cancelButtonText: 'Cancel',
-				  buttonsStyling: false,
-				  showCancelButton: true,
-				  allowOutsideClick: false,
-				  allowEscapeKey: true,
-				  inputPlaceholder: "Hint label here...",
-				  inputAttributes: { 'maxlength': '15'}
-				}).then( function(result) {
+// 				//Second alert for Dataset label
+// 				swal({
+// 				  title: "Insert Dataset Label",
+// 				  html: "Give your Dataset a Label (max 15 chars):<br><br>",
+// 				  type: "info",
+// 				  input: "text",
+// 				  customClass: 'modal-container',
+// 				  confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+// 				  confirmButtonText: 'Set label',
+// 				  cancelButtonClass: 'bx--btn bx--btn--secondary margin-lr',
+// 				  cancelButtonText: 'Cancel',
+// 				  buttonsStyling: false,
+// 				  showCancelButton: true,
+// 				  allowOutsideClick: false,
+// 				  allowEscapeKey: true,
+// 				  inputPlaceholder: "Hint label here...",
+// 				  inputAttributes: { 'maxlength': '15'}
+// 				}).then( function(result) {
 
-					if( result == null || result == "" )
-						console.log("*** ERROR on LABEL ***")
-					else{
+// 					if( result == null || result == "" )
+// 						console.log("*** ERROR on LABEL ***")
+// 					else{
 
-						flag = true;
-						console.log("*** Dataset LABEL: " + result + " ***")
+// 						flag = true;
+// 						console.log("*** Dataset LABEL: " + result + " ***")
 
-						tmpDatasetLabel = result;
+// 						tmpDatasetLabel = result;
 
-							//Final data protection
-							if( flag ){
+// 							//Final data protection
+// 							if( flag ){
 
-								datasetID = tmpDatasetID;
-								datasetLabel = tmpDatasetLabel.toLowerCase();
-								datasetDescription = ( $("#descriptionedit").val() );
-								flag = false;
+// 								datasetID = tmpDatasetID;
+// 								datasetLabel = tmpDatasetLabel.toLowerCase();
+// 								datasetDescription = ( $("#descriptionedit").val() );
+// 								flag = false;
 
-								handlerPostCall(e);
+// 								handlerPostCall(e);
 
-							}
+// 							}
 
-						}
+// 						}
 
-					})
+// 					})
 
-			}//Closing confirm on first alert
+// 			}//Closing confirm on first alert
 
-		})//Closing  response to ID alert
+// 		})//Closing  response to ID alert
 
 	}
 
     function handlerSelectedFiles(e){
 
-		empty = false;
+		empty++;
 		
         var files = e.target.files;
         var filesArr = Array.prototype.slice.call(files);
@@ -256,8 +306,10 @@ loadingProcess("#fade-loader", "#fade-content");
             //New Property
             f.test = e.target.name;
 
-            if( e.target.name == $('#posFiles').attr('name') )
-            	selDiv = $("#chosenFilesPos");
+            if( e.target.name == $('#posFiles1').attr('name') )
+            	selDiv = $("#chosenFilesPos1");
+            else if( e.target.name == $('#posFiles2').attr('name') )
+            	selDiv = $("#chosenFilesPos2");
             else
             	selDiv = $("#chosenFilesNeg");
             //New Property end
@@ -284,105 +336,14 @@ loadingProcess("#fade-loader", "#fade-content");
 	       data.append('type', 'insert');
 	       data.append('datasetId', datasetID);
 	       data.append('label', datasetLabel);
-	       
-	       //Field description is not, as of right now, in the DB, has to be included {GIAN told me that is something that can be done from the BE team!}
-	       //As the code logic is already in place(not only in this page), naming the field
-	       //other than 'description' would break down a few things...FYI
-	       data.append('description', datasetDescription);
+		   data.append('description', datasetDescription);
 
 	       filesNumber = storedFiles.length;
 
 	       for( var i = 0; i < filesNumber; i++ )
-			data.append(storedFiles[i].test, storedFiles[i] );
-
-	       var xhr = new XMLHttpRequest();
-	       xhr.open('POST', 'SubmitDatasetJob', true);
-
-		   //Operation communication progress
-	       xhr.onload = function(e){
-
-	       	//Everything seems to be OK
-	           if(this.status == 200) {
-
-	               swal({
-						  title: 'Done',
-						  html: 'Your upload process has concluded succesfully!<br><br>',
-						  type: 'success',
-						  buttonsStyling: false,
-						  showCancelButton: false,
-						  customClass: 'modal-container',
-						  confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
-						  confirmButtonText: 'Yeah!'
-						}).then(function (isConfirm) {
-							if(isConfirm)
-								location.reload();
-						})
-
-	           }
-
-	           else{
-
-		           	var err_type = this.status;
-		           	var alert_title, alert_text, alert_img = null;
-
-					switch( err_type ){
-
-						//BAD (cit. the Donald) request
-						case 400:
-							alert_title = "BAD REQUEST";
-							alert_text = "Our server could not understand the request...\nSorry about that.\n\n";
-							break;
-						case 401:
-							alert_title = "UNAUTHORIZED";
-							alert_text = "Authentication is needed to get requested response.\n\n";
-							break;
-						case 404:
-							alert_title = "NOT FOUND";
-							alert_text = "Our Server wasn't able to retrieve the requested resource. \n\nI know right?!\n";
-							break;
-						case 408:
-							alert_title = "REQUEST TIMEOUT";
-							alert_text = "Our server did not receive a complete request message within the time that it was prepared to wait.\nHe's impatient...\n\n";
-							break;
-						//This is serious
-						case 500:
-							alert_title = "INTERNAL ERROR";
-							alert_text = "This is on our side...sorry about that!\n\n";
-							alert_img = 'images/internal_error.jpg';
-							break;
-						case 503:
-							alert_title = "SERVICE'S OVERLOADED";
-							alert_text = "Our server is really busy at the moment, try again in a few minutes...\n\n";
-							break;
-						default:
-							alert_title = "GENERIC ERROR";
-							alert_text = "An error occured...try again please!\n";
-
-					}
-
-		           	swal({
-						  title: '*** ' + alert_title + ' ***',
-						  html: alert_text+'<br><br>',
-						  type: 'error',
-						  imageUrl: alert_img,
-						  imageWidth: 800,
-		 				  imageHeight: 200,
-		 				  customClass: 'modal-container',
-		 				  buttonsStyling: false,
-		 				  showCancelButton: false,
-						  confirmButtonClass: 'bx--btn bx--btn--primary',
-						  confirmButtonText: 'Ok :('
-						}).then(function (isConfirm) {
-
-						if(isConfirm)
-							location.reload();
-						})
-
-	           	}
-
-	       }//Operation communication progress END
-
-	       xhr.send(data);
+			data.append( storedFiles[i].test, storedFiles[i] );
+			
+			console.log(storedFiles);
 
    }
 
@@ -403,8 +364,8 @@ loadingProcess("#fade-loader", "#fade-content");
 
     }
 
-  $('#backicon').mouseover(function(){
-	$(this).attr('src','ico/back.png');
+    $('#backicon').mouseover(function(){
+		$(this).attr('src','ico/back.png');
 	});
 
 	$('#backicon').mouseleave(function(){
@@ -414,7 +375,6 @@ loadingProcess("#fade-loader", "#fade-content");
 	$('#backicon').click(function(){
 		window.history.back();
 	});
-
 </script>
 
 </html>
