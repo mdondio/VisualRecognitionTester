@@ -18,28 +18,25 @@ public class Configs {
 //	public static final String DATABASENAME = "visualrec_db_new";
 
 	// Gianvito Cloudant DB Instance
-	public static final String CLOUDANT_USER = "1639b1fe-9ba5-4746-8980-9b010603f4cc-bluemix";
-	public static final String CLOUDANT_PASS = "65bc38f64bceafd7e44a6a23b86081be84db5727ead6be0e8cc8f8576d001e46";
+	public static final String CLOUDANT_USER = "8f1f8a9d-89c7-43bf-97c8-7e3ecc4857d9-bluemix";
+	public static final String CLOUDANT_PASS = "f39a7682c71e18e58dd5bb5e529aea9713bee1837ad7656cfe1b5329cab6dd97";
 	public static final String DATABASENAME = "visual-rec-db";
 		
-	
 	///////////////////////////////////////////////////////////
 	// Marco Object Storage UK
 	public static final String OO_DEFAULTCONTAINER = "visual-rec-image-container";
 
-	public static final String oo_userId = "d4315177543142a59337797293680ca0";
-	public static final String oo_username = "admin_2ede140c37ed32fa1b901464da3b51e3cb1db5e0";
-	public static final String oo_password = "tb.R9zeiNV3l^ER&";
+	public static final String oo_userId = "d0c8f01e73d647eea360a2bce9c77f29";
+	public static final String oo_username = "admin_cf525f70687a8a904919e9aed7c25313ee36fba9";
+	public static final String oo_password = "A*34a3D.i_{v()5M";
 	// public static final String oo_auth_url =
 	// "https://lon-identity.open.softlayer.com";
 	public static final String oo_auth_url = "https://lon-identity.open.softlayer.com";
 	public static final String oo_domain = "1461857";
-	public static final String oo_project = "object_storage_3a6631db_3327_49d8_a540_ab6ddbcf1ec6";
-	public static final String oo_projectId = "05728fc1729d49b7b77ad0628ddecf0e";
+	public static final String oo_project = "object_storage_9b43b72e_b99c_4478_a712_ee5a0356e6be";
+	public static final String oo_projectId = "3f4846f25f1544dc9a0b92206f27df18";
 	public static final String oo_region = "london";
-
-	
-
+    	
 	
 	
 }

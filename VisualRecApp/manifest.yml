@@ -4,10 +4,9 @@ applications:
   memory: 1024M
   instances: 1
   domain: eu-gb.mybluemix.net
-  name: BortoloVisualRec
-  host: BortoloVisualRec
+  name: visual-rec-tester
+  host: visual-rec-tester
   disk_quota: 1024M
   services:
-  - Object Storage-kv
-  - BortoloVisualRec-cloudantNoSQLDB
-  - availability-monitoring-auto
+  - Object Storage-lp
+  - visual-rec-tester-cloudantNoSQLDB

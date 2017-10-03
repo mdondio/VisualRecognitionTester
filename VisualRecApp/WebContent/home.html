@@ -182,7 +182,7 @@ createCarbonHeader();
     	console.log()
     	
     	//cleaning procedure
-    	$("#listdataset").html("");
+    	$("#listdataset").empty();
     	
     		$.ajax({
 				contentType : "application/json",
@@ -194,10 +194,20 @@ createCarbonHeader();
 				
 					for ( var i in result ){
 
-						var label = result[k];
+// 						var label = result[k];
 						
-						dArray[k] = label;
-						k++;
+// 						dArray[k] = label;
+// 						k++;
+
+						if(result[i].label==value)
+						{
+										var circle = document.createElement("div");
+//				circle.setAttribute("class","smoothrectangle ready");
+				circle.setAttribute("class","bx--card large ready");
+				circle.setAttribute("id","showdatasetID"+result[i]._id);
+				circle.appendChild(document.createTextNode(result[i]._id));
+				$("#listdataset").append(circle);
+				}
 						
 					}
 					

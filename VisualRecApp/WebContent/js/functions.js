@@ -2150,25 +2150,26 @@ function generateHome(){
 	//**************************************************************************
 	//********* GET FROM THE SERVER DATASETS ***************************
 	//**************************************************************************
-	$.ajax({
-		contentType : "application/json",
-		dataType : "json",
-		url : 'GetDataset',
-		data : "_id=",
-		async : true,
-		success : function(result) {
-			for ( var i in result) {
-				
-				var circle = document.createElement("div");
-//				circle.setAttribute("class","smoothrectangle ready");
-				circle.setAttribute("class","bx--card large ready");
-				circle.setAttribute("id","showdatasetID"+result[i]._id);
-				circle.appendChild(document.createTextNode(result[i]._id));
-				$("#listdataset").append(circle);
-				
-			}
-		}
-	});
+//	$.ajax({
+//		contentType : "application/json",
+//		dataType : "json",
+//		url : 'GetDataset',
+//		data : "_id=",
+//		async : true,
+//		success : function(result) {
+//
+//			for ( var i in result) {
+//				
+//				var circle = document.createElement("div");
+////				circle.setAttribute("class","smoothrectangle ready");
+//				circle.setAttribute("class","bx--card large ready");
+//				circle.setAttribute("id","showdatasetID"+result[i]._id);
+//				circle.appendChild(document.createTextNode(result[i]._id));
+//				$("#listdataset").append(circle);
+//				
+//			}
+//		}
+//	});
 }
 
 /**

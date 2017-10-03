@@ -112,8 +112,11 @@ public class DatasetDaemon implements Runnable {
 
 	private void handleInsert(Job<DatasetJobInfo> insertJob, ObjectStorage oo) throws IOException {
 
+
 		String datasetId = insertJob.getObj().getDatasetId();
+
 		String label = insertJob.getObj().getLabel();
+
 		// List<BufferedImage> positives = insertJob.getObj().getPositives();
 		// List<BufferedImage> negatives = insertJob.getObj().getNegatives();
 		File datasetStagingArea = insertJob.getObj().getStagingArea();
@@ -179,10 +182,12 @@ public class DatasetDaemon implements Runnable {
 
 		ViewRequest<String, Long> result = builder.newRequest(Key.Type.STRING, Long.class).build();
 
-		// System.out.println(result.getResponse());
-		// System.out.println(result.getSingleValue());
+//		 System.out.println(result.getResponse());
+//		 System.out.println(result.getSingleValue());
 
-		Long firstId = result.getSingleValue() + 1;
+		 Long firstId = new Long(1);
+		 if(result.getSingleValue()!=null) firstId = result.getSingleValue() + 1;
+		 
 		return firstId;
 	}
 
