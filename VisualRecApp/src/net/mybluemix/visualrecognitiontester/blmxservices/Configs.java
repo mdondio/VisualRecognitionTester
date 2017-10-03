@@ -18,24 +18,24 @@ public class Configs {
 //	public static final String DATABASENAME = "visualrec_db_new";
 
 	// Gianvito Cloudant DB Instance
-	public static final String CLOUDANT_USER = "2dc3e7f2-72f3-4671-abee-f8fe4463f639-bluemix";
-	public static final String CLOUDANT_PASS = "e4e12c476026b63264aed5bfb997a0df8580a4997cb3d7b8af150b9f6b38f630";
-	public static final String DATABASENAME = "visualrec";
+	public static final String CLOUDANT_USER = "1639b1fe-9ba5-4746-8980-9b010603f4cc-bluemix";
+	public static final String CLOUDANT_PASS = "65bc38f64bceafd7e44a6a23b86081be84db5727ead6be0e8cc8f8576d001e46";
+	public static final String DATABASENAME = "visual-rec-db";
 		
 	
 	///////////////////////////////////////////////////////////
 	// Marco Object Storage UK
-	public static final String OO_DEFAULTCONTAINER = "images_london";
+	public static final String OO_DEFAULTCONTAINER = "visual-rec-image-container";
 
-	public static final String oo_userId = "c406748da68f49a3b2f57b3395ce6844";
-	public static final String oo_username = "admin_57d22f04b7848bcedfe8b13bf4a453d587490247";
-	public static final String oo_password = "Wkd#/kd,8&SKOsU3";
+	public static final String oo_userId = "d4315177543142a59337797293680ca0";
+	public static final String oo_username = "admin_2ede140c37ed32fa1b901464da3b51e3cb1db5e0";
+	public static final String oo_password = "tb.R9zeiNV3l^ER&";
 	// public static final String oo_auth_url =
 	// "https://lon-identity.open.softlayer.com";
-	public static final String oo_auth_url = "https://identity.open.softlayer.com";
-	public static final String oo_domain = "1187923";
-	public static final String oo_project = "object_storage_4df0655d_7096_4a90_b734_00079ecb5f78";
-	public static final String oo_projectId = "4ad8f0290e654ae9beadac2d807426be";
+	public static final String oo_auth_url = "https://lon-identity.open.softlayer.com";
+	public static final String oo_domain = "1461857";
+	public static final String oo_project = "object_storage_3a6631db_3327_49d8_a540_ab6ddbcf1ec6";
+	public static final String oo_projectId = "05728fc1729d49b7b77ad0628ddecf0e";
 	public static final String oo_region = "london";
 
 	

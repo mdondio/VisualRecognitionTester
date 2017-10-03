@@ -4,12 +4,10 @@ applications:
   memory: 1024M
   instances: 1
   domain: eu-gb.mybluemix.net
-  name: visualrecognitiontester
-  host: visualrecognitiontester
+  name: BortoloVisualRec
+  host: BortoloVisualRec
   disk_quota: 1024M
   services:
-  - Object Storage-xu
-  - visualrecognitiontester-cloudantNoSQLDB
+  - Object Storage-kv
+  - BortoloVisualRec-cloudantNoSQLDB
   - availability-monitoring-auto
-  env:
-    JVM: openjdk

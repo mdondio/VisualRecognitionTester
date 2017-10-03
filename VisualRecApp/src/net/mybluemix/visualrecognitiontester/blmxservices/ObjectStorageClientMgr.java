@@ -2,6 +2,24 @@ package net.mybluemix.visualrecognitiontester.blmxservices;
 
 import java.io.IOException;
 
+import java.util.Date;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import com.cloudant.client.api.ClientBuilder;
+import com.cloudant.client.api.CloudantClient;
+import com.cloudant.client.api.Database;
+import com.cloudant.client.org.lightcouch.CouchDbException;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import net.mybluemix.visualrecognitiontester.datamodel.DateAdapter;
+import net.mybluemix.visualrecognitiontester.datamodel.Images;
+import net.mybluemix.visualrecognitiontester.datamodel.ImagesAdapter;
+
 /**
  * This class is needed to manage the ObjectStorage service instance. This class
  * guarantees we will instantiate only one instance of the service.
@@ -55,6 +73,8 @@ public class ObjectStorageClientMgr {
 		// "role": "admin"
 		// }
 
+		String serviceName = null;
+		
 		String userId = null;
 		String username = null;
 		String password = null;
@@ -71,40 +91,39 @@ public class ObjectStorageClientMgr {
 			// When running in Bluemix, the VCAP_SERVICES env var will have the
 			// credentials for all bound/connected services
 			// Parse the VCAP JSON structure looking for cloudant.
-			// JsonObject obj = (JsonObject) new
-			// JsonParser().parse(VCAP_SERVICES);
-			// Entry<String, JsonElement> dbEntry = null;
-			// Set<Entry<String, JsonElement>> entries = obj.entrySet();
-			// // Look for the VCAP key that holds the cloudant no sql db
+			
+			JsonObject obj = (JsonObject) new JsonParser().parse(VCAP_SERVICES);
+			Entry<String, JsonElement> dbEntry = null;
+			Set<Entry<String, JsonElement>> entries = obj.entrySet();
+			// Look for the VCAP key that holds the cloudant no sql db
 			// information
-			// for (Entry<String, JsonElement> eachEntry : entries) {
-			// if (eachEntry.getKey().toLowerCase().contains("cloudant")) {
-			// dbEntry = eachEntry;
-			// break;
-			// }
+			for (Entry<String, JsonElement> eachEntry : entries) {
+			if (eachEntry.getKey().toLowerCase().contains("Object-Storage")) {
+			dbEntry = eachEntry;
+			break;
+			}
+			}
+			
+			if (dbEntry == null) {
+				throw new RuntimeException("Could not find Object Storage key in VCAP_SERVICES env variable");
+			}
 
 			// ---- altro esempio json
-			// obj = (JsonObject) ((JsonArray) dbEntry.getValue()).get(0);
-			// serviceName = (String) dbEntry.getKey();
-			// System.out.println("Service Name - " + serviceName);
-			//
-			// obj = (JsonObject) obj.get("credentials");
-			//
-			// user = obj.get("username").getAsString();
-			// password = obj.get("password").getAsString();
-
-			// TODO to be implemented, for the moment reading data from local
-			System.out.println("[createObjectStorage()] !!!!! NOT IMPLEMENTED VCAP_SERVICES, using local info !!!!");
-
-			userId = Configs.oo_userId;
-			username = Configs.oo_username;
-			password = Configs.oo_password;
-			auth_url = Configs.oo_auth_url; // aggiungi /v3
-			domain = Configs.oo_domain;
-			project = Configs.oo_project;
-			projectId = Configs.oo_projectId;
-			region = Configs.oo_region;
-
+			 obj = (JsonObject) ((JsonArray) dbEntry.getValue()).get(0);
+			 serviceName = (String) dbEntry.getKey();
+			 System.out.println("Service Name - " + serviceName);
+			
+			 obj = (JsonObject) obj.get("credentials");
+			
+			 userId = obj.get("userId").getAsString();
+			 username = obj.get("username").getAsString();
+			 password = obj.get("password").getAsString();
+			 auth_url = obj.get("auth_url").getAsString(); // aggiungi /v3
+			 domain = obj.get("domainName").getAsString();
+			 project = obj.get("object_storage_9b43b72e_b99c_4478_a712_ee5a0356e6be").getAsString();
+			 projectId = obj.get("f4f868ec65bd4f69924e61f03107e63f").getAsString();
+			 region = obj.get("region").getAsString();
+	            
 		} else {
 			// If VCAP_SERVICES env var doesn't exist: running locally.
 			// Replace these values with your Cloudant credentials
