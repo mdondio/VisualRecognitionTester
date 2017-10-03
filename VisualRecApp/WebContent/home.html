@@ -217,32 +217,32 @@ createCarbonHeader();
 	
 	}
 	
-	$(document).ajaxStop(function() {
+// 	$(document).ajaxStop(function() {
 	
-      	manipulateArray(value);
+//       	manipulateArray(value);
   	
-  	});
+//   	});
 	
-function manipulateArray(selectedOption){
+// function manipulateArray(selectedOption){
 
-	var resultLabel = dArray.map(function(a) {return a.label;});
-	var resultID = dArray.map(function(a) {return a._id;});
+// 	var resultLabel = dArray.map(function(a) {return a.label;});
+// 	var resultID = dArray.map(function(a) {return a._id;});
 	
-	for( var t = 0; t < dArray.length; t++ ){
+// 	for( var t = 0; t < dArray.length; t++ ){
 	
-		if( resultLabel[t].includes(selectedOption) ){
+// 		if( resultLabel[t].includes(selectedOption) ){
 		
-			var circle = document.createElement("div");
-			circle.setAttribute("class","bx--card large ready");
-			circle.setAttribute("id","showdatasetID"+resultID[t]);
-			circle.appendChild(document.createTextNode(resultID[t]));
-			$("#listdataset").append(circle);
+// 			var circle = document.createElement("div");
+// 			circle.setAttribute("class","bx--card large ready");
+// 			circle.setAttribute("id","showdatasetID"+resultID[t]);
+// 			circle.appendChild(document.createTextNode(resultID[t]));
+// 			$("#listdataset").append(circle);
 		
-		}
+// 		}
 		
-	} 
+// 	} 
 		
-}
+// }
 
 </script>
 

@@ -71,7 +71,7 @@ createCarbonHeader();
 			<p class="bx--label-description">Put here comments on the dataset</p>
 			<hr class="lineseparator">
 			<div class="bx--form-item">
-			  <textarea id="commentsedit" class="bx--text-area" rows="5" width="100%" disabled></textarea>
+			  <textarea id="commentsedit" class="bx--text-area" rows="5" width="100%"></textarea>
 			</div>
 		</div>
 		
@@ -109,7 +109,7 @@ createCarbonHeader();
 
 		</div>
 
-	</div>
+
 
 </body>
 
@@ -120,7 +120,7 @@ createCarbonHeader();
 	var selDiv = "";
     var storedFiles = [];
 
-	var datasetID, datasetLabel, datasetDescription;
+	var datasetID, datasetLabel, datasetDescription, datasetComment;
 	var flag = false;
 	var empty = true;
 
@@ -213,6 +213,7 @@ createCarbonHeader();
 								datasetID = tmpDatasetID;
 								datasetLabel = tmpDatasetLabel.toLowerCase();
 								datasetDescription = ( $("#descriptionedit").val() );
+								datasetComment = ( $("#commentsedit").val() );
 								flag = false;
 
 								handlerPostCall(e);
@@ -277,6 +278,7 @@ createCarbonHeader();
 	       //As the code logic is already in place(not only in this page), naming the field
 	       //other than 'description' would break down a few things...FYI
 	       data.append('description', datasetDescription);
+		   data.append('comment', datasetComment);
 
 	       filesNumber = storedFiles.length;
 

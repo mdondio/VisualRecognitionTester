@@ -1277,6 +1277,7 @@ function returnDatasetDetail(ID, param){
 		async: false,
 		success: function(result)
 		{
+			console.log(result[0][param]);
 			tiramifuori = result[0][param];			
 		}
 	});

@@ -20,6 +20,8 @@ public class DatasetJobInfo {
 
 	String datasetId;
 	String label;
+	String description;
+	String comment;
 	TYPE type;
 	File datasetStagingArea;
 	int posCounter;
@@ -53,7 +55,21 @@ public class DatasetJobInfo {
 	public String getDatasetId() {
 		return datasetId;
 	}
+	
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description=description;
+	}
 
+	public String getComment() {
+		return comment;
+	}
+	public void setComment(String comment) {
+		this.comment=comment;
+	}
+	
 	public TYPE getType() {
 		return type;
 	}

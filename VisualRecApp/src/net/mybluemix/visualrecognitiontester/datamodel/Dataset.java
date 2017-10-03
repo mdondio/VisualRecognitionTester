@@ -37,12 +37,31 @@ public class Dataset {
 	private String label;
 	private Images images;
 	
+	private String description;
+	private String comment;
+	
 	public void setId(String id) {
 		this._id = id;
 	}
 
 	public String getId(){
 		return _id;
+	}
+	
+	public String getDescription(){
+		return description;
+	}
+	
+	public void setDescription(String description){
+		this.description=description;
+	}
+	
+	public String getComment(){
+		return comment;
+	}
+	
+	public void setComment(String comment){
+		this.comment=comment;
 	}
 	
 	public void setImages(Images images) {

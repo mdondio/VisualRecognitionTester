@@ -206,7 +206,11 @@ public class SubmitDatasetJob extends HttpServlet {
 		String type = textParameters.get("type");
 		String datasetId = textParameters.get("datasetId");
 		String label = textParameters.get("label");
-
+		String description = textParameters.get("description");
+		String comment = textParameters.get("comment");
+		
+		System.out.println("[SubmitDataset parseRequest()] DES: " + description);
+		System.out.println("[SubmitDataset parseRequest()] DES: " + comment);
 		// Some checks
 		if (datasetId == null || type == null || datasetId.isEmpty() || type.isEmpty()
 				|| (!type.equals("insert") && !type.equals("delete"))) {
@@ -240,6 +244,8 @@ public class SubmitDatasetJob extends HttpServlet {
 
 			dji = new DatasetJobInfo(datasetId, TYPE.INSERT);
 			dji.setLabel(label);
+			dji.setDescription(description);
+			dji.setComment(comment);
 			dji.setStagingFolder(datasetStagingArea);
 			dji.setPosCounter(posCounter);
 			dji.setNegCounter(negCounter);

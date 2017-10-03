@@ -65,7 +65,7 @@ public class GetDataset extends HttpServlet {
 
         // Limita i campi
         FindByIndexOptions o = new FindByIndexOptions()
-        	 .fields("_id").fields("label").fields("images");
+        	 .fields("_id").fields("label").fields("images").fields("description").fields("comment");
         
         // execute query
         List<Dataset> datasets = db.findByIndex(selector, Dataset.class, o);

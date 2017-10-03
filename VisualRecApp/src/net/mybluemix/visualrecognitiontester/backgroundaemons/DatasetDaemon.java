@@ -116,6 +116,8 @@ public class DatasetDaemon implements Runnable {
 		String datasetId = insertJob.getObj().getDatasetId();
 
 		String label = insertJob.getObj().getLabel();
+		String description = insertJob.getObj().getDescription();
+		String comment = insertJob.getObj().getComment();
 
 		// List<BufferedImage> positives = insertJob.getObj().getPositives();
 		// List<BufferedImage> negatives = insertJob.getObj().getNegatives();
@@ -134,7 +136,8 @@ public class DatasetDaemon implements Runnable {
 			return;
 		}
 
-		insertDataset(datasetId, label, firstPosId, insertJob.getObj().getPosCounter(),
+		//TODO add description and comment
+		insertDataset(datasetId, label,description,comment, firstPosId, insertJob.getObj().getPosCounter(),
 				insertJob.getObj().getNegCounter());
 
 		// Store all images into object storage
@@ -191,7 +194,7 @@ public class DatasetDaemon implements Runnable {
 		return firstId;
 	}
 
-	private void insertDataset(String datasetId, String label, Long firstId, int positiveSize, int negativeSize) {
+	private void insertDataset(String datasetId, String label, String description, String comment, Long firstId, int positiveSize, int negativeSize) {
 
 		// First, build dataset
 		Dataset d = new Dataset();
@@ -199,7 +202,12 @@ public class DatasetDaemon implements Runnable {
 		d.setType("dataset");
 		// skip subtype
 		d.setLabel(label);
+		d.setDescription(description);
+		d.setComment(comment);
 
+		System.out.println("[DatasetDaemon insertDataset()] DES" + description);
+		System.out.println("[DatasetDaemon insertDataset()] COM" + comment);
+		
 		// Build images
 		Long curId = firstId;
 		List<Long> positives = new ArrayList<Long>();
