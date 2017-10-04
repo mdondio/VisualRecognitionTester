@@ -47,7 +47,7 @@
 .bx--card.minimal {
   margin: 5px;
   max-width: 5rem;
-  padding-top: 15%;
+  padding: 2.5%;
   height: 50px;
 /*   display: table-cell; */
 }
