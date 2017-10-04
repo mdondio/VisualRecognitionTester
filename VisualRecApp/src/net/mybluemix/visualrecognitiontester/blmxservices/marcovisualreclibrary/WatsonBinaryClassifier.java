@@ -134,6 +134,8 @@ public class WatsonBinaryClassifier {
 		
 		System.out.println("[WatsonBinaryClassifier] Creating a classifier with positive and negative images...");
 		lastClassifierName = label + "_classifier";
+		
+		System.out.println("[WatsonBinaryClassifier] Classifier name: "+lastClassifierName);
 		ClassifierOptions createOptions = new ClassifierOptions.Builder().classifierName(lastClassifierName)
 				.addClass(label, posFile).negativeExamples(negFile).build();
 		classifier = service.createClassifier(createOptions).execute();

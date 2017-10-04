@@ -1817,7 +1817,22 @@ function startSimulation(){
 //								
 //							},
 							complete: function (result) {
+if(result.hasOwnProperty('error'))
+{
+swal({
+		title: 'Warning',
+		html: result.error + '<br><br>',
+		type: 'warning',
+		customClass: 'modal-container',
+		buttonsStyling: false,
+			showCancelButton: false,
+			showConfirmButton: true,
+			confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+		confirmButtonText: 'Got it'
+	});
 
+}
+else{
 								ajaxLoading.hide();
 								
 								if( localStorage.getItem("resultJSON") === null ){
@@ -1861,6 +1876,7 @@ function startSimulation(){
 								buildSelectTestResult('#show_test', this.indexValue);
 								updateTestFields('#show_test');
 								
+							}
 							}
 						});
 					
