@@ -60,7 +60,7 @@ public class ObjectStorage {
 		this.userId = userId;
 		this.username = username;
 		this.password = password;
-		this.auth_url = auth_url;
+		this.auth_url = auth_url+"/v3";
 		// this.domain = domain;
 		this.projectId = projectId;
 		// this.project = project;

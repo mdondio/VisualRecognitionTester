@@ -60,19 +60,7 @@ public class ObjectStorageClientMgr {
 
 	private static ObjectStorage createObjectStorage() throws IOException {
 
-		// {
-		// "auth_url": "https://lon-identity.open.softlayer.com",
-		// "project": "object_storage_e0ebd231_88cf_4cfd_b548_ad95cb9a89e3",
-		// "projectId": "b8240e4d9c1449a6ac7ae6159b116282",
-		// "region": "london",
-		// "userId": "08dab7133ac24cbcaf94520a7954a2f7",
-		// "username": "admin_f1e5d9bfec2240f9889a3d86a157151cb57df47c",
-		// "password": "PQz3*8F7VL3D{owB",
-		// "domainId": "d7b14e49480942beaade5d2cce531404",
-		// "domainName": "1187923",
-		// "role": "admin"
-		// }
-
+		String VCAP_SERVICES = System.getenv("VCAP_SERVICES");
 		String serviceName = null;
 		
 		String userId = null;
@@ -84,26 +72,21 @@ public class ObjectStorageClientMgr {
 		String projectId = null;
 		String region = null;
 
-		String VCAP_SERVICES = System.getenv("VCAP_SERVICES");
 		if (VCAP_SERVICES != null) {
-
-			System.out.println("[createObjectStorage()] VCAP_SERVICES != null");
 			// When running in Bluemix, the VCAP_SERVICES env var will have the
 			// credentials for all bound/connected services
-			// Parse the VCAP JSON structure looking for cloudant.
-			
+			// Parse the VCAP JSON structure looking for cloudant.	
 			JsonObject obj = (JsonObject) new JsonParser().parse(VCAP_SERVICES);
 			Entry<String, JsonElement> dbEntry = null;
 			Set<Entry<String, JsonElement>> entries = obj.entrySet();
 			// Look for the VCAP key that holds the cloudant no sql db
 			// information
 			for (Entry<String, JsonElement> eachEntry : entries) {
-			if (eachEntry.getKey().toLowerCase().contains("Object-Storage")) {
+			if (eachEntry.getKey().toLowerCase().contains("object-storage")) {
 			dbEntry = eachEntry;
 			break;
 			}
 			}
-			
 			if (dbEntry == null) {
 				throw new RuntimeException("Could not find Object Storage key in VCAP_SERVICES env variable");
 			}

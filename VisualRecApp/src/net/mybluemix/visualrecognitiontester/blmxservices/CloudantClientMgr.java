@@ -69,9 +69,8 @@ public class CloudantClientMgr {
 	}
 
 	private static CloudantClient createClient() {
+		
 		String VCAP_SERVICES = System.getenv("VCAP_SERVICES");
-
-
 		String serviceName = null;
 
 		// TODO: stiamo forzando a skippare la VCAP locale
