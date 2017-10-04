@@ -52,7 +52,7 @@ public class CheckOverlapImages extends HttpServlet {
 		// First, parse args
 		String datasetId = request.getParameter("dataset");
 		String classifierId = request.getParameter("classifier");
-		
+		System.out.println("[CheckOverlapImages doGet()] 55");
 		if(classifierId.isEmpty()) {
 			System.out.println("[CheckOverlapImages] classifier ID doesn't exist");
 			JsonObject o = new JsonObject();
@@ -60,6 +60,7 @@ public class CheckOverlapImages extends HttpServlet {
 			response.getWriter().println(o);
 			return;
         }
+		System.out.println("[CheckOverlapImages doGet()] 63");
 		if(datasetId.isEmpty()) {
 			System.out.println("[CheckOverlapImages] dataset ID doesn't exist");
 			JsonObject o = new JsonObject();
@@ -67,20 +68,26 @@ public class CheckOverlapImages extends HttpServlet {
 			response.getWriter().println(o);
 			return;
         }
-		
+		System.out.println("[CheckOverlapImages doGet()] 71");
 		Classifier c = db.find(Classifier.class,classifierId);
+		System.out.println("[CheckOverlapImages doGet()] 73");
 		String classifierDatasetId=c.getTrainingSet();
-		
+		System.out.println("[CheckOverlapImages doGet()] 75");
 		Dataset dClassifier = db.find(Dataset.class,classifierDatasetId);
+		System.out.println("[CheckOverlapImages doGet()] 77");
 		List<Long> imgClassifier = new ArrayList<Long>();
 		imgClassifier.addAll(dClassifier.getImages().getPositives());
 		imgClassifier.addAll(dClassifier.getImages().getNegatives());
-		
+		System.out.println("[CheckOverlapImages doGet()] 81");
+		System.out.println("[CheckOverlapImages doGet()] "+datasetId);
 		Dataset dDataset = db.find(Dataset.class,datasetId);
+		System.out.println("[CheckOverlapImages doGet()] 83");
 		List<Long> imgDataset = new ArrayList<Long>();
+		System.out.println("[CheckOverlapImages doGet()] 85");
 		imgDataset.addAll(dDataset.getImages().getPositives());
+		System.out.println("[CheckOverlapImages doGet()] 87");
 		imgDataset.addAll(dDataset.getImages().getNegatives());
-		
+		System.out.println("[CheckOverlapImages doGet()] 89");
 		imgDataset.retainAll(imgClassifier);
 		System.out.println("[CheckOverlapImages] The following "+imgDataset.size()+" are the common ID images"+imgDataset);
 		

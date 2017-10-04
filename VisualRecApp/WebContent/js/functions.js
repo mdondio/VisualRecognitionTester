@@ -2178,6 +2178,7 @@ function generateHome(){
  */
 function startTrain(){
 	
+	
 	var datasetId = $("#labelselected").val();
 	var label = $("#labelselected").html();
 	var description = $("#classifierdesc").val();

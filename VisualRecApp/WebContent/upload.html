@@ -116,6 +116,33 @@ createCarbonHeader();
 
 
 <script>
+
+// escludere alcuni tasti nel type delle text aree
+
+// soluzione possibile ma da vedere bene (problemi nell'implementare il backslash)
+      
+      
+//       $('#descriptionedit').keydown(function(e){
+// 				   e.preventDefault();
+					 
+// 					 var editingKeys = {
+// 							 '188':'comma',
+//             };
+					 
+// 					 var key = String.fromCharCode(e.keyCode);
+// 					 //if (isNaN(key) & (e.keyCode in editingKeys))
+// 					 if (e.keyCode in editingKeys)
+// 					    alert('Tasto Non Accettato! --> '+e.keyCode+' = '+key);
+// 					 //else alert('Tasto Accettato! --> '+e.keyCode+' = '+key);
+					 
+// 					 $('#descriptionedit').append(key);
+							
+// 							});
+							
+// 							--------------------
+
+
+
 	
 	var selDiv = "";
     var storedFiles = [];
