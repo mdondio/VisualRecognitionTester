@@ -18,7 +18,7 @@ public class Authenticator {
 
 		private static final long serialVersionUID = 1L;
 		{
-			put("marco", "marco");
+			put("blinkin", "blinkin");
 			put("", ""); // default no password
 		}
 	};

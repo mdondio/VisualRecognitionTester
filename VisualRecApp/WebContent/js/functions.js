@@ -1641,18 +1641,21 @@ function populateAPITable(){
 				tr.setAttribute("class","bx--table-row bx--parent-row");
 				tr.setAttribute("data-parent-row", "");
 				
+				
 				var td1 = document.createElement("td");
 				var td2 = document.createElement("td");
 				var td3 = document.createElement("td");
-				var td4 = document.createElement("td");
 				
-				var text1 = document.createTextNode(result[i].account.substring(8));
-				var text2 = document.createTextNode(result[i].region);
-				var text3 = document.createTextNode(result[i].api_key);
+				td1.style.cssText = 'text-align:center;font-size:16px;font-weight:700';
+				td2.style.cssText = 'text-align:center;font-size:16px';
+				td3.style.cssText = 'text-align:center;padding:6px';
+				
+				var text1 = document.createTextNode(result[i].classifiers.length);
+				var text2 = document.createTextNode(result[i].api_key);
 				
 				var btn = document.createElement('input');
 				btn.type = "button";
-				btn.className = "btn";
+				btn.className = "bx--btn bx--btn--primary";
 				btn.value = "delete"; 
 					var instanceId=result[i]._id;
 					var classifiers=result[i].classifiers;
@@ -1672,6 +1675,26 @@ function populateAPITable(){
 						  allowOutsideClick: false,
 						  allowEscapeKey: true
 						}).then( function(result) {
+							
+							
+							$.ajax({
+
+
+							   	contentType : "application/json",
+							   	dataType : "json",
+							  	data :								JSON.stringify({
+									instanceid: instanceId,
+							        classifiers: changedIds
+							    })
+							    ,
+							  	url : 'DeleteInstance',
+							   	async : false,
+							   	success : function(result) {
+//								TODO bisogno assolutamente gestire il caso in cui dia errore (esempio cancella 1 classifier e il 2 invece non riesce, a quel punto non cancello l'istanza
+//								TODO si potrebbe pensare di mettere uno stato progressivo della cancellazione dei classificatori
+							   	}								
+	   					});
+							
 							
 							//User really wants to delete the classifier
 							if(result){
@@ -1737,13 +1760,11 @@ function populateAPITable(){
 				
 				td1.appendChild(text1);
 				td2.appendChild(text2);
-				td3.appendChild(text3);
-				td4.appendChild(btn);
+				td3.appendChild(btn);
 				
 				tr.appendChild(td1);
 				tr.appendChild(td2);
 				tr.appendChild(td3);
-				tr.appendChild(td4);
 				
 				table.appendChild(tr);
 			}
@@ -2063,6 +2084,42 @@ function buildSelectClassifier(status,IDselector){
 	
 }
 
+function fillAccountDetails(){	
+	$.ajax({
+		contentType: "application/json",
+		dataType: "json",
+		url: 'GetInstance',
+		async: true,
+		success: function(result){
+		$("#totalinstances").prepend(result.length);
+		}
+	});  
+	
+	$.ajax({
+		contentType: "application/json",
+		dataType: "json",
+		url: 'GetClassifier',
+		data : "_id=",
+		async: true,
+		success: function(result){
+			$("#totalclassifiers").prepend(result.length);
+		}
+	
+  	});
+
+	
+	$.ajax({
+	contentType : "application/json",
+	dataType : "json",
+	url : 'GetDataset',
+	data : "_id=",
+	async : true,
+	success : function(result) {
+		$("#totaldatasets").prepend(result.length);
+	}
+	});
+}
+	
 /**
  * @returns Build the dashboard page
  * @help servlet used: GetInstance, GetClassifier, GetDataset

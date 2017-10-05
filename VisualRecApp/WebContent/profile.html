@@ -32,9 +32,25 @@ createCarbonHeader();
 
 			<div class="column half">
 			
-				<div id="user" class="post-preview"><h1></h1>
+				<div class="post-preview">
 				
-				<br><br><br>
+				<div style="background-color:#e6e6e6">
+				<div style="padding:10px;background-color:#152935">
+				<p id="user" style="font:38px sans-serif;color:#ffffff;font-weight:700;text-align:middle">
+						<span class="profile-image" style="vertical-align:middle;padding:3px">
+		<img class="bx--dropdown__profile-dropdown--picture" src="img/bellosguardo.jpg" style="max-width:3rem;max-height:3rem">
+		</span>
+		</p>
+				</div>
+				
+				<div>
+				<p style="font-size:24px;color:#152935;padding:10px"><span id="totalinstances" style="font-weight:700;font-size:24px"></span> visual recognition instances linked</p>
+				<p style="font-size:24px;color:#152935;background-color:#d9d9d9;padding:10px"><span id="totalclassifiers" style="font-weight:700;font-size:24px"></span> classifiers linked</p>
+				<p style="font-size:24px;color:#152935;padding:10px"><span id="totaldatasets" style="font-weight:700;font-size:24px"></span> datasets uploaded</p>
+				</div>
+				</div>
+				
+				<br><br>
 
 						<div id="test" class="bx--form-item">
 							 <label for="apiKeysTitle" class="bx--label">Insert API key</label>
@@ -52,9 +68,10 @@ createCarbonHeader();
 				<!-- APIs TABLE -->
 				<div class="column half">
 				
-				<div class="post-preview"><h1>&ensp;</h1>
+				<div class="post-preview">
+<!-- 				<h1>&ensp;</h1> -->
 				
-				<br><br><br>
+
 			
 					<strong class="bx--label">Your current APIs</strong>
 					<p class="bx--label-description">These are your APIs which are already linked to your account</p>
@@ -64,27 +81,21 @@ createCarbonHeader();
 					    <thead class="bx--table-head">
 					      <tr class="bx--table-row">
 					        <th tabindex="0" class="bx--table-header bx--table-sort" data-event="sort">
-					          <span>Account</span>
+					          <span>#Classifiers</span>
 					          <svg class="bx--table-sort__svg" width="10" height="5" viewBox="0 0 10 5" fill-rule="evenodd">
-					            <path d="M10 0L5 5 0 0z"></path>
-					          </svg>
-					        </th>
-					        <th tabindex="0" class="bx--table-header bx--table-sort" data-event="sort">
-					          <span>Region</span>
-					          <svg class="bx--table-sort__svg" width="10" height="5" viewBox="0 0 10 5" fill-rule="evenodd">
-					            <path d="M10 0L5 5 0 0z"></path>
+<!-- 					            <path d="M10 0L5 5 0 0z"></path> -->
 					          </svg>
 					        </th>
 					        <th tabindex="0" class="bx--table-header bx--table-sort" data-event="sort">
 					          <span>API Key</span>
 					          <svg class="bx--table-sort__svg" width="10" height="5" viewBox="0 0 10 5" fill-rule="evenodd">
-					            <path d="M10 0L5 5 0 0z"></path>
+<!-- 					            <path d="M10 0L5 5 0 0z"></path> -->
 					          </svg>
 					        </th>
 					        <th tabindex="0" class="bx--table-header bx--table-sort" data-event="sort">
 					          <span>Delete</span>
 					          <svg class="bx--table-sort__svg" width="10" height="5" viewBox="0 0 10 5" fill-rule="evenodd">
-					            <path d="M10 0L5 5 0 0z"></path>
+<!-- 					            <path d="M10 0L5 5 0 0z"></path> -->
 					          </svg>
 					        </th>
 					      </tr>
@@ -118,7 +129,7 @@ createCarbonHeader();
  	
  	var num;
 
-    $("#user > h1").text(localStorage.getItem("user"));
+    $("#user").append(localStorage.getItem("user"));
     
 	$('#test').on('keyup', 'input', function() {
 	
@@ -224,7 +235,8 @@ if(this.value!="")
 		
 		
 	});
-	
+
+fillAccountDetails()
   	
 </script>
 

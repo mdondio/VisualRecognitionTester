@@ -12,10 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 import com.cloudant.client.api.Database;
 import com.cloudant.client.api.model.FindByIndexOptions;
 import com.cloudant.client.api.model.Response;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import net.mybluemix.visualrecognitiontester.blmxservices.CloudantClientMgr;
 import net.mybluemix.visualrecognitiontester.blmxservices.marcovisualreclibrary.WatsonBinaryClassifier;
+import net.mybluemix.visualrecognitiontester.blmxservices.marcovisualreclibrary.Utils;
 import net.mybluemix.visualrecognitiontester.datamodel.Classifier;
 import net.mybluemix.visualrecognitiontester.datamodel.Instance;
 
@@ -47,9 +50,11 @@ public class DeleteInstance extends HttpServlet {
 
 		System.out.println("[DeleteInstance doGet()] Function called");
 		
-		// First, get classifierId
+		// First, get instanceId and classifierIds
 		String instanceId = request.getParameter("instanceId");
-
+		JsonParser parser = new JsonParser();
+		JsonArray classifiers = parser.parse(request.getParameter("classifiers")).getAsJsonArray();
+		
 		if (instanceId == null) {
 			System.out.println("[instanceId] No instanceId specified");
 			JsonObject o = new JsonObject();
@@ -58,6 +63,15 @@ public class DeleteInstance extends HttpServlet {
 			return;
 		}
 
+		for (int i = 0; i < classifiers.size(); i++) {
+			JsonObject classifier = classifiers.get(i).getAsJsonObject();
+			String classifierId = classifier.get("_id").getAsString();
+			System.out.println("[DeleteClassifier] Deleting classifier "+classifierId+" in cloudant...");
+			Utils.deleteClassifier(classifierId);
+			System.out.println("[DeleteClassifier] Deleting classifier "+classifierId+" in Watson...");
+			Utils.deleteFromWatson(instanceId, classifierId);
+		}
+		
 		Database db = CloudantClientMgr.getCloudantDB();
 		Instance instance = db.find(Instance.class, instanceId);
 		Response responseDelete = db.remove(instance);

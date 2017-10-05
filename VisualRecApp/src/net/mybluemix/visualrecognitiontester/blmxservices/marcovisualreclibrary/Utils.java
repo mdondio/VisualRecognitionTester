@@ -9,7 +9,12 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import com.cloudant.client.api.Database;
+import com.cloudant.client.api.model.Response;
+
+import net.mybluemix.visualrecognitiontester.blmxservices.CloudantClientMgr;
 import net.mybluemix.visualrecognitiontester.blmxservices.ObjectStorage;
+import net.mybluemix.visualrecognitiontester.datamodel.Classifier;
 
 /**
  * This class contains useful methods.
@@ -122,4 +127,28 @@ public class Utils {
 
 		return results;
 	}
+	
+	
+	// delete classifier from cloudant
+		public static void deleteClassifier(String classifierId) {
+
+			// get db connection
+			Database db = CloudantClientMgr.getCloudantDB();
+
+			// Get the instance from db
+			Classifier c = db.find(Classifier.class, classifierId);
+
+			Response responseDelete = db.remove(c);
+
+			System.out.println("[DeleteClassifier] Deleted classifier, response: " + responseDelete);
+		}
+
+		// delete classifier from watson
+		public static void deleteFromWatson(String apiKey, String classifierId) throws IOException {
+
+			WatsonBinaryClassifier classifier = new WatsonBinaryClassifier(apiKey);
+			classifier.setClassifierId(classifierId);
+			classifier.deleteModel();
+		}
+	
 }

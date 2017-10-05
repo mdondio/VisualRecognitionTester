@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 import com.cloudant.client.api.Database;
 import com.cloudant.client.api.model.FindByIndexOptions;
 import com.cloudant.client.api.model.Response;
@@ -18,6 +19,8 @@ import net.mybluemix.visualrecognitiontester.blmxservices.CloudantClientMgr;
 import net.mybluemix.visualrecognitiontester.blmxservices.marcovisualreclibrary.WatsonBinaryClassifier;
 import net.mybluemix.visualrecognitiontester.datamodel.Classifier;
 import net.mybluemix.visualrecognitiontester.datamodel.Instance;
+
+import net.mybluemix.visualrecognitiontester.blmxservices.marcovisualreclibrary.Utils;
 
 /**
  * This endpoint deletes a custom classifier. Synchronous
@@ -78,12 +81,12 @@ public class DeleteClassifier extends HttpServlet {
 
 		// Delete classifier in cloudant
 		System.out.println("[DeleteClassifier] Deleting classifier in cloudant...");
-		deleteClassifier(classifierId);
+		Utils.deleteClassifier(classifierId);
 		// ------------------------------------------------------
 
 		// Watson deletion
 		System.out.println("[DeleteClassifier] Deleting classifier in Watson...");
-		deleteFromWatson(apiKey, classifierId);
+		Utils.deleteFromWatson(apiKey, classifierId);
 
 		System.out.println("[DeleteClassifier] Deletion of classifierId " + classifierId + " done!");
 
@@ -136,24 +139,24 @@ public class DeleteClassifier extends HttpServlet {
 		System.out.println("[DeleteClassifier] Updated Instance, response: " + responseUpdate);
 	}
 
-	// delete classifier from cloudant
-	private void deleteClassifier(String classifierId) {
-
-		// get db connection
-		Database db = CloudantClientMgr.getCloudantDB();
-
-		// Get the instance from db
-		Classifier c = db.find(Classifier.class, classifierId);
-
-		Response responseDelete = db.remove(c);
-
-		System.out.println("[DeleteClassifier] Deleted classifier, response: " + responseDelete);
-	}
-
-	private void deleteFromWatson(String apiKey, String classifierId) throws IOException {
-
-		WatsonBinaryClassifier classifier = new WatsonBinaryClassifier(apiKey);
-		classifier.setClassifierId(classifierId);
-		classifier.deleteModel();
-	}
+//	// delete classifier from cloudant
+//	private void deleteClassifier(String classifierId) {
+//
+//		// get db connection
+//		Database db = CloudantClientMgr.getCloudantDB();
+//
+//		// Get the instance from db
+//		Classifier c = db.find(Classifier.class, classifierId);
+//
+//		Response responseDelete = db.remove(c);
+//
+//		System.out.println("[DeleteClassifier] Deleted classifier, response: " + responseDelete);
+//	}
+//
+//	private void deleteFromWatson(String apiKey, String classifierId) throws IOException {
+//
+//		WatsonBinaryClassifier classifier = new WatsonBinaryClassifier(apiKey);
+//		classifier.setClassifierId(classifierId);
+//		classifier.deleteModel();
+//	}
 }
