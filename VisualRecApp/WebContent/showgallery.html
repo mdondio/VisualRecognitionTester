@@ -41,6 +41,7 @@ createCarbonHeader();
 
 			<div class="column fourth">
 				<div class="bx--form-item">
+<!-- 				You cannot change the id of the dataset, to much connection with classifier. We need to implement a different approach (shortname, no id) -->
 				  <input id="shortnameedit" type="text" class="bx--text-input">
 				</div>
 			</div>
@@ -220,12 +221,18 @@ createCarbonHeader();
 	});
   	
   	$('#saveButton').click(function(){
-  	
+
   		var shortName = ( $("#shortnameedit").val() );
   		var label = ( $("#labeledit").val() );
   		var description = ( $("#descriptionedit").val() );
-  	
-		updateDataset(idgallery, label); //should be(once servelt is ready) updateDataset(idgallery, label, shortname, description)
+  		var comment = ( $("#commentsedit").val() );
+  		  	
+  		  	  	console.log(shortName)
+  		  	  	console.log(label)
+  		  	  	console.log(description)
+  		  	  	console.log(comment)
+  		  	  	
+		updateDataset(idgallery,label,description,comment); //should be(once servelt is ready) updateDataset(idgallery, label, shortname, description)
   		
   		$('#saveButton').attr("disabled", true);
     	$('#saveButton').addClass("disabled");

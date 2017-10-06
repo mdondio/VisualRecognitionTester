@@ -1315,24 +1315,24 @@ function updateClassifierDetail(ID, shortName, label, descr, comm){
 		
 }
 
-function updateDataset(ID, label){
-	
-//	$.ajax({												
-//		contentType: "application/json",
-//		dataType: "json",
-//		url: 'UpdateClassifier',
-//		data: "_id="+ID+"&shortname="+shortName+"&label="+label+"&description="+descr+"&comments="+comm,
-//		async: true,
-//		success: function(result)
-//		{
-//		},
-//		complete: function (data) {
-//	    
-//			workingUpdate(true); 
-//	     
-//		}
-//
-//	});
+function updateDataset(id,label,description,comment){
+	console.log("[function.js - updateDataset] Function called")
+	$.ajax({												
+		contentType: "application/json",
+		dataType: "json",
+		url: 'UpdateDataset',
+		data: "_id="+id+"&label="+label+"&description="+description+"&comments="+comment,
+		async: true,
+		success: function(result)
+		{
+		},
+		complete: function (data) {
+	    
+			workingUpdate(true); 
+	     
+		}
+
+	});
 	
 }
 
