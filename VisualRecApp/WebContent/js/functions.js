@@ -2346,8 +2346,8 @@ function startTrain(){
 * Function called in generateHome to set the height of the dataset list equal to the height of the classifier table		
 */		
 function setListHeight(height){		
-	$('#listdataset').css("height", height);		
-		
+//	$('#listdataset').css("height", 2*height);		
+	$('#listdataset').css("height", 300);			
 }
 
 
