@@ -51,9 +51,13 @@ public class DeleteInstance extends HttpServlet {
 		System.out.println("[DeleteInstance doGet()] Function called");
 		
 		// First, get instanceId and classifierIds
-		String instanceId = request.getParameter("instanceId");
 		JsonParser parser = new JsonParser();
-		JsonArray classifiers = parser.parse(request.getParameter("classifiers")).getAsJsonArray();
+String instanceId = request.getParameter("instance");
+String apikey = request.getParameter("instance").substring(12);
+
+		//Note: element 0 is the instance id while elements from 1 to n are classifier ids
+		JsonArray classifierIds = parser.parse(request.getParameter("classifier")).getAsJsonArray();
+
 		
 		if (instanceId == null) {
 			System.out.println("[instanceId] No instanceId specified");
@@ -63,13 +67,12 @@ public class DeleteInstance extends HttpServlet {
 			return;
 		}
 
-		for (int i = 0; i < classifiers.size(); i++) {
-			JsonObject classifier = classifiers.get(i).getAsJsonObject();
-			String classifierId = classifier.get("_id").getAsString();
-			System.out.println("[DeleteClassifier] Deleting classifier "+classifierId+" in cloudant...");
-			Utils.deleteClassifier(classifierId);
-			System.out.println("[DeleteClassifier] Deleting classifier "+classifierId+" in Watson...");
-			Utils.deleteFromWatson(instanceId, classifierId);
+		for (int i = 0; i < classifierIds.size(); i++) {
+			String classifier = classifierIds.get(i).getAsString();
+			System.out.println("[DeleteClassifier] Deleting classifier "+classifier+" in cloudant...");
+			Utils.deleteClassifier(classifier);
+			System.out.println("[DeleteClassifier] Deleting classifier "+classifier+" in Watson...");
+			Utils.deleteFromWatson(apikey, classifier);
 		}
 		
 		Database db = CloudantClientMgr.getCloudantDB();

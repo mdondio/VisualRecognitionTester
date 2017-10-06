@@ -1656,14 +1656,21 @@ function populateAPITable(){
 				var btn = document.createElement('input');
 				btn.type = "button";
 				btn.className = "bx--btn bx--btn--primary";
-				btn.value = "delete"; 
+				btn.value = "delete";
+				//vector with all the info needed to delete the instance
+				// [0] instance id
+				// [1]....[n] all the classifiers linked to the instance
+				
+
+				
 					var instanceId=result[i]._id;
-					var classifiers=result[i].classifiers;
-				btn.onclick = (function(instanceId,classifiers) {return function() {
-					
+					var classifierIds=result[i].classifiers;
+		
+				btn.onclick = (function(instanceId,classifierIds) {return function() {
+
 					swal({
 						  title: "Are you sure?",
-						  html: "You are deleting also all classifiers ("+classifiers.length+") linked to this api_key. Are you really sure you want to delete this instance?<br><br>",
+						  html: "You are deleting also all classifiers ("+classifierIds.length+") linked to this api_key. Are you really sure you want to delete this instance?<br><br>",
 						  type: "warning",
 						  customClass: 'modal-container',
 		                  confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
@@ -1676,86 +1683,106 @@ function populateAPITable(){
 						  allowEscapeKey: true
 						}).then( function(result) {
 							
-							
+							if(result){
+								
 							$.ajax({
 
 
 							   	contentType : "application/json",
 							   	dataType : "json",
-							  	data :								JSON.stringify({
-									instanceid: instanceId,
-							        classifiers: changedIds
-							    })
-							    ,
+							  	data : {instance: instanceId, classifier: JSON.stringify(classifierIds)},
 							  	url : 'DeleteInstance',
 							   	async : false,
 							   	success : function(result) {
-//								TODO bisogno assolutamente gestire il caso in cui dia errore (esempio cancella 1 classifier e il 2 invece non riesce, a quel punto non cancello l'istanza
-//								TODO si potrebbe pensare di mettere uno stato progressivo della cancellazione dei classificatori
+								if(result.hasOwnProperty('error'))
+					   				{
+						   				swal({
+							   					title: 'Warning',
+							   					html: result.error + '<br><br>',
+							   					type: 'warning',
+							   					customClass: 'modal-container',
+							   					showCancelButton: false,
+							   					showConfirmButton: true,
+							   					confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+												confirmButtonText: 'Got it'
+						   					});
+					   				}
+					   		else{
+					   					swal({
+						   						title: 'Deleted!',
+						   						html: 'This instance and all classifiers linked to it has been deleted.',
+						   						type: 'success',
+						   						customClass: 'modal-container',
+							   					showCancelButton: false,
+							   					showConfirmButton: true,
+							   					confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+												confirmButtonText: 'Yeah!'
+					   						}).then(function(){location.reload();})
+					   		}
 							   	}								
 	   					});
 							
-							
+						}	
 							//User really wants to delete the classifier
-							if(result){
-								
-								for(var j in classifiers)
-									{
-									console.log(classifiers[j]);
-//									TODO esiste un modo per verificare se un classificatore è in uso? In questo momento se un altro sta usando il classificatore si trova magari mezza simulazione fatta e mezza no
-									$.ajax({
-
-									   	contentType : "application/json",
-									   	dataType : "json",
-									  	data : "classifierId=" + classifiers[j] + "",
-									  	url : 'DeleteClassifier',
-									   	async : false,
-									   	success : function(result) {
-//										TODO bisogno assolutamente gestire il caso in cui dia errore (esempio cancella 1 classifier e il 2 invece non riesce, a quel punto non cancello l'istanza
-//										TODO si potrebbe pensare di mettere uno stato progressivo della cancellazione dei classificatori
-									   	}								
-			   					});
-									}
-								//TODO verificare se con swal interrompo l'esecuzione delle chiamate e quindi posso mettere un intermezzo ogni volta che viene cancellato un classificatore
-								$.ajax({
-									   	contentType : "application/json",
-									   	dataType : "json",
-									  	data : "instanceId=" + instanceId + "",
-									  	url : 'DeleteInstance',
-									   	async : true,
-									   	success : function(result) {
-									   		if(result.hasOwnProperty('error'))
-									   				{
-										   				swal({
-											   					title: 'Warning',
-											   					html: result.error + '<br><br>',
-											   					type: 'warning',
-											   					customClass: 'modal-container',
-											   					showCancelButton: false,
-											   					showConfirmButton: true,
-											   					confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
-																confirmButtonText: 'Got it'
-										   					});
-									   				}
-									   		else{
-									   					swal({
-										   						title: 'Deleted!',
-										   						html: 'Instance has been deleted.',
-										   						type: 'success',
-										   						customClass: 'modal-container',
-											   					showCancelButton: false,
-											   					showConfirmButton: true,
-											   					confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
-																confirmButtonText: 'Yeah!'
-									   						}).then(function(){location.reload();})
-									   		}
-									   	}
-			   					});
-								
-							}
+//							if(result){
+//								
+//								for(var j in classifiers)
+//									{
+//									console.log(classifiers[j]);
+////									TODO esiste un modo per verificare se un classificatore è in uso? In questo momento se un altro sta usando il classificatore si trova magari mezza simulazione fatta e mezza no
+//									$.ajax({
+//
+//									   	contentType : "application/json",
+//									   	dataType : "json",
+//									  	data : "classifierId=" + classifiers[j] + "",
+//									  	url : 'DeleteClassifier',
+//									   	async : false,
+//									   	success : function(result) {
+////										TODO bisogno assolutamente gestire il caso in cui dia errore (esempio cancella 1 classifier e il 2 invece non riesce, a quel punto non cancello l'istanza
+////										TODO si potrebbe pensare di mettere uno stato progressivo della cancellazione dei classificatori
+//									   	}								
+//			   					});
+//									}
+//								//TODO verificare se con swal interrompo l'esecuzione delle chiamate e quindi posso mettere un intermezzo ogni volta che viene cancellato un classificatore
+//								$.ajax({
+//									   	contentType : "application/json",
+//									   	dataType : "json",
+//									  	data : "instanceId=" + instanceId + "",
+//									  	url : 'DeleteInstance',
+//									   	async : true,
+//									   	success : function(result) {
+//									   		if(result.hasOwnProperty('error'))
+//									   				{
+//										   				swal({
+//											   					title: 'Warning',
+//											   					html: result.error + '<br><br>',
+//											   					type: 'warning',
+//											   					customClass: 'modal-container',
+//											   					showCancelButton: false,
+//											   					showConfirmButton: true,
+//											   					confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+//																confirmButtonText: 'Got it'
+//										   					});
+//									   				}
+//									   		else{
+//									   					swal({
+//										   						title: 'Deleted!',
+//										   						html: 'Instance has been deleted.',
+//										   						type: 'success',
+//										   						customClass: 'modal-container',
+//											   					showCancelButton: false,
+//											   					showConfirmButton: true,
+//											   					confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+//																confirmButtonText: 'Yeah!'
+//									   						}).then(function(){location.reload();})
+//									   		}
+//									   	}
+//			   					});
+//								
+//							}
 								
 						});
-					}})(instanceId,classifiers);
+					}})(instanceId,classifierIds);
 				
 				
 				td1.appendChild(text1);

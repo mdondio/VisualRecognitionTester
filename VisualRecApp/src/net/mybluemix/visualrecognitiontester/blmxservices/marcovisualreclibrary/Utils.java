@@ -131,7 +131,7 @@ public class Utils {
 	
 	// delete classifier from cloudant
 		public static void deleteClassifier(String classifierId) {
-
+			System.out.println("[DeleteClassifier] Function called with classifier: "+classifierId);
 			// get db connection
 			Database db = CloudantClientMgr.getCloudantDB();
 
