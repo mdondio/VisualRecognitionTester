@@ -243,7 +243,32 @@ createCarbonHeader();
 								datasetComment = ( $("#commentsedit").val() );
 								flag = false;
 
-								handlerPostCall(e);
+ $.ajax({
+		contentType : "application/json",
+		dataType : "json",
+		data : "id=" + datasetID,
+		url : 'CheckId',
+		async : true,
+		success : function(resultAJ) {
+		console.log(resultAJ)
+if(resultAJ)
+				{
+				swal({
+						title: 'Warning',
+						html: "Dataset ID already used. Choose a different dataset ID." + '<br><br>',
+						type: 'warning',
+						customClass: 'modal-container',
+						buttonsStyling: false,
+	   					showCancelButton: false,
+	   					showConfirmButton: true,
+	   					confirmButtonClass: 'bx--btn bx--btn--primary margin-lr',
+						confirmButtonText: 'Got it'
+					});
+				}else{handlerPostCall(e);}
+				
+				}
+				});
+				
 
 							}
 
@@ -299,7 +324,8 @@ createCarbonHeader();
 
 	       data.append('type', 'insert');
 	       data.append('datasetId', datasetID);
-	       data.append('label', datasetLabel);
+	       data.append('label', datasetLabel);       
+	       
 	       
 	       //Field description is not, as of right now, in the DB, has to be included {GIAN told me that is something that can be done from the BE team!}
 	       //As the code logic is already in place(not only in this page), naming the field

@@ -31,19 +31,14 @@ public class CheckId extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		System.out.println("[CheckId doGet()] Function called");
 		// Query cloudant to check whether this id exist
 		String id = request.getParameter("id");
-
+		
 		Database db = CloudantClientMgr.getCloudantDB();
-
+		
 		response.getWriter().println(db.contains(id));
 		
-//		
-//		if(db.contains(id))
-//			response.getWriter().println(true);
-//		else
-//			response.getWriter().println(false);
 	}
 
 	/**
