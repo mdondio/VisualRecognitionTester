@@ -2,23 +2,14 @@ package net.mybluemix.visualrecognitiontester.blmxservices;
 
 import java.io.IOException;
 
-import java.util.Date;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import com.cloudant.client.api.ClientBuilder;
-import com.cloudant.client.api.CloudantClient;
-import com.cloudant.client.api.Database;
-import com.cloudant.client.org.lightcouch.CouchDbException;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import net.mybluemix.visualrecognitiontester.datamodel.DateAdapter;
-import net.mybluemix.visualrecognitiontester.datamodel.Images;
-import net.mybluemix.visualrecognitiontester.datamodel.ImagesAdapter;
 
 /**
  * This class is needed to manage the ObjectStorage service instance. This class
@@ -84,6 +75,7 @@ public class ObjectStorageClientMgr {
 			for (Entry<String, JsonElement> eachEntry : entries) {
 			if (eachEntry.getKey().toLowerCase().contains("object-storage")) {
 			dbEntry = eachEntry;
+
 			break;
 			}
 			}
@@ -103,10 +95,19 @@ public class ObjectStorageClientMgr {
 			 password = obj.get("password").getAsString();
 			 auth_url = obj.get("auth_url").getAsString(); // aggiungi /v3
 			 domain = obj.get("domainName").getAsString();
-			 project = obj.get("object_storage_9b43b72e_b99c_4478_a712_ee5a0356e6be").getAsString();
-			 projectId = obj.get("f4f868ec65bd4f69924e61f03107e63f").getAsString();
+			 project = obj.get("project").getAsString();
+			 projectId = obj.get("projectId").getAsString();
 			 region = obj.get("region").getAsString();
 	            
+				System.out.println("Service Name - " + userId);
+				System.out.println("Service Name - " + username);
+				System.out.println("Service Name - " + password);
+				System.out.println("Service Name - " + auth_url);
+				System.out.println("Service Name - " + domain);
+				System.out.println("Service Name - " + project);
+				System.out.println("Service Name - " + projectId);
+				System.out.println("Service Name - " + region);
+				
 		} else {
 			// If VCAP_SERVICES env var doesn't exist: running locally.
 			// Replace these values with your Cloudant credentials

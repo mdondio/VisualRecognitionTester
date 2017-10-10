@@ -1,7 +1,6 @@
 package net.mybluemix.visualrecognitiontester.servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,20 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import com.cloudant.client.api.Database;
 import com.cloudant.client.api.model.FindByIndexOptions;
 import com.cloudant.client.api.model.Response;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.ibm.watson.developer_cloud.service.exception.BadRequestException;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.VisualRecognition;
-import com.ibm.watson.developer_cloud.visual_recognition.v3.model.ClassifyImagesOptions;
-import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassification;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassifier;
 
 import net.mybluemix.visualrecognitiontester.blmxservices.CloudantClientMgr;
-import net.mybluemix.visualrecognitiontester.blmxservices.marcovisualreclibrary.WatsonBinaryClassifier;
-import net.mybluemix.visualrecognitiontester.blmxservices.marcovisualreclibrary.exceptions.VisualClassifierException;
-import net.mybluemix.visualrecognitiontester.datamodel.Classifier;
-import net.mybluemix.visualrecognitiontester.datamodel.Dataset;
-import net.mybluemix.visualrecognitiontester.datamodel.Images;
 import net.mybluemix.visualrecognitiontester.datamodel.Instance;
 
 /**
