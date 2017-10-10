@@ -10,3 +10,5 @@ applications:
   services:
   - Object Storage-lp
   - visual-rec-tester-cloudantNoSQLDB
+env:
+    JVM: openjdk
