@@ -514,81 +514,125 @@ var hideresult = false;
 
 /**
  * @returns build the select menu base on good testresults object
+ *  -1: history view
+ *   0: add successful test
+ *   1: add error test
+ *   2: add zombie test
  */
 function buildSelectTestResult(IDselector, index) {
 	
 	//carica i file da local storage
 	var result = JSON.parse(localStorage.getItem("resultJSON"));
 	var testdetails = JSON.parse(localStorage.getItem("listJSON"));
-	
+	var iteration = result.length-1;
+	console.log("*** THIS IS result *** : " + JSON.stringify(result) )
 	console.log("*** THIS IS testdetails *** : " + JSON.stringify(testdetails) )
-	
-	//Handling exploring old test(s)
-	if( index == -1 ){
-		
+
+	switch (index) {
+	case -1:
 		var testcount = 0;
 		for ( var j in result) {
 			var obj = result[j];
 				$(IDselector).append($('<option>', {
-					value : testdetails[testcount].name,
-					text : testdetails[testcount].name
+					value : result[testcount].name,
+					text : result[testcount].name +" (testset-trainingset) "+ result[testcount].ID
 				}));
 			testcount++;
 		}
-		
-	}
-	else{
+		break;
+	case 0:
+		$(IDselector).append($('<option>', {
+			value : result[iteration].name,
+			text : result[iteration].name +" (testset-trainingset) "+ result[testcount].ID,
+			id : result[iteration].name
+		}));
+		popNotification(result[iteration].name, "Test was successful!", "Results displayed.", "success");
+		$(IDselector).data('key', iteration);
+		hideresult = false;
+		$('#selecttest-gray-roc').css("display", "none");
+		break;
+	case 1:
+		$(IDselector).append($('<option>', {
+			value : result[iteration].name,
+			text : result[iteration].name +" (testset-trainingset) "+ result[testcount].ID,
+			id : result[iteration].name
+		}));
+		$('#'+result[iteration].name).attr("disabled", "disabled");
+		popNotification(result[iteration].name, "Some problems occurred: test results not displayed.", "Please check your test!", "error");
+		hideresult = true;
+		break;
+	case 2:
+		$(IDselector).append($('<option>', {
+			value : "ZOMBIE, call: "+iteration,
+			text : "ZOMBIE, call: "+iteration,
+			id : "ZOMBIE, call: "+iteration
+		}));
+		$('#'+"ZOMBIE, call: "+iteration).attr("disabled", "disabled");
+		popNotification("ZOMBIE, call: "+iteration, "Classifier went zombie: test results not displayed.", "API calls limit reached.", "warning");
+		hideresult = true;
+		break;
+	default:
+		console.log("**** [buildSelectTestResult] WARNING: beahviour not handled!!!!");
+	} 
 	
+	// Handling exploring old test(s)
+//	if( index == -1 ){
+//		
+//		var testcount = 0;
+//		for ( var j in result) {
+//			var obj = result[j];
+//				$(IDselector).append($('<option>', {
+//					value : testdetails[testcount].name,
+//					text : testdetails[testcount].name
+//				}));
+//			testcount++;
+//		}
+//		
+//	}
+//	else{
+//	console.log("****** INDEX *****"+index)
 		//Manage notifications and filter population in simulate page
-		if(result[index].notification == "success"){
-			
-			$(IDselector).append($('<option>', {
-				value : testdetails[index].name,
-				text : testdetails[index].name,
-				id : testdetails[index].name
-			}));
-			
-			popNotification(testdetails[index].name, "Test was successful!", "Results displayed.", "success");
-			$(IDselector).data('key', index);
-			
-			hideresult = false;
-			
-			$('#selecttest-gray-roc').css("display", "none");
-			
-		}
+	
+	//SUCCESS
+//		if(result[index].notification == "success"){
+//			$(IDselector).append($('<option>', {
+//				value : testdetails[index].name,
+//				text : testdetails[index].name,
+//				id : testdetails[index].name
+//			}));
+//			popNotification(testdetails[index].name, "Test was successful!", "Results displayed.", "success");
+//			$(IDselector).data('key', index);
+//			hideresult = false;
+//			$('#selecttest-gray-roc').css("display", "none");
+//		}
+	
 		
-		else if(result[index].notification == "error"){
-			
-			$(IDselector).append($('<option>', {
-				value : testdetails[index].name,
-				text : testdetails[index].name,
-				id : testdetails[index].name
-			}));
-			
-			$('#'+testdetails[index].name).attr("disabled", "disabled");
-			
-			popNotification(testdetails[index].name, "Some problems occurred: test results not displayed.", "Please check your test!", "error");
-			hideresult = true;
+	//GENERAL error
+//		else if(result[index].notification == "error"){
+//			$(IDselector).append($('<option>', {
+//				value : testdetails[index].name,
+//				text : testdetails[index].name,
+//				id : testdetails[index].name
+//			}));
+//			$('#'+testdetails[index].name).attr("disabled", "disabled");
+//			popNotification(testdetails[index].name, "Some problems occurred: test results not displayed.", "Please check your test!", "error");
+//			hideresult = true;
+//		}
 		
-		}
+	//ZOMBIE classifier
+//		else if(result[index].ID == null){
+//			$(IDselector).append($('<option>', {
+//				value : testdetails[index].name,
+//				text : testdetails[index].name,
+//				id : testdetails[index].name
+//			}));
+//			$('#'+testdetails[index].name).attr("disabled", "disabled");
+//			popNotification(testdetails[index].name, "Classifier went zombie: test results not displayed.", "API calls limit reached.", "warning");
+//			hideresult = true;
+//		}
+	
 		
-		else if(result[index].ID == null){
-			
-			$(IDselector).append($('<option>', {
-				value : testdetails[index].name,
-				text : testdetails[index].name,
-				id : testdetails[index].name
-			}));
-			
-			$('#'+testdetails[index].name).attr("disabled", "disabled");
-			
-			popNotification(testdetails[index].name, "Classifier went zombie: test results not displayed.", "API calls limit reached.", "warning");
-			hideresult = true;
-		
-		}
-				
-		
-	}
+//	}
 	
 }
 
@@ -632,12 +676,8 @@ function updateTestFields(IDselector) {
 		drawRocCurves(valoreOptions);
 		drawIndexes(valoreOptions);
 	}
-	
-	if( key != null ){
-		
-		for( var j in testdetails ){
-			
-			if( testdetails[j].name == valoreOptions ){
+	//serve per distinguere history (key==null) da simulation (key!=null)
+//	if( key != null ){
 				
 				for( var f in result ){
 					
@@ -668,39 +708,35 @@ function updateTestFields(IDselector) {
 						DrawHistogram(result[f].histogramNegative,result[f].histogramPositive);
 						
 					} //Closing if statement on result
-					
-				} //Closing for loop inside result
-				
-			} //Closing if statement on testdetails
 			
 		}
 		
-	}else{
-		
-		for ( var j in testdetails) {
-			
-			if (testdetails[j].name == valoreOptions) {
-				setParameters(result[j]);
-				
-				var negative_images = [];
-				for(var i=0;i<result[j].falseNegativeOpt.length;i++) 
-					negative_images.push("GetImage?image_id="+result[j].falseNegativeOpt[i]);
-				$("#galleryFN").empty()
-				createGallery('galleryFN',negative_images,"showtestNEG");
-				
-				var positive_images = [];
-				for(var i=0;i<result[j].falsePositiveOpt.length;i++) 
-					positive_images.push("GetImage?image_id="+result[j].falsePositiveOpt[i]);
-				$("#galleryFP").empty()
-				createGallery('galleryFP',positive_images,"showtestPOS");
-				
-				DrawHistogram(result[j].histogramNegative,result[j].histogramPositive);
-				
-			}
+//	}else{
+//		
+//		for ( var j in testdetails) {
+//			
+//			if (testdetails[j].name == valoreOptions) {
+//				setParameters(result[j]);
+//				
+//				var negative_images = [];
+//				for(var i=0;i<result[j].falseNegativeOpt.length;i++) 
+//					negative_images.push("GetImage?image_id="+result[j].falseNegativeOpt[i]);
+//				$("#galleryFN").empty()
+//				createGallery('galleryFN',negative_images,"showtestNEG");
+//				
+//				var positive_images = [];
+//				for(var i=0;i<result[j].falsePositiveOpt.length;i++) 
+//					positive_images.push("GetImage?image_id="+result[j].falsePositiveOpt[i]);
+//				$("#galleryFP").empty()
+//				createGallery('galleryFP',positive_images,"showtestPOS");
+//				
+//				DrawHistogram(result[j].histogramNegative,result[j].histogramPositive);
+//				
+//			}
 	
-		}
+//		}
 		
-	}
+//	}
 	
 }
 
@@ -755,7 +791,7 @@ function drawIndexes(testname){
 	
 	for(var i=0;i<xN.length;i++){
 
-		var objJSON = testdetails[i];
+		var objJSON = result[i];
 		
 			if (objJSON.name == testname) {
 
@@ -906,10 +942,10 @@ function drawRocCurves(testname){
 		var y = [];
 		for(var j in obj.fprTrace) x.push(obj.fprTrace[j]);
 		for(var j in obj.tprTrace) y.push(obj.tprTrace[j]);
-		var objJSON = testdetails[count];
+		var objJSON = result[count];
 		
 		
-			if (testdetails[count].name == testname) {
+			if (result[count].name == testname) {
 
 		ROCcurves.push(
 				{
@@ -1859,11 +1895,6 @@ function startSimulation(){
 							dataType: 'json',
 							indexValue: i,
 							async: true,
-//							success: function(result)
-//							{
-//								
-//								
-//							},
 							complete: function (result) {
 if(result.hasOwnProperty('error'))
 {
@@ -1884,46 +1915,41 @@ else{
 								ajaxLoading.hide();
 								
 								if( localStorage.getItem("resultJSON") === null ){
-									
+									//primo test che ritorna inizializza il local storage
 									localStorage.setItem("resultJSON", JSON.stringify(result.responseJSON) );
-									
-									console.log("... I'm the first one ...")
-									console.log("Setting resultJSON to: " + JSON.stringify(result.responseJSON) )
-									
 								}
 								else{
-									
-									console.log("... I'm the second one ...")
-									
-									var temp = localStorage.getItem("resultJSON");
-									
-									console.log("resultJSON: " + temp )
-									
+									//successivi test che ritornano vanno in append sul local storage							
+									var temp = localStorage.getItem("resultJSON");			
 									var other = JSON.stringify(result.responseJSON);
-									
-									console.log("other: " + other)
-									
 									var otherCorrect = (other).slice(1, -1);
-									
-									console.log("This has to be added: " + otherCorrect)
-									
 									var e = JSON.parse(temp);
-									
-									e.push(JSON.parse(otherCorrect) );
-									
-									localStorage.setItem("resultJSON", JSON.stringify(e) );
-									
-									console.log("Setting resultJSON to: " + JSON.stringify(e) )
-									
+									e.push(JSON.parse(otherCorrect) );								
+									localStorage.setItem("resultJSON", JSON.stringify(e) );					
 								}
 								
 								console.log( "I HAVE FINISHED AJAX CALL #" + this.indexValue ) 
-								$("#waiting").fadeOut(1000);
-								$("#showtest").fadeIn(2000);
+								$("#waiting").fadeOut(1000); //ogni voglia bisogna fare il fadeout??
+								$("#showtest").fadeIn(2000); //ogni voglia bisogna fare il fadein??
 								
-								buildSelectTestResult('#show_test', this.indexValue);
-								updateTestFields('#show_test');
+								//aggiorno il menù a tendina dei test con il nuovo risultato
+								var last = result.responseJSON.length-1;
+								console.log(result.responseJSON[last].notification)
+								switch(result.responseJSON[last].notification) {
+							    case "error":
+							    	buildSelectTestResult('#show_test', 1);
+							        break;
+							    case null:
+							    	buildSelectTestResult('#show_test', 2);
+							        break;
+							    case "success":
+							    	buildSelectTestResult('#show_test', 0);
+							    default:
+							    	console.log("[startsimulation] WARNING: beahiour not handled!!")
+
+							} 
 								
+								updateTestFields('#show_test');				
 							}
 							}
 						});
