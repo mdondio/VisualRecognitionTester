@@ -467,40 +467,48 @@ function getClassID(){
 
 var numberBlock = 0;
 
-function createBlockTest(IDappend,testname,label,classifier){
+function createBlockTest(IDappend,testname,description,status){
 	
 	var block = document.createElement("div");
-	block.setAttribute("class", "bx--card medium");
+	block.setAttribute("class", "bx--card mylarge");
 	
 //	======================
 	var blocktest = document.createElement("div");
-	blocktest.setAttribute("class", "attribute");
+	blocktest.setAttribute("class", "cardattribute");
+	blocktest.setAttribute("style", "float:left;");
 	
-	var pblockT1 = document.createElement("strong");
+	var pblockT1 = document.createElement("p");
 	pblockT1.setAttribute("class", "bx--label");
 	pblockT1.appendChild(document.createTextNode(testname));
 	
 	var pblockP1 = document.createElement("p");
-	pblockP1.appendChild(document.createTextNode("Label: "+label));
+	pblockP1.appendChild(document.createTextNode("Description: "+description));
 	
 	var pblockP2 = document.createElement("p");
-	pblockP2.appendChild(document.createTextNode("Classifier: "+classifier));
+	pblockP2.appendChild(document.createTextNode("Status: "+status));
 	
 	blocktest.appendChild(pblockT1);
 	blocktest.appendChild(pblockP1);
 	blocktest.appendChild(pblockP2);
 //	===========================
 	
+	var blockimg = document.createElement("div");
+	blockimg.setAttribute("class", "cardattribute");
+
+	
 	var icon1 = document.createElement("img");
-	icon1.setAttribute("class", "card-icon");
+	icon1.setAttribute("class", "mycard-icon");
 	icon1.setAttribute("src", "ico/garbageDARK.png");
 	icon1.setAttribute("number", numberBlock);
 	icon1.setAttribute("id", "garbage"+testname);
+	icon1.setAttribute("style", "float: right;width:10%;");
+	
+	blockimg.appendChild(icon1);
 	
 	numberBlock++;
 	
 	block.appendChild(blocktest);
-	block.appendChild(icon1);
+	block.appendChild(blockimg);
 	
 	$("#"+IDappend+"").append(block);
 }

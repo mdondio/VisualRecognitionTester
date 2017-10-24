@@ -78,7 +78,7 @@ var finalResultJSON;
 var newJSON;
 var deletable;
 var ready = false;
-var test;
+var TEST;
 var oldVersion;
 var deletedOnes = [];
 var t = 0;
@@ -92,11 +92,14 @@ $('#import').click(function() {
 	
   var fr = new FileReader();
 
+
   fr.onload = function(e) { 
+
     var result = JSON.parse(e.target.result);
-    var testname = [];
-    var testset = [];
-    var testclassifier = [];
+
+//     var testname = [];
+//     var testset = [];
+//     var testclassifier = [];
     
     deletable = result.length;
     
@@ -109,11 +112,12 @@ $('#import').click(function() {
 	obj.ID = obj.ID + "_" + i;
 	
     //TODO recuperare anche il nome del test e gli ID dei test set
-    testname.push(obj.ID);
-    testset.push(obj.ID);
-    testclassifier.push(obj.ID);
+//     testname.push(obj.ID);
+//     testset.push(obj.ID);
+//     testclassifier.push(obj.ID);
+
             
-    createBlockTest("caricatest",obj.ID,"TBD","TBD");
+    createBlockTest("caricatest",obj.name,obj.ID,obj.notification);
     
     ready = true;
     
@@ -121,23 +125,23 @@ $('#import').click(function() {
     
     localStorage.setItem("resultJSON", e.target.result);
 
-	test = result;
-    resultJSON = result;
+ 	TEST = result;
+//     resultJSON = result;
 
     // creazione del nuovo file JSON dei testname
-    for( k = 0; k < testname.length; k++ ){
-       	item = {}
-    	item["name"] = testname[k];
-    	item["test"] = testset[k];
-    	item["classifier"] = testclassifier[k];
-    	directJSON.push(item); 
-    } 
+//     for( k = 0; k < testname.length; k++ ){
+//        	item = {}
+//     	item["name"] = testname[k];
+//     	item["test"] = testset[k];
+//     	item["classifier"] = testclassifier[k];
+//     	directJSON.push(item); 
+//     } 
 
-	localStorage.setItem("listJSON",JSON.stringify(directJSON));
+// 	localStorage.setItem("listJSON",JSON.stringify(directJSON));
 	
-	oldVersion = JSON.stringify(directJSON);
+// 	oldVersion = JSON.stringify(directJSON);
 	
-	newJSON = resultJSON;
+// 	newJSON = resultJSON;
   }
   fr.readAsText(files.item(0));
   
@@ -146,22 +150,22 @@ $('#import').click(function() {
 //cambio pagina
 $('#viewresult').click(function() {
    	
-   	var editable = test;
+   	var editable = TEST;
    	
    	for( var i = 0; i < deletedOnes.length; i++ ){
    	
-   		delete test[ deletedOnes[i] ];
+   		delete TEST[ deletedOnes[i] ];
    	
    	}
    	
    	var cleanJSON = [];
    	
    	//Cleaning null values
-   	for( var i = 0; i < test.length; i++ ){
+   	for( var i = 0; i < TEST.length; i++ ){
    	
-   		if( test[i] != undefined && test[i] != null ){
+   		if( TEST[i] != undefined && TEST[i] != null ){
    		
-   			cleanJSON.push( test[i] );
+   			cleanJSON.push( TEST[i] );
    			
    		}
    	

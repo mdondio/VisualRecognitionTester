@@ -74,6 +74,13 @@
   display: inline-flex;
 }
 
+.bx--card.mylarge {
+  margin: 5px;
+  width: 40%;
+  display: inline-flex;
+  height:auto;
+}
+
 .attribute {
   width: 65%;
   line-height: 25px;
@@ -83,6 +90,10 @@
   margin-left: 15px;
   margin-bottom: 10px;
   height: 100%;
+}
+
+.cardattribute {
+padding:10px;
 }
 
 .card-icon {
@@ -95,6 +106,11 @@
   cursor: pointer;
 }
 
+.mycard-icon {
+  width: 30%;
+  height: auto;
+  cursor: pointer;
+}
 /* ---------------------------- END ADDENDUM TO CARBON DESIGN ---------------------------- */
 
 /* ---------------------------- CSS GALLERY ---------------------------- */
