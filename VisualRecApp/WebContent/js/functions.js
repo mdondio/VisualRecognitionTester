@@ -575,7 +575,7 @@ function buildSelectTestResult(IDselector, index) {
 			text : "ZOMBIE, call: "+iteration,
 			id : "ZOMBIE, call: "+iteration
 		}));
-		$('#'+"ZOMBIE, call: "+iteration).attr("disabled", "disabled");
+		$("#"+"ZOMBIE, call: "+iteration).attr("disabled", "disabled");
 		popNotification("ZOMBIE, call: "+iteration, "Classifier went zombie: test results not displayed.", "API calls limit reached.", "warning");
 		hideresult = true;
 		break;
@@ -1944,17 +1944,19 @@ else{
 								//aggiorno il menù a tendina dei test con il nuovo risultato
 								var last = result.responseJSON.length-1;
 								console.log(result.responseJSON[last].notification)
-								switch(result.responseJSON[last].notification) {
+								
+								if(result.responseJSON[last].notification==null)
+									{
+									buildSelectTestResult('#show_test', 2);
+									}
+								else switch(result.responseJSON[last].notification) {
 							    case "error":
 							    	buildSelectTestResult('#show_test', 1);
-							        break;
-							    case null:
-							    	buildSelectTestResult('#show_test', 2);
 							        break;
 							    case "success":
 							    	buildSelectTestResult('#show_test', 0);
 							    default:
-							    	console.log("[startsimulation] WARNING: beahiour not handled!!")
+							    	console.log("[startsimulation] WARNING: beahiour not handled with notification value = "+result.responseJSON[last].notification)
 
 							} 
 								
