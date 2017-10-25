@@ -3,12 +3,12 @@ applications:
 - path: VisualRecApp.war
   memory: 1024M
   instances: 1
-  domain: eu-gb.mybluemix.net
-  name: visual-rec-tester
-  host: visual-rec-tester
+  domain: mybluemix.net
+  name: ale-visual-rec
+  host: ale-visual-rec
   disk_quota: 1024M
   services:
-  - Object Storage-lp
-  - visual-rec-tester-cloudantNoSQLDB
-env:
+  - Object Storage-pi
+  - ale-visual-rec-cloudantNoSQLDB
+  env:
     JVM: openjdk

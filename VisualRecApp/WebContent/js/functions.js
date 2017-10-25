@@ -551,7 +551,7 @@ function buildSelectTestResult(IDselector, index) {
 	case 0:
 		$(IDselector).append($('<option>', {
 			value : result[iteration].name,
-			text : result[iteration].name +" (testset-trainingset) "+ result[testcount].ID,
+			text : result[iteration].name +" (testset-trainingset) "+ result[iteration].ID,
 			id : result[iteration].name
 		}));
 		popNotification(result[iteration].name, "Test was successful!", "Results displayed.", "success");
@@ -562,7 +562,7 @@ function buildSelectTestResult(IDselector, index) {
 	case 1:
 		$(IDselector).append($('<option>', {
 			value : result[iteration].name,
-			text : result[iteration].name +" (testset-trainingset) "+ result[testcount].ID,
+			text : result[iteration].name +" (testset-trainingset) "+ result[iteration].ID,
 			id : result[iteration].name
 		}));
 		$('#'+result[iteration].name).attr("disabled", "disabled");
@@ -774,6 +774,7 @@ function drawIndexes(testname){
 		singleObj['AUC'] = obj.AUC;
 		singleObj['Accuracy'] = obj.accuracyOpt;
 		singleObj['th'] = obj.thresholdOpt;
+		singleObj['name'] = obj.name;
 		listIndexes.push(singleObj);
 	};
 
@@ -799,7 +800,7 @@ function drawIndexes(testname){
 	
 	for(var i=0;i<xN.length;i++){
 
-		var objJSON = result[i];
+		var objJSON = listIndexes[i];
 		
 			if (objJSON.name == testname) {
 
