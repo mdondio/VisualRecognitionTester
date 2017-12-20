@@ -39,6 +39,7 @@ public class Configs {
 //	public static final String oo_projectId = "3f4846f25f1544dc9a0b92206f27df18";
 //	public static final String oo_region = "london";
     	
+	
 //	// Alessandro Object Storage
 	public static final String oo_userId = "66c0963e8e374f3f879f1edbd0626949";
 	public static final String oo_username = "admin_ccb8bb49538ea89069098a6e64ed09e1e6dc5b7b";
